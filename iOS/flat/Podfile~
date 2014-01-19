@@ -1,0 +1,9 @@
+platform :ios
+
+pod 'AFNetworking'
+pod 'MagicalRecord'
+pod 'Facebook-iOS-SDK'                                                           
+pod 'SDWebImage'                                                                 
+pod 'ShareKit/Facebook'                                                          
+pod 'JASidePanels'                                                               
+pod 'MBProgressHUD'
