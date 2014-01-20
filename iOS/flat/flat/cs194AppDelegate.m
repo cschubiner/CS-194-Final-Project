@@ -7,13 +7,189 @@
 //
 
 #import "cs194AppDelegate.h"
+#import <FacebookSDK/FacebookSDK.h>
+#import "AuthenticationNetworkRequest.h"
+#import "ProfileUserHelper.h"
+#import "AuthenticationHelper.h"
 
 @implementation cs194AppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+    //Magical Record
+    [MagicalRecord setupCoreDataStack];
+    
+    // Check if user is logged in
+    ProfileUser *profileUser = [ProfileUserHelper getProfileUser];
+    if (profileUser != nil) {
+        self.loggedIn = YES;
+        
+        //User is logged in
+        if (FBSession.activeSession.state == FBSessionStateCreatedTokenLoaded) {
+            // Open Facebook Session
+            [self openFacebookSession];
+        }
+        
+        // Set Profile User
+        [FlatAPIClientManager sharedClient].profileUser = profileUser;
+        [self showInitialView];
+    } else {
+        // Not Logged In, show Login
+        NSLog(@"Not Logged in, show Login screen");
+        [self showInitialView];
+        NSLog(@"Show initial view already called");
+        [self showLoginView];
+    }
+
     // Override point for customization after application launch.
     return YES;
+}
+
+- (void)showInitialView
+{
+    UIStoryboard *storyBoard = [UIStoryboard storyboardWithName:@"Main_iPhone"
+                                                         bundle:nil];
+    NSLog(@"before instantiating root controller");
+    self.mainViewController = [storyBoard instantiateViewControllerWithIdentifier:@"RootController"];
+    NSLog(@"after instantiating root controller");
+    self.mainNavigationViewController = [[MainNavigationViewController alloc] initWithRootViewController:self.mainViewController];
+    self.window.rootViewController = self.mainNavigationViewController;
+    [self.window makeKeyAndVisible];
+}
+
+- (void)showLoginView
+{
+    NSLog(@"showLoginView");
+    UIStoryboard *sb = [UIStoryboard storyboardWithName:@"Main_iPhone"
+                                                 bundle:nil];
+    self.loginViewController = [sb instantiateViewControllerWithIdentifier:@"OpeningNavigationController"];
+    [self.mainViewController.centerPanel presentViewController:self.loginViewController
+                                                      animated:NO
+                                                    completion:nil];
+}
+
+- (void)refreshInitialView
+{
+    [self.mainViewController.centerPanel viewDidLoad];
+}
+
+- (void)handleLogout
+{
+    // Delete the Profile User from CoreData
+    [ProfileUserHelper deleteCurrentProfileFromStore];
+    [ProfileUser MR_truncateAll];
+    [[FlatAPIClientManager sharedClient] setProfileUser:nil];
+    
+    // Clear Facebook Tokens
+    [FBSession.activeSession closeAndClearTokenInformation];
+    
+    // Set loggedIn to NO
+    self.loggedIn = NO;
+    
+    // Reset Feed View Position Tracker
+    //[self.mainViewController.centerPanel resetPositionTracker];
+    
+    // Show Login View
+    [self showLoginView];
+}
+
+- (BOOL)application:(UIApplication *)application
+            openURL:(NSURL *)url
+  sourceApplication:(NSString *)sourceApplication
+         annotation:(id)annotation
+{
+    return [FBSession.activeSession handleOpenURL:url];
+}
+
+- (void)sessionStateChanged:(FBSession *)session
+                      state:(FBSessionState) state
+                      error:(NSError *)error
+{
+    switch (state) {
+        case FBSessionStateOpen: {
+            if (!error) {
+                NSLog(@"FBSessionStateOpen, No Error");
+                self.fbToken = session.accessTokenData.accessToken;
+                
+                if (self.loggedIn != YES) {
+                    [AuthenticationNetworkRequest signinWithFacebook:self.fbToken
+                                                  andCompletionBlock:^(NSError *error, ProfileUser *profileUser)
+                     {
+                         if (!profileUser) {
+                             // Create Account via Facebook if user doesnt exist in our db
+                             [[FBRequest requestForMe] startWithCompletionHandler:
+                              ^(FBRequestConnection *connection,
+                                NSDictionary<FBGraphUser> *user,
+                                NSError *error) {
+                                  
+                                  if (!error) {
+                                      if (self.fbToken)
+                                      {
+                                          NSString *firstName = [user objectForKey:@"first_name"];
+                                          NSString *lastName = [user objectForKey:@"last_name"];
+                                          NSString *emailAddress = [user objectForKey:@"email"];
+                                          // Facebook Sign Up
+                                          [self.loginViewController handleFacebookSignupWithToken:self.fbToken
+                                                                                         andEmail:emailAddress
+                                                                                        firstName:firstName
+                                                                                      andLastName:lastName];
+                                      }
+                                  }
+                              }];
+                         } else {
+                             // User already exists. Sign up user
+                             [FlatAPIClientManager sharedClient].profileUser = profileUser;
+                             [self.mainViewController.leftPanel handleLogin];
+                             [self showInitialView];
+                         }
+                     }];
+                }
+                
+            } else {
+                NSLog(@"Error: FBSessionStateOpen");
+            }
+            
+            break;
+        }
+        case FBSessionStateClosed:
+            NSLog(@"FBSessionStateClosed");
+            
+            break;
+        case FBSessionStateClosedLoginFailed:
+            NSLog(@"FBSessionStateClosedLoginFailed");
+            
+            // Once the user has logged in, we want them to
+            // be looking at the root view.
+            [self.mainNavigationViewController popToRootViewControllerAnimated:NO];
+            
+            [FBSession.activeSession closeAndClearTokenInformation];
+            
+            [self showLoginView];
+            break;
+        default:
+            break;
+    }
+    
+    if (error) {
+        UIAlertView *alertView = [[UIAlertView alloc]
+                                  initWithTitle:@"Error"
+                                  message:error.localizedDescription
+                                  delegate:nil
+                                  cancelButtonTitle:@"OK"
+                                  otherButtonTitles:nil];
+        [alertView show];
+    }
+}
+
+- (void)openFacebookSession
+{
+    [FBSession openActiveSessionWithReadPermissions:@[@"basic_info", @"email"]
+                                       allowLoginUI:YES
+                                  completionHandler:^(FBSession *session, FBSessionState state, NSError *error) {
+                                      [self sessionStateChanged:session
+                                                          state:state
+                                                          error:error];
+                                  }];
 }
 							
 - (void)applicationWillResignActive:(UIApplication *)application

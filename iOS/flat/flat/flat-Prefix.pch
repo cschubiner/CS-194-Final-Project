@@ -14,3 +14,8 @@
     #import <UIKit/UIKit.h>
     #import <Foundation/Foundation.h>
 #endif
+
+#import "cs194AppDelegate.h"
+#import "FlatAPIClientManager.h"
+#import "ErrorHelper.h"
+#import "CoreData+MagicalRecord.h"

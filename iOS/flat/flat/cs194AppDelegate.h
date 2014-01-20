@@ -7,9 +7,23 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "MainNavigationViewController.h"
+#import "RootController.h"
+#import "OpeningNavigationController.h"
 
 @interface cs194AppDelegate : UIResponder <UIApplicationDelegate>
 
 @property (strong, nonatomic) UIWindow *window;
+
+@property (strong, nonatomic) MainNavigationViewController *mainNavigationViewController;
+@property (strong, nonatomic) RootController *mainViewController;
+@property (strong, nonatomic) OpeningNavigationController *loginViewController;
+@property (nonatomic, assign) BOOL loggedIn;
+
+@property (strong, nonatomic) NSString *fbToken;
+
+- (void)openFacebookSession;
+- (void)refreshInitialView;
+- (void)handleLogout;
 
 @end

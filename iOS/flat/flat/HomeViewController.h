@@ -1,5 +1,5 @@
 //
-//  cs194ViewController.h
+//  HomeViewController.h
 //  flat
 //
 //  Created by Zachary Palacios on 1/19/14.
@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface cs194ViewController : UIViewController
+@interface HomeViewController : UIViewController
 
 @end
