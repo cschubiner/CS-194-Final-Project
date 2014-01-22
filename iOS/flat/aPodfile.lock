@@ -17,7 +17,7 @@ PODS:
   - AFNetworking/Serialization (2.1.0)
   - AFNetworking/UIKit (2.1.0):
     - AFNetworking/NSURLConnection
-  - Facebook-iOS-SDK (3.11.1)
+  - Facebook-iOS-SDK (3.11.0)
   - JASidePanels (1.3.2)
   - MagicalRecord (2.2)
   - MBProgressHUD (0.8)
@@ -48,7 +48,7 @@ DEPENDENCIES:
 
 SPEC CHECKSUMS:
   AFNetworking: c7d7901a83f631414c7eda1737261f696101a5cd
-  Facebook-iOS-SDK: 42a1de39170b858d675c2453d8aace55c51be2bb
+  Facebook-iOS-SDK: 2eb12f9ed04f3d3956f0a4fb0e4e60c824dcd101
   JASidePanels: c0e642a7311ec9cc9adfa616fa4a795e4e169f20
   MagicalRecord: b1fc46c99a9749fe7fe7e6f43a89b62ef5201933
   MBProgressHUD: 2bbc6f470111daf7f3eaa4eb12b8cbf01c4c0622
