@@ -19,6 +19,9 @@ PODS:
     - AFNetworking/NSURLConnection
   - Facebook-iOS-SDK (3.11.1)
   - JASidePanels (1.3.2)
+  - JSMessagesViewController (3.4.4):
+    - JSQSystemSoundPlayer
+  - JSQSystemSoundPlayer (1.4.0)
   - MagicalRecord (2.2)
   - MBProgressHUD (0.8)
   - SDWebImage (3.5.2):
@@ -41,6 +44,7 @@ DEPENDENCIES:
   - AFNetworking
   - Facebook-iOS-SDK
   - JASidePanels
+  - JSMessagesViewController
   - MagicalRecord
   - MBProgressHUD
   - SDWebImage
@@ -50,6 +54,8 @@ SPEC CHECKSUMS:
   AFNetworking: c7d7901a83f631414c7eda1737261f696101a5cd
   Facebook-iOS-SDK: 42a1de39170b858d675c2453d8aace55c51be2bb
   JASidePanels: c0e642a7311ec9cc9adfa616fa4a795e4e169f20
+  JSMessagesViewController: 309de7324fbf48b7da924b002ef6017d5d2ce026
+  JSQSystemSoundPlayer: 28ccd01a92a0cebc6de6361e8499011b4cb6dab7
   MagicalRecord: b1fc46c99a9749fe7fe7e6f43a89b62ef5201933
   MBProgressHUD: 2bbc6f470111daf7f3eaa4eb12b8cbf01c4c0622
   SDWebImage: fe7ce01ae4e0a884d168f59c9dd82d35baf8429e
