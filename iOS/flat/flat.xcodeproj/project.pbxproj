@@ -7,7 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		0CDA0EFB1895D93200F5A1F8 /* ProfileUser.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CDA0EFA1895D93200F5A1F8 /* ProfileUser.m */; };
+		0CBB52021896005E00B9615F /* ProfileUser.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CBB52011896005E00B9615F /* ProfileUser.m */; };
+		0CBB52051896008C00B9615F /* UIColor+ColorHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CBB52041896008C00B9615F /* UIColor+ColorHelper.m */; };
+		0CDA0F011895E89500F5A1F8 /* ProfileUserNetworkRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CDA0F001895E89500F5A1F8 /* ProfileUserNetworkRequest.m */; };
 		3C82EF45418E4184B3617F06 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 68FF891EE5B44890A888CE02 /* libPods.a */; };
 		F2C51D94188C887400489989 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F2C51D93188C887400489989 /* Foundation.framework */; };
 		F2C51D96188C887400489989 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F2C51D95188C887400489989 /* CoreGraphics.framework */; };
@@ -54,8 +56,12 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		0CDA0EF91895D93200F5A1F8 /* ProfileUser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProfileUser.h; sourceTree = "<group>"; };
-		0CDA0EFA1895D93200F5A1F8 /* ProfileUser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProfileUser.m; sourceTree = "<group>"; };
+		0CBB52001896005E00B9615F /* ProfileUser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProfileUser.h; sourceTree = "<group>"; };
+		0CBB52011896005E00B9615F /* ProfileUser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProfileUser.m; sourceTree = "<group>"; };
+		0CBB52031896008C00B9615F /* UIColor+ColorHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+ColorHelper.h"; sourceTree = "<group>"; };
+		0CBB52041896008C00B9615F /* UIColor+ColorHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+ColorHelper.m"; sourceTree = "<group>"; };
+		0CDA0EFF1895E89500F5A1F8 /* ProfileUserNetworkRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProfileUserNetworkRequest.h; sourceTree = "<group>"; };
+		0CDA0F001895E89500F5A1F8 /* ProfileUserNetworkRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProfileUserNetworkRequest.m; sourceTree = "<group>"; };
 		4B202A37D1D24AD08C25AF5B /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = "<group>"; };
 		68FF891EE5B44890A888CE02 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		F2C51D90188C887400489989 /* flat.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = flat.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -227,6 +233,8 @@
 			children = (
 				F2C51DF6188C9B6E00489989 /* AuthenticationNetworkRequest.h */,
 				F2C51DF7188C9B6E00489989 /* AuthenticationNetworkRequest.m */,
+				0CDA0EFF1895E89500F5A1F8 /* ProfileUserNetworkRequest.h */,
+				0CDA0F001895E89500F5A1F8 /* ProfileUserNetworkRequest.m */,
 			);
 			name = Network;
 			sourceTree = "<group>";
@@ -249,6 +257,8 @@
 				F2C51DFD188C9BAB00489989 /* AuthenticationHelper.m */,
 				F2C51DFF188C9C1100489989 /* ErrorHelper.h */,
 				F2C51E00188C9C1100489989 /* ErrorHelper.m */,
+				0CBB52031896008C00B9615F /* UIColor+ColorHelper.h */,
+				0CBB52041896008C00B9615F /* UIColor+ColorHelper.m */,
 			);
 			name = Operations;
 			sourceTree = "<group>";
@@ -265,9 +275,9 @@
 		F2C51DCF188C922E00489989 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				0CBB52001896005E00B9615F /* ProfileUser.h */,
+				0CBB52011896005E00B9615F /* ProfileUser.m */,
 				F2C51DED188C9A1600489989 /* Model.xcdatamodeld */,
-				0CDA0EF91895D93200F5A1F8 /* ProfileUser.h */,
-				0CDA0EFA1895D93200F5A1F8 /* ProfileUser.m */,
 				F2C51DF3188C9A9200489989 /* ProfileUser+Json.h */,
 				F2C51DF4188C9A9200489989 /* ProfileUser+Json.m */,
 			);
@@ -482,11 +492,13 @@
 				F2C51DDC188C960B00489989 /* OpeningViewController.m in Sources */,
 				F2C51DDF188C963D00489989 /* OpeningNavigationController.m in Sources */,
 				F2C51DF5188C9A9200489989 /* ProfileUser+Json.m in Sources */,
+				0CBB52021896005E00B9615F /* ProfileUser.m in Sources */,
 				F2C51DD9188C94CC00489989 /* RootController.m in Sources */,
-				0CDA0EFB1895D93200F5A1F8 /* ProfileUser.m in Sources */,
+				0CDA0F011895E89500F5A1F8 /* ProfileUserNetworkRequest.m in Sources */,
 				F2C51DF8188C9B6E00489989 /* AuthenticationNetworkRequest.m in Sources */,
 				F2C51E04188C9C9A00489989 /* ProfileUserLocalRequest.m in Sources */,
 				F2C51E01188C9C1100489989 /* ErrorHelper.m in Sources */,
+				0CBB52051896008C00B9615F /* UIColor+ColorHelper.m in Sources */,
 				F2C51DE9188C97E300489989 /* FlatAPIClientManager.m in Sources */,
 				F2C51DEF188C9A1600489989 /* Model.xcdatamodeld in Sources */,
 				F2C51E661895E38100489989 /* JSMessage.m in Sources */,

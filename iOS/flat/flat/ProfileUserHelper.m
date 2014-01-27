@@ -22,5 +22,9 @@
     [ProfileUserLocalRequest deleteCurrentProfileFromStore];
 }
 
++ (void) getUserFromGroupID:(NSInteger*)groupID
+        withCompletionBlock:(RequestProfileUsersCompletionHandler)completionBlock {
+    [ProfileUserNetworkRequest getUserFromGroupID:groupID withCompletionBlock:completionBlock];
+}
 
 @end

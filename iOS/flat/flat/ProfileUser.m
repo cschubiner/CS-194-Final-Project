@@ -14,9 +14,10 @@
 @dynamic apiToken;
 @dynamic email;
 @dynamic firstName;
+@dynamic groupID;
 @dynamic imageUrl;
 @dynamic lastName;
 @dynamic userID;
-@dynamic groupID;
+@dynamic colorID;
 
 @end

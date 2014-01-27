@@ -15,9 +15,10 @@
 @property (nonatomic, retain) NSString * apiToken;
 @property (nonatomic, retain) NSString * email;
 @property (nonatomic, retain) NSString * firstName;
+@property (nonatomic, retain) NSNumber * groupID;
 @property (nonatomic, retain) NSString * imageUrl;
 @property (nonatomic, retain) NSString * lastName;
 @property (nonatomic, retain) NSNumber * userID;
-@property (nonatomic, retain) NSNumber * groupID;
+@property (nonatomic, retain) NSNumber * colorID;
 
 @end
