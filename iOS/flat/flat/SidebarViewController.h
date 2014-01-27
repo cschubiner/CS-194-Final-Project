@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "ProfileUserHelper.h"
 
 @protocol SidebarViewDelegate <NSObject>
 
@@ -23,6 +24,8 @@
     BOOL newNotification;
     BOOL inDetailed;
     int divider;
+    
+    
 }
 
 @property (nonatomic, strong) UITableView *sideBarMenuTable;

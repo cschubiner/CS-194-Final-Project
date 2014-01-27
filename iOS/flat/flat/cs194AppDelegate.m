@@ -111,7 +111,7 @@
                 NSLog(@"FBSessionStateOpen, No Error");
                 self.fbToken = session.accessTokenData.accessToken;
                 
-                if (self.loggedIn != YES) {
+                if (self.loggedIn == NO) {
                     [AuthenticationNetworkRequest signinWithFacebook:self.fbToken
                                                   andCompletionBlock:^(NSError *error, ProfileUser *profileUser)
                      {

@@ -8,7 +8,7 @@
 
 #import "FlatAPIClientManager.h"
 
-static NSString * const FLATAPIBASEURLSTRING = @"";
+static NSString * const FLATAPIBASEURLSTRING = @"http://flatappapi.appspot.com/sandbox";
 static NSString * const KEY = @"";
 static NSString * const SIGNATURE = @"";
 

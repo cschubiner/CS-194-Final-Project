@@ -8,11 +8,17 @@
 
 #import <Foundation/Foundation.h>
 #import "ProfileUser+Json.h"
+#import "ProfileUserNetworkRequest.h"
+
 
 @interface ProfileUserHelper : NSObject
 
 +(ProfileUser *)getProfileUser;
 
 +(void)deleteCurrentProfileFromStore;
+
++ (void) getUserFromGroupID:(NSInteger*)groupID
+        withCompletionBlock:(RequestProfileUsersCompletionHandler)completionBlock;
+
 
 @end

@@ -2,7 +2,7 @@
 //  ProfileUser.h
 //  flat
 //
-//  Created by Zachary Palacios on 1/19/14.
+//  Created by Clay Schubiner on 1/26/14.
 //  Copyright (c) 2014 cs194. All rights reserved.
 //
 
@@ -15,8 +15,10 @@
 @property (nonatomic, retain) NSString * apiToken;
 @property (nonatomic, retain) NSString * email;
 @property (nonatomic, retain) NSString * firstName;
-@property (nonatomic, retain) NSString * lastName;
+@property (nonatomic, retain) NSNumber * groupID;
 @property (nonatomic, retain) NSString * imageUrl;
+@property (nonatomic, retain) NSString * lastName;
 @property (nonatomic, retain) NSNumber * userID;
+@property (nonatomic, retain) NSNumber * colorID;
 
 @end

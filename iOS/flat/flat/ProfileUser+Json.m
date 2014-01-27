@@ -15,13 +15,14 @@
                             AndManagedObjectContext:(NSManagedObjectContext *)context
 {
     ProfileUser *profileUser = [ProfileUser MR_createInContext:context];
-    NSNumberFormatter *f = [[NSNumberFormatter alloc] init];
-    profileUser.userID = [f numberFromString:[dictionary objectForKey:@"id"]];
-    profileUser.firstName = [dictionary objectForKey:@"firstname"];
-    profileUser.lastName = [dictionary objectForKey:@"lastname"];
+    profileUser.userID = [dictionary objectForKey:@"userID"];
+    profileUser.groupID = [dictionary objectForKey:@"groupID"];
+    profileUser.colorID = [dictionary objectForKey:@"colorID"];
+    profileUser.firstName = [dictionary objectForKey:@"firstName"];
+    profileUser.lastName = [dictionary objectForKey:@"lastName"];
     profileUser.email = [dictionary objectForKey:@"email"];
-    profileUser.imageUrl = [dictionary objectForKey:@"imageUrl"];
-    profileUser.apiToken = [dictionary objectForKey:@"api_token"];
+    profileUser.imageUrl = [dictionary objectForKey:@"imageURL"];
+  //  profileUser.apiToken = [dictionary objectForKey:@"api_token"];
     
     [[NSManagedObjectContext MR_defaultContext] MR_saveToPersistentStoreAndWait];
     return profileUser;

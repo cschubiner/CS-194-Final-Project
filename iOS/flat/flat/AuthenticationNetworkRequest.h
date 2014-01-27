@@ -10,7 +10,7 @@
 
 @interface AuthenticationNetworkRequest : NSObject
 
-typedef void (^RequestProfileUserCompletionHandler)(NSError *, id);
+typedef void (^RequestProfileUserCompletionHandler)(NSError *, ProfileUser *);
 
 + (void)signinWithFacebook:(NSString *)fbAccessToken
         andCompletionBlock:(RequestProfileUserCompletionHandler)completionBlock;
