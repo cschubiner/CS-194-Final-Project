@@ -38,6 +38,8 @@
 		F2C51E01188C9C1100489989 /* ErrorHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = F2C51E00188C9C1100489989 /* ErrorHelper.m */; };
 		F2C51E04188C9C9A00489989 /* ProfileUserLocalRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = F2C51E03188C9C9A00489989 /* ProfileUserLocalRequest.m */; };
 		F2C51E07188CA18700489989 /* ProfileUser.m in Sources */ = {isa = PBXBuildFile; fileRef = F2C51E06188CA18700489989 /* ProfileUser.m */; };
+		F2C51E5A1895D17C00489989 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F2C51E591895D17C00489989 /* QuartzCore.framework */; };
+		F2C51E661895E38100489989 /* JSMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = F2C51E641895E38100489989 /* JSMessage.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -102,6 +104,10 @@
 		F2C51E03188C9C9A00489989 /* ProfileUserLocalRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProfileUserLocalRequest.m; sourceTree = "<group>"; };
 		F2C51E05188CA18700489989 /* ProfileUser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProfileUser.h; sourceTree = "<group>"; };
 		F2C51E06188CA18700489989 /* ProfileUser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProfileUser.m; sourceTree = "<group>"; };
+		F2C51E591895D17C00489989 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		F2C51E631895E38100489989 /* JSMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSMessage.h; sourceTree = "<group>"; };
+		F2C51E641895E38100489989 /* JSMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JSMessage.m; sourceTree = "<group>"; };
+		F2C51E651895E38100489989 /* JSMessageData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSMessageData.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -109,6 +115,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F2C51E5A1895D17C00489989 /* QuartzCore.framework in Frameworks */,
 				F2C51D96188C887400489989 /* CoreGraphics.framework in Frameworks */,
 				F2C51D98188C887400489989 /* UIKit.framework in Frameworks */,
 				F2C51D94188C887400489989 /* Foundation.framework in Frameworks */,
@@ -152,6 +159,7 @@
 		F2C51D92188C887400489989 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				F2C51E591895D17C00489989 /* QuartzCore.framework */,
 				F2C51D93188C887400489989 /* Foundation.framework */,
 				F2C51D95188C887400489989 /* CoreGraphics.framework */,
 				F2C51D97188C887400489989 /* UIKit.framework */,
@@ -164,6 +172,7 @@
 		F2C51D99188C887400489989 /* flat */ = {
 			isa = PBXGroup;
 			children = (
+				F2C51E671895E3AB00489989 /* Messages */,
 				F2C51DCE188C91E900489989 /* ViewControllers */,
 				F2C51DD1188C929A00489989 /* Singletons */,
 				F2C51DD0188C923600489989 /* ViewObjects */,
@@ -312,6 +321,16 @@
 			children = (
 			);
 			name = SidebarMenu;
+			sourceTree = "<group>";
+		};
+		F2C51E671895E3AB00489989 /* Messages */ = {
+			isa = PBXGroup;
+			children = (
+				F2C51E631895E38100489989 /* JSMessage.h */,
+				F2C51E641895E38100489989 /* JSMessage.m */,
+				F2C51E651895E38100489989 /* JSMessageData.h */,
+			);
+			name = Messages;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -467,6 +486,7 @@
 				F2C51E01188C9C1100489989 /* ErrorHelper.m in Sources */,
 				F2C51DE9188C97E300489989 /* FlatAPIClientManager.m in Sources */,
 				F2C51DEF188C9A1600489989 /* Model.xcdatamodeld in Sources */,
+				F2C51E661895E38100489989 /* JSMessage.m in Sources */,
 				F2C51DFB188C9B9200489989 /* ProfileUserHelper.m in Sources */,
 				F2C51DE6188C974E00489989 /* HomeViewController.m in Sources */,
 			);

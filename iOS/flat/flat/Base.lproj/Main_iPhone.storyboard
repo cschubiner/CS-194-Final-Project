@@ -94,12 +94,28 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
                     <connections>
-                        <segue destination="bbe-x9-d8I" kind="push" identifier="SidebarToHome" id="4Q1-tl-tyO"/>
+                        <segue destination="gl6-35-bRd" kind="push" identifier="SidebarToHome" id="w1D-BL-A1a"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Dmz-ne-PFa" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1019" y="723"/>
+            <point key="canvasLocation" x="753" y="717"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="AGk-ZA-fls">
+            <objects>
+                <navigationController definesPresentationContext="YES" id="gl6-35-bRd" sceneMemberID="viewController">
+                    <navigationItem key="navigationItem" id="Loh-L8-S9c"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="SEr-Xm-0MC">
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="bbe-x9-d8I" kind="relationship" relationship="rootViewController" id="8Qn-iM-9rV"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="cxe-13-LCk" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1237" y="281"/>
         </scene>
         <!--Home View Controller-->
         <scene sceneID="mXY-ep-dfx">
@@ -126,7 +142,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="JLz-sH-5kq" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1603" y="711"/>
+            <point key="canvasLocation" x="1719" y="705"/>
         </scene>
     </scenes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">

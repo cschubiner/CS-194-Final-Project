@@ -7,7 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "JSMessagesViewController.h"
 
-@interface HomeViewController : UIViewController
+@interface HomeViewController : JSMessagesViewController <JSMessagesViewDelegate, JSMessagesViewDataSource>
+
+@property (strong, nonatomic) NSMutableArray *messages;
+@property (strong, nonatomic) NSDictionary *avatars;
 
 @end

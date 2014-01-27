@@ -45,6 +45,7 @@ DEPENDENCIES:
   - Facebook-iOS-SDK
   - JASidePanels
   - JSMessagesViewController
+  - JSQSystemSoundPlayer
   - MagicalRecord
   - MBProgressHUD
   - SDWebImage
