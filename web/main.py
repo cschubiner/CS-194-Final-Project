@@ -35,6 +35,8 @@ def addColby():
 @app.route('/user/login/facebook', methods=['GET', 'POST'])
 def facebook_login():
     if request.method == 'POST':
+        print "======================="
+        print str(request.data)
         curr_user = dict()
         if request.data:
             # TODO: fix this, it's wrong
@@ -51,6 +53,12 @@ def facebook_login():
                 img_url = profile["picture"],
                 email = profile["email"]
             )
+            print user.fb_id
+            print group_id
+            print first_name
+            print last_name
+            print img_url
+            print email
             # TODO: Loop through friends
     else:
         # Request information about users
@@ -78,8 +86,11 @@ def rollback():
 def getId():
     return str(db.get_group_id())
 
-@app.route('/sandbox/users/all')
+@app.route('/sandbox/users/all', methods=['GET','POST'])
 def s_users_all():
+    print '===================='
+    print request.data
+    print request.method
     users = {
         "users": [
             {
