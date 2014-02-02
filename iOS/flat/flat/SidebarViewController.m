@@ -37,13 +37,13 @@ static const int NAV_BAR_HEIGHT = 64;
     self.sideBarMenuTable.dataSource = self;
 
     
-    [ProfileUserHelper getUserFromGroupID:0 withCompletionBlock:^(NSError * error, NSMutableArray * users) {
+    [ProfileUserHelper getUsersFromGroupID:0 withCompletionBlock:^(NSError * error, NSMutableArray * users) {
         self.users = users;
         [self.sideBarMenuTable reloadData];
     }];
     
     
-    //ProfileUser * currUser = [FlatAPIClientManager sharedClient].profileUser;
+//    ProfileUser * currUser = [FlatAPIClientManager sharedClient].profileUser;
     
     [self.view addSubview:self.sideBarMenuTable];
 }

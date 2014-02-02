@@ -11,7 +11,7 @@
 
 @implementation ProfileUserNetworkRequest
 
-+ (void) getUserFromGroupID:(NSInteger*)groupID
++ (void) getUsersFromGroupID:(NSInteger*)groupID
              withCompletionBlock:(RequestProfileUsersCompletionHandler)completionBlock
 {
     [[FlatAPIClientManager sharedClient]GET:@"users/all"

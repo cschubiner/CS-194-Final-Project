@@ -12,7 +12,7 @@
 
 typedef void (^RequestProfileUsersCompletionHandler)(NSError *, NSMutableArray *);
 
-+ (void) getUserFromGroupID:(NSInteger*)groupID
++ (void) getUsersFromGroupID:(NSInteger*)groupID
         withCompletionBlock:(RequestProfileUsersCompletionHandler)completionBlock;
 
 @end
