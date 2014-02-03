@@ -40,6 +40,5 @@
 
 @property (nonatomic, assign) id delegate;
 
-- (void)handleLogin;
 
 @end

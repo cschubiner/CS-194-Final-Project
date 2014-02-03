@@ -37,13 +37,13 @@ static const int NAV_BAR_HEIGHT = 64;
     self.sideBarMenuTable.dataSource = self;
     
     
-    [ProfileUserHelper getUsersFromGroupID:0 withCompletionBlock:^(NSError * error, NSMutableArray * users) {
+    ProfileUser * currUser = [FlatAPIClientManager sharedClient].profileUser;
+    [ProfileUserHelper getUsersFromGroupID:currUser.groupID withCompletionBlock:^(NSError * error, NSMutableArray * users) {
         self.users = users;
         [self.sideBarMenuTable reloadData];
     }];
     
     
-    //    ProfileUser * currUser = [FlatAPIClientManager sharedClient].profileUser;
     
     [self.view addSubview:self.sideBarMenuTable];
 }
@@ -93,7 +93,8 @@ static const int NAV_BAR_HEIGHT = 64;
     }
     
     ProfileUser * user = [self.users objectAtIndex: indexPath.row];
-    cell.textLabel.text = [user firstName];
+    bool userIsNearDorm = [user.isNearDorm intValue] == 1; // cannot simply check user.isNearDorm
+    cell.textLabel.text = [NSString stringWithFormat:@"%@ - %@", [user firstName], (userIsNearDorm) ? @"in dorm" : @"away from dorm"];
     return cell;
 }
 

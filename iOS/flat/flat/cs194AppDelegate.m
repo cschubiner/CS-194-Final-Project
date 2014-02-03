@@ -146,7 +146,7 @@
                          } else {
                              // User already exists. Sign up user
                              [FlatAPIClientManager sharedClient].profileUser = profileUser;
-                             [self.mainViewController.leftPanel handleLogin];
+//                             [self.mainViewController.leftPanel handleLogin];
                              [self showInitialView];
                          }
                      }];
