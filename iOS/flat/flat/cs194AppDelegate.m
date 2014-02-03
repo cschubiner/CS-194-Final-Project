@@ -11,6 +11,8 @@
 #import "AuthenticationNetworkRequest.h"
 #import "ProfileUserHelper.h"
 #import "AuthenticationHelper.h"
+#import "GroupNetworkRequest.h"
+
 
 @implementation cs194AppDelegate
 
@@ -40,8 +42,12 @@
         NSLog(@"Show initial view already called");
         [self showLoginView];
     }
+    
+    [GroupNetworkRequest getGroupFromGroupID:[FlatAPIClientManager sharedClient].profileUser.groupID withCompletionBlock:^(NSError * error, Group * group) {
+        [FlatAPIClientManager sharedClient].group = group;
+        NSLog(@"curr lat: %f", [[LocationManager sharedClient] currentLatitude]);
+    }];
 
-    // Override point for customization after application launch.
     return YES;
 }
 
@@ -79,6 +85,7 @@
     [ProfileUserHelper deleteCurrentProfileFromStore];
     [ProfileUser MR_truncateAll];
     [[FlatAPIClientManager sharedClient] setProfileUser:nil];
+    [[FlatAPIClientManager sharedClient] setGroup:nil];
     
     // Clear Facebook Tokens
     [FBSession.activeSession closeAndClearTokenInformation];

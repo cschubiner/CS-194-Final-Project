@@ -17,7 +17,7 @@
 
 +(void)deleteCurrentProfileFromStore;
 
-+ (void) getUsersFromGroupID:(NSInteger*)groupID
++ (void) getUsersFromGroupID:(NSNumber*)groupID
         withCompletionBlock:(RequestProfileUsersCompletionHandler)completionBlock;
 
 

@@ -12,7 +12,10 @@
 
 typedef void (^RequestProfileUsersCompletionHandler)(NSError *, NSMutableArray *);
 
-+ (void) getUsersFromGroupID:(NSInteger*)groupID
++ (void) getUsersFromGroupID:(NSNumber*)groupID
         withCompletionBlock:(RequestProfileUsersCompletionHandler)completionBlock;
+
++ (void) setUserLocationWithUserID:(NSNumber*)userID
+                       andIsInDorm:(BOOL) isInDorm;
 
 @end

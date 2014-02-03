@@ -22,10 +22,12 @@
     profileUser.lastName = [dictionary objectForKey:@"lastName"];
     profileUser.email = [dictionary objectForKey:@"email"];
     profileUser.imageUrl = [dictionary objectForKey:@"imageURL"];
-  //  profileUser.apiToken = [dictionary objectForKey:@"api_token"];
+//    profileUser.apiToken = [dictionary objectForKey:@"api_token"];
     
     [[NSManagedObjectContext MR_defaultContext] MR_saveToPersistentStoreAndWait];
     return profileUser;
 }
+
+
 
 @end

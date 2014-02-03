@@ -8,11 +8,13 @@
 
 #import "AFHTTPSessionManager.h"
 #import "ProfileUser.h"
+#import "Group.h"
 
 @interface FlatAPIClientManager : AFHTTPSessionManager
 
 + (instancetype)sharedClient;
 
 @property (nonatomic, strong) ProfileUser *profileUser;
+@property (nonatomic, strong) Group *group;
 
 @end
