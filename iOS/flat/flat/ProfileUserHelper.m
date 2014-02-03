@@ -11,20 +11,20 @@
 
 @implementation ProfileUserHelper
 
-+(ProfileUser *)getProfileUser
++(ProfileUser *) getProfileUser
 {
     ProfileUser *currUser = [ProfileUserLocalRequest getProfileUser];
     return currUser;
 }
 
-+(void)deleteCurrentProfileFromStore
++(void) deleteCurrentProfileFromStore
 {
     [ProfileUserLocalRequest deleteCurrentProfileFromStore];
 }
 
-+ (void) getUserFromGroupID:(NSInteger*)groupID
++ (void) getUsersFromGroupID:(NSNumber*)groupID
         withCompletionBlock:(RequestProfileUsersCompletionHandler)completionBlock {
-    [ProfileUserNetworkRequest getUserFromGroupID:groupID withCompletionBlock:completionBlock];
+    [ProfileUserNetworkRequest getUsersFromGroupID:groupID withCompletionBlock:completionBlock];
 }
 
 @end

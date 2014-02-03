@@ -13,4 +13,5 @@
 + (ProfileUser *)getProfileUserObjectFromDictionary:(NSDictionary *)dictionary
                             AndManagedObjectContext:(NSManagedObjectContext *)context;
 
+
 @end

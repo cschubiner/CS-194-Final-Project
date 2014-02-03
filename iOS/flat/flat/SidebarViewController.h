@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "LocationManager.h"
 #import "ProfileUserHelper.h"
 
 @protocol SidebarViewDelegate <NSObject>
@@ -15,7 +16,7 @@
 
 @end
 
-@interface SidebarViewController : UIViewController <UISearchBarDelegate, UISearchDisplayDelegate, UITableViewDataSource, UITableViewDelegate>
+@interface SidebarViewController : UIViewController <UISearchBarDelegate, UISearchDisplayDelegate, UITableViewDataSource, UITableViewDelegate, UIAlertViewDelegate>
 {
     UIButton *listener;
     UIButton *notificationCount;
@@ -39,6 +40,5 @@
 
 @property (nonatomic, assign) id delegate;
 
-- (void)handleLogin;
 
 @end

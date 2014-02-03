@@ -2,7 +2,7 @@
 //  ProfileUser.m
 //  flat
 //
-//  Created by Clay Schubiner on 1/26/14.
+//  Created by Clay Schubiner on 2/2/14.
 //  Copyright (c) 2014 cs194. All rights reserved.
 //
 
@@ -12,12 +12,13 @@
 @implementation ProfileUser
 
 @dynamic apiToken;
+@dynamic colorID;
 @dynamic email;
 @dynamic firstName;
 @dynamic groupID;
 @dynamic imageUrl;
 @dynamic lastName;
 @dynamic userID;
-@dynamic colorID;
+@dynamic isNearDorm;
 
 @end
