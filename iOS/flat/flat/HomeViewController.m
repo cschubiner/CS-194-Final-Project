@@ -9,50 +9,10 @@
 #import "HomeViewController.h"
 #import "JSMessage.h"
 
-#define kSubtitleJobs @"Jobs"
-#define kSubtitleWoz @"Steve Wozniak"
-#define kSubtitleCook @"Mr. Cook"
-
 @interface HomeViewController ()
-@property NSString *sender;
 @end
 
 @implementation HomeViewController
-
-- (JSMessagesViewAvatarPolicy)avatarPolicy
-{
-    return YES;
-}
-
-- (NSDate *)timestampForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    return nil;
-}
-
-- (UIImageView *)avatarImageViewForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    return nil;
-}
-
-- (JSMessagesViewSubtitlePolicy)subtitlePolicy
-{
-    return YES;
-}
-
-- (void)didSendText:(NSString *)text
-{
-
-}
-
-- (JSMessagesViewTimestampPolicy)timestampPolicy
-{
-    return YES;
-}
-
-- (NSString *)subtitleForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    return @"subtitle";
-}
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -71,104 +31,85 @@
     
     [[JSBubbleView appearance] setFont:[UIFont systemFontOfSize:16.0f]];
     
-    self.title = @"Messages";
-    self.messageInputView.textView.placeHolder = @"New Message";
-    self.sender = @"Jobs";
+    self.title = @"flat";
     
-    [self setBackgroundColor:[UIColor whiteColor]];
+    self.messageInputView.textView.placeHolder = @"Message";
     
+    self.tableView.frame = CGRectMake(0, 64, self.view.frame.size.width, self.view.frame.size.height);
     
+    NSLog(@"before creating messages");
     self.messages = [[NSMutableArray alloc] initWithObjects:
-                     [[JSMessage alloc] initWithText:@"JSMessagesViewController is simple and easy to use."
-                                              sender:kSubtitleJobs
+                     [[JSMessage alloc] initWithText:@"Hey"
+                                              sender:@"Zach"
                                                 date:[NSDate distantPast]],
-                     [[JSMessage alloc] initWithText:@"It's highly customizable."
-                                              sender:kSubtitleWoz
+                     [[JSMessage alloc] initWithText:@"Sup"
+                                              sender:@"Zach"
                                                 date:[NSDate distantPast]],
-                     [[JSMessage alloc] initWithText:@"It even has data detectors. You can call me tonight. My cell number is 452-123-4567. \nMy website is www.hexedbits.com."
-                                              sender:kSubtitleJobs
+                     [[JSMessage alloc] initWithText:@"When are you guys going to be back in the room?"
+                                              sender:@"Zach"
                                                 date:[NSDate distantPast]],
-                     [[JSMessage alloc] initWithText:@"Group chat. Sound effects and images included. Animations are smooth. Messages can be of arbitrary size!"
-                                              sender:kSubtitleCook
+                     [[JSMessage alloc] initWithText:@"Uhhh idk why?"
+                                              sender:@"Zach"
                                                 date:[NSDate distantPast]],
-                     [[JSMessage alloc] initWithText:@"Group chat. Sound effects and images included. Animations are smooth. Messages can be of arbitrary size!"
-                                              sender:kSubtitleJobs
+                     [[JSMessage alloc] initWithText:@"I've got this skype interview. Gimme an hour"
+                                              sender:@"Zach"
                                                 date:[NSDate date]],
-                     [[JSMessage alloc] initWithText:@"Group chat. Sound effects and images included. Animations are smooth. Messages can be of arbitrary size!"
-                                              sender:kSubtitleWoz
+                     [[JSMessage alloc] initWithText:@"Aight np"
+                                              sender:@"Zach"
                                                 date:[NSDate date]],
                      nil];
-    
-    
-    self.avatars = [[NSDictionary alloc] initWithObjectsAndKeys:
-                    [JSAvatarImageFactory avatarImageNamed:@"demo-avatar-jobs" croppedToCircle:YES], kSubtitleJobs,
-                    [JSAvatarImageFactory avatarImageNamed:@"demo-avatar-woz" croppedToCircle:YES], kSubtitleWoz,
-                    [JSAvatarImageFactory avatarImageNamed:@"demo-avatar-cook" croppedToCircle:YES], kSubtitleCook,
-                    nil];
-    
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFastForward
-                                                                                           target:self
-                                                                                           action:@selector(buttonPressed:)];
 }
-
-- (NSString *)textForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    return @"TESTING";
-}
-
-- (void)buttonPressed:(UIButton *)sender
-{
-    // Testing pushing/popping messages view
-    HomeViewController *vc = [[HomeViewController alloc] initWithNibName:nil bundle:nil];
-    [self.navigationController pushViewController:vc animated:YES];
-}
-
-#pragma mark - Table view data source
-
-- (NSInteger)tableView:(UITableView *)tableView
- numberOfRowsInSection:(NSInteger)section
-{
-    return self.messages.count;
-}
-
-#pragma mark - Messages view delegate: REQUIRED
 
 - (void)didSendText:(NSString *)text
-         fromSender:(NSString *)sender
-             onDate:(NSDate *)date
 {
-    if ((self.messages.count - 1) % 2) {
-        [JSMessageSoundEffect playMessageSentSound];
-    }
-    else {
-        // for demo purposes only, mimicing received messages
-        [JSMessageSoundEffect playMessageReceivedSound];
-        sender = arc4random_uniform(10) % 2 ? kSubtitleCook : kSubtitleWoz;
-    }
-    
-    
+    ProfileUser *user = [FlatAPIClientManager sharedClient].profileUser;
+    [JSMessageSoundEffect playMessageSentSound];
     [self.messages addObject:[[JSMessage alloc] initWithText:text
-                                                      sender:sender
-                                                        date:date]];
-    [self finishSend];
+                                                      sender:user.firstName
+                                                        date:[NSDate date]]];
+    [self.tableView reloadData];
+    self.messageInputView.textView.text = @"";
     [self scrollToBottomAnimated:YES];
+
 }
 
 - (JSBubbleMessageType)messageTypeForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return (indexPath.row % 2) ? JSBubbleMessageTypeIncoming : JSBubbleMessageTypeOutgoing;
+    JSMessage *currMessage = [self.messages objectAtIndex:indexPath.row];
+    NSString *userName = [FlatAPIClientManager sharedClient].profileUser.firstName;
+    NSLog(@"%@ %@", currMessage.sender, userName);
+    if ([currMessage.sender isEqualToString:userName]) {
+        return JSBubbleMessageTypeOutgoing;
+    }
+    return JSBubbleMessageTypeIncoming;
 }
 
 - (UIImageView *)bubbleImageViewWithType:(JSBubbleMessageType)type
                        forRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (indexPath.row % 2) {
+    JSMessage *currMessage = [self.messages objectAtIndex:indexPath.row];
+    NSString *userName = [FlatAPIClientManager sharedClient].profileUser.firstName;
+    if ([currMessage.sender isEqualToString:userName]) {
         return [JSBubbleImageViewFactory bubbleImageViewForType:type
-                                                          color:[UIColor js_bubbleLightGrayColor]];
+                                                          color:[UIColor js_bubbleBlueColor]];
     }
-    
     return [JSBubbleImageViewFactory bubbleImageViewForType:type
-                                                      color:[UIColor js_bubbleBlueColor]];
+                                                      color:[UIColor js_bubbleLightGrayColor]];
+}
+
+- (JSMessagesViewTimestampPolicy)timestampPolicy
+{
+    return JSMessagesViewTimestampPolicyAll;
+}
+
+- (JSMessagesViewAvatarPolicy)avatarPolicy
+{
+    return JSMessagesViewAvatarPolicyNone;
+}
+
+- (JSMessagesViewSubtitlePolicy)subtitlePolicy
+{
+    return JSMessagesViewSubtitlePolicyNone;
 }
 
 - (JSMessageInputViewStyle)inputViewStyle
@@ -176,58 +117,32 @@
     return JSMessageInputViewStyleFlat;
 }
 
-#pragma mark - Messages view delegate: OPTIONAL
-
-- (BOOL)shouldDisplayTimestampForRowAtIndexPath:(NSIndexPath *)indexPath
+- (NSString *)textForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (indexPath.row % 3 == 0) {
-        return YES;
-    }
-    return NO;
+    return [[self.messages objectAtIndex:indexPath.row] text];
 }
 
-//
-//  *** Implement to customize cell further
-//
-- (void)configureCell:(JSBubbleMessageCell *)cell atIndexPath:(NSIndexPath *)indexPath
+- (NSDate *)timestampForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if ([cell messageType] == JSBubbleMessageTypeOutgoing) {
-        cell.bubbleView.textView.textColor = [UIColor whiteColor];
-        
-        if ([cell.bubbleView.textView respondsToSelector:@selector(linkTextAttributes)]) {
-            NSMutableDictionary *attrs = [cell.bubbleView.textView.linkTextAttributes mutableCopy];
-            [attrs setValue:[UIColor blueColor] forKey:NSForegroundColorAttributeName];
-            
-            cell.bubbleView.textView.linkTextAttributes = attrs;
-        }
-    }
-    
-    if (cell.timestampLabel) {
-        cell.timestampLabel.textColor = [UIColor lightGrayColor];
-        cell.timestampLabel.shadowOffset = CGSizeZero;
-    }
-    
-    if (cell.subtitleLabel) {
-        cell.subtitleLabel.textColor = [UIColor lightGrayColor];
-    }
+    return [[self.messages objectAtIndex:indexPath.row] date];
 }
 
-//  *** Implement to use a custom send button
-//
-//  The button's frame is set automatically for you
-//
-//  - (UIButton *)sendButtonForInputView
-//
-
-//  *** Implement to prevent auto-scrolling when message is added
-//
-- (BOOL)shouldPreventScrollToBottomWhileUserScrolling
+- (UIImageView *)avatarImageViewForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return YES;
+    return nil;
 }
 
-// *** Implemnt to enable/disable pan/tap todismiss keyboard
-//
+- (NSString *)subtitleForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return nil;
+}
+
+- (NSInteger)tableView:(UITableView *)tableView
+ numberOfRowsInSection:(NSInteger)section
+{
+    return [self.messages count];
+}
+
 - (BOOL)allowsPanToDismissKeyboard
 {
     return YES;
@@ -235,17 +150,9 @@
 
 #pragma mark - Messages view data source: REQUIRED
 
-
 - (JSMessage *)messageForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     return [self.messages objectAtIndex:indexPath.row];
-}
-
-- (UIImageView *)avatarImageViewForRowAtIndexPath:(NSIndexPath *)indexPath
-                                           sender:(NSString *)sender
-{
-    UIImage *image = [self.avatars objectForKey:sender];
-    return [[UIImageView alloc] initWithImage:image];
 }
 
 @end

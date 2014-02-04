@@ -93,9 +93,6 @@
     // Set loggedIn to NO
     self.loggedIn = NO;
     
-    // Reset Feed View Position Tracker
-    //[self.mainViewController.centerPanel resetPositionTracker];
-    
     // Show Login View
     [self showLoginView];
 }

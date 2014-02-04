@@ -23,6 +23,7 @@
         <scene sceneID="Z44-Kd-3ob">
             <objects>
                 <navigationController storyboardIdentifier="MainNavigationViewController" definesPresentationContext="YES" id="DJX-LG-ezU" customClass="MainNavigationViewController" sceneMemberID="viewController">
+                    <extendedEdge key="edgesForExtendedLayout" bottom="YES"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="sFs-8h-Z0i">
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
@@ -115,7 +116,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="cxe-13-LCk" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1237" y="281"/>
+            <point key="canvasLocation" x="1245" y="717"/>
         </scene>
         <!--Home View Controller-->
         <scene sceneID="mXY-ep-dfx">
@@ -126,7 +127,7 @@
                         <viewControllerLayoutGuide type="bottom" id="DwC-Nj-fUY"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="p1K-VQ-Mbz">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <rect key="frame" x="0.0" y="64" width="320" height="504"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Home" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RyM-Yf-Pex">
@@ -138,6 +139,7 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
+                    <extendedEdge key="edgesForExtendedLayout" bottom="YES"/>
                     <navigationItem key="navigationItem" id="cXJ-AY-2RT"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="JLz-sH-5kq" userLabel="First Responder" sceneMemberID="firstResponder"/>

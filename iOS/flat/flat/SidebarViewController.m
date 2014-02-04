@@ -7,6 +7,7 @@
 //
 
 #import "SidebarViewController.h"
+#import "cs194AppDelegate.h"
 
 
 @interface SidebarViewController ()
@@ -52,17 +53,42 @@ static const int NAV_BAR_HEIGHT = 64;
     return 1;
 }
 
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return self.users.count + 1;
+- (NSInteger)tableView:(UITableView *)tableView
+ numberOfRowsInSection:(NSInteger)section
+{
+    return self.users.count + 2;
 }
 
 
-- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
+- (NSString *)tableView:(UITableView *)tableView
+titleForHeaderInSection:(NSInteger)section
+{
     return @"Roommates";
 }
 
+- (void)handleLogout
+{
+    NSLog(@"handleLogout");
+    
+    [self.delegate toggleSidebarMenu:nil];
+    
+    cs194AppDelegate *delegate = [UIApplication sharedApplication].delegate;
+    [delegate handleLogout];
+}
+
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (indexPath.row == [self.users count]) {
+    if (indexPath.row == [self.users count] + 1) {
+        NSString *logoutTitle = @"Do you really want to logout?";
+        UIActionSheet *logoutActionSheet = [[UIActionSheet alloc]
+                                            initWithTitle:logoutTitle
+                                            delegate:self
+                                            cancelButtonTitle:@"Cancel"
+                                            destructiveButtonTitle:@"Log Out"
+                                            otherButtonTitles:nil];
+        [logoutActionSheet showInView:self.view];
+        [tableView deselectRowAtIndexPath:indexPath
+                                 animated:YES];
+    } else if (indexPath.row == [self.users count]) {
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle: @"Set dorm location"
                                                         message: @"Do you want to set your current location as your group's dorm location?"
                                                        delegate: self
@@ -81,11 +107,17 @@ static const int NAV_BAR_HEIGHT = 64;
     }
 }
 
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+- (UITableViewCell *)tableView:(UITableView *)tableView
+         cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
     static NSString *MyIdentifier = @"MyReuseIdentifier";
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:MyIdentifier];
     if (cell == nil) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault  reuseIdentifier:MyIdentifier];
+    }
+    if (indexPath.row == [self.users count] + 1) {
+        cell.textLabel.text = @"Logout";
+        return cell;
     }
     if (indexPath.row == [self.users count]) {
         cell.textLabel.text = @"Set dorm location";
@@ -95,6 +127,18 @@ static const int NAV_BAR_HEIGHT = 64;
     ProfileUser * user = [self.users objectAtIndex: indexPath.row];
     cell.textLabel.text = [user firstName];
     return cell;
+}
+
+- (void)handleLogin
+{
+    [self.sideBarMenuTable reloadData];
+}
+
+- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    if (buttonIndex == 0) {
+        [self handleLogout];
+    }
 }
 
 - (void)didReceiveMemoryWarning
