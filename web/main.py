@@ -73,7 +73,7 @@ def test_query():
 
 @app.route('/group/<group_id>/users')
 def get_group_members(group_id):
-    return db.list_to_json('users', db.get_all_users(group_id))
+    return db.get_all_users(group_id)
 
 @app.route('/sandbox/users/all', methods=['GET','POST'])
 def s_users_all():
@@ -152,6 +152,12 @@ def is_in_dorm(fbid, bool):
     resp = Response(response=json.dumps(data), status=200,mimetype="application/json")
     return resp
 
+@app.route('/users/<fb_id>')
+def get_user_by_fbid(fb_id):
+    return db.list_to_json('user', db.get_user(fb_id))
+
+# This function should only be used for testing/database maintainance
+# purposes.
 @app.route('/users/add', methods=['GET','POST'])
 def add_user_by_fbid():
     if request.method == 'POST':

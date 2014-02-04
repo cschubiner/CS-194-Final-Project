@@ -14,10 +14,10 @@ from sqlalchemy.orm import sessionmaker, scoped_session
 from flask import Flask
 from flask import render_template
 from sqlalchemy import Column, Integer, String
+import utils
 import facebook
 import urllib2
-from flask import Response, jsonify
-import json
+
 
 MAX_LENGTH = 50
 
@@ -62,7 +62,7 @@ def add_user(access_token):
     graph = facebook.GraphAPI(access_token)
     profile = graph.get_object("me")
     friends = graph.get_connections("me", "friends")
-    request_picture_url = "http://graph.facebook.com/"+profile['id']+"/picture"
+    request_picture_url = "http://graph.facebook.com/" + profile['id']+"/picture"
     picture_url = urllib2.urlopen(request_picture_url).geturl()
 
     new_group = models.Group(curr_color=0)
@@ -78,13 +78,11 @@ def add_user(access_token):
         )
     ]
 
-    print new_group.users
 
     db_session.add(new_group)
     db_session.commit()
 
     query = db_session.query(models.User).all()
-    print query
     return obj_to_json('user', new_group.users[0])
 
 '''
@@ -101,22 +99,14 @@ def in_group(fbid):
 
 '''
     Given a group id, fetch all users in that group
+    @params, group_id, the id of the group
+    @return, JSON representation of the users in the group
 '''
 def get_all_users(g_id):
-    return db_session.query(models.User).filter(models.User.group_id==g_id).all()
+    # Execute query, result is a SQLalchemy array
+    query_result = db_session.query(models.User).filter(models.User.group_id==g_id).all()
 
-def rollback():
-    session.rollback()
+    # Return valid json
+    return utils.list_to_json('users', query_result)
 
-def list_to_json(response_type, obj_list):
-    if obj_list:
-        return Response(response=json.dumps({response_type:[i.serialize for i in obj_list]}), status=200,mimetype="application/json")
-    return "{}"
-
-def obj_to_json(response_type, obj):
-    return Response(response=json.dumps({response_type: obj.serialize}), status=200,mimetype="application/json")
-
-# TODO: implement this,
-def add_user_by_fb_id(fbid):
-    pass
 
