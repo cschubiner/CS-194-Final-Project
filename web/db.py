@@ -103,10 +103,28 @@ def in_group(fbid):
     @return, JSON representation of the users in the group
 '''
 def get_all_users(g_id):
+
     # Execute query, result is a SQLalchemy array
     query_result = db_session.query(models.User).filter(models.User.group_id==g_id).all()
 
     # Return valid json
     return utils.list_to_json('users', query_result)
+
+'''
+    Given a facebook id (fb_id), fetch all the information
+    about that user form the DB.
+    @params: fb_id, the facebook_id
+    @return: valid JSON representing that user
+'''
+def get_user_by_fbid(fb_id):
+
+    # Execute query, result is a SQLalchemy object, or nothing
+    # TODO: Do error checking
+    result = db_session.query(models.User).filter(models.User.fb_id==fb_id).first()
+    return utils.obj_to_json('user', result)
+
+
+
+
 
 

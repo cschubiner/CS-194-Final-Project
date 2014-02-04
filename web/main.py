@@ -152,9 +152,11 @@ def is_in_dorm(fbid, bool):
     resp = Response(response=json.dumps(data), status=200,mimetype="application/json")
     return resp
 
-@app.route('/users/<fb_id>')
+# Given a specific ƒacebook_id, returns the information
+# about that user in JSON format
+@app.route('/user/<fb_id>')
 def get_user_by_fbid(fb_id):
-    return db.list_to_json('user', db.get_user(fb_id))
+    return db.get_user_by_fbid(fb_id)
 
 # This function should only be used for testing/database maintainance
 # purposes.
