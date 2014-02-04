@@ -14,7 +14,8 @@
 + (void) getUsersFromGroupID:(NSNumber*)groupID
          withCompletionBlock:(RequestProfileUsersCompletionHandler)completionBlock
 {
-    [[FlatAPIClientManager sharedClient]GET:@"sandbox/users/all"
+    NSString * url = [NSString stringWithFormat:@"group/%@/users", groupID];
+    [[FlatAPIClientManager sharedClient]GET:url
                                  parameters:Nil
                                     success:^(NSURLSessionDataTask * task, id JSON) {
                                         NSError *error = [ErrorHelper apiErrorFromDictionary:JSON];

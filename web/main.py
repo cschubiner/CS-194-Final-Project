@@ -11,6 +11,7 @@ import json
 from flask import Flask, Response, request, render_template
 from db import db_init, db_session
 import db
+import models
 
 app = Flask(__name__.split('.')[0])
 
@@ -23,43 +24,22 @@ def hello(name=None):
     # return str(engine)
     return render_template('hello.html', name=name)
 
-@app.route('/users/login')
-def handle():
-    pass
-
-@app.route('/users/add/colby')
-def addColby():
-    db.add_user()
-    return "hello"
-
-@app.route('/user/login/facebook', methods=['GET', 'POST'])
-def facebook_login():
+'''
+    Function: facebook_login()
+    --------------------------
+    The server calls this function whenever handed a facebook access_token
+    and the user logs in for the first time.
+    The flow for a first time login is as follows:
+    1. Assign a new group to that user (commit to db)
+    2. Collect fb data
+    3. Add the user into the db using that data
+'''
+@app.route('/user/<signup>/facebook', methods=['GET', 'POST'])
+def facebook_login(signup):
     if request.method == 'POST':
-        print "======================="
-        print str(request.data)
-        curr_user = dict()
-        if request.data:
-            # TODO: fix this, it's wrong
-            access_token = request.data.token
-            graph = facebook.GraphAPI(access_token)
-            profile = graph.get_object("me")
-
-            # TODO: Fix the hashes, look at FB api, might be wrong
-            user = User(
-                fb_id = profile["id"],
-                group_id = db.get_group_id(),
-                first_name = profile["first_name"],
-                last_name = profile["last_name"],
-                img_url = profile["picture"],
-                email = profile["email"]
-            )
-            print user.fb_id
-            print group_id
-            print first_name
-            print last_name
-            print img_url
-            print email
-            # TODO: Loop through friends
+        print "request.form = "
+        print request.form
+        return db.add_user(request.form['token'])
     else:
         # Request information about users
         ret = {
@@ -73,9 +53,10 @@ def facebook_login():
             "email": "glennawillis@uncorp.com"
           }
         }
-
         resp = Response(response=json.dumps(ret), status=200,mimetype="application/json")
         return resp
+    return db.obj_to_json({})
+
 
 @app.route('/db/rollback')
 def rollback():
@@ -86,11 +67,16 @@ def rollback():
 def getId():
     return str(db.get_group_id())
 
+@app.route('/test/query')
+def test_query():
+    return str(db.in_group("708108626"))
+
+@app.route('/group/<group_id>/users')
+def get_group_members(group_id):
+    return db.list_to_json('users', db.get_all_users(group_id))
+
 @app.route('/sandbox/users/all', methods=['GET','POST'])
 def s_users_all():
-    print '===================='
-    print request.data
-    print request.method
     users = {
         "users": [
             {
@@ -100,30 +86,77 @@ def s_users_all():
                 "firstName": "Glenna",
                 "lastName": "Willis",
                 "imageURL": "http://placehold.it/32x32",
+                "isNearDorm": False,
                 "email": "glennawillis@uncorp.com"
             },
             {
                 "userID": 1,
-                "groupID": 1,
+                "groupID": 0,
                 "colorID": 1,
                 "firstName": "Joy",
                 "lastName": "Peters",
                 "imageURL": "http://placehold.it/32x32",
+                "isNearDorm": False,
                 "email": "joypeters@uncorp.com"
             },
             {
                 "userID": 2,
-                "groupID": 2,
+                "groupID": 0,
                 "colorID": 2,
+                "firstName": "Harry",
+                "lastName": "Potter",
+                "imageURL": "http://placehold.it/32x32",
+                "isNearDorm": True,
+                "email": "hpiddy@hogwarts.edu"
+            },
+            {
+                "userID": 3,
+                "groupID": 1,
+                "colorID": 0,
                 "firstName": "Tamika",
                 "lastName": "Lynch",
                 "imageURL": "http://placehold.it/32x32",
+                "isNearDorm": True,
                 "email": "tamikalynch@uncorp.com"
             }
         ]
     }
 
+
     resp = Response(response=json.dumps(users), status=200,mimetype="application/json")
     return resp
+
+@app.route('/group/<group_id>', methods=['GET','POST'])
+def get_location_by_group(group_id):
+    data = {
+        "group":
+        {
+            "groupID": 0,
+            "latLocation": 37.419984,
+            "longLocation": -122.167301
+        }
+    }
+    resp = Response(response=json.dumps(data), status=200,mimetype="application/json")
+    return resp
+
+# Given a user id and a boolean
+# records status of the user id the DB
+@app.route('/users/<fbid>/indorm/<bool>', methods=['GET','POST'])
+def is_in_dorm(fbid, bool):
+    data = {
+        "data":
+        {
+            "value": True,
+        }
+    }
+    resp = Response(response=json.dumps(data), status=200,mimetype="application/json")
+    return resp
+
+@app.route('/users/add', methods=['GET','POST'])
+def add_user_by_fbid():
+    if request.method == 'POST':
+        db.add_user_by_fb_id(request.data)
+        return "Success!"
+
 
 

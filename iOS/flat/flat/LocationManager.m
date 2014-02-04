@@ -35,33 +35,34 @@
 - (void)locationManager:(CLLocationManager *)manager didEnterRegion:(CLRegion *)region
 {
     NSLog(@"in region");
-    ProfileUser * currUser = [FlatAPIClientManager sharedClient].profileUser;
-    [ProfileUserNetworkRequest setUserLocationWithUserID:currUser.userID andIsInDorm:true];
-    UIAlertView *errorAlert = [[UIAlertView alloc]
-                               initWithTitle:@"Entered dorm location" message:@"In dorm location" delegate:nil cancelButtonTitle:@"Dismiss" otherButtonTitles:nil];
-    [errorAlert show];
-
 }
 
 - (void)locationManager:(CLLocationManager *)manager didExitRegion:(CLRegion *)region
 {
     NSLog(@"not in region");
-    ProfileUser * currUser = [FlatAPIClientManager sharedClient].profileUser;
-    [ProfileUserNetworkRequest setUserLocationWithUserID:currUser.userID andIsInDorm:false];
-    UIAlertView *errorAlert = [[UIAlertView alloc]
-                               initWithTitle:@"Exited dorm location" message:@"In dorm location" delegate:nil cancelButtonTitle:@"Dismiss" otherButtonTitles:nil];
-    [errorAlert show];
 }
 - (void)locationManager:(CLLocationManager *)manager didStartMonitoringForRegion:(CLRegion *)region
 {
     NSLog(@"monitoring region");
 }
 
+- (void)handleUserDormState:(bool)isInDorm {
+    ProfileUser * currUser = [FlatAPIClientManager sharedClient].profileUser;
+    currUser.isNearDorm = [NSNumber numberWithInt:isInDorm ? 1 : 0];
+    [ProfileUserNetworkRequest setUserLocationWithUserID:currUser.userID andIsInDorm:isInDorm];
+    if (isInDorm) {
+        UIAlertView *errorAlert = [[UIAlertView alloc]
+                                   initWithTitle:@"Entered dorm location" message:@"In dorm location" delegate:nil cancelButtonTitle:@"Dismiss" otherButtonTitles:nil];
+        [errorAlert show];
+    }
+}
+
 - (void)locationManager:(CLLocationManager *)manager
       didDetermineState:(CLRegionState)state forRegion:(CLRegion *)region
 {
-    NSLog(@"determined initial state");
     NSLog(@"state: %d", state);
+    NSLog(@"determined initial state");
+    [self handleUserDormState:state == CLRegionStateInside];
 }
 
 - (void)locationManager:(CLLocationManager *)manager didFailWithError:(NSError *)error
@@ -105,25 +106,26 @@
                  CLLocationDistance radius = region.radius;
                  
                  NSNumber * currentLocationDistance =[self calculateDistanceInMetersBetweenCoord:currentCoords coord:centerCoords];
-                 if([currentLocationDistance floatValue] < radius)
-                 {
-                     NSLog(@"Invoking didEnterRegion Manually for region: %@",identifer);
-                     
-                     //stop Monitoring Region temporarily
-                     [self.locationManager stopMonitoringForRegion:region];
-                     
-                     [self locationManager:self.locationManager didEnterRegion:region];
-                     //start Monitoing Region again.
-                     [self.locationManager startMonitoringForRegion:region];
-                 }
-                 else {
-                     //stop Monitoring Region temporarily
-                     [self.locationManager stopMonitoringForRegion:region];
-                     
-                     [self locationManager:self.locationManager didExitRegion:region];
-                     //start Monitoing Region again.
-                     [self.locationManager startMonitoringForRegion:region];
-                 }
+                 [self handleUserDormState:[currentLocationDistance floatValue] < radius];
+//                 if([currentLocationDistance floatValue] < radius)
+//                 {
+//                     NSLog(@"Invoking didEnterRegion Manually for region: %@",identifer);
+//                     
+//                     //stop Monitoring Region temporarily
+//                     [self.locationManager stopMonitoringForRegion:region];
+//                     
+//                     [self locationManager:self.locationManager didEnterRegion:region];
+//                     //start Monitoing Region again.
+//                     [self.locationManager startMonitoringForRegion:region];
+//                 }
+//                 else {
+//                     //stop Monitoring Region temporarily
+//                     [self.locationManager stopMonitoringForRegion:region];
+//                     
+//                     [self locationManager:self.locationManager didExitRegion:region];
+//                     //start Monitoing Region again.
+//                     [self.locationManager startMonitoringForRegion:region];
+//                 }
              }];
         }
         //Stop Location Updation, we dont need it now.

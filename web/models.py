@@ -5,29 +5,43 @@ from db import Base
 MAX_LENGTH = 50
 
 class User(Base):
-        __tablename__ = 'fb_users'
+    __tablename__ = 'users'
 
-        id = Column(Integer, primary_key=True)
-        fb_id = Column(String(MAX_LENGTH))
-        group_id = Column(Integer) #TODO: add foreign key
-        first_name = Column(String(MAX_LENGTH))
-        last_name = Column(String(MAX_LENGTH))
-        img_url = Column(String(MAX_LENGTH))
-        email = Column(String(MAX_LENGTH))
+    id = Column(Integer, primary_key=True)
+    fb_id = Column(String(MAX_LENGTH))
+    group_id = Column(Integer, ForeignKey('groups.id')) #TODO: add foreign key
+    color_id = Column(Integer) #TODO: add foreign key, maybe
+    first_name = Column(String(MAX_LENGTH))
+    last_name = Column(String(MAX_LENGTH))
+    image_url = Column(String(MAX_LENGTH))
+    email = Column(String(MAX_LENGTH))
+    group = relationship("Group")
 
-        def __repr__(self):
-            return "<User(firstname='%s', lastname='%s')>" % (self.first_name, self.last_name)
+    @property
+    def serialize(self):
+        return {
+            "fb_id": int(self.fb_id),
+            "group_id": self.group_id,
+            "color_id": self.color_id,
+            "is_near_dorm": False, #TODO: change this later. this will not work
+            "first_name": self.first_name,
+            "last_name": self.last_name,
+            "image_url": self.image_url,
+            "email": self.email
+        }
+
+
+    def __repr__(self):
+        return "<User(firstname='%s', lastname='%s')>" % (self.first_name, self.last_name)
 
 class Group(Base):
-    __tablename__ = 'group'
+    __tablename__ = 'groups'
 
     id = Column(Integer, primary_key=True)
-    # users = relationship("fb_users", backref="Group")
+    curr_color = Column(Integer)
+    users = relationship("User")
 
-class GroupId(Base):
-    __tablename__ = "group_id"
-
-    id = Column(Integer, primary_key=True)
-    counter = Column(Integer)
+    def __repr__(self):
+        return "<User(id='%s', curr_color='%s')>" % (self.id, self.curr_color)
 
 

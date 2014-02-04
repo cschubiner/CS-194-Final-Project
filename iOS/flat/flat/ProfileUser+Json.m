@@ -15,13 +15,14 @@
                             AndManagedObjectContext:(NSManagedObjectContext *)context
 {
     ProfileUser *profileUser = [ProfileUser MR_createInContext:context];
-    profileUser.userID = [dictionary objectForKey:@"userID"];
-    profileUser.groupID = [dictionary objectForKey:@"groupID"];
-    profileUser.colorID = [dictionary objectForKey:@"colorID"];
-    profileUser.firstName = [dictionary objectForKey:@"firstName"];
-    profileUser.lastName = [dictionary objectForKey:@"lastName"];
+    profileUser.userID = [dictionary objectForKey:@"fb_id"];
+    profileUser.groupID = [dictionary objectForKey:@"group_id"];
+    profileUser.colorID = [dictionary objectForKey:@"color_id"];
+    profileUser.firstName = [dictionary objectForKey:@"first_name"];
+    profileUser.lastName = [dictionary objectForKey:@"last_name"];
     profileUser.email = [dictionary objectForKey:@"email"];
-    profileUser.imageUrl = [dictionary objectForKey:@"imageURL"];
+//    profileUser.imageUrl = [dictionary objectForKey:@"image_url"];
+    profileUser.isNearDorm = [dictionary objectForKey:@"is_near_dorm"];
 //    profileUser.apiToken = [dictionary objectForKey:@"api_token"];
     
     [[NSManagedObjectContext MR_defaultContext] MR_saveToPersistentStoreAndWait];
