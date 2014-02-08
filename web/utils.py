@@ -5,7 +5,6 @@ import json
 def list_to_json(response_type, obj_list):
     if obj_list:
         return to_app_json({response_type:[i.serialize for i in obj_list]})
-        # return Response(response=json.dumps({response_type:[i.serialize for i in obj_list]}), status=200,mimetype="application/json")
     return to_app_json({})
 
 # Converts a single SQLAlchemy object into a JSON object

@@ -21,7 +21,7 @@ import urllib2
 
 MAX_LENGTH = 50
 
-engine = create_engine('mysql+gaerdbms:///add7?instance=flatappapi:db0')
+engine = create_engine('mysql+gaerdbms:///add8?instance=flatappapi:db0')
 db_session = scoped_session(sessionmaker(autocommit=False,
                                          autoflush=False,
                                          bind=engine))
@@ -71,6 +71,7 @@ def add_user(access_token):
         models.User(
             fb_id = profile["id"],
             color_id = 0,
+            is_near_dorm = False,
             first_name = profile["first_name"],
             last_name = profile["last_name"],
             image_url = picture_url,
@@ -78,12 +79,11 @@ def add_user(access_token):
         )
     ]
 
-
     db_session.add(new_group)
     db_session.commit()
 
     query = db_session.query(models.User).all()
-    return obj_to_json('user', new_group.users[0])
+    return utils.obj_to_json('user', new_group.users[0])
 
 '''
     Function: in_group
@@ -123,8 +123,16 @@ def get_user_by_fbid(fb_id):
     result = db_session.query(models.User).filter(models.User.fb_id==fb_id).first()
     return utils.obj_to_json('user', result)
 
-
-
-
+'''
+    @params, fb_id(integer), status(boolean)
+    @return, boolean indicating success or failure
+'''
+def update_dorm_status(fb_id, status):
+    result = db_session.query(models.User).filter(models.User.fb_id==fb_id).first()
+    if result:
+        result.is_near_dorm = status
+        # tup = db_session.query(result).update({is_near_dorm:status})
+        db_session.commit()
+    return True
 
 

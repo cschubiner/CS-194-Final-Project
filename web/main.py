@@ -39,6 +39,9 @@ def facebook_login(signup):
     if request.method == 'POST':
         print "request.form = "
         print request.form
+        if request.data:
+            db.add_user(request.data)
+            return "hello"
         return db.add_user(request.form['token'])
     else:
         # Request information about users
@@ -56,7 +59,6 @@ def facebook_login(signup):
         resp = Response(response=json.dumps(ret), status=200,mimetype="application/json")
         return resp
     return db.obj_to_json({})
-
 
 @app.route('/db/rollback')
 def rollback():
@@ -141,8 +143,9 @@ def get_location_by_group(group_id):
 
 # Given a user id and a boolean
 # records status of the user id the DB
-@app.route('/users/<fbid>/indorm/<bool>', methods=['GET','POST'])
+@app.route('/user/<fbid>/indorm/', methods=['GET','POST'])
 def is_in_dorm(fbid, bool):
+    # return whether or not is_in_dorm = true
     data = {
         "data":
         {
@@ -152,7 +155,19 @@ def is_in_dorm(fbid, bool):
     resp = Response(response=json.dumps(data), status=200,mimetype="application/json")
     return resp
 
-# Given a specific ƒacebook_id, returns the information
+@app.route('/user/update/indorm', methods=['GET','POST'])
+def update_dorm_status():
+    if request.method == 'POST':
+        print "request.form = "
+        print request.form
+        db.update_dorm_status(708108626, True)
+        return "hello"
+
+        db.update_dorm_status(request.form['fb_id'], request.form['status'])
+        return "hello"
+
+
+# Given a specific facebook_id, returns the information
 # about that user in JSON format
 @app.route('/user/<fb_id>')
 def get_user_by_fbid(fb_id):
