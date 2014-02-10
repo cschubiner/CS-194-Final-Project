@@ -12,6 +12,7 @@ from flask import Flask, Response, request, render_template
 from db import db_init, db_session
 import db
 import models
+import utils
 
 app = Flask(__name__.split('.')[0])
 
