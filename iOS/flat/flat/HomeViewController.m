@@ -8,10 +8,8 @@
 
 #import "HomeViewController.h"
 #import "JSMessage.h"
-#import "MessageHelper.h"
 
 @interface HomeViewController ()
-@property UIRefreshControl *refresh;
 @end
 
 @implementation HomeViewController
@@ -23,16 +21,6 @@
         // Custom initialization
     }
     return self;
-}
-
-- (void)getMessages
-{
-    NSLog(@"Getting messages");
-    [MessageHelper getMessagesWithCompletionBlock:^(NSError *error, NSArray *messages) {
-        self.messages = [messages mutableCopy];
-        [self.tableView reloadData];
-        [self.refresh endRefreshing];
-    }];
 }
 
 - (void)viewDidLoad
@@ -47,16 +35,7 @@
     
     self.messageInputView.textView.placeHolder = @"Message";
     
-    self.tableView.frame = CGRectMake(0, 64, self.view.frame.size.width, self.view.frame.size.height - 128);
-    
-    //Pull to refresh
-    self.refresh = [[UIRefreshControl alloc] init];
-    self.refresh.tintColor = [UIColor grayColor];
-    self.refresh.attributedTitle = [[NSAttributedString alloc] initWithString:@"Pull to Refresh"];
-    [self.refresh addTarget:self
-                action:@selector(getMessages)
-      forControlEvents:UIControlEventValueChanged];
-    [self.tableView addSubview:self.refresh];
+    self.tableView.frame = CGRectMake(0, 64, self.view.frame.size.width, self.view.frame.size.height);
     
     NSLog(@"before creating messages");
     self.messages = [[NSMutableArray alloc] initWithObjects:
@@ -83,24 +62,15 @@
 
 - (void)didSendText:(NSString *)text
 {
-    [MessageHelper sendMessageWithText:text
-                    andCompletionBlock:^(NSError *error, NSArray *messages) {
-                        if (error) {
-                            //Diplay message did not send error
-                        } else {
-                            self.messages = [messages mutableCopy];
-                            /*
-                            ProfileUser *user = [FlatAPIClientManager sharedClient].profileUser;
-                            [self.messages addObject:[[JSMessage alloc] initWithText:text
-                                                                              sender:user.firstName
-                                                                                date:[NSDate date]]];
-                             */
-                            [JSMessageSoundEffect playMessageSentSound];
-                            [self.tableView reloadData];
-                            self.messageInputView.textView.text = @"";
-                            [self scrollToBottomAnimated:YES];
-                        }
-                    }];
+    ProfileUser *user = [FlatAPIClientManager sharedClient].profileUser;
+    [JSMessageSoundEffect playMessageSentSound];
+    [self.messages addObject:[[JSMessage alloc] initWithText:text
+                                                      sender:user.firstName
+                                                        date:[NSDate date]]];
+    [self.tableView reloadData];
+    self.messageInputView.textView.text = @"";
+    [self scrollToBottomAnimated:YES];
+
 }
 
 - (JSBubbleMessageType)messageTypeForRowAtIndexPath:(NSIndexPath *)indexPath
