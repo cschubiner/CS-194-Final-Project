@@ -16,9 +16,8 @@
 
 @end
 
-
-const static int IN_DORM_STATUS = 1;
 const static int AWAY_DORM_STATUS = 0;
+const static int IN_DORM_STATUS = 1;
 const static int NOT_BROADCASTING_DORM_STATUS = 2;
 
 
@@ -40,14 +39,24 @@ static const int NAV_BAR_HEIGHT = 64;
     return self;
 }
 
-
--(void)viewWillAppear:(BOOL)animated {
+-(void)refreshUsers {
     ProfileUser * currUser = [FlatAPIClientManager sharedClient].profileUser;
     [ProfileUserHelper getUsersFromGroupID:currUser.groupID withCompletionBlock:^(NSError * error, NSMutableArray * users) {
         self.users = users;
         [self.sideBarMenuTable reloadData];
     }];
 }
+
+-(void)viewWillAppear:(BOOL)animated {
+    
+    [self refreshUsers];
+    [NSTimer scheduledTimerWithTimeInterval:8.0
+                                     target:self
+                                   selector:@selector(refreshUsers)
+                                   userInfo:nil
+                                    repeats:YES];
+}
+
 
 - (void)viewDidLoad
 {
@@ -87,20 +96,21 @@ titleForHeaderInSection:(NSInteger)section
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return 100;
+    return 90;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView
          cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     static NSString *MyIdentifier = @"MyReuseIdentifier";
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:MyIdentifier];
-    if (cell == nil) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault  reuseIdentifier:MyIdentifier];
-    }
+//    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:MyIdentifier];
+//    if (cell == nil) {
+//        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault  reuseIdentifier:MyIdentifier];
+//    }
+    UITableViewCell*  cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault  reuseIdentifier:MyIdentifier];
     
     [tableView setSeparatorStyle:UITableViewCellSeparatorStyleNone];
-    tableView.backgroundColor = [UIColor blackColor];
+    tableView.backgroundColor = [UIColor darkGrayColor];
     
     ProfileUser * user = [self.users objectAtIndex: indexPath.row];
     
@@ -109,16 +119,16 @@ titleForHeaderInSection:(NSInteger)section
     circleView.layer.cornerRadius = 35;
     circleView.backgroundColor = colorArray[user.colorID.intValue];
     
-    NSArray *geoImages = [NSArray arrayWithObjects:@"arrow-small.png", @"arrow-hollow-small.png", @"arrow-empty-small.png", nil];
+    NSArray *geoImages = [NSArray arrayWithObjects:@"arrow-hollow-small.png", @"arrow-small.png", @"arrow-empty-small.png", nil];
     UIImageView *locationImage = [[UIImageView alloc] initWithImage:[UIImage imageNamed:
                                                                      geoImages[user.isNearDorm.intValue]]];
     locationImage.frame = CGRectMake(4,40,20,20);
     
-    UILabel *name = [[UILabel alloc]initWithFrame:CGRectMake(58, 15, 70, 70)];
-    name.textColor = [UIColor blackColor];
-    name.font = [UIFont fontWithName:@"helvetica neue" size:25];
+    UILabel *name = [[UILabel alloc]initWithFrame:CGRectMake(60, 16, 70, 70)];
+    name.textColor = [UIColor whiteColor];
+    name.font = [UIFont fontWithName:@"courier" size:25];
     
-    cell.backgroundColor = [UIColor blackColor];
+    cell.backgroundColor = [UIColor darkGrayColor];
     [cell.contentView addSubview:circleView];
     [cell.contentView addSubview:name];
     [cell.contentView addSubview:locationImage];
