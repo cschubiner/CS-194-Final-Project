@@ -18,7 +18,6 @@ import utils
 import facebook
 import urllib2
 
-
 MAX_LENGTH = 50
 
 engine = create_engine('mysql+gaerdbms:///add8?instance=flatappapi:db0')
@@ -48,8 +47,6 @@ def get_group_id():
     db_session.commit()
     return temp
 
-
-
 '''
     function: add_user
     params: access token of the specified user
@@ -65,7 +62,7 @@ def add_user(access_token):
     request_picture_url = "http://graph.facebook.com/" + profile['id']+"/picture"
     picture_url = urllib2.urlopen(request_picture_url).geturl()
 
-    new_group = models.Group(curr_color=0)
+    new_group = models.Group(curr_color=0, latitude=0.0, longitude=0.0)
 
     new_group.users = [
         models.User(
@@ -117,7 +114,6 @@ def get_all_users(g_id):
     @return: valid JSON representing that user
 '''
 def get_user_by_fbid(fb_id):
-
     # Execute query, result is a SQLalchemy object, or nothing
     # TODO: Do error checking
     result = db_session.query(models.User).filter(models.User.fb_id==fb_id).first()
@@ -131,8 +127,38 @@ def update_dorm_status(fb_id, status):
     result = db_session.query(models.User).filter(models.User.fb_id==fb_id).first()
     if result:
         result.is_near_dorm = status
-        # tup = db_session.query(result).update({is_near_dorm:status})
         db_session.commit()
     return True
+
+'''
+    params: access_token, the facebook access token
+    return: the facebook id corresponding to the access token
+'''
+def get_fbid(access_token):
+    graph = facebook.GraphAPI(access_token)
+    profile = graph.get_object("me")
+    return profile['id']
+
+def change_group_id(fb_id, new_group):
+    result = db_session.query(models.User).filter(models.User.fb_id == fb_id).first()
+    if result:
+        # Changing a group_id to the same group_id will cause a server error
+        if result.group_id == new_group:
+            return utils.obj_to_json('user', result)
+
+        result.group_id = new_group
+        temp = result
+        db_session.commit()
+        return utils.obj_to_json('user',temp)
+    return utils.obj_to_json({})
+
+def update_location(group, lat, lon):
+    result = db_session.query(models.Group).filter(models.Group.id == group).first()
+    if result:
+        result.latitude = lat
+        result.longitude = lon
+        temp = result
+        db_session.commit()
+        return utils.obj_to_json('group', temp)
 
 

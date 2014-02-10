@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String, ForeignKey, Boolean
+from sqlalchemy import Column, Integer, String, ForeignKey, Float
 from sqlalchemy.orm import relationship, backref
 from db import Base
 
@@ -11,7 +11,7 @@ class User(Base):
     fb_id = Column(String(MAX_LENGTH))
     group_id = Column(Integer, ForeignKey('groups.id')) #TODO: add foreign key
     color_id = Column(Integer) #TODO: add foreign key, maybe
-    is_near_dorm = Column(Boolean(create_constraint=False))
+    is_near_dorm = Column(Integer)
     first_name = Column(String(MAX_LENGTH))
     last_name = Column(String(MAX_LENGTH))
     image_url = Column(String(MAX_LENGTH))
@@ -40,6 +40,9 @@ class Group(Base):
 
     id = Column(Integer, primary_key=True)
     curr_color = Column(Integer)
+    latitude = Column(Float)
+    longitude = Column(Float)
+
     users = relationship("User")
 
     def __repr__(self):
