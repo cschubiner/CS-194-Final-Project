@@ -15,9 +15,4 @@ typedef void (^RequestGroupCompletionHandler)(NSError *, Group *);
 
 + (void) getGroupFromGroupID:(NSNumber*)groupID
          withCompletionBlock:(RequestGroupCompletionHandler)completionBlock;
-
-+ (void) setGroupLocation:(NSNumber*)groupID
-             withLocation: (CLLocation *) location
-         withCompletionBlock:(RequestGroupCompletionHandler)completionBlock;
-
 @end

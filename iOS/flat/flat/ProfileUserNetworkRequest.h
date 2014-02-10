@@ -16,9 +16,6 @@ typedef void (^RequestProfileUsersCompletionHandler)(NSError *, NSMutableArray *
         withCompletionBlock:(RequestProfileUsersCompletionHandler)completionBlock;
 
 + (void) setUserLocationWithUserID:(NSNumber*)userID
-                       andIsInDorm:(NSNumber*) isInDormStatus;
-
-+ (void) setGroupIDForUser:(NSNumber*)userID
-                           groupID:(NSNumber*)groupID;
+                       andIsInDorm:(BOOL) isInDorm;
 
 @end

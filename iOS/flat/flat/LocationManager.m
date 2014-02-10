@@ -28,9 +28,6 @@
     return _sharedClient;
 }
 
-const static int IN_DORM_STATUS = 1;
-const static int AWAY_DORM_STATUS = 0;
-const static int NOT_BROADCASTING_DORM_STATUS = 2;
 
 
 #pragma mark - CLLocationManagerDelegate
@@ -49,11 +46,11 @@ const static int NOT_BROADCASTING_DORM_STATUS = 2;
     NSLog(@"monitoring region");
 }
 
-- (void)handleUserDormState:(NSNumber*)isInDormStatus {
+- (void)handleUserDormState:(bool)isInDorm {
     ProfileUser * currUser = [FlatAPIClientManager sharedClient].profileUser;
-    currUser.isNearDorm = isInDormStatus;
-    [ProfileUserNetworkRequest setUserLocationWithUserID:currUser.userID andIsInDorm:isInDormStatus];
-    if (isInDormStatus) {
+    currUser.isNearDorm = [NSNumber numberWithInt:isInDorm ? 1 : 0];
+    [ProfileUserNetworkRequest setUserLocationWithUserID:currUser.userID andIsInDorm:isInDorm];
+    if (isInDorm) {
         UIAlertView *errorAlert = [[UIAlertView alloc]
                                    initWithTitle:@"Entered dorm location" message:@"In dorm location" delegate:nil cancelButtonTitle:@"Dismiss" otherButtonTitles:nil];
         [errorAlert show];
@@ -65,20 +62,15 @@ const static int NOT_BROADCASTING_DORM_STATUS = 2;
 {
     NSLog(@"state: %d", state);
     NSLog(@"determined initial state");
-    int dormState = AWAY_DORM_STATUS;
-    if (state == CLRegionStateInside)
-        dormState = IN_DORM_STATUS;
-    else if (state == CLRegionStateUnknown)
-        dormState = NOT_BROADCASTING_DORM_STATUS;
-    [self handleUserDormState: [NSNumber numberWithInt: dormState]];
+    [self handleUserDormState:state == CLRegionStateInside];
 }
 
 - (void)locationManager:(CLLocationManager *)manager didFailWithError:(NSError *)error
 {
-    NSLog(@"locationManager didFailWithError: %@", error);
-//    UIAlertView *errorAlert = [[UIAlertView alloc]
-//                               initWithTitle:@"Error" message:@"Failed to Get Your Location" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
-//    [errorAlert show];
+    NSLog(@"didFailWithError: %@", error);
+    UIAlertView *errorAlert = [[UIAlertView alloc]
+                               initWithTitle:@"Error" message:@"Failed to Get Your Location" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+    [errorAlert show];
 }
 
 //- (void)locationManager:(CLLocationManager *)manager
@@ -97,11 +89,8 @@ const static int NOT_BROADCASTING_DORM_STATUS = 2;
 //    }
 //}
 
-
 - (void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation
 {
-    [self locationManager:manager didUpdateLocations:@[oldLocation, newLocation]];
-    
     static BOOL firstTime=TRUE;
     if(firstTime)
     {
@@ -117,15 +106,31 @@ const static int NOT_BROADCASTING_DORM_STATUS = 2;
                  CLLocationDistance radius = region.radius;
                  
                  NSNumber * currentLocationDistance =[self calculateDistanceInMetersBetweenCoord:currentCoords coord:centerCoords];
-                 
-                 int dormState = AWAY_DORM_STATUS;
-                 if ([currentLocationDistance floatValue] < radius)
-                     dormState = IN_DORM_STATUS;
-                 [self handleUserDormState: [NSNumber numberWithInt: dormState]];
+                 [self handleUserDormState:[currentLocationDistance floatValue] < radius];
+//                 if([currentLocationDistance floatValue] < radius)
+//                 {
+//                     NSLog(@"Invoking didEnterRegion Manually for region: %@",identifer);
+//                     
+//                     //stop Monitoring Region temporarily
+//                     [self.locationManager stopMonitoringForRegion:region];
+//                     
+//                     [self locationManager:self.locationManager didEnterRegion:region];
+//                     //start Monitoing Region again.
+//                     [self.locationManager startMonitoringForRegion:region];
+//                 }
+//                 else {
+//                     //stop Monitoring Region temporarily
+//                     [self.locationManager stopMonitoringForRegion:region];
+//                     
+//                     [self locationManager:self.locationManager didExitRegion:region];
+//                     //start Monitoing Region again.
+//                     [self.locationManager startMonitoringForRegion:region];
+//                 }
              }];
         }
         //Stop Location Updation, we dont need it now.
         [self.locationManager stopUpdatingLocation];
+        
     }
 }
 
@@ -172,132 +177,4 @@ const static int NOT_BROADCASTING_DORM_STATUS = 2;
     }
     return  region;
 }
-static BOOL _started = NO;
-static LocationManager *_sharedInstance = nil;
-static CLLocationManager *_locationManager = nil;
-static CLLocation *_location = nil;
-
-- (CLLocationManager *)locationManager
-{
-    if (!_locationManager) {
-    }
-    return _locationManager;
-}
-
-+ (void)start
-{
-    @synchronized(self) {
-        if (self.isStarted) {
-            return;
-        }
-        _location = nil;
-        if (!_locationManager) {
-            _locationManager = [[CLLocationManager alloc] init];
-            _locationManager.delegate = _sharedInstance = [[LocationManager alloc] init];
-        }
-        [_locationManager performSelectorOnMainThread:@selector(startUpdatingLocation) withObject:nil waitUntilDone:YES];
-        _started = YES;
-    }
-}
-
-+ (void)stop
-{
-    @synchronized(self) {
-        if (!self.isStarted) {
-            return;
-        }
-        [_locationManager performSelectorOnMainThread:@selector(stopUpdatingLocation) withObject:nil waitUntilDone:YES];
-        _location = nil;
-        _started = NO;
-    }
-}
-
-+ (BOOL)isAuthorizationDecided
-{
-    return ([CLLocationManager authorizationStatus] != kCLAuthorizationStatusNotDetermined);
-}
-
-+ (BOOL)isAuthorized
-{
-    return ([CLLocationManager authorizationStatus] == kCLAuthorizationStatusAuthorized);
-}
-
-+ (BOOL)isStarted
-{
-    @synchronized(self) {
-        return _started;
-    }
-}
-
-+ (CLLocation *)currentLocationByWaitingUpToMilliseconds:(NSUInteger)milliseconds
-{
-    // wait for an authorization decision first
-    while (!self.isAuthorizationDecided) {
-        [[NSRunLoop currentRunLoop] runUntilDate: [NSDate dateWithTimeIntervalSinceNow:0.001]];
-    }
-    
-    if (!self.isAuthorized) {
-        NSLog(@"LocationManager: ERROR not authorized to read location");
-        return nil;
-    }
-    [self start]; // make sure we're started
-    
-    NSDate *end = (milliseconds) ? [NSDate dateWithTimeIntervalSinceNow:milliseconds / 1000.0] : nil;
-    
-    while (!milliseconds || [(NSDate *)NSDate.date compare:end] != NSOrderedDescending) {
-        if (_location) {
-            CLLocation * ret = _location;
-            [self stop];
-            return ret;
-        }
-        // sleep 1 ms, doesnt allow runloop [NSThread sleepForTimeInterval:0.001];
-        [[NSRunLoop currentRunLoop] runUntilDate: [NSDate dateWithTimeIntervalSinceNow:0.001]];
-    }
-    NSLog(@"LocationManager: ERROR timeout after %d ms", milliseconds);
-    return nil;
-}
-
-- (void)locationManager:(CLLocationManager *)manager
-     didUpdateLocations:(NSArray *)locations
-{
-    CLLocation *location = locations.lastObject;
-    
-    NSTimeInterval age = [NSDate.date timeIntervalSinceDate:location.timestamp];
-    // if the time interval returned from core location is more than two minutes we ignore it because it might be from an old session
-    if (age >= 120.0) {
-        return;
-    }
-    // negative horizontal accuracy means no location fix
-    if (location.horizontalAccuracy < 0.0) {
-        return;
-    }
-    
-    // location should be good
-    _location = location;
-}
-
--       (void)locationManager:(CLLocationManager *)manager
- didChangeAuthorizationStatus:(CLAuthorizationStatus)status
-{
-    // if not authorized, clear the location
-    if (status != kCLAuthorizationStatusAuthorized) {
-        _location = nil;
-    }
-}
-
-//// deprecated, present for backward compatibility
-//- (void)locationManager:(CLLocationManager *)manager
-//    didUpdateToLocation:(CLLocation *)newLocation
-//           fromLocation:(CLLocation *)oldLocation {
-//    [self locationManager:manager didUpdateLocations:@[oldLocation, newLocation]];
-//}
-//
-//- (void)locationManager:(CLLocationManager *)manager
-//       didFailWithError:(NSError *)error
-//{
-//    NSLog(@"LocationManager: DELEGATE FAIL didFailWithError error:%@", error);
-//    _location = nil;
-//}
-
-
 @end

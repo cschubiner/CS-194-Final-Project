@@ -14,7 +14,6 @@
 		0C498F46189F1BBA003B87F6 /* LocationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C498F45189F1BBA003B87F6 /* LocationManager.m */; };
 		0C498F49189F22F5003B87F6 /* GroupNetworkRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C498F48189F22F5003B87F6 /* GroupNetworkRequest.m */; };
 		0C498F4F189F2EC9003B87F6 /* Group+Json.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C498F4E189F2EC9003B87F6 /* Group+Json.m */; };
-		0C8CA09E18A84C47001A9DD6 /* GroupTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C8CA09D18A84C47001A9DD6 /* GroupTableViewController.m */; };
 		0CBB52051896008C00B9615F /* UIColor+ColorHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CBB52041896008C00B9615F /* UIColor+ColorHelper.m */; };
 		0CDA0F011895E89500F5A1F8 /* ProfileUserNetworkRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CDA0F001895E89500F5A1F8 /* ProfileUserNetworkRequest.m */; };
 		3C82EF45418E4184B3617F06 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 68FF891EE5B44890A888CE02 /* libPods.a */; };
@@ -77,8 +76,6 @@
 		0C498F48189F22F5003B87F6 /* GroupNetworkRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GroupNetworkRequest.m; sourceTree = "<group>"; };
 		0C498F4D189F2EC9003B87F6 /* Group+Json.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Group+Json.h"; sourceTree = "<group>"; };
 		0C498F4E189F2EC9003B87F6 /* Group+Json.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "Group+Json.m"; sourceTree = "<group>"; };
-		0C8CA09C18A84C47001A9DD6 /* GroupTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GroupTableViewController.h; sourceTree = "<group>"; };
-		0C8CA09D18A84C47001A9DD6 /* GroupTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GroupTableViewController.m; sourceTree = "<group>"; };
 		0CBB52031896008C00B9615F /* UIColor+ColorHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+ColorHelper.h"; sourceTree = "<group>"; };
 		0CBB52041896008C00B9615F /* UIColor+ColorHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+ColorHelper.m"; sourceTree = "<group>"; };
 		0CDA0EFF1895E89500F5A1F8 /* ProfileUserNetworkRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProfileUserNetworkRequest.h; sourceTree = "<group>"; };
@@ -300,8 +297,6 @@
 			children = (
 				F2C51DD3188C944500489989 /* Opening */,
 				F2C51DD2188C943300489989 /* Home */,
-				0C8CA09C18A84C47001A9DD6 /* GroupTableViewController.h */,
-				0C8CA09D18A84C47001A9DD6 /* GroupTableViewController.m */,
 			);
 			name = ViewControllers;
 			sourceTree = "<group>";
@@ -530,7 +525,6 @@
 				0C498F49189F22F5003B87F6 /* GroupNetworkRequest.m in Sources */,
 				0C498F46189F1BBA003B87F6 /* LocationManager.m in Sources */,
 				F25DCF1F18A84EAD00710B03 /* MessageNetworkRequest.m in Sources */,
-				0C8CA09E18A84C47001A9DD6 /* GroupTableViewController.m in Sources */,
 				F2C51DA0188C887400489989 /* main.m in Sources */,
 				F2C51DFE188C9BAB00489989 /* AuthenticationHelper.m in Sources */,
 				F2C51DA4188C887400489989 /* cs194AppDelegate.m in Sources */,
