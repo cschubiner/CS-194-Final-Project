@@ -45,7 +45,6 @@
     
     [GroupNetworkRequest getGroupFromGroupID:[FlatAPIClientManager sharedClient].profileUser.groupID withCompletionBlock:^(NSError * error, Group * group) {
         [FlatAPIClientManager sharedClient].group = group;
-        NSLog(@"curr lat: %f", [[LocationManager sharedClient] currentLatitude]);
     }];
     
     return YES;

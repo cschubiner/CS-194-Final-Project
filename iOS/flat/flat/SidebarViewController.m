@@ -8,7 +8,7 @@
 
 #import "SidebarViewController.h"
 #import "cs194AppDelegate.h"
-
+#import "GroupTableViewController.h"
 
 @interface SidebarViewController ()
 
@@ -29,6 +29,14 @@ static const int NAV_BAR_HEIGHT = 64;
     return self;
 }
 
+-(void)viewDidAppear:(BOOL)animated {
+    ProfileUser * currUser = [FlatAPIClientManager sharedClient].profileUser;
+    [ProfileUserHelper getUsersFromGroupID:currUser.groupID withCompletionBlock:^(NSError * error, NSMutableArray * users) {
+        self.users = users;
+        [self.sideBarMenuTable reloadData];
+    }];
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -36,16 +44,6 @@ static const int NAV_BAR_HEIGHT = 64;
     self.sideBarMenuTable = [[UITableView alloc] initWithFrame:CGRectMake(0, NAV_BAR_HEIGHT, self.view.frame.size.width, self.view.frame.size.height)];
     self.sideBarMenuTable.delegate = self;
     self.sideBarMenuTable.dataSource = self;
-    
-    
-    ProfileUser * currUser = [FlatAPIClientManager sharedClient].profileUser;
-    [ProfileUserHelper getUsersFromGroupID:currUser.groupID withCompletionBlock:^(NSError * error, NSMutableArray * users) {
-        self.users = users;
-        [self.sideBarMenuTable reloadData];
-    }];
-    
-    
-    
     [self.view addSubview:self.sideBarMenuTable];
 }
 
@@ -56,7 +54,7 @@ static const int NAV_BAR_HEIGHT = 64;
 - (NSInteger)tableView:(UITableView *)tableView
  numberOfRowsInSection:(NSInteger)section
 {
-    return self.users.count + 2;
+    return self.users.count + 3;
 }
 
 
@@ -94,16 +92,38 @@ titleForHeaderInSection:(NSInteger)section
                                                        delegate: self
                                               cancelButtonTitle:@"Cancel"
                                               otherButtonTitles:@"Set Location", nil];
+        [alert setTag:0];
         [alert show];
+    }
+    else if (indexPath.row == [self.users count] + 2) {
+        [self performSegueWithIdentifier:@"SidebarToGroupTableView"
+                                  sender:self];
+//        GroupTableViewController * groupTableVC = [[GroupTableViewController alloc] init];
+//        [self presentViewController:groupTableVC animated:YES completion:nil];
+        
+    }
+}
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue
+                 sender:(id)sender
+{
+    if ([segue.identifier isEqualToString:@"SidebarToGroupTableView"]) {
+        
     }
 }
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
-    if (buttonIndex == 1) {
-        NSLog(@"user pressed OK");
-    }
-    else {
-        NSLog(@"user pressed Cancel");
+    if (alertView.tag == 0) { //set dorm location as current location
+        if (buttonIndex == 1) {
+            NSLog(@"user pressed OK");
+            CLLocation *location = [LocationManager currentLocationByWaitingUpToMilliseconds:4000];
+            
+            NSLog(@"current location: %f", location.coordinate.latitude);
+            NSLog(@"curr lat: %f", [[LocationManager sharedClient] currentLatitude]); //doesn't work. good.
+        }
+        else {
+            NSLog(@"user pressed Cancel");
+        }
     }
 }
 
@@ -114,6 +134,10 @@ titleForHeaderInSection:(NSInteger)section
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:MyIdentifier];
     if (cell == nil) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault  reuseIdentifier:MyIdentifier];
+    }
+    if (indexPath.row == [self.users count] + 2) {
+        cell.textLabel.text = @"Switch groups";
+        return cell;
     }
     if (indexPath.row == [self.users count] + 1) {
         cell.textLabel.text = @"Logout";

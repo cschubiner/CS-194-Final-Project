@@ -17,4 +17,12 @@
 @property (nonatomic) double currentLatitude;
 @property (nonatomic) double currentLongitude;
 
++ (CLLocation *)currentLocationByWaitingUpToMilliseconds:(NSUInteger)milliseconds;
+
++ (void)start;
++ (void)stop; // turn off the lights when you're done or kill the battery.
++ (BOOL)isStarted;
++ (BOOL)isAuthorized; // YES = location allowed
+
+
 @end
