@@ -39,9 +39,10 @@
     
 }
 
+
 + (void) setUserLocationWithUserID:(NSNumber*)userID
-                       andIsInDorm:(BOOL) isInDorm {
-    NSString * url = [NSString stringWithFormat:@"users/%@/indorm/%@", userID, (isInDorm) ? @"true" : @"false"];
+                       andIsInDorm:(NSNumber*) isInDormStatus {
+    NSString * url = [NSString stringWithFormat:@"user/%@/indorm/%@", userID, isInDormStatus];
     [[FlatAPIClientManager sharedClient]GET:url
                                  parameters:Nil
                                     success:^(NSURLSessionDataTask * task, id JSON) {
@@ -54,6 +55,26 @@
                                     }
                                     failure: ^(NSURLSessionDataTask *__unused task, NSError *error) {
                                         NSLog(@"error");
+                                    }];
+}
+
+
++ (void) setGroupIDForUser:(NSNumber*)userID
+                   groupID:(NSNumber*)groupID {
+    NSString * url = [NSString stringWithFormat:@"user/%@/changegroupid/%@", userID, groupID];
+    [[FlatAPIClientManager sharedClient]GET:url
+                                 parameters:Nil
+                                    success:^(NSURLSessionDataTask * task, id JSON) {
+                                        NSError *error = [ErrorHelper apiErrorFromDictionary:JSON];
+                                        if (!error) {
+                                            NSLog(@"successfully set user group id");
+                                            [[[FlatAPIClientManager sharedClient]profileUser] setGroupID:groupID];
+                                        } else {
+                                            NSLog(@"error when setting user group id");
+                                        }
+                                    }
+                                    failure: ^(NSURLSessionDataTask *__unused task, NSError *error) {
+                                        NSLog(@"error in setting group id");
                                     }];
 }
 
