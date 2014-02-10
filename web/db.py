@@ -14,14 +14,13 @@ from sqlalchemy.orm import sessionmaker, scoped_session
 from flask import Flask
 from flask import render_template
 from sqlalchemy import Column, Integer, String
+import utils
 import facebook
 import urllib2
-from flask import Response, jsonify
-import json
 
 MAX_LENGTH = 50
 
-engine = create_engine('mysql+gaerdbms:///add7?instance=flatappapi:db0')
+engine = create_engine('mysql+gaerdbms:///add8?instance=flatappapi:db0')
 db_session = scoped_session(sessionmaker(autocommit=False,
                                          autoflush=False,
                                          bind=engine))
@@ -48,8 +47,6 @@ def get_group_id():
     db_session.commit()
     return temp
 
-
-
 '''
     function: add_user
     params: access token of the specified user
@@ -62,15 +59,16 @@ def add_user(access_token):
     graph = facebook.GraphAPI(access_token)
     profile = graph.get_object("me")
     friends = graph.get_connections("me", "friends")
-    request_picture_url = "http://graph.facebook.com/"+profile['id']+"/picture"
+    request_picture_url = "http://graph.facebook.com/" + profile['id']+"/picture"
     picture_url = urllib2.urlopen(request_picture_url).geturl()
 
-    new_group = models.Group(curr_color=0)
+    new_group = models.Group(curr_color=0, latitude=0.0, longitude=0.0)
 
     new_group.users = [
         models.User(
             fb_id = profile["id"],
             color_id = 0,
+            is_near_dorm = False,
             first_name = profile["first_name"],
             last_name = profile["last_name"],
             image_url = picture_url,
@@ -78,14 +76,11 @@ def add_user(access_token):
         )
     ]
 
-    print new_group.users
-
     db_session.add(new_group)
     db_session.commit()
 
     query = db_session.query(models.User).all()
-    print query
-    return obj_to_json('user', new_group.users[0])
+    return utils.obj_to_json('user', new_group.users[0])
 
 '''
     Function: in_group
@@ -101,22 +96,69 @@ def in_group(fbid):
 
 '''
     Given a group id, fetch all users in that group
+    @params, group_id, the id of the group
+    @return, JSON representation of the users in the group
 '''
 def get_all_users(g_id):
-    return db_session.query(models.User).filter(models.User.group_id==g_id).all()
 
-def rollback():
-    session.rollback()
+    # Execute query, result is a SQLalchemy array
+    query_result = db_session.query(models.User).filter(models.User.group_id==g_id).all()
 
-def list_to_json(response_type, obj_list):
-    if obj_list:
-        return Response(response=json.dumps({response_type:[i.serialize for i in obj_list]}), status=200,mimetype="application/json")
-    return "{}"
+    # Return valid json
+    return utils.list_to_json('users', query_result)
 
-def obj_to_json(response_type, obj):
-    return Response(response=json.dumps({response_type: obj.serialize}), status=200,mimetype="application/json")
+'''
+    Given a facebook id (fb_id), fetch all the information
+    about that user form the DB.
+    @params: fb_id, the facebook_id
+    @return: valid JSON representing that user
+'''
+def get_user_by_fbid(fb_id):
+    # Execute query, result is a SQLalchemy object, or nothing
+    # TODO: Do error checking
+    result = db_session.query(models.User).filter(models.User.fb_id==fb_id).first()
+    return utils.obj_to_json('user', result)
 
-# TODO: implement this,
-def add_user_by_fb_id(fbid):
-    pass
+'''
+    @params, fb_id(integer), status(boolean)
+    @return, boolean indicating success or failure
+'''
+def update_dorm_status(fb_id, status):
+    result = db_session.query(models.User).filter(models.User.fb_id==fb_id).first()
+    if result:
+        result.is_near_dorm = status
+        db_session.commit()
+    return True
+
+'''
+    params: access_token, the facebook access token
+    return: the facebook id corresponding to the access token
+'''
+def get_fbid(access_token):
+    graph = facebook.GraphAPI(access_token)
+    profile = graph.get_object("me")
+    return profile['id']
+
+def change_group_id(fb_id, new_group):
+    result = db_session.query(models.User).filter(models.User.fb_id == fb_id).first()
+    if result:
+        # Changing a group_id to the same group_id will cause a server error
+        if result.group_id == new_group:
+            return utils.obj_to_json('user', result)
+
+        result.group_id = new_group
+        temp = result
+        db_session.commit()
+        return utils.obj_to_json('user',temp)
+    return utils.obj_to_json({})
+
+def update_location(group, lat, lon):
+    result = db_session.query(models.Group).filter(models.Group.id == group).first()
+    if result:
+        result.latitude = lat
+        result.longitude = lon
+        temp = result
+        db_session.commit()
+        return utils.obj_to_json('group', temp)
+
 

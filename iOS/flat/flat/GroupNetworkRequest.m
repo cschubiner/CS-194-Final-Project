@@ -34,4 +34,10 @@
                                     }];
 }
 
++ (void) setGroupLocation:(NSNumber*)groupID
+             withLocation: (CLLocation *) location
+      withCompletionBlock:(RequestGroupCompletionHandler)completionBlock {
+    
+}
+
 @end

@@ -27,16 +27,16 @@ PODS:
   - SDWebImage (3.5.2):
     - SDWebImage/Core
   - SDWebImage/Core (3.5.2)
-  - ShareKit/Core (2.5.1):
+  - ShareKit/Core (2.5.3):
     - ShareKit/NoARC
     - ShareKit/Reachability
     - SSKeychain (~> 0.2.1)
     - SSToolkit (~> 1.0.4)
-  - ShareKit/Facebook (2.5.1):
+  - ShareKit/Facebook (2.5.3):
     - Facebook-iOS-SDK
     - ShareKit/Core
-  - ShareKit/NoARC (2.5.1)
-  - ShareKit/Reachability (2.5.1)
+  - ShareKit/NoARC (2.5.3)
+  - ShareKit/Reachability (2.5.3)
   - SSKeychain (0.2.1)
   - SSToolkit (1.0.4)
 
@@ -60,7 +60,7 @@ SPEC CHECKSUMS:
   MagicalRecord: b1fc46c99a9749fe7fe7e6f43a89b62ef5201933
   MBProgressHUD: 2bbc6f470111daf7f3eaa4eb12b8cbf01c4c0622
   SDWebImage: fe7ce01ae4e0a884d168f59c9dd82d35baf8429e
-  ShareKit: f9755d3aca16e3cf795597c4ef724b05f667d13c
+  ShareKit: 1c6a9a552e751ad5c846d1c8466db659b9b9668f
   SSKeychain: ffa1a79eb716d9ed1ca184fb0cf218087ca28486
   SSToolkit: 689acaedac79c2079e492e528a55bcb5db9d98c4
 

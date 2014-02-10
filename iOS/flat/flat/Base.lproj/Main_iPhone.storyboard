@@ -96,11 +96,42 @@
                     </view>
                     <connections>
                         <segue destination="gl6-35-bRd" kind="push" identifier="SidebarToHome" id="w1D-BL-A1a"/>
+                        <segue destination="4Nf-yR-N3T" kind="push" identifier="SidebarToGroupTableView" id="Rbl-61-KFb"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Dmz-ne-PFa" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="753" y="717"/>
+        </scene>
+        <!--Group Table View Controller-->
+        <scene sceneID="Ty4-KO-7lu">
+            <objects>
+                <tableViewController storyboardIdentifier="GroupTableViewController" id="4Nf-yR-N3T" customClass="GroupTableViewController" sceneMemberID="viewController">
+                    <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="Dqg-LQ-mdP">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <prototypes>
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="QJI-9S-fQk">
+                                <rect key="frame" x="0.0" y="22" width="320" height="44"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="QJI-9S-fQk" id="gmg-vH-ngN">
+                                    <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </tableViewCellContentView>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="4Nf-yR-N3T" id="f2I-bh-KbJ"/>
+                            <outlet property="delegate" destination="4Nf-yR-N3T" id="Bl3-bJ-gku"/>
+                        </connections>
+                    </tableView>
+                    <extendedEdge key="edgesForExtendedLayout" bottom="YES"/>
+                    <navigationItem key="navigationItem" id="Rv4-eV-hhO"/>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="QE1-bK-8M2" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1467" y="19"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="AGk-ZA-fls">
@@ -116,7 +147,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="cxe-13-LCk" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1245" y="717"/>
+            <point key="canvasLocation" x="1363" y="711"/>
         </scene>
         <!--Home View Controller-->
         <scene sceneID="mXY-ep-dfx">
@@ -144,7 +175,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="JLz-sH-5kq" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1719" y="705"/>
+            <point key="canvasLocation" x="1861" y="703"/>
         </scene>
     </scenes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">

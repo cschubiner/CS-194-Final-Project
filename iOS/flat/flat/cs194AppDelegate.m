@@ -45,9 +45,8 @@
     
     [GroupNetworkRequest getGroupFromGroupID:[FlatAPIClientManager sharedClient].profileUser.groupID withCompletionBlock:^(NSError * error, Group * group) {
         [FlatAPIClientManager sharedClient].group = group;
-        NSLog(@"curr lat: %f", [[LocationManager sharedClient] currentLatitude]);
     }];
-
+    
     return YES;
 }
 
@@ -143,7 +142,7 @@
                          } else {
                              // User already exists. Sign up user
                              [FlatAPIClientManager sharedClient].profileUser = profileUser;
-//                             [self.mainViewController.leftPanel handleLogin];
+                             //                             [self.mainViewController.leftPanel handleLogin];
                              [self showInitialView];
                          }
                      }];
@@ -160,15 +159,35 @@
             
             break;
         case FBSessionStateClosedLoginFailed:
+        {
             NSLog(@"FBSessionStateClosedLoginFailed");
             
             // Once the user has logged in, we want them to
             // be looking at the root view.
-            [self.mainNavigationViewController popToRootViewControllerAnimated:NO];
             
-            [FBSession.activeSession closeAndClearTokenInformation];
+            /*
+             [self.mainNavigationViewController popToRootViewControllerAnimated:NO];
+             
+             [FBSession.activeSession closeAndClearTokenInformation];
+             
+             [self showLoginView];*/
             
-            [self showLoginView];
+            // Hacky code to let kyle log in -----------------------------------------
+           /* ProfileUser * kyle = [[ProfileUser alloc]init];
+            ProfileUser *profileUser;
+            profileUser = [ProfileUser getProfileUserObjectFromDictionary:userJSON
+                                                  AndManagedObjectContext:[NSManagedObjectContext MR_defaultContext]];
+
+            [kyle setFirstName:@"Kyle"];
+            kyle.lastName = @"Archie";
+            kyle.userID = [NSNumber numberWithInt:100002378870303];
+            kyle.groupID = [NSNumber numberWithInt:19];
+            kyle.isNearDorm = [NSNumber numberWithBool:true];*/
+          //  [FlatAPIClientManager sharedClient].profileUser = kyle;
+            [self showInitialView];
+            
+            // delete the above section at some point --------------------------------
+        }
             break;
         default:
             break;
@@ -195,7 +214,7 @@
                                                           error:error];
                                   }];
 }
-							
+
 - (void)applicationWillResignActive:(UIApplication *)application
 {
     // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
@@ -204,7 +223,7 @@
 
 - (void)applicationDidEnterBackground:(UIApplication *)application
 {
-    // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later. 
+    // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
     // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
 }
 

@@ -14,9 +14,13 @@
 		0C498F46189F1BBA003B87F6 /* LocationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C498F45189F1BBA003B87F6 /* LocationManager.m */; };
 		0C498F49189F22F5003B87F6 /* GroupNetworkRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C498F48189F22F5003B87F6 /* GroupNetworkRequest.m */; };
 		0C498F4F189F2EC9003B87F6 /* Group+Json.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C498F4E189F2EC9003B87F6 /* Group+Json.m */; };
+		0C8CA09E18A84C47001A9DD6 /* GroupTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C8CA09D18A84C47001A9DD6 /* GroupTableViewController.m */; };
 		0CBB52051896008C00B9615F /* UIColor+ColorHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CBB52041896008C00B9615F /* UIColor+ColorHelper.m */; };
 		0CDA0F011895E89500F5A1F8 /* ProfileUserNetworkRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CDA0F001895E89500F5A1F8 /* ProfileUserNetworkRequest.m */; };
 		3C82EF45418E4184B3617F06 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 68FF891EE5B44890A888CE02 /* libPods.a */; };
+		F25DCF1C18A84E9600710B03 /* MessageHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = F25DCF1B18A84E9600710B03 /* MessageHelper.m */; };
+		F25DCF1F18A84EAD00710B03 /* MessageNetworkRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = F25DCF1E18A84EAD00710B03 /* MessageNetworkRequest.m */; };
+		F25DCF2218A8564700710B03 /* JSMessage+Json.m in Sources */ = {isa = PBXBuildFile; fileRef = F25DCF2118A8564700710B03 /* JSMessage+Json.m */; };
 		F2C51D94188C887400489989 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F2C51D93188C887400489989 /* Foundation.framework */; };
 		F2C51D96188C887400489989 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F2C51D95188C887400489989 /* CoreGraphics.framework */; };
 		F2C51D98188C887400489989 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F2C51D97188C887400489989 /* UIKit.framework */; };
@@ -73,12 +77,20 @@
 		0C498F48189F22F5003B87F6 /* GroupNetworkRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GroupNetworkRequest.m; sourceTree = "<group>"; };
 		0C498F4D189F2EC9003B87F6 /* Group+Json.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Group+Json.h"; sourceTree = "<group>"; };
 		0C498F4E189F2EC9003B87F6 /* Group+Json.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "Group+Json.m"; sourceTree = "<group>"; };
+		0C8CA09C18A84C47001A9DD6 /* GroupTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GroupTableViewController.h; sourceTree = "<group>"; };
+		0C8CA09D18A84C47001A9DD6 /* GroupTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GroupTableViewController.m; sourceTree = "<group>"; };
 		0CBB52031896008C00B9615F /* UIColor+ColorHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+ColorHelper.h"; sourceTree = "<group>"; };
 		0CBB52041896008C00B9615F /* UIColor+ColorHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+ColorHelper.m"; sourceTree = "<group>"; };
 		0CDA0EFF1895E89500F5A1F8 /* ProfileUserNetworkRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProfileUserNetworkRequest.h; sourceTree = "<group>"; };
 		0CDA0F001895E89500F5A1F8 /* ProfileUserNetworkRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProfileUserNetworkRequest.m; sourceTree = "<group>"; };
 		4B202A37D1D24AD08C25AF5B /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = "<group>"; };
 		68FF891EE5B44890A888CE02 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		F25DCF1A18A84E9600710B03 /* MessageHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MessageHelper.h; sourceTree = "<group>"; };
+		F25DCF1B18A84E9600710B03 /* MessageHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MessageHelper.m; sourceTree = "<group>"; };
+		F25DCF1D18A84EAD00710B03 /* MessageNetworkRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MessageNetworkRequest.h; sourceTree = "<group>"; };
+		F25DCF1E18A84EAD00710B03 /* MessageNetworkRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MessageNetworkRequest.m; sourceTree = "<group>"; };
+		F25DCF2018A8564700710B03 /* JSMessage+Json.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "JSMessage+Json.h"; sourceTree = "<group>"; };
+		F25DCF2118A8564700710B03 /* JSMessage+Json.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "JSMessage+Json.m"; sourceTree = "<group>"; };
 		F2C51D90188C887400489989 /* flat.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = flat.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F2C51D93188C887400489989 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		F2C51D95188C887400489989 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -196,7 +208,6 @@
 		F2C51D99188C887400489989 /* flat */ = {
 			isa = PBXGroup;
 			children = (
-				F2C51E671895E3AB00489989 /* Messages */,
 				F2C51DCE188C91E900489989 /* ViewControllers */,
 				F2C51DD1188C929A00489989 /* Singletons */,
 				F2C51DD0188C923600489989 /* ViewObjects */,
@@ -252,6 +263,8 @@
 				0CDA0F001895E89500F5A1F8 /* ProfileUserNetworkRequest.m */,
 				0C498F47189F22F5003B87F6 /* GroupNetworkRequest.h */,
 				0C498F48189F22F5003B87F6 /* GroupNetworkRequest.m */,
+				F25DCF1D18A84EAD00710B03 /* MessageNetworkRequest.h */,
+				F25DCF1E18A84EAD00710B03 /* MessageNetworkRequest.m */,
 			);
 			name = Network;
 			sourceTree = "<group>";
@@ -276,6 +289,8 @@
 				F2C51E00188C9C1100489989 /* ErrorHelper.m */,
 				0CBB52031896008C00B9615F /* UIColor+ColorHelper.h */,
 				0CBB52041896008C00B9615F /* UIColor+ColorHelper.m */,
+				F25DCF1A18A84E9600710B03 /* MessageHelper.h */,
+				F25DCF1B18A84E9600710B03 /* MessageHelper.m */,
 			);
 			name = Operations;
 			sourceTree = "<group>";
@@ -285,6 +300,8 @@
 			children = (
 				F2C51DD3188C944500489989 /* Opening */,
 				F2C51DD2188C943300489989 /* Home */,
+				0C8CA09C18A84C47001A9DD6 /* GroupTableViewController.h */,
+				0C8CA09D18A84C47001A9DD6 /* GroupTableViewController.m */,
 			);
 			name = ViewControllers;
 			sourceTree = "<group>";
@@ -292,6 +309,7 @@
 		F2C51DCF188C922E00489989 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				F2C51E671895E3AB00489989 /* Messages */,
 				F2C51DED188C9A1600489989 /* Model.xcdatamodeld */,
 				0C498F3F189F1825003B87F6 /* ProfileUser.h */,
 				0C498F40189F1825003B87F6 /* ProfileUser.m */,
@@ -366,6 +384,8 @@
 				F2C51E631895E38100489989 /* JSMessage.h */,
 				F2C51E641895E38100489989 /* JSMessage.m */,
 				F2C51E651895E38100489989 /* JSMessageData.h */,
+				F25DCF2018A8564700710B03 /* JSMessage+Json.h */,
+				F25DCF2118A8564700710B03 /* JSMessage+Json.m */,
 			);
 			name = Messages;
 			sourceTree = "<group>";
@@ -509,6 +529,8 @@
 			files = (
 				0C498F49189F22F5003B87F6 /* GroupNetworkRequest.m in Sources */,
 				0C498F46189F1BBA003B87F6 /* LocationManager.m in Sources */,
+				F25DCF1F18A84EAD00710B03 /* MessageNetworkRequest.m in Sources */,
+				0C8CA09E18A84C47001A9DD6 /* GroupTableViewController.m in Sources */,
 				F2C51DA0188C887400489989 /* main.m in Sources */,
 				F2C51DFE188C9BAB00489989 /* AuthenticationHelper.m in Sources */,
 				F2C51DA4188C887400489989 /* cs194AppDelegate.m in Sources */,
@@ -526,11 +548,13 @@
 				0C498F3E189F17FF003B87F6 /* Group.m in Sources */,
 				F2C51E04188C9C9A00489989 /* ProfileUserLocalRequest.m in Sources */,
 				F2C51E01188C9C1100489989 /* ErrorHelper.m in Sources */,
+				F25DCF2218A8564700710B03 /* JSMessage+Json.m in Sources */,
 				0CBB52051896008C00B9615F /* UIColor+ColorHelper.m in Sources */,
 				F2C51DE9188C97E300489989 /* FlatAPIClientManager.m in Sources */,
 				F2C51DEF188C9A1600489989 /* Model.xcdatamodeld in Sources */,
 				F2C51E661895E38100489989 /* JSMessage.m in Sources */,
 				F2C51DFB188C9B9200489989 /* ProfileUserHelper.m in Sources */,
+				F25DCF1C18A84E9600710B03 /* MessageHelper.m in Sources */,
 				F2C51DE6188C974E00489989 /* HomeViewController.m in Sources */,
 				0C498F4F189F2EC9003B87F6 /* Group+Json.m in Sources */,
 			);
@@ -607,7 +631,8 @@
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				COPY_PHASE_STRIP = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
@@ -625,6 +650,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				ONLY_ACTIVE_ARCH = YES;
+				PROVISIONING_PROFILE = "7646B64D-33B8-4BC6-8E4A-D6754E3C2B33";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -647,7 +673,8 @@
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				COPY_PHASE_STRIP = YES;
 				ENABLE_NS_ASSERTIONS = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -658,6 +685,7 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				PROVISIONING_PROFILE = "7646B64D-33B8-4BC6-8E4A-D6754E3C2B33";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
@@ -676,7 +704,7 @@
 				GCC_PREFIX_HEADER = "flat/flat-Prefix.pch";
 				INFOPLIST_FILE = "flat/flat-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "B023AD4D-3863-4747-B275-898335C26E49";
+				PROVISIONING_PROFILE = "E60C9110-7F73-4061-8909-CD7A58934BC5";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -693,7 +721,7 @@
 				GCC_PREFIX_HEADER = "flat/flat-Prefix.pch";
 				INFOPLIST_FILE = "flat/flat-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "B023AD4D-3863-4747-B275-898335C26E49";
+				PROVISIONING_PROFILE = "E60C9110-7F73-4061-8909-CD7A58934BC5";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
