@@ -29,7 +29,8 @@ static const int NAV_BAR_HEIGHT = 64;
     return self;
 }
 
--(void)viewDidAppear:(BOOL)animated {
+
+-(void)viewWillAppear:(BOOL)animated {
     ProfileUser * currUser = [FlatAPIClientManager sharedClient].profileUser;
     [ProfileUserHelper getUsersFromGroupID:currUser.groupID withCompletionBlock:^(NSError * error, NSMutableArray * users) {
         self.users = users;
