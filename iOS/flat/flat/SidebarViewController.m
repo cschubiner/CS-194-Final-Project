@@ -96,7 +96,7 @@ titleForHeaderInSection:(NSInteger)section
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return 100;
+    return 90;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView
@@ -110,7 +110,7 @@ titleForHeaderInSection:(NSInteger)section
     UITableViewCell*  cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault  reuseIdentifier:MyIdentifier];
     
     [tableView setSeparatorStyle:UITableViewCellSeparatorStyleNone];
-    tableView.backgroundColor = [UIColor blackColor];
+    tableView.backgroundColor = [UIColor darkGrayColor];
     
     ProfileUser * user = [self.users objectAtIndex: indexPath.row];
     
@@ -124,11 +124,11 @@ titleForHeaderInSection:(NSInteger)section
                                                                      geoImages[user.isNearDorm.intValue]]];
     locationImage.frame = CGRectMake(4,40,20,20);
     
-    UILabel *name = [[UILabel alloc]initWithFrame:CGRectMake(58, 15, 70, 70)];
-    name.textColor = [UIColor blackColor];
-    name.font = [UIFont fontWithName:@"helvetica neue" size:25];
+    UILabel *name = [[UILabel alloc]initWithFrame:CGRectMake(60, 16, 70, 70)];
+    name.textColor = [UIColor whiteColor];
+    name.font = [UIFont fontWithName:@"courier" size:25];
     
-    cell.backgroundColor = [UIColor blackColor];
+    cell.backgroundColor = [UIColor darkGrayColor];
     [cell.contentView addSubview:circleView];
     [cell.contentView addSubview:name];
     [cell.contentView addSubview:locationImage];

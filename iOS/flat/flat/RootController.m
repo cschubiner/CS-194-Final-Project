@@ -28,7 +28,7 @@
     [super viewDidLoad];
     
     //edit for width of the sidebar
-    self.leftFixedWidth = self.view.frame.size.width * .45;
+    self.leftFixedWidth = self.view.frame.size.width * .40;
     self.rightGapPercentage = 0.0f;
     self.allowRightSwipe = NO;
     self.allowRightOverpan= NO;
