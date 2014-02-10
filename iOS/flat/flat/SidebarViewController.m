@@ -16,9 +16,8 @@
 
 @end
 
-
-const static int IN_DORM_STATUS = 1;
 const static int AWAY_DORM_STATUS = 0;
+const static int IN_DORM_STATUS = 1;
 const static int NOT_BROADCASTING_DORM_STATUS = 2;
 
 
@@ -40,14 +39,24 @@ static const int NAV_BAR_HEIGHT = 64;
     return self;
 }
 
-
--(void)viewWillAppear:(BOOL)animated {
+-(void)refreshUsers {
     ProfileUser * currUser = [FlatAPIClientManager sharedClient].profileUser;
     [ProfileUserHelper getUsersFromGroupID:currUser.groupID withCompletionBlock:^(NSError * error, NSMutableArray * users) {
         self.users = users;
         [self.sideBarMenuTable reloadData];
     }];
 }
+
+-(void)viewWillAppear:(BOOL)animated {
+    
+    [self refreshUsers];
+    [NSTimer scheduledTimerWithTimeInterval:8.0
+                                     target:self
+                                   selector:@selector(refreshUsers)
+                                   userInfo:nil
+                                    repeats:YES];
+}
+
 
 - (void)viewDidLoad
 {
@@ -94,10 +103,11 @@ titleForHeaderInSection:(NSInteger)section
          cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     static NSString *MyIdentifier = @"MyReuseIdentifier";
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:MyIdentifier];
-    if (cell == nil) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault  reuseIdentifier:MyIdentifier];
-    }
+//    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:MyIdentifier];
+//    if (cell == nil) {
+//        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault  reuseIdentifier:MyIdentifier];
+//    }
+    UITableViewCell*  cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault  reuseIdentifier:MyIdentifier];
     
     [tableView setSeparatorStyle:UITableViewCellSeparatorStyleNone];
     tableView.backgroundColor = [UIColor blackColor];
@@ -109,7 +119,7 @@ titleForHeaderInSection:(NSInteger)section
     circleView.layer.cornerRadius = 35;
     circleView.backgroundColor = colorArray[user.colorID.intValue];
     
-    NSArray *geoImages = [NSArray arrayWithObjects:@"arrow-small.png", @"arrow-hollow-small.png", @"arrow-empty-small.png", nil];
+    NSArray *geoImages = [NSArray arrayWithObjects:@"arrow-hollow-small.png", @"arrow-small.png", @"arrow-empty-small.png", nil];
     UIImageView *locationImage = [[UIImageView alloc] initWithImage:[UIImage imageNamed:
                                                                      geoImages[user.isNearDorm.intValue]]];
     locationImage.frame = CGRectMake(4,40,20,20);
