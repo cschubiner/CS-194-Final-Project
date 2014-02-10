@@ -28,7 +28,7 @@
     [super viewDidLoad];
     
     //edit for width of the sidebar
-    self.leftFixedWidth = self.view.frame.size.width * .8;
+    self.leftFixedWidth = self.view.frame.size.width * .40;
     self.rightGapPercentage = 0.0f;
     self.allowRightSwipe = NO;
     self.allowRightOverpan= NO;
@@ -41,7 +41,32 @@
     self.navigationController.navigationBar.alpha = 0;
     [[self navigationItem] setTitle:@"Flat"];
     
+//    UIBarButtonItem *leftBarButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"menubar"]
+//                                                                      style:UIBarButtonItemStylePlain
+//                                                                     target:self
+//                                                                     action:@selector(toggleSidebarMenu:)];
+    UIBarButtonItem* lbb = [[UIBarButtonItem alloc]initWithTitle:@"Settings" style:UIBarButtonItemStyleBordered target:self action:@selector(openSettings)];
+
+    
+//    self.navigationItem.leftBarButtonItem = leftBarButton;
+    self.navigationItem.leftBarButtonItem = lbb;
+    
+    /*
+    UIBarButtonItem *rightBarButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"notify_icon"]
+                                                                       style:UIBarButtonItemStylePlain
+                                                                      target:self
+                                                                      action:@selector(showNotifications:)];
+    self.navigationItem.rightBarButtonItem = rightBarButton;
+    self.navigationItem.rightBarButtonItem.tintColor = [UIColor colorWithRed:109.0/255.0
+                                                                       green:207.0/255.0
+                                                                        blue:246.0/255.0
+                                                                       alpha:1.0];
+    */
     self.navigationController.toolbarHidden = TRUE;
+}
+
+-(void)openSettings {
+    [self performSegueWithIdentifier:@"RootToSettingsViewController" sender:self];
 }
 
 - (void)viewDidAppear:(BOOL)animated

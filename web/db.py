@@ -17,10 +17,11 @@ from sqlalchemy import Column, Integer, String
 import utils
 import facebook
 import urllib2
+import datetime
 
 MAX_LENGTH = 50
 
-engine = create_engine('mysql+gaerdbms:///add8?instance=flatappapi:db0')
+engine = create_engine('mysql+gaerdbms:///add9?instance=flatappapi:db0')
 db_session = scoped_session(sessionmaker(autocommit=False,
                                          autoflush=False,
                                          bind=engine))
@@ -114,10 +115,12 @@ def get_all_users(g_id):
     @return: valid JSON representing that user
 '''
 def get_user_by_fbid(fb_id):
-    # Execute query, result is a SQLalchemy object, or nothing
+    # Execute query, result is a SQLAlchemy object, or nothing
     # TODO: Do error checking
     result = db_session.query(models.User).filter(models.User.fb_id==fb_id).first()
-    return utils.obj_to_json('user', result)
+    if result is not None:
+        return utils.obj_to_json('user', result)
+    return None
 
 '''
     @params, fb_id(integer), status(boolean)
@@ -143,7 +146,7 @@ def change_group_id(fb_id, new_group):
     result = db_session.query(models.User).filter(models.User.fb_id == fb_id).first()
     if result:
         # Changing a group_id to the same group_id will cause a server error
-        if result.group_id == new_group:
+        if int(result.group_id) == int(new_group):
             return utils.obj_to_json('user', result)
 
         result.group_id = new_group
@@ -160,5 +163,35 @@ def update_location(group, lat, lon):
         temp = result
         db_session.commit()
         return utils.obj_to_json('group', temp)
+    return utils.to_app_json({})
 
+def get_messages(fb_id):
+    user = db_session.query(models.User).filter(models.User.fb_id == fb_id).first()
+    group_id = user.group_id
+    all_messages = db_session.query(models.Message).filter(models.Message.group_id == group_id).order_by(models.Message.time_stamp).all()
+    return utils.list_to_json('messages', all_messages)
+
+def add_new_message(body, fb_id):
+    user = db_session.query(models.User).filter(models.User.fb_id == fb_id).first()
+    group_id = user.group_id
+
+    if user is not None:
+        new_msg = models.Message(
+            body = body,
+            time_stamp = datetime.datetime.utcnow(),
+            user_id = fb_id,
+            group_id = user.group_id
+        )
+
+        db_session.add(new_msg)
+        db_session.commit()
+        # TODO: this query is probably buggy
+        all_messages = db_session.query(models.Message).filter(models.Message.group_id == group_id).order_by(models.Message.time_stamp).all()
+        return utils.list_to_json('messages', all_messages)
+
+def get_name_from_fbid(fb_id):
+    user = db_session.query(models.User).filter(models.User.fb_id == fb_id).first()
+    if user is not None:
+        return user.first_name
+    return None
 

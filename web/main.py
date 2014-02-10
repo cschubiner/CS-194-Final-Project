@@ -12,6 +12,7 @@ from flask import Flask, Response, request, render_template
 from db import db_init, db_session
 import db
 import models
+import utils
 
 app = Flask(__name__.split('.')[0])
 
@@ -39,30 +40,16 @@ def facebook_login(signup):
     if request.method == 'POST':
         print "request.form = "
         print request.form
-        if request.data:
-            fb_id = db.get_fbid(request.data)
-            if db.get_user_by_fbid(fb_id):
-                return db.get_user_info(request.data)
+        if request.form:
+            fb_id = db.get_fbid(request.form['token'])
+            if db.get_user_by_fbid(fb_id) is not None:
+                return db.get_user_by_fbid(fb_id)
 
-            db.add_user(request.data)
-            return "hello"
+            return db.add_user(request.form['token'])
         return db.add_user(request.form['token'])
     else:
-        # Request information about users
-        ret = {
-          "user": {
-            "userID": 0,
-            "groupID": 0,
-            "colorID": 0,
-            "firstName": "Glenna",
-            "lastName": "Willis",
-            "imageURL": "http://placehold.it/32x32",
-            "email": "glennawillis@uncorp.com"
-          }
-        }
-        resp = Response(response=json.dumps(ret), status=200,mimetype="application/json")
-        return resp
-    return db.obj_to_json({})
+        return utils.to_app_json({"Go fuck yourself"})
+
 
 @app.route('/db/rollback')
 def rollback():
@@ -80,57 +67,6 @@ def test_query():
 @app.route('/group/<group_id>/users')
 def get_group_members(group_id):
     return db.get_all_users(group_id)
-
-@app.route('/sandbox/user/all', methods=['GET','POST'])
-def s_users_all():
-    users = {
-        "users": [
-            {
-                "userID": 0,
-                "groupID": 0,
-                "colorID": 0,
-                "firstName": "Glenna",
-                "lastName": "Willis",
-                "imageURL": "http://placehold.it/32x32",
-                "isNearDorm": False,
-                "email": "glennawillis@uncorp.com"
-            },
-            {
-                "userID": 1,
-                "groupID": 0,
-                "colorID": 1,
-                "firstName": "Joy",
-                "lastName": "Peters",
-                "imageURL": "http://placehold.it/32x32",
-                "isNearDorm": False,
-                "email": "joypeters@uncorp.com"
-            },
-            {
-                "userID": 2,
-                "groupID": 0,
-                "colorID": 2,
-                "firstName": "Harry",
-                "lastName": "Potter",
-                "imageURL": "http://placehold.it/32x32",
-                "isNearDorm": True,
-                "email": "hpiddy@hogwarts.edu"
-            },
-            {
-                "userID": 3,
-                "groupID": 1,
-                "colorID": 0,
-                "firstName": "Tamika",
-                "lastName": "Lynch",
-                "imageURL": "http://placehold.it/32x32",
-                "isNearDorm": True,
-                "email": "tamikalynch@uncorp.com"
-            }
-        ]
-    }
-
-
-    resp = Response(response=json.dumps(users), status=200,mimetype="application/json")
-    return resp
 
 @app.route('/group/<group_id>', methods=['GET','POST'])
 def get_location_by_group(group_id):
@@ -191,4 +127,23 @@ def add_user_by_fbid():
 @app.route('/user/<fb_id>/changegroupid/<new_group_id>')
 def change_group_id(fb_id, new_group_id):
     return db.change_group_id(fb_id, new_group_id)
+
+@app.route('/message/new', methods=['GET', 'POST'])
+def add_new_message():
+    print request
+    if request.method == 'POST':
+        print "============"
+
+        body = request.form['message']
+        fb_id = request.form['userID']
+        print body
+        print fb_id
+        return db.add_new_message(body, fb_id)
+    return "Hello"
+
+@app.route('/messages/all/<userID>')
+def get_messages(userID):
+    return db.get_messages(userID)
+
+
 
