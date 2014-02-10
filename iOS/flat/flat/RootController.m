@@ -35,34 +35,12 @@
     self.rightFixedWidth = 0;
     
     self.navigationController.navigationBar.hidden = NO;
-    self.navigationController.navigationBar.barTintColor = [UIColor blackColor];
+    self.navigationController.navigationBar.barTintColor = [UIColor whiteColor];
     self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
     self.navigationController.navigationBar.translucent = YES;
     self.navigationController.navigationBar.alpha = 0;
-    self.navigationItem.titleView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"cs-logo"]];
-    self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"" style:UIBarButtonItemStylePlain
-                                                                            target:nil
-                                                                            action:nil];
-    [self.navigationController.navigationBar setTitleTextAttributes:[NSDictionary dictionaryWithObject:[UIColor whiteColor]
-                                                                                                forKey:NSForegroundColorAttributeName]];
+    [[self navigationItem] setTitle:@"Flat"];
     
-    UIBarButtonItem *leftBarButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"menubar"]
-                                                                      style:UIBarButtonItemStylePlain
-                                                                     target:self
-                                                                     action:@selector(toggleSidebarMenu:)];
-    self.navigationItem.leftBarButtonItem = leftBarButton;
-    
-    /*
-    UIBarButtonItem *rightBarButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"notify_icon"]
-                                                                       style:UIBarButtonItemStylePlain
-                                                                      target:self
-                                                                      action:@selector(showNotifications:)];
-    self.navigationItem.rightBarButtonItem = rightBarButton;
-    self.navigationItem.rightBarButtonItem.tintColor = [UIColor colorWithRed:109.0/255.0
-                                                                       green:207.0/255.0
-                                                                        blue:246.0/255.0
-                                                                       alpha:1.0];
-    */
     self.navigationController.toolbarHidden = TRUE;
 }
 
@@ -92,13 +70,6 @@
 {
     [self toggleLeftPanel:sender];
 }
-
-/*
--(IBAction)showNotifications:(id)sender
-{
-    [self.navigationController pushViewController:[[NotificationViewController alloc] init] animated:YES];
-}
-*/
 
 -(void) awakeFromNib
 {
