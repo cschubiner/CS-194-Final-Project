@@ -61,6 +61,8 @@
         [FlatAPIClientManager sharedClient].group = group;
     }];
     
+    //kickstart location
+    CLLocation *location = [LocationManager currentLocationByWaitingUpToMilliseconds:1000];
     return YES;
 }
 
