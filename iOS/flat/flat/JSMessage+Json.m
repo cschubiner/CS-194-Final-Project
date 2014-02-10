@@ -12,9 +12,10 @@
 
 + (JSMessage *)getMessageObjectFromDictionary:(NSDictionary *)dictionary
 {
-    JSMessage *message = [[JSMessage alloc] initWithText:[dictionary objectForKey:@"text"]
-                                                  sender:[dictionary objectForKey:@"sender"]
-                                                    date:[dictionary objectForKey:@"timestamp"]];
+    JSMessage *message = [[JSMessage alloc] initWithText:[dictionary objectForKey:@"body"]
+                                                  sender:[dictionary objectForKey:@"name"]
+                                            senderUserId:[[dictionary objectForKey:@"user_id"] intValue]
+                                                    date:[dictionary objectForKey:@"time_stamp"]];
     return message;
 }
 

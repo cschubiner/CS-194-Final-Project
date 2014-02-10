@@ -34,4 +34,9 @@
  */
 - (NSDate *)date;
 
+/**
+ * @return the sender's ID
+ */
+- (int)senderID;
+
 @end

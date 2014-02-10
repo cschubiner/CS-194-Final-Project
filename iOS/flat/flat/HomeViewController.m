@@ -29,9 +29,11 @@
 {
     NSLog(@"Getting messages");
     [MessageHelper getMessagesWithCompletionBlock:^(NSError *error, NSArray *messages) {
+        NSLog(@"MESSAGES ARE %@", messages);
         self.messages = [messages mutableCopy];
         [self.tableView reloadData];
         [self.refresh endRefreshing];
+        [self scrollToBottomAnimated:YES];
     }];
 }
 
@@ -58,27 +60,16 @@
       forControlEvents:UIControlEventValueChanged];
     [self.tableView addSubview:self.refresh];
     
-    NSLog(@"before creating messages");
-    self.messages = [[NSMutableArray alloc] initWithObjects:
-                     [[JSMessage alloc] initWithText:@"Hey"
-                                              sender:@"Zach"
-                                                date:[NSDate distantPast]],
-                     [[JSMessage alloc] initWithText:@"Sup"
-                                              sender:@"Zach"
-                                                date:[NSDate distantPast]],
-                     [[JSMessage alloc] initWithText:@"When are you guys going to be back in the room?"
-                                              sender:@"Zach"
-                                                date:[NSDate distantPast]],
-                     [[JSMessage alloc] initWithText:@"Uhhh idk why?"
-                                              sender:@"Zach"
-                                                date:[NSDate distantPast]],
-                     [[JSMessage alloc] initWithText:@"I've got this skype interview. Gimme an hour"
-                                              sender:@"Zach"
-                                                date:[NSDate date]],
-                     [[JSMessage alloc] initWithText:@"Aight np"
-                                              sender:@"Zach"
-                                                date:[NSDate date]],
-                     nil];
+    [self loadInitialMessages];
+}
+
+- (void)loadInitialMessages
+{
+    [MessageHelper getMessagesWithCompletionBlock:^(NSError *error, NSArray *messages) {
+        self.messages = [messages mutableCopy];
+        [self.tableView reloadData];
+        [self scrollToBottomAnimated:NO];
+    }];
 }
 
 - (void)didSendText:(NSString *)text
@@ -88,17 +79,15 @@
                         if (error) {
                             //Diplay message did not send error
                         } else {
+                            NSLog(@"MESSAGES: %@", messages);
                             self.messages = [messages mutableCopy];
-                            /*
-                            ProfileUser *user = [FlatAPIClientManager sharedClient].profileUser;
-                            [self.messages addObject:[[JSMessage alloc] initWithText:text
-                                                                              sender:user.firstName
-                                                                                date:[NSDate date]]];
-                             */
                             [JSMessageSoundEffect playMessageSentSound];
+                            NSLog(@"About to reload data");
                             [self.tableView reloadData];
+                            NSLog(@"Already loaded data");
                             self.messageInputView.textView.text = @"";
                             [self scrollToBottomAnimated:YES];
+                            [self finishSend];
                         }
                     }];
 }
@@ -106,9 +95,8 @@
 - (JSBubbleMessageType)messageTypeForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     JSMessage *currMessage = [self.messages objectAtIndex:indexPath.row];
-    NSString *userName = [FlatAPIClientManager sharedClient].profileUser.firstName;
-    NSLog(@"%@ %@", currMessage.sender, userName);
-    if ([currMessage.sender isEqualToString:userName]) {
+    ProfileUser *user = [FlatAPIClientManager sharedClient].profileUser;
+    if (currMessage.senderID == [user.userID intValue]) {
         return JSBubbleMessageTypeOutgoing;
     }
     return JSBubbleMessageTypeIncoming;
@@ -118,8 +106,8 @@
                        forRowAtIndexPath:(NSIndexPath *)indexPath
 {
     JSMessage *currMessage = [self.messages objectAtIndex:indexPath.row];
-    NSString *userName = [FlatAPIClientManager sharedClient].profileUser.firstName;
-    if ([currMessage.sender isEqualToString:userName]) {
+    ProfileUser *user = [FlatAPIClientManager sharedClient].profileUser;
+    if (currMessage.senderID == [user.userID intValue]) {
         return [JSBubbleImageViewFactory bubbleImageViewForType:type
                                                           color:[UIColor js_bubbleBlueColor]];
     }

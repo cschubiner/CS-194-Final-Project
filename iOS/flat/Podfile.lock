@@ -22,7 +22,9 @@ PODS:
   - JSMessagesViewController (3.4.4):
     - JSQSystemSoundPlayer
   - JSQSystemSoundPlayer (1.4.0)
-  - MagicalRecord (2.2)
+  - MagicalRecord (2.2):
+    - MagicalRecord/Core
+  - MagicalRecord/Core (2.2)
   - MBProgressHUD (0.8)
   - SDWebImage (3.5.2):
     - SDWebImage/Core
@@ -57,7 +59,7 @@ SPEC CHECKSUMS:
   JASidePanels: c0e642a7311ec9cc9adfa616fa4a795e4e169f20
   JSMessagesViewController: 309de7324fbf48b7da924b002ef6017d5d2ce026
   JSQSystemSoundPlayer: 28ccd01a92a0cebc6de6361e8499011b4cb6dab7
-  MagicalRecord: b1fc46c99a9749fe7fe7e6f43a89b62ef5201933
+  MagicalRecord: 95d49d74ef752cd52f6ad87bcb474817fc3978cf
   MBProgressHUD: 2bbc6f470111daf7f3eaa4eb12b8cbf01c4c0622
   SDWebImage: fe7ce01ae4e0a884d168f59c9dd82d35baf8429e
   ShareKit: 1c6a9a552e751ad5c846d1c8466db659b9b9668f
