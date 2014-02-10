@@ -165,7 +165,9 @@ def update_location(group, lat, lon):
         return utils.obj_to_json('group', temp)
     return utils.to_app_json({})
 
-def get_messages(group_id):
+def get_messages(fb_id):
+    user = db_session.query(models.User).filter(models.User.fb_id == fb_id).first()
+    group_id = user.group_id
     all_messages = db_session.query(models.Message).filter(models.Message.group_id == group_id).order_by(models.Message.time_stamp).all()
     return utils.list_to_json('messages', all_messages)
 
@@ -185,10 +187,11 @@ def add_new_message(body, fb_id):
         db_session.commit()
         # TODO: this query is probably buggy
         all_messages = db_session.query(models.Message).filter(models.Message.group_id == group_id).order_by(models.Message.time_stamp).all()
-        print "PRINTING MESSAGES"
-        print utils.list_to_json('messages', all_messages)
         return utils.list_to_json('messages', all_messages)
 
-
-
+def get_name_from_fbid(fb_id):
+    user = db_session.query(models.User).filter(models.User.fb_id == fb_id).first()
+    if user is not None:
+        return user.first_name
+    return None
 

@@ -1,6 +1,7 @@
 from sqlalchemy import Column, Integer, String, ForeignKey, Float, DateTime
 from sqlalchemy.orm import relationship, backref
 from db import Base
+import db
 import datetime
 
 MAX_LENGTH = 50
@@ -63,6 +64,7 @@ class Message(Base):
         return {
             "body": self.body,
             "user_id": self.user_id,
+            "name": db.get_name_from_fbid(self.user_id),
             "group_id": self.group_id,
             "time_stamp": str(self.time_stamp)
         }

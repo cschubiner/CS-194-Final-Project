@@ -133,7 +133,7 @@ def add_new_message():
     if request.method == 'POST':
         print "============"
 
-        body = request.form['text']
+        body = request.form['message']
         fb_id = request.form['userID']
         print body
         print fb_id
@@ -143,5 +143,6 @@ def add_new_message():
 @app.route('/messages/all/<userID>')
 def get_messages(userID):
     return db.get_messages(userID)
+
 
 
