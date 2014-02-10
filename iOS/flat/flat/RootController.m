@@ -50,7 +50,11 @@
                                                                       style:UIBarButtonItemStylePlain
                                                                      target:self
                                                                      action:@selector(toggleSidebarMenu:)];
-    self.navigationItem.leftBarButtonItem = leftBarButton;
+    UIBarButtonItem* lbb = [[UIBarButtonItem alloc]initWithTitle:@"Settings" style:UIBarButtonItemStyleBordered target:self action:@selector(openSettings)];
+
+    
+//    self.navigationItem.leftBarButtonItem = leftBarButton;
+    self.navigationItem.leftBarButtonItem = lbb;
     
     /*
     UIBarButtonItem *rightBarButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"notify_icon"]
@@ -64,6 +68,10 @@
                                                                        alpha:1.0];
     */
     self.navigationController.toolbarHidden = TRUE;
+}
+
+-(void)openSettings {
+    [self performSegueWithIdentifier:@"RootToSettingsViewController" sender:self];
 }
 
 - (void)viewDidAppear:(BOOL)animated
