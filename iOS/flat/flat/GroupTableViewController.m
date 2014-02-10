@@ -64,7 +64,7 @@
     }
     // Configure the cell...
     
-    cell.textLabel.text = [NSString stringWithFormat:@"Set group id: %d", indexPath.row];
+    cell.textLabel.text = [NSString stringWithFormat:@"Set group id: %d", indexPath.row + 1];
     
     return cell;
 }
@@ -72,8 +72,9 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     ProfileUser * user = [[FlatAPIClientManager sharedClient]profileUser];
-    
-    [ProfileUserNetworkRequest setGroupIDForUser:user.userID groupID:[NSNumber numberWithInteger:indexPath.row ]];
+    [ProfileUserNetworkRequest setGroupIDForUser:user.userID groupID:[NSNumber numberWithInteger:indexPath.row + 1]];
+//    [self dismissViewControllerAnimated:YES completion:nil];
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 
