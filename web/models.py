@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String, ForeignKey, Float, DateTime
+from sqlalchemy import Column, Integer, String, ForeignKey, Float, DateTime, Boolean
 from sqlalchemy.orm import relationship, backref
 from db import Base
 import db
@@ -20,6 +20,7 @@ class User(Base):
     email = Column(String(MAX_LENGTH))
     group = relationship("Group")
 
+
     @property
     def serialize(self):
         return {
@@ -37,15 +38,32 @@ class User(Base):
     def __repr__(self):
         return "<User(firstname='%s', lastname='%s')>" % (self.first_name, self.last_name)
 
+class Friend(Base):
+    __tablename__ = 'friends'
+
+    id = Column(Integer, primary_key=True)
+    right_id = Column(String(MAX_LENGTH))
+    left_id = Column(String(MAX_LENGTH))
+    is_user = Column(Boolean)
+
+
 class Group(Base):
     __tablename__ = 'groups'
 
     id = Column(Integer, primary_key=True)
     curr_color = Column(Integer)
-    latitude = Column(Float)
-    longitude = Column(Float)
+    latitude = Column(String(MAX_LENGTH))
+    longitude = Column(String(MAX_LENGTH))
 
     users = relationship("User")
+
+    @property
+    def serialize(self):
+        return {
+            "groupID": self.id,
+            "latLocation": float(self.latitude),
+            "longLocation": float(self.longitude)
+        }
 
     def __repr__(self):
         return "<User(id='%s', curr_color='%s')>" % (self.id, self.curr_color)

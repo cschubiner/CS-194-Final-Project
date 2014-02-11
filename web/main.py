@@ -48,21 +48,7 @@ def facebook_login(signup):
             return db.add_user(request.form['token'])
         return db.add_user(request.form['token'])
     else:
-        return utils.to_app_json({"Go fuck yourself"})
-
-
-@app.route('/db/rollback')
-def rollback():
-    db.rollback()
-    return "DB rolled back"
-
-@app.route('/db/test/groupID')
-def getId():
-    return str(db.get_group_id())
-
-@app.route('/test/query')
-def test_query():
-    return str(db.in_group("708108626"))
+        return utils.to_app_json({"Error lol"})
 
 @app.route('/group/<group_id>/users')
 def get_group_members(group_id):
@@ -70,6 +56,7 @@ def get_group_members(group_id):
 
 @app.route('/group/<group_id>', methods=['GET','POST'])
 def get_location_by_group(group_id):
+    return db.get_group_by_id(group_id)
     data = {
         "group":
         {
@@ -102,12 +89,20 @@ def update_dorm_status(fb_id, new_status):
 
 @app.route('/group/update_location/', methods=['GET', 'POST'])
 def update_location():
-    if request.method == 'POST':
-        group = request.form['group']
+    if request.method == 'POST' and request.form:
+        group = request.form['groupID']
         lat = request.form['lat']
         lon = request.form['long']
-        db.update_location(group, lat, lon)
-        return {}
+        return db.update_location(group, lat, lon)
+    elif request.method == 'POST' and request.data:
+        args = request.data.split()
+        return db.update_location(args[0], args[1], args[2])
+
+@app.route('/facebook/user/friendgroups', methods = ['GET', 'POST'])
+def get_user_friends():
+    if request.method == 'POST':
+        return db.add_user(request.data)
+        # return db.add_user_friends(request.data)
 
 # Given a specific facebook_id, returns the information
 # about that user in JSON format

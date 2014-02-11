@@ -18,8 +18,8 @@ def to_app_json(obj):
     return Response(response=json.dumps(obj), status=200,mimetype="application/json")
 
 # Helper function that returns an error message
-def error_json_message():
+def error_json_message(message):
     ret = {
-        "data": "An error occured"
+        "data": message
     }
     return to_app_json(ret)

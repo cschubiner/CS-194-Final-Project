@@ -25,7 +25,7 @@ USERS = "users"
 GROUP = "group"
 MESSAGES = "messages"
 
-engine = create_engine('mysql+gaerdbms:///add9?instance=flatappapi:db0')
+engine = create_engine('mysql+gaerdbms:///add12?instance=flatappapi:db0')
 db_session = scoped_session(sessionmaker(autocommit=False,
                                          autoflush=False,
                                          bind=engine))
@@ -69,24 +69,46 @@ def add_user(access_token):
     picture_url = urllib2.urlopen(request_picture_url).geturl()
 
     new_group = models.Group(curr_color=0, latitude=0.0, longitude=0.0)
-
-    new_group.users = [
-        models.User(
+    new_user = models.User(
             fb_id = profile["id"],
             color_id = 0,
             is_near_dorm = False,
             first_name = profile["first_name"],
             last_name = profile["last_name"],
             image_url = picture_url,
-            email = profile["email"]
+            email = profile["email"],
         )
-    ]
+
+    # left_id = profile['id']
+    # for friend in friends['data']:
+    #     is_user = user_exists(left_id)
+    #     new_friend = models.Friend(
+    #         right_id=friend['id'],
+    #         left_id=left_id,
+    #         is_user=False
+    #     )
+    #     db_session.add(new_friend)
+
+    new_group.users = [new_user]
 
     db_session.add(new_group)
     db_session.commit()
 
-    query = db_session.query(models.User).all()
+    # update_friend_table(profile['id'])
+
+    # query = db_session.query(models.User).all()
     return utils.obj_to_json('user', new_group.users[0])
+
+'''
+    Updates the Friends table when a new user signs up
+'''
+def update_friend_table(fb_id):
+    result = db_session.query(models.Friend).filter(models.Friend.right_id==fb_id).all()
+
+    for friend in result:
+        friend.is_user = True
+    db_session.commit()
+
 
 '''
     Function: in_group
@@ -127,6 +149,12 @@ def get_user_by_fbid(fb_id):
         return utils.obj_to_json('user', result)
     return None
 
+def user_exists(fb_id):
+    result = db_session.query(models.User).filter(models.User.fb_id==fb_id).first()
+    if result:
+        return True
+    return False
+
 '''
     @params, fb_id(integer), status(boolean)
     @return, boolean indicating success or failure
@@ -139,7 +167,8 @@ def update_dorm_status(fb_id, status):
         result.is_near_dorm = status
         temp = result
         db_session.commit()
-    return utils.obj_to_json(USER, temp)
+        return utils.obj_to_json(USER, temp)
+    return utils.error_json_message("you suck")
 
 '''
     params: access_token, the facebook access token
@@ -158,16 +187,40 @@ def change_group_id(fb_id, new_group):
             return utils.obj_to_json('user', result)
 
         result.group_id = new_group
+
+        # changing the color_id
+        # num = result.randint(1,3)
+        # result.color_id = num
+        # while result.color_id == num:
+        #     result.color_id = randint(0,3)
+
+        # result.color_id = random.randint(1,3) # Hacky shit, will re-write later
         temp = result
         db_session.commit()
         return utils.obj_to_json('user',temp)
     return utils.error_json_message()
 
 def update_location(group, lat, lon):
-    result = db_session.query(models.Group).filter(models.Group.id == group).first()
+    result = db_session.query(models.Group).filter(models.Group.id == int(group)).first()
+
+    print lat
+    print lon
+    print result.latitude
+    print result.longitude
+
     if result:
-        result.latitude = lat
-        result.longitude = lon
+        if result.latitude == lat and result.longitude == lon:
+            return utils.obj_to_json('group', result)
+        elif result.latitude == lat and result.longitude != lon:
+            # update longitude only
+            result.longitude = lon
+        elif result.latitude != lat and result.longitude == lon:
+            # update latitude only
+            result.latitude = lat
+        else:
+            # update both
+            result.latitude = lat
+            result.longitude = lon
         temp = result
         db_session.commit()
         return utils.obj_to_json('group', temp)
@@ -175,9 +228,11 @@ def update_location(group, lat, lon):
 
 def get_messages(fb_id):
     user = db_session.query(models.User).filter(models.User.fb_id == fb_id).first()
-    group_id = user.group_id
-    all_messages = db_session.query(models.Message).filter(models.Message.group_id == group_id).order_by(models.Message.time_stamp).all()
-    return utils.list_to_json('messages', all_messages)
+    if user:
+        group_id = user.group_id
+        all_messages = db_session.query(models.Message).filter(models.Message.group_id == group_id).order_by(models.Message.time_stamp).all()
+        return utils.list_to_json('messages', all_messages)
+    return utils.error_json_message()
 
 def add_new_message(body, fb_id):
     user = db_session.query(models.User).filter(models.User.fb_id == fb_id).first()
@@ -203,4 +258,11 @@ def get_name_from_fbid(fb_id):
     if user is not None:
         return user.first_name
     return utils.error_json_message()
+
+def get_group_by_id(group_id):
+    group = db_session.query(models.Group).filter(models.Group.id == int(group_id)).first()
+    if group:
+        return utils.obj_to_json('group', group)
+    return utils.error_json_message('Group does not exist')
+
 
