@@ -20,12 +20,17 @@ import urllib2
 import datetime
 
 MAX_LENGTH = 50
+USER = "user"
+USERS = "users"
+GROUP = "group"
+MESSAGES = "messages"
 
 engine = create_engine('mysql+gaerdbms:///add9?instance=flatappapi:db0')
 db_session = scoped_session(sessionmaker(autocommit=False,
                                          autoflush=False,
                                          bind=engine))
 Base = declarative_base()
+
 
 import models
 """
@@ -129,9 +134,12 @@ def get_user_by_fbid(fb_id):
 def update_dorm_status(fb_id, status):
     result = db_session.query(models.User).filter(models.User.fb_id==fb_id).first()
     if result:
+        if int(result.is_near_dorm) == int(status):
+            return utils.to_app_json({"data":"cannot change user to same status"})
         result.is_near_dorm = status
+        temp = result
         db_session.commit()
-    return True
+    return utils.obj_to_json(USER, temp)
 
 '''
     params: access_token, the facebook access token
@@ -153,7 +161,7 @@ def change_group_id(fb_id, new_group):
         temp = result
         db_session.commit()
         return utils.obj_to_json('user',temp)
-    return utils.obj_to_json({})
+    return utils.error_json_message()
 
 def update_location(group, lat, lon):
     result = db_session.query(models.Group).filter(models.Group.id == group).first()
@@ -173,9 +181,9 @@ def get_messages(fb_id):
 
 def add_new_message(body, fb_id):
     user = db_session.query(models.User).filter(models.User.fb_id == fb_id).first()
-    group_id = user.group_id
 
     if user is not None:
+        group_id = user.group_id
         new_msg = models.Message(
             body = body,
             time_stamp = datetime.datetime.utcnow(),
@@ -188,10 +196,11 @@ def add_new_message(body, fb_id):
         # TODO: this query is probably buggy
         all_messages = db_session.query(models.Message).filter(models.Message.group_id == group_id).order_by(models.Message.time_stamp).all()
         return utils.list_to_json('messages', all_messages)
+    return utils.error_json_message()
 
 def get_name_from_fbid(fb_id):
     user = db_session.query(models.User).filter(models.User.fb_id == fb_id).first()
     if user is not None:
         return user.first_name
-    return None
+    return utils.error_json_message()
 

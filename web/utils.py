@@ -16,3 +16,10 @@ def obj_to_json(response_type, obj):
 # Helper function that converts from HTML/text to application/JSON
 def to_app_json(obj):
     return Response(response=json.dumps(obj), status=200,mimetype="application/json")
+
+# Helper function that returns an error message
+def error_json_message():
+    ret = {
+        "data": "An error occured"
+    }
+    return to_app_json(ret)

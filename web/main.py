@@ -98,8 +98,7 @@ def is_in_dorm(fbid):
 @app.route('/user/<fb_id>/indorm/<new_status>', methods=['GET','POST'])
 def update_dorm_status(fb_id, new_status):
     if request.method == 'GET':
-        db.update_dorm_status(fb_id, new_status)
-        return utils.obj_to_json({"Go fuck yourself"})
+        return db.update_dorm_status(fb_id, new_status)
 
 @app.route('/group/update_location/', methods=['GET', 'POST'])
 def update_location():
