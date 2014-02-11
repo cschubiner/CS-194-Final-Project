@@ -28,6 +28,8 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    [[self navigationItem] setTitle:@"Settings"];
 
     // Uncomment the following line to preserve selection between presentations.
     // self.clearsSelectionOnViewWillAppear = NO;
@@ -142,9 +144,7 @@
     if (alertView.tag == 0) { //set dorm location as current location
         if (buttonIndex == 1) {
             NSLog(@"user pressed OK");
-            CLLocation *location = [LocationManager currentLocationByWaitingUpToMilliseconds:4000];
             
-            NSLog(@"current location: %f", location.coordinate.latitude);
             NSLog(@"curr lat: %f", [[LocationManager sharedClient] currentLatitude]); //doesn't work. good.
         }
         else {

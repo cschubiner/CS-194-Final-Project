@@ -28,6 +28,13 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+//    [self.navigationItem.leftBarButtonItem setTintColor:[UIColor blackColor]];
+//    [[UIBarButtonItem appearance] setTintColor: [UIColor colorWithRed:102.0/255.0 green:153.0/255.0 blue:153.0/255.0 alpha:1.0]];
+//    [self.navigationItem.leftBarButtonItem setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:
+//                                              [UIColor redColor], UITextAttributeTextColor,
+//                                              nil] forState:UIControlStateNormal];
+
+    [[self navigationItem] setTitle:@"Select Group"];
 
     // Uncomment the following line to preserve selection between presentations.
     self.clearsSelectionOnViewWillAppear = NO;    

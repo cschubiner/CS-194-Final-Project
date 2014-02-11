@@ -36,7 +36,7 @@
     
     self.navigationController.navigationBar.hidden = NO;
     self.navigationController.navigationBar.barTintColor = [UIColor whiteColor];
-    self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
+    self.navigationController.navigationBar.tintColor = [UIColor blackColor]; //sets text color
     self.navigationController.navigationBar.translucent = YES;
     self.navigationController.navigationBar.alpha = 0;
     [[self navigationItem] setTitle:@"Flat"];
@@ -46,6 +46,7 @@
 //                                                                     target:self
 //                                                                     action:@selector(toggleSidebarMenu:)];
     UIBarButtonItem* lbb = [[UIBarButtonItem alloc]initWithTitle:@"Settings" style:UIBarButtonItemStyleBordered target:self action:@selector(openSettings)];
+    [lbb setTintColor:[UIColor blackColor]];
 
     
 //    self.navigationItem.leftBarButtonItem = leftBarButton;

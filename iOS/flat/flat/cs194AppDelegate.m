@@ -62,7 +62,7 @@
     }];
     
     //kickstart location
-    CLLocation *location = [LocationManager currentLocationByWaitingUpToMilliseconds:1000];
+   // CLLocation *location = [LocationManager currentLocationByWaitingUpToMilliseconds:1000];
     return YES;
 }
 

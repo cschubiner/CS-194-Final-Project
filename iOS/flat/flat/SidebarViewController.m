@@ -27,7 +27,7 @@ const static int NOT_BROADCASTING_DORM_STATUS = 2;
     NSArray *locationArray;
 }
 
-static const int NAV_BAR_HEIGHT = 64;
+static const int NAV_BAR_HEIGHT = 56;//64;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {

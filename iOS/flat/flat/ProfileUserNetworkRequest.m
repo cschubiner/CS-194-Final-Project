@@ -42,6 +42,7 @@
 
 + (void) setUserLocationWithUserID:(NSNumber*)userID
                        andIsInDorm:(NSNumber*) isInDormStatus {
+    NSLog(@"telling colby our indorm status is: %@", isInDormStatus);
     NSString * url = [NSString stringWithFormat:@"user/%@/indorm/%@", userID, isInDormStatus];
     [[FlatAPIClientManager sharedClient]GET:url
                                  parameters:Nil
