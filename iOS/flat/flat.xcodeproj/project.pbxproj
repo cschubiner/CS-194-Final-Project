@@ -357,9 +357,9 @@
 			isa = PBXGroup;
 			children = (
 				F2C51DE7188C97E300489989 /* FlatAPIClientManager.h */,
+				F2C51DE8188C97E300489989 /* FlatAPIClientManager.m */,
 				0C498F44189F1BBA003B87F6 /* LocationManager.h */,
 				0C498F45189F1BBA003B87F6 /* LocationManager.m */,
-				F2C51DE8188C97E300489989 /* FlatAPIClientManager.m */,
 			);
 			name = Singletons;
 			sourceTree = "<group>";

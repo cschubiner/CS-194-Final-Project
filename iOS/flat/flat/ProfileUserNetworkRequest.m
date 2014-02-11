@@ -8,6 +8,7 @@
 
 #import "ProfileUserNetworkRequest.h"
 #import "ProfileUser+Json.h"
+#import "GroupNetworkRequest.h"
 
 @implementation ProfileUserNetworkRequest
 
@@ -70,6 +71,10 @@
                                         if (!error) {
                                             NSLog(@"successfully set user group id");
                                             [[[FlatAPIClientManager sharedClient]profileUser] setGroupID:groupID];
+                                            [GroupNetworkRequest getGroupFromGroupID:groupID withCompletionBlock:^(NSError * error, Group* group) {
+                                                [[FlatAPIClientManager sharedClient] setGroup:group];
+                                            }];
+                                            
                                         } else {
                                             NSLog(@"error when setting user group id");
                                         }

@@ -57,21 +57,15 @@
         [self showLoginView];
     }
     
-    Group * group = [GroupLocalRequest getGroup];
-    if (group == nil) {
-        [GroupNetworkRequest getGroupFromGroupID:[FlatAPIClientManager sharedClient].profileUser.groupID withCompletionBlock:^(NSError * error, Group * group1) {
-            [FlatAPIClientManager sharedClient].group = group1;
-        }];
-    }
-    else
-        [FlatAPIClientManager sharedClient].group = group;
-    [[NSManagedObjectContext MR_defaultContext] MR_saveToPersistentStoreAndWait];
+    [GroupNetworkRequest getGroupFromGroupID:[FlatAPIClientManager sharedClient].profileUser.groupID withCompletionBlock:^(NSError * error, Group * group1) {
+        if (group1 == nil)
+            group1 = [GroupLocalRequest getGroup];
+        [FlatAPIClientManager sharedClient].group = group1;
+        [[NSManagedObjectContext MR_defaultContext] MR_saveToPersistentStoreAndWait];
+        //kickstart location
+        [[LocationManager sharedClient] setShouldSetDormLocation:false];
+    }];
     
-    //kickstart location
-    //    [LocationManager sharedClient];
-    [[LocationManager sharedClient] setShouldSetDormLocation:false];
-    
-    // CLLocation *location = [LocationManager currentLocationByWaitingUpToMilliseconds:1000];
     return YES;
 }
 

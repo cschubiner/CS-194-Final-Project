@@ -38,6 +38,29 @@
              withLocation: (CLLocation *) location
       withCompletionBlock:(RequestGroupCompletionHandler)completionBlock {
     
+    NSDictionary * params = [NSDictionary dictionaryWithObjectsAndKeys:
+                             groupID, @"groupID",
+                             [NSNumber numberWithDouble:location.coordinate.latitude], @"lat",
+                             [NSNumber numberWithDouble:location.coordinate.longitude], @"long",
+                             nil];
+    NSString * url = @"group/update_location/";
+    [[FlatAPIClientManager sharedClient]POST: url
+                                 parameters:params
+                                    success:^(NSURLSessionDataTask * task, id JSON) {
+                                        NSError *error = [ErrorHelper apiErrorFromDictionary:JSON];
+                                        if (!error) {
+                                            NSMutableDictionary *groupJSON = [JSON objectForKey:@"group"];
+                                            Group *group = [Group getGroupObjectFromDictionary:groupJSON
+                                                                       AndManagedObjectContext:[NSManagedObjectContext MR_defaultContext]];
+                                            completionBlock(error, group);
+                                        } else {
+                                            completionBlock(error, nil);
+                                        }
+                                    }
+                                    failure: ^(NSURLSessionDataTask *__unused task, NSError *error) {
+                                        NSLog(@"error: %@", error);
+                                        completionBlock(error, nil);
+                                    }];
 }
 
 @end

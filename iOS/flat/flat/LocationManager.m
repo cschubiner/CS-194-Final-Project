@@ -10,8 +10,11 @@
 #import "FlatAPIClientManager.h"
 #import "Group.h"
 #import "ProfileUserNetworkRequest.h"
+#import "GroupNetworkRequest.h"
 
 @implementation LocationManager
+
+
 
 + (instancetype)sharedClient {
     static LocationManager *_sharedClient = nil;
@@ -21,16 +24,17 @@
         _sharedClient.locationManager = [[CLLocationManager alloc] init];
         _sharedClient.locationManager.delegate = _sharedClient;
         _sharedClient.locationManager.desiredAccuracy = kCLLocationAccuracyBest;
-        _sharedClient.locationManager.distanceFilter = 100; // meters
+        _sharedClient.locationManager.distanceFilter = 80; // meters
         [_sharedClient.locationManager startMonitoringForRegion:[_sharedClient getGroupLocationRegion]];
         [_sharedClient.locationManager startUpdatingLocation];
     });
     return _sharedClient;
 }
 
-const static int IN_DORM_STATUS = 1;
 const static int AWAY_DORM_STATUS = 0;
+const static int IN_DORM_STATUS = 1;
 const static int NOT_BROADCASTING_DORM_STATUS = 2;
+
 
 
 #pragma mark - CLLocationManagerDelegate
@@ -55,11 +59,6 @@ const static int NOT_BROADCASTING_DORM_STATUS = 2;
     ProfileUser * currUser = [FlatAPIClientManager sharedClient].profileUser;
     currUser.isNearDorm = isInDormStatus;
     [ProfileUserNetworkRequest setUserLocationWithUserID:currUser.userID andIsInDorm:isInDormStatus];
-//    if (isInDormStatus) {
-//        UIAlertView *errorAlert = [[UIAlertView alloc]
-//                                   initWithTitle:@"Entered dorm location" message:@"In dorm location" delegate:nil cancelButtonTitle:@"Dismiss" otherButtonTitles:nil];
-//        [errorAlert show];
-//    }
 }
 
 - (void)locationManager:(CLLocationManager *)manager
@@ -82,9 +81,6 @@ const static int NOT_BROADCASTING_DORM_STATUS = 2;
 - (void)locationManager:(CLLocationManager *)manager didFailWithError:(NSError *)error
 {
     NSLog(@"locationManager didFailWithError: %@", error);
-    //    UIAlertView *errorAlert = [[UIAlertView alloc]
-    //                               initWithTitle:@"Error" message:@"Failed to Get Your Location" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
-    //    [errorAlert show];
 }
 
 //- (void)locationManager:(CLLocationManager *)manager
@@ -106,11 +102,26 @@ const static int NOT_BROADCASTING_DORM_STATUS = 2;
 - (void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation
 {
     if (self.shouldSetDormLocation) {
+        [self setShouldSetDormLocation:false];
+        
         NSLog(@"setting dorm location to: ");
-                NSLog(@"latitude %+.6f, longitude %+.6f\n",
-                      newLocation.coordinate.latitude,
-                      newLocation.coordinate.longitude);
-
+        NSLog(@"latitude %+.6f, longitude %+.6f\n",
+              newLocation.coordinate.latitude,
+              newLocation.coordinate.longitude);
+        //        Group * group = [[FlatAPIClientManager sharedClient] group];
+        
+        [GroupNetworkRequest setGroupLocation:[[FlatAPIClientManager sharedClient]profileUser].groupID withLocation:newLocation withCompletionBlock:^(NSError * error, Group * group) {
+            if (error == nil) {
+                [[[FlatAPIClientManager sharedClient] group] setLatLocation:[NSNumber numberWithDouble:newLocation.coordinate.latitude]];
+                [[[FlatAPIClientManager sharedClient] group] setLongLocation:[NSNumber numberWithDouble:newLocation.coordinate.longitude]];
+                [self handleUserDormState:[NSNumber numberWithInt:IN_DORM_STATUS]];
+                [[NSManagedObjectContext MR_defaultContext] MR_saveToPersistentStoreAndWait];
+                CLLocationManager * manager = [[LocationManager sharedClient] locationManager];
+                [manager stopMonitoringForRegion:manager.monitoredRegions.anyObject];
+                [manager startMonitoringForRegion:[[LocationManager sharedClient] getGroupLocationRegion]];
+            }
+        }];
+        
     }
     
     static BOOL firstTime=TRUE;
@@ -137,7 +148,7 @@ const static int NOT_BROADCASTING_DORM_STATUS = 2;
         }
         //Stop Location Updation, we dont need it now.
     }
-        [self.locationManager stopUpdatingLocation];
+    [self.locationManager stopUpdatingLocation];
 }
 
 - (NSNumber*)calculateDistanceInMetersBetweenCoord:(CLLocationCoordinate2D)coord1 coord:(CLLocationCoordinate2D)coord2 {
@@ -156,10 +167,10 @@ const static int NOT_BROADCASTING_DORM_STATUS = 2;
 - (CLRegion*)getGroupLocationRegion
 {
     NSString *identifier = @"dormLocation";
-    CLLocationDegrees latitude = [[[[FlatAPIClientManager sharedClient]group] latLocation] doubleValue];
-    CLLocationDegrees longitude = [[[[FlatAPIClientManager sharedClient]group] longLocation] doubleValue];
+    CLLocationDegrees latitude = [[[[FlatAPIClientManager sharedClient] group] latLocation] doubleValue];
+    CLLocationDegrees longitude = [[[[FlatAPIClientManager sharedClient] group] longLocation] doubleValue];
     CLLocationCoordinate2D centerCoordinate = CLLocationCoordinate2DMake(latitude, longitude);
-    CLLocationDistance regionRadius = 50.0f; //geofence radius
+    CLLocationDistance regionRadius = 60.0f; //geofence radius
     
     if(regionRadius > self.locationManager.maximumRegionMonitoringDistance)
     {
