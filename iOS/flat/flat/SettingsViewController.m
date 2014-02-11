@@ -144,8 +144,11 @@
     if (alertView.tag == 0) { //set dorm location as current location
         if (buttonIndex == 1) {
             NSLog(@"user pressed OK");
+//            CLLocation * location =
             
-            NSLog(@"curr lat: %f", [[LocationManager sharedClient] currentLatitude]); //doesn't work. good.
+            [[LocationManager sharedClient] setShouldSetDormLocation:true];
+            [[[LocationManager sharedClient] locationManager] startUpdatingLocation];
+//            NSLog(@"curr lat: %f", [[LocationManager sharedClient] currentLatitude]); //doesn't work. good.
         }
         else {
             NSLog(@"user pressed Cancel");

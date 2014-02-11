@@ -17,4 +17,6 @@
 @property (nonatomic) double currentLatitude;
 @property (nonatomic) double currentLongitude;
 
+@property (nonatomic) BOOL shouldSetDormLocation;
+
 @end

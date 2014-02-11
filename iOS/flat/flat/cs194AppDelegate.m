@@ -12,7 +12,7 @@
 #import "ProfileUserHelper.h"
 #import "AuthenticationHelper.h"
 #import "GroupNetworkRequest.h"
-
+#import "GroupLocalRequest.h"
 
 @implementation cs194AppDelegate
 
@@ -22,15 +22,15 @@
     [MagicalRecord setupCoreDataStack];
     
     // code to let kyle log in cuz of his messed up privacy settings. don't delete or uncomment.
-//    ProfileUser *kyleUser = [ProfileUser MR_createInContext:[NSManagedObjectContext MR_defaultContext]];
-//    kyleUser.userID =  [NSNumber numberWithLong:100002378870303];
-//    kyleUser.groupID = [NSNumber numberWithInt:1];
-//    kyleUser.colorID =  [NSNumber numberWithInt:1];
-//    kyleUser.firstName = @"Kyle";
-//    kyleUser.lastName = @"Archie";
-//    kyleUser.email = @"kyleaarchie@gmail.com";
-//    kyleUser.isNearDorm = [NSNumber numberWithInt:1];
-//    [[FlatAPIClientManager sharedClient] setProfileUser:kyleUser];
+    //    ProfileUser *kyleUser = [ProfileUser MR_createInContext:[NSManagedObjectContext MR_defaultContext]];
+    //    kyleUser.userID =  [NSNumber numberWithLong:100002378870303];
+    //    kyleUser.groupID = [NSNumber numberWithInt:1];
+    //    kyleUser.colorID =  [NSNumber numberWithInt:1];
+    //    kyleUser.firstName = @"Kyle";
+    //    kyleUser.lastName = @"Archie";
+    //    kyleUser.email = @"kyleaarchie@gmail.com";
+    //    kyleUser.isNearDorm = [NSNumber numberWithInt:1];
+    //    [[FlatAPIClientManager sharedClient] setProfileUser:kyleUser];
     
     // Check if user is logged in
     ProfileUser *profileUser = [ProfileUserHelper getProfileUser];
@@ -57,12 +57,21 @@
         [self showLoginView];
     }
     
-    [GroupNetworkRequest getGroupFromGroupID:[FlatAPIClientManager sharedClient].profileUser.groupID withCompletionBlock:^(NSError * error, Group * group) {
+    Group * group = [GroupLocalRequest getGroup];
+    if (group == nil) {
+        [GroupNetworkRequest getGroupFromGroupID:[FlatAPIClientManager sharedClient].profileUser.groupID withCompletionBlock:^(NSError * error, Group * group1) {
+            [FlatAPIClientManager sharedClient].group = group1;
+        }];
+    }
+    else
         [FlatAPIClientManager sharedClient].group = group;
-    }];
+    [[NSManagedObjectContext MR_defaultContext] MR_saveToPersistentStoreAndWait];
     
     //kickstart location
-   // CLLocation *location = [LocationManager currentLocationByWaitingUpToMilliseconds:1000];
+    //    [LocationManager sharedClient];
+    [[LocationManager sharedClient] setShouldSetDormLocation:false];
+    
+    // CLLocation *location = [LocationManager currentLocationByWaitingUpToMilliseconds:1000];
     return YES;
 }
 
@@ -189,17 +198,17 @@
              [self showLoginView];*/
             
             // Hacky code to let kyle log in -----------------------------------------
-           /* ProfileUser * kyle = [[ProfileUser alloc]init];
-            ProfileUser *profileUser;
-            profileUser = [ProfileUser getProfileUserObjectFromDictionary:userJSON
-                                                  AndManagedObjectContext:[NSManagedObjectContext MR_defaultContext]];
-
-            [kyle setFirstName:@"Kyle"];
-            kyle.lastName = @"Archie";
-            kyle.userID = [NSNumber numberWithInt:100002378870303];
-            kyle.groupID = [NSNumber numberWithInt:19];
-            kyle.isNearDorm = [NSNumber numberWithBool:true];*/
-          //  [FlatAPIClientManager sharedClient].profileUser = kyle;
+            /* ProfileUser * kyle = [[ProfileUser alloc]init];
+             ProfileUser *profileUser;
+             profileUser = [ProfileUser getProfileUserObjectFromDictionary:userJSON
+             AndManagedObjectContext:[NSManagedObjectContext MR_defaultContext]];
+             
+             [kyle setFirstName:@"Kyle"];
+             kyle.lastName = @"Archie";
+             kyle.userID = [NSNumber numberWithInt:100002378870303];
+             kyle.groupID = [NSNumber numberWithInt:19];
+             kyle.isNearDorm = [NSNumber numberWithBool:true];*/
+            //  [FlatAPIClientManager sharedClient].profileUser = kyle;
             [self showInitialView];
             
             // delete the above section at some point --------------------------------

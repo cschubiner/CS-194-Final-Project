@@ -14,6 +14,7 @@
 		0C498F46189F1BBA003B87F6 /* LocationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C498F45189F1BBA003B87F6 /* LocationManager.m */; };
 		0C498F49189F22F5003B87F6 /* GroupNetworkRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C498F48189F22F5003B87F6 /* GroupNetworkRequest.m */; };
 		0C498F4F189F2EC9003B87F6 /* Group+Json.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C498F4E189F2EC9003B87F6 /* Group+Json.m */; };
+		0C52C5BE18A9BAF40094D428 /* GroupLocalRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C52C5BD18A9BAF40094D428 /* GroupLocalRequest.m */; };
 		0C8CA09E18A84C47001A9DD6 /* GroupTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C8CA09D18A84C47001A9DD6 /* GroupTableViewController.m */; };
 		0C8CA0A118A87889001A9DD6 /* SettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C8CA0A018A87889001A9DD6 /* SettingsViewController.m */; };
 		0CBB52051896008C00B9615F /* UIColor+ColorHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CBB52041896008C00B9615F /* UIColor+ColorHelper.m */; };
@@ -81,6 +82,8 @@
 		0C498F48189F22F5003B87F6 /* GroupNetworkRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GroupNetworkRequest.m; sourceTree = "<group>"; };
 		0C498F4D189F2EC9003B87F6 /* Group+Json.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Group+Json.h"; sourceTree = "<group>"; };
 		0C498F4E189F2EC9003B87F6 /* Group+Json.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "Group+Json.m"; sourceTree = "<group>"; };
+		0C52C5BC18A9BAF40094D428 /* GroupLocalRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GroupLocalRequest.h; sourceTree = "<group>"; };
+		0C52C5BD18A9BAF40094D428 /* GroupLocalRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GroupLocalRequest.m; sourceTree = "<group>"; };
 		0C8CA09C18A84C47001A9DD6 /* GroupTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GroupTableViewController.h; sourceTree = "<group>"; };
 		0C8CA09D18A84C47001A9DD6 /* GroupTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GroupTableViewController.m; sourceTree = "<group>"; };
 		0C8CA09F18A87889001A9DD6 /* SettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingsViewController.h; sourceTree = "<group>"; };
@@ -281,6 +284,8 @@
 		F2C51DCC188C91CF00489989 /* Store */ = {
 			isa = PBXGroup;
 			children = (
+				0C52C5BC18A9BAF40094D428 /* GroupLocalRequest.h */,
+				0C52C5BD18A9BAF40094D428 /* GroupLocalRequest.m */,
 				F2C51E02188C9C9A00489989 /* ProfileUserLocalRequest.h */,
 				F2C51E03188C9C9A00489989 /* ProfileUserLocalRequest.m */,
 			);
@@ -559,6 +564,7 @@
 				F2C51DDF188C963D00489989 /* OpeningNavigationController.m in Sources */,
 				F2C51DF5188C9A9200489989 /* ProfileUser+Json.m in Sources */,
 				F2C51DD9188C94CC00489989 /* RootController.m in Sources */,
+				0C52C5BE18A9BAF40094D428 /* GroupLocalRequest.m in Sources */,
 				0CDA0F011895E89500F5A1F8 /* ProfileUserNetworkRequest.m in Sources */,
 				F2C51DF8188C9B6E00489989 /* AuthenticationNetworkRequest.m in Sources */,
 				0C498F41189F1825003B87F6 /* ProfileUser.m in Sources */,

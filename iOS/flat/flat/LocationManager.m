@@ -21,7 +21,7 @@
         _sharedClient.locationManager = [[CLLocationManager alloc] init];
         _sharedClient.locationManager.delegate = _sharedClient;
         _sharedClient.locationManager.desiredAccuracy = kCLLocationAccuracyBest;
-        _sharedClient.locationManager.distanceFilter = 200; // meters
+        _sharedClient.locationManager.distanceFilter = 100; // meters
         [_sharedClient.locationManager startMonitoringForRegion:[_sharedClient getGroupLocationRegion]];
         [_sharedClient.locationManager startUpdatingLocation];
     });
@@ -105,6 +105,14 @@ const static int NOT_BROADCASTING_DORM_STATUS = 2;
 
 - (void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation
 {
+    if (self.shouldSetDormLocation) {
+        NSLog(@"setting dorm location to: ");
+                NSLog(@"latitude %+.6f, longitude %+.6f\n",
+                      newLocation.coordinate.latitude,
+                      newLocation.coordinate.longitude);
+
+    }
+    
     static BOOL firstTime=TRUE;
     if(firstTime)
     {
@@ -128,8 +136,8 @@ const static int NOT_BROADCASTING_DORM_STATUS = 2;
              }];
         }
         //Stop Location Updation, we dont need it now.
-        [self.locationManager stopUpdatingLocation];
     }
+        [self.locationManager stopUpdatingLocation];
 }
 
 - (NSNumber*)calculateDistanceInMetersBetweenCoord:(CLLocationCoordinate2D)coord1 coord:(CLLocationCoordinate2D)coord2 {
