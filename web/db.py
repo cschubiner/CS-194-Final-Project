@@ -24,6 +24,7 @@ USER = "user"
 USERS = "users"
 GROUP = "group"
 MESSAGES = "messages"
+EPS = 0.00001
 
 engine = create_engine('mysql+gaerdbms:///add12?instance=flatappapi:db0')
 db_session = scoped_session(sessionmaker(autocommit=False,
@@ -203,21 +204,32 @@ def change_group_id(fb_id, new_group):
 def update_location(group, lat, lon):
     result = db_session.query(models.Group).filter(models.Group.id == int(group)).first()
 
+    print "PARAMS"
     print lat
     print lon
-    print result.latitude
-    print result.longitude
+    print "PARAMS AS FLOATS"
+    print str(float(lat))
+    print str(float(lon))
+    print "STORED IN DB"
+    print str(float(result.latitude))
+    print str(float(result.longitude))
+    latitude = float(lat)
+    longitude = float(lon)
 
     if result:
-        if result.latitude == lat and result.longitude == lon:
+        if abs(float(result.latitude) - float(lat)) < EPS and abs(float(result.longitude) - float(lon)) < EPS:
+            print "UPDATING NOTHING"
             return utils.obj_to_json('group', result)
-        elif result.latitude == lat and result.longitude != lon:
+        elif abs(float(result.latitude) - float(lat )) < EPS and abs(float(result.longitude) - float(lon)) > EPS:
+            print "UPDATING LONGITUDE ONLY"
             # update longitude only
             result.longitude = lon
-        elif result.latitude != lat and result.longitude == lon:
+        elif abs(float(result.latitude) - float(lat)) > EPS and abs(float(result.longitude) - float(lon)) < EPS:
+            print "UPDATING LATITUDE ONLY"
             # update latitude only
             result.latitude = lat
         else:
+            print "UPDATING BOTH"
             # update both
             result.latitude = lat
             result.longitude = lon
