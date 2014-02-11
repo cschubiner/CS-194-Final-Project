@@ -53,7 +53,7 @@
     
     //Pull to refresh
     self.refresh = [[UIRefreshControl alloc] init];
-    self.refresh.tintColor = [UIColor grayColor];
+    self.refresh.tintColor = [UIColor grayColor]; //THIS THING
     self.refresh.attributedTitle = [[NSAttributedString alloc] initWithString:@"Pull to Refresh"];
     [self.refresh addTarget:self
                 action:@selector(getMessages)

@@ -22,6 +22,8 @@
 		35B9DC4818A881B300AA65DC /* arrow-empty-small.png in Resources */ = {isa = PBXBuildFile; fileRef = 35B9DC4718A881B300AA65DC /* arrow-empty-small.png */; };
 		35B9DC4B18A881C300AA65DC /* arrow-hollow-small.png in Resources */ = {isa = PBXBuildFile; fileRef = 35B9DC4918A881C300AA65DC /* arrow-hollow-small.png */; };
 		35B9DC4C18A881C300AA65DC /* arrow-small.png in Resources */ = {isa = PBXBuildFile; fileRef = 35B9DC4A18A881C300AA65DC /* arrow-small.png */; };
+		35FC368018A9E166000E4286 /* arrow-black.png in Resources */ = {isa = PBXBuildFile; fileRef = 35FC367E18A9E166000E4286 /* arrow-black.png */; };
+		35FC368118A9E166000E4286 /* arrow-hollow-black.png in Resources */ = {isa = PBXBuildFile; fileRef = 35FC367F18A9E166000E4286 /* arrow-hollow-black.png */; };
 		3C82EF45418E4184B3617F06 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 68FF891EE5B44890A888CE02 /* libPods.a */; };
 		F25DCF1C18A84E9600710B03 /* MessageHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = F25DCF1B18A84E9600710B03 /* MessageHelper.m */; };
 		F25DCF1F18A84EAD00710B03 /* MessageNetworkRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = F25DCF1E18A84EAD00710B03 /* MessageNetworkRequest.m */; };
@@ -95,6 +97,8 @@
 		35B9DC4718A881B300AA65DC /* arrow-empty-small.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "arrow-empty-small.png"; sourceTree = "<group>"; };
 		35B9DC4918A881C300AA65DC /* arrow-hollow-small.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "arrow-hollow-small.png"; sourceTree = "<group>"; };
 		35B9DC4A18A881C300AA65DC /* arrow-small.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "arrow-small.png"; sourceTree = "<group>"; };
+		35FC367E18A9E166000E4286 /* arrow-black.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "arrow-black.png"; sourceTree = "<group>"; };
+		35FC367F18A9E166000E4286 /* arrow-hollow-black.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "arrow-hollow-black.png"; sourceTree = "<group>"; };
 		4B202A37D1D24AD08C25AF5B /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = "<group>"; };
 		68FF891EE5B44890A888CE02 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		F25DCF1A18A84E9600710B03 /* MessageHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MessageHelper.h; sourceTree = "<group>"; };
@@ -390,6 +394,8 @@
 		F2C51DE3188C96EC00489989 /* SideBar Assets */ = {
 			isa = PBXGroup;
 			children = (
+				35FC367E18A9E166000E4286 /* arrow-black.png */,
+				35FC367F18A9E166000E4286 /* arrow-hollow-black.png */,
 				35B9DC4918A881C300AA65DC /* arrow-hollow-small.png */,
 				35B9DC4A18A881C300AA65DC /* arrow-small.png */,
 				35B9DC4718A881B300AA65DC /* arrow-empty-small.png */,
@@ -496,8 +502,10 @@
 				F2C51DA7188C887400489989 /* Main_iPhone.storyboard in Resources */,
 				35B9DC4818A881B300AA65DC /* arrow-empty-small.png in Resources */,
 				35B9DC4B18A881C300AA65DC /* arrow-hollow-small.png in Resources */,
+				35FC368118A9E166000E4286 /* arrow-hollow-black.png in Resources */,
 				F2C51D9E188C887400489989 /* InfoPlist.strings in Resources */,
 				35B9DC4C18A881C300AA65DC /* arrow-small.png in Resources */,
+				35FC368018A9E166000E4286 /* arrow-black.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
