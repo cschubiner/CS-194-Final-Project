@@ -84,4 +84,20 @@
                                     }];
 }
 
++ (void) sendCalendarEvents:(NSString*)eventJSONString {
+    [[FlatAPIClientManager sharedClient] POST:@"user/update/calendar"
+                                   parameters:[NSDictionary dictionaryWithObject:eventJSONString forKey:@"events"]
+                                      success:^(NSURLSessionDataTask * task, id JSON) {
+                                          NSError *error = [ErrorHelper apiErrorFromDictionary:JSON];
+                                          if (!error) {
+                                              NSLog(@"successfully sent calendar");
+                                          } else {
+                                              NSLog(@"error when sending calendar");
+                                          }
+                                      }
+                                      failure: ^(NSURLSessionDataTask *__unused task, NSError *error) {
+                                          NSLog(@"error in sending calendar");
+                                      }];
+}
+
 @end

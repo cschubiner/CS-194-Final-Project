@@ -74,18 +74,22 @@
 
 - (void)didSendText:(NSString *)text
 {
+    [self.messageInputView.textView setText:nil];
+    [self textViewDidChange:self.messageInputView.textView];
+    if (text.length == 0)
+        return;
     [MessageHelper sendMessageWithText:text
                     andCompletionBlock:^(NSError *error, NSArray *messages) {
                         if (error) {
                             //Diplay message did not send error
+                            self.messageInputView.textView.text = text;
                         } else {
-                            NSLog(@"MESSAGES: %@", messages);
+                        //    NSLog(@"MESSAGES: %@", messages);
                             self.messages = [messages mutableCopy];
                             [JSMessageSoundEffect playMessageSentSound];
                             NSLog(@"About to reload data");
                             [self.tableView reloadData];
-                            NSLog(@"Already loaded data");
-                            self.messageInputView.textView.text = @"";
+                            NSLog(@"Just reloaded data");
                             [self scrollToBottomAnimated:YES];
                             [self finishSend];
                         }
