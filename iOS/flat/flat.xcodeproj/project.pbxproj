@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0C2E87D918B1B35700ADF8D2 /* EventModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C2E87D818B1B35700ADF8D2 /* EventModel.m */; };
 		0C498F32189F153C003B87F6 /* GroupModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 0C498F30189F153C003B87F6 /* GroupModel.xcdatamodeld */; };
 		0C498F3E189F17FF003B87F6 /* Group.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C498F3D189F17FF003B87F6 /* Group.m */; };
 		0C498F41189F1825003B87F6 /* ProfileUser.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C498F40189F1825003B87F6 /* ProfileUser.m */; };
@@ -18,6 +19,7 @@
 		0C8CA09E18A84C47001A9DD6 /* GroupTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C8CA09D18A84C47001A9DD6 /* GroupTableViewController.m */; };
 		0C8CA0A118A87889001A9DD6 /* SettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C8CA0A018A87889001A9DD6 /* SettingsViewController.m */; };
 		0CBB52051896008C00B9615F /* UIColor+ColorHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CBB52041896008C00B9615F /* UIColor+ColorHelper.m */; };
+		0CD4DD1B18B1AD01003F3B75 /* EventKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0CD4DD1A18B1AD01003F3B75 /* EventKit.framework */; };
 		0CDA0F011895E89500F5A1F8 /* ProfileUserNetworkRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CDA0F001895E89500F5A1F8 /* ProfileUserNetworkRequest.m */; };
 		35B9DC4818A881B300AA65DC /* arrow-empty-small.png in Resources */ = {isa = PBXBuildFile; fileRef = 35B9DC4718A881B300AA65DC /* arrow-empty-small.png */; };
 		35B9DC4B18A881C300AA65DC /* arrow-hollow-small.png in Resources */ = {isa = PBXBuildFile; fileRef = 35B9DC4918A881C300AA65DC /* arrow-hollow-small.png */; };
@@ -72,6 +74,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		0C2E87D718B1B35700ADF8D2 /* EventModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EventModel.h; sourceTree = "<group>"; };
+		0C2E87D818B1B35700ADF8D2 /* EventModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EventModel.m; sourceTree = "<group>"; };
 		0C498F31189F153C003B87F6 /* GroupModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = GroupModel.xcdatamodel; sourceTree = "<group>"; };
 		0C498F3C189F17FE003B87F6 /* Group.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Group.h; sourceTree = "<group>"; };
 		0C498F3D189F17FF003B87F6 /* Group.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Group.m; sourceTree = "<group>"; };
@@ -92,6 +96,7 @@
 		0C8CA0A018A87889001A9DD6 /* SettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingsViewController.m; sourceTree = "<group>"; };
 		0CBB52031896008C00B9615F /* UIColor+ColorHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+ColorHelper.h"; sourceTree = "<group>"; };
 		0CBB52041896008C00B9615F /* UIColor+ColorHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+ColorHelper.m"; sourceTree = "<group>"; };
+		0CD4DD1A18B1AD01003F3B75 /* EventKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = EventKit.framework; path = System/Library/Frameworks/EventKit.framework; sourceTree = SDKROOT; };
 		0CDA0EFF1895E89500F5A1F8 /* ProfileUserNetworkRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProfileUserNetworkRequest.h; sourceTree = "<group>"; };
 		0CDA0F001895E89500F5A1F8 /* ProfileUserNetworkRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProfileUserNetworkRequest.m; sourceTree = "<group>"; };
 		35B9DC4718A881B300AA65DC /* arrow-empty-small.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "arrow-empty-small.png"; sourceTree = "<group>"; };
@@ -165,6 +170,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0CD4DD1B18B1AD01003F3B75 /* EventKit.framework in Frameworks */,
 				0C498F43189F1AFF003B87F6 /* CoreLocation.framework in Frameworks */,
 				F2C51E5A1895D17C00489989 /* QuartzCore.framework in Frameworks */,
 				F2C51D96188C887400489989 /* CoreGraphics.framework in Frameworks */,
@@ -210,6 +216,7 @@
 		F2C51D92188C887400489989 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				0CD4DD1A18B1AD01003F3B75 /* EventKit.framework */,
 				0C498F42189F1AFF003B87F6 /* CoreLocation.framework */,
 				F2C51E591895D17C00489989 /* QuartzCore.framework */,
 				F2C51D93188C887400489989 /* Foundation.framework */,
@@ -340,6 +347,8 @@
 				0C498F30189F153C003B87F6 /* GroupModel.xcdatamodeld */,
 				F2C51DF3188C9A9200489989 /* ProfileUser+Json.h */,
 				F2C51DF4188C9A9200489989 /* ProfileUser+Json.m */,
+				0C2E87D718B1B35700ADF8D2 /* EventModel.h */,
+				0C2E87D818B1B35700ADF8D2 /* EventModel.m */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -571,6 +580,7 @@
 				F2C51DDC188C960B00489989 /* OpeningViewController.m in Sources */,
 				F2C51DDF188C963D00489989 /* OpeningNavigationController.m in Sources */,
 				F2C51DF5188C9A9200489989 /* ProfileUser+Json.m in Sources */,
+				0C2E87D918B1B35700ADF8D2 /* EventModel.m in Sources */,
 				F2C51DD9188C94CC00489989 /* RootController.m in Sources */,
 				0C52C5BE18A9BAF40094D428 /* GroupLocalRequest.m in Sources */,
 				0CDA0F011895E89500F5A1F8 /* ProfileUserNetworkRequest.m in Sources */,

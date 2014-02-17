@@ -21,6 +21,7 @@ PODS:
   - JASidePanels (1.3.2)
   - JSMessagesViewController (3.4.4):
     - JSQSystemSoundPlayer
+  - JSONModel (0.11.0)
   - JSQSystemSoundPlayer (1.4.0)
   - MagicalRecord (2.2):
     - MagicalRecord/Core
@@ -47,6 +48,7 @@ DEPENDENCIES:
   - Facebook-iOS-SDK
   - JASidePanels
   - JSMessagesViewController
+  - JSONModel
   - JSQSystemSoundPlayer
   - MagicalRecord
   - MBProgressHUD
@@ -58,6 +60,7 @@ SPEC CHECKSUMS:
   Facebook-iOS-SDK: 42a1de39170b858d675c2453d8aace55c51be2bb
   JASidePanels: c0e642a7311ec9cc9adfa616fa4a795e4e169f20
   JSMessagesViewController: 309de7324fbf48b7da924b002ef6017d5d2ce026
+  JSONModel: a5f2eb85c46df008a67569447ec408d1040d4bf4
   JSQSystemSoundPlayer: 28ccd01a92a0cebc6de6361e8499011b4cb6dab7
   MagicalRecord: 95d49d74ef752cd52f6ad87bcb474817fc3978cf
   MBProgressHUD: 2bbc6f470111daf7f3eaa4eb12b8cbf01c4c0622
