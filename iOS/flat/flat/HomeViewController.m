@@ -25,11 +25,12 @@
     return self;
 }
 
+
 - (void)getMessages
 {
     NSLog(@"Getting messages");
     [MessageHelper getMessagesWithCompletionBlock:^(NSError *error, NSArray *messages) {
-        NSLog(@"MESSAGES ARE %@", messages);
+        //        NSLog(@"MESSAGES ARE %@", messages);
         self.messages = [messages mutableCopy];
         [self.tableView reloadData];
         [self.refresh endRefreshing];
@@ -56,8 +57,8 @@
     self.refresh.tintColor = [UIColor grayColor]; //THIS THING
     self.refresh.attributedTitle = [[NSAttributedString alloc] initWithString:@"Pull to Refresh"];
     [self.refresh addTarget:self
-                action:@selector(getMessages)
-      forControlEvents:UIControlEventValueChanged];
+                     action:@selector(getMessages)
+           forControlEvents:UIControlEventValueChanged];
     [self.tableView addSubview:self.refresh];
     
     [self loadInitialMessages];
@@ -65,10 +66,13 @@
 
 - (void)loadInitialMessages
 {
-    [MessageHelper getMessagesWithCompletionBlock:^(NSError *error, NSArray *messages) {
-        self.messages = [messages mutableCopy];
-        [self.tableView reloadData];
-        [self scrollToBottomAnimated:NO];
+    [ProfileUserHelper getUsersFromGroupID:[[FlatAPIClientManager sharedClient]profileUser].groupID withCompletionBlock:^(NSError * error, NSMutableArray * users) {
+        [[FlatAPIClientManager sharedClient] setUsers:users];
+        [MessageHelper getMessagesWithCompletionBlock:^(NSError *error, NSArray *messages) {
+            self.messages = [messages mutableCopy];
+            [self.tableView reloadData];
+            [self scrollToBottomAnimated:NO];
+        }];
     }];
 }
 
@@ -84,7 +88,7 @@
                             //Diplay message did not send error
                             self.messageInputView.textView.text = text;
                         } else {
-                        //    NSLog(@"MESSAGES: %@", messages);
+                            //    NSLog(@"MESSAGES: %@", messages);
                             self.messages = [messages mutableCopy];
                             [JSMessageSoundEffect playMessageSentSound];
                             NSLog(@"About to reload data");
@@ -106,6 +110,7 @@
     return JSBubbleMessageTypeIncoming;
 }
 
+
 - (UIImageView *)bubbleImageViewWithType:(JSBubbleMessageType)type
                        forRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -115,8 +120,37 @@
         return [JSBubbleImageViewFactory bubbleImageViewForType:type
                                                           color:[UIColor js_bubbleBlueColor]];
     }
+    UIColor * bubbleColor = [ProfileUser getColorFromUserID:[NSNumber numberWithInt:currMessage.senderID]];
     return [JSBubbleImageViewFactory bubbleImageViewForType:type
-                                                      color:[UIColor js_bubbleLightGrayColor]];
+                                                      color:bubbleColor];
+}
+
+
+- (void)configureCell:(JSBubbleMessageCell *)cell atIndexPath:(NSIndexPath *)indexPath
+{
+//    if ([cell messageType] == JSBubbleMessageTypeOutgoing) {
+//        cell.bubbleView.textView.textColor = [UIColor whiteColor];
+//        
+//        if ([cell.bubbleView.textView respondsToSelector:@selector(linkTextAttributes)]) {
+//            NSMutableDictionary *attrs = [cell.bubbleView.textView.linkTextAttributes mutableCopy];
+//            [attrs setValue:[UIColor blueColor] forKey:UITextAttributeTextColor];
+//            
+//            cell.bubbleView.textView.linkTextAttributes = attrs;
+//        }
+//    }
+//    
+//    //    [[JSBubbleView appearance] setFont:[UIFont systemFontOfSize:16.0f]];
+//    
+//    if (cell.timestampLabel) {
+//        cell.timestampLabel.textColor = [UIColor lightGrayColor];
+//        cell.timestampLabel.shadowOffset = CGSizeZero;
+//    }
+//    
+//    
+//    
+//    if (cell.subtitleLabel) {
+//        cell.subtitleLabel.textColor = [UIColor lightGrayColor];
+//    }
 }
 
 - (JSMessagesViewTimestampPolicy)timestampPolicy
@@ -131,7 +165,7 @@
 
 - (JSMessagesViewSubtitlePolicy)subtitlePolicy
 {
-    return JSMessagesViewSubtitlePolicyNone;
+    return JSMessagesViewSubtitlePolicyIncomingOnly;
 }
 
 - (JSMessageInputViewStyle)inputViewStyle
@@ -154,9 +188,10 @@
     return nil;
 }
 
-- (NSString *)subtitleForRowAtIndexPath:(NSIndexPath *)indexPath
+-(NSString *)subtitleForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return nil;
+    JSMessage *currMessage = [self.messages objectAtIndex:indexPath.row];
+    return currMessage.sender;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView

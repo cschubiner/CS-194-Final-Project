@@ -10,6 +10,7 @@
 #import "LocationManager.h"
 #import "ProfileUserHelper.h"
 
+
 @protocol SidebarViewDelegate <NSObject>
 
 -(void)toggleSidebarMenu:(id)sender;
