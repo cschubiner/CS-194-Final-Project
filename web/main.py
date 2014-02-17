@@ -18,6 +18,9 @@ app = Flask(__name__.split('.')[0])
 
 db_init()
 
+# https://github.com/djacobs/PyAPNs
+# use this api for push notifications
+
 @app.route('/')
 @app.route('/<name>')
 def hello(name=None):
@@ -104,6 +107,11 @@ def get_user_friends():
         return db.add_user(request.data)
         # return db.add_user_friends(request.data)
 
+@app.route('/facebook/user/<user_id>/friendgroups', methods = ['GET', 'POST'])
+def get_friend_groups(user_id):
+    if request.method == 'GET':
+        return db.get_user_friend_groups(user_id)
+
 # Given a specific facebook_id, returns the information
 # about that user in JSON format
 @app.route('/user/<fb_id>')
@@ -138,6 +146,13 @@ def add_new_message():
 @app.route('/messages/all/<userID>')
 def get_messages(userID):
     return db.get_messages(userID)
+
+@app.route('/user/update/calendar', methods=['GET', 'POST'])
+def update_calendar():
+    if request.method == 'POST':
+        return db.update_calendar()
+    else:
+        return db.update_calendar()
 
 
 

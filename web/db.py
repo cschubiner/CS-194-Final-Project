@@ -13,7 +13,7 @@ from sqlalchemy.orm import sessionmaker, scoped_session
 
 from flask import Flask
 from flask import render_template
-from sqlalchemy import Column, Integer, String
+from sqlalchemy import Column, Integer, String, and_
 import utils
 import facebook
 import urllib2
@@ -80,28 +80,92 @@ def add_user(access_token):
             email = profile["email"],
         )
 
-    # left_id = profile['id']
-    # for friend in friends['data']:
-    #     is_user = user_exists(left_id)
-    #     new_friend = models.Friend(
-    #         right_id=friend['id'],
-    #         left_id=left_id,
-    #         is_user=False
-    #     )
-    #     db_session.add(new_friend)
+    # Adds each friend to the friend table in the db
+    add_friends_to_db(friends['data'], profile['id'])
 
+    # Assign the user to the newly created group
     new_group.users = [new_user]
 
     db_session.add(new_group)
     db_session.commit()
 
-    # update_friend_table(profile['id'])
+    # Updates the friends table in case the newly register user
+    # was previous in the friends table
+    update_friend_table(profile['id'])
 
     # query = db_session.query(models.User).all()
-    return utils.obj_to_json('user', new_group.users[0])
+    return utils.obj_to_json('user', new_group.users[0], True)
+
+def add_friends_to_db(friends, left_id):
+    for friend in friends:
+        is_user = user_exists(left_id)
+        new_friend = models.Friend(
+            right_id=friend['id'],
+            left_id=left_id,
+            is_user=False
+        )
+        db_session.add(new_friend)
+
+
+'''
+
+    Implements the /facebook/user/<user_id>/friendgroups endpoint
+    Returns a list of groups containing information about users
+    in the following format:
+
+    { groups: [
+            group: {
+                users: [
+                        user: {
+                           firstname, last name, fb id, etc.
+                           }
+               latlocation,
+               longlocation,
+               groupID
+           }
+       ]
+    }
+'''
+def get_user_friend_groups(user_id):
+    # gets all the users who active and friends with the user
+    users_are_friends = db_session.query(models.Friend).filter(and_(models.Friend.left_id == user_id, models.Friend.is_user == True)).all()
+
+    if users_are_friends:
+        return get_groups_users_map(users_are_friends)
+    return utils.error_json_message("You have no friends")
+
+def get_groups_users_map(friends):
+    # creating a map from groups to users
+    result = dict()
+
+    print friends
+
+    for friend_id in friends:
+        friend = db_session.query(models.User).filter(models.User.fb_id == friend_id.right_id).first()
+        print friend
+        if friend:
+            if friend.group_id in result.keys():
+                result[friend.group_id].append(utils.obj_to_json(None, friend, False))
+            else:
+                result[friend.group_id] = [utils.obj_to_json(None, friend, False)]
+
+    # now that we have a dictionary mapping from
+    # groups -> users
+    # we need the information about the groups
+    group_array = []
+
+    for group_id in result.keys():
+        group = db_session.query(models.Group).filter(models.Group.id == group_id).first()
+        group_array.append(group)
+
+    print group_array
+
+    return utils.list_to_json("groups", group_array)
 
 '''
     Updates the Friends table when a new user signs up
+    Specifically, it updates the is_use tuple when someone who
+    isn't a member registers an account
 '''
 def update_friend_table(fb_id):
     result = db_session.query(models.Friend).filter(models.Friend.right_id==fb_id).all()
@@ -109,7 +173,6 @@ def update_friend_table(fb_id):
     for friend in result:
         friend.is_user = True
     db_session.commit()
-
 
 '''
     Function: in_group
@@ -147,7 +210,7 @@ def get_user_by_fbid(fb_id):
     # TODO: Do error checking
     result = db_session.query(models.User).filter(models.User.fb_id==fb_id).first()
     if result is not None:
-        return utils.obj_to_json('user', result)
+        return utils.obj_to_json('user', result, True)
     return None
 
 def user_exists(fb_id):
@@ -168,7 +231,7 @@ def update_dorm_status(fb_id, status):
         result.is_near_dorm = status
         temp = result
         db_session.commit()
-        return utils.obj_to_json(USER, temp)
+        return utils.obj_to_json(USER, temp, True)
     return utils.error_json_message("you suck")
 
 '''
@@ -185,7 +248,7 @@ def change_group_id(fb_id, new_group):
     if result:
         # Changing a group_id to the same group_id will cause a server error
         if int(result.group_id) == int(new_group):
-            return utils.obj_to_json('user', result)
+            return utils.obj_to_json('user', result, True)
 
         result.group_id = new_group
 
@@ -198,7 +261,7 @@ def change_group_id(fb_id, new_group):
         # result.color_id = random.randint(1,3) # Hacky shit, will re-write later
         temp = result
         db_session.commit()
-        return utils.obj_to_json('user',temp)
+        return utils.obj_to_json('user',temp, True)
     return utils.error_json_message()
 
 def update_location(group, lat, lon):
@@ -219,7 +282,7 @@ def update_location(group, lat, lon):
     if result:
         if abs(float(result.latitude) - float(lat)) < EPS and abs(float(result.longitude) - float(lon)) < EPS:
             print "UPDATING NOTHING"
-            return utils.obj_to_json('group', result)
+            return utils.obj_to_json('group', result, True)
         elif abs(float(result.latitude) - float(lat )) < EPS and abs(float(result.longitude) - float(lon)) > EPS:
             print "UPDATING LONGITUDE ONLY"
             # update longitude only
@@ -235,7 +298,7 @@ def update_location(group, lat, lon):
             result.longitude = lon
         temp = result
         db_session.commit()
-        return utils.obj_to_json('group', temp)
+        return utils.obj_to_json('group', temp, True)
     return utils.to_app_json({})
 
 def get_messages(fb_id):
@@ -274,7 +337,8 @@ def get_name_from_fbid(fb_id):
 def get_group_by_id(group_id):
     group = db_session.query(models.Group).filter(models.Group.id == int(group_id)).first()
     if group:
-        return utils.obj_to_json('group', group)
+        return utils.obj_to_json('group', group, True)
     return utils.error_json_message('Group does not exist')
 
-
+def update_calendar():
+    return utils.error_json_message("Dummy endpoint")

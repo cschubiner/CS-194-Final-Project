@@ -42,8 +42,9 @@ class Friend(Base):
     __tablename__ = 'friends'
 
     id = Column(Integer, primary_key=True)
-    right_id = Column(String(MAX_LENGTH))
     left_id = Column(String(MAX_LENGTH))
+    right_id = Column(String(MAX_LENGTH))
+
     is_user = Column(Boolean)
 
 
@@ -62,7 +63,8 @@ class Group(Base):
         return {
             "groupID": self.id,
             "latLocation": float(self.latitude),
-            "longLocation": float(self.longitude)
+            "longLocation": float(self.longitude),
+            "users": [i.serialize for i in self.users]
         }
 
     def __repr__(self):
