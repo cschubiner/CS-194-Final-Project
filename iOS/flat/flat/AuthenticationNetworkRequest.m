@@ -16,8 +16,11 @@
 + (void)signinWithFacebook:(NSString *)fbAccessToken
         andCompletionBlock:(RequestProfileUserCompletionHandler)completionBlock
 {
+    NSLog(@"before setting dict");
+    NSLog(@"%@", [FlatAPIClientManager sharedClient].deviceToken);
     NSDictionary *params = @{@"token":fbAccessToken,
                              @"device_token":[FlatAPIClientManager sharedClient].deviceToken};
+    NSLog(@"after setting dict");
     [[FlatAPIClientManager sharedClient] POST:@"/user/login/facebook"
                                   parameters:params
                                      success:^(NSURLSessionDataTask *__unused task, id JSON)
