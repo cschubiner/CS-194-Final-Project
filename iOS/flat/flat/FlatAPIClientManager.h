@@ -16,5 +16,6 @@
 
 @property (nonatomic, strong) ProfileUser *profileUser;
 @property (nonatomic, strong) Group *group;
+@property NSMutableArray * users;
 
 @end

@@ -8,9 +8,11 @@ def list_to_json(response_type, obj_list):
     return to_app_json({})
 
 # Converts a single SQLAlchemy object into a JSON object
-def obj_to_json(response_type, obj):
-    if obj:
+def obj_to_json(response_type, obj, need_wrapper):
+    if need_wrapper and obj:
         return to_app_json({response_type: obj.serialize})
+    elif obj and not need_wrapper:
+        return to_app_json(obj.serialize)
     return to_app_json({})
 
 # Helper function that converts from HTML/text to application/JSON

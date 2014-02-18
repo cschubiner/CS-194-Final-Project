@@ -13,5 +13,7 @@
 + (ProfileUser *)getProfileUserObjectFromDictionary:(NSDictionary *)dictionary
                             AndManagedObjectContext:(NSManagedObjectContext *)context;
 
++ (UIColor *) getColorFromUser:(ProfileUser*)user;
++ (UIColor *) getColorFromUserID:(NSNumber*)userID;
 
 @end

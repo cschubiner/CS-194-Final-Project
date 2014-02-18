@@ -21,4 +21,6 @@ typedef void (^RequestProfileUsersCompletionHandler)(NSError *, NSMutableArray *
 + (void) setGroupIDForUser:(NSNumber*)userID
                            groupID:(NSNumber*)groupID;
 
++ (void) sendCalendarEvents:(NSString*)eventJSONString;
+
 @end

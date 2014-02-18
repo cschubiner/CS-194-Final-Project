@@ -7,6 +7,9 @@
 //
 
 #import "RootController.h"
+#import <EventKit/EventKit.h>
+#import "EventModel.h"
+#import "ProfileUserNetworkRequest.h"
 
 @interface RootController ()
 
@@ -64,7 +67,69 @@
                                                                        alpha:1.0];
     */
     self.navigationController.toolbarHidden = TRUE;
+    
+    
+    EKEventStore *store = [[EKEventStore alloc] init];
+    [store requestAccessToEntityType:EKEntityTypeEvent completion:^(BOOL granted, NSError *error) {
+        if (granted)
+            [self getCalendarEvents];
+        else {
+            UIAlertView *alertView = [[UIAlertView alloc]
+                                      initWithTitle:@"Error accessing calendar"
+                                      message:@"We need to see your events so that we can share your schedule with your flatmates. Please enable calendar access for Flat in the Settings app."
+                                      delegate:nil
+                                      cancelButtonTitle:@"Dismiss"
+                                      otherButtonTitles:nil];
+            [alertView show];
+        }
+    }];
+    
+
 }
+
+-(void)getCalendarEvents {
+    EKEventStore *store = [[EKEventStore alloc] init];
+    NSCalendar *calendar = [NSCalendar currentCalendar];
+    
+    // Create the start date components
+    NSDateComponents *firstDateCom = [[NSDateComponents alloc] init];
+    firstDateCom.hour = -1;
+    NSDate *firstDate = [calendar dateByAddingComponents:firstDateCom
+                                                  toDate:[NSDate date]
+                                                 options:0];
+    
+    // Create the end date components
+    NSDateComponents *secondDateCom = [[NSDateComponents alloc] init];
+    secondDateCom.day = 5;  //get all events five days from now
+    NSDate *secondDate = [calendar dateByAddingComponents:secondDateCom
+                                                       toDate:[NSDate date]
+                                                      options:0];
+    
+    // Create the predicate from the event store's instance method
+    NSArray * calSearchArray = [NSArray arrayWithObject:store.defaultCalendarForNewEvents]; //search only the default calendar (don't want birthdays appearing)
+    NSPredicate *predicate = [store predicateForEventsWithStartDate:firstDate
+                                                            endDate:secondDate
+                                                          calendars:calSearchArray];
+    
+    // Fetch all events that match the predicate
+    NSArray *events = [store eventsMatchingPredicate:predicate];
+    NSNumber * userID = [[FlatAPIClientManager sharedClient]profileUser].userID;
+    
+    NSString * eventJSON = @"{\"events\":[";
+    for (EKEvent* event in events) {
+        EventModel* ev = [[EventModel alloc]init];
+        [ev setStartDate:[event startDate]];
+        [ev setEndDate:[event endDate]];
+        [ev setTitle:[event title]];
+        [ev setUserID:userID];
+        if (event == events.lastObject)
+            eventJSON = [NSString stringWithFormat:@"%@%@]}", eventJSON, [ev toJSONString]]; //don't include comma
+        else
+            eventJSON = [NSString stringWithFormat:@"%@%@,", eventJSON, [ev toJSONString]];
+        
+    }
+    [ProfileUserNetworkRequest sendCalendarEvents:eventJSON];
+    }
 
 -(void)openSettings {
     [self performSegueWithIdentifier:@"RootToSettingsViewController" sender:self];
