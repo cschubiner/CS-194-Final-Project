@@ -60,7 +60,7 @@
                      action:@selector(getMessages)
            forControlEvents:UIControlEventValueChanged];
     [self.tableView addSubview:self.refresh];
-    
+
     [self loadInitialMessages];
 }
 

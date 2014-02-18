@@ -16,6 +16,7 @@
 
 @property (nonatomic, strong) ProfileUser *profileUser;
 @property (nonatomic, strong) Group *group;
-@property NSMutableArray * users;
+@property NSMutableArray *users;
+@property NSString *deviceToken;
 
 @end

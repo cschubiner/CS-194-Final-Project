@@ -16,7 +16,8 @@
 + (void)signinWithFacebook:(NSString *)fbAccessToken
         andCompletionBlock:(RequestProfileUserCompletionHandler)completionBlock
 {
-    NSDictionary *params = @{@"token":fbAccessToken};
+    NSDictionary *params = @{@"token":fbAccessToken,
+                             @"device_token":[FlatAPIClientManager sharedClient].deviceToken};
     [[FlatAPIClientManager sharedClient] POST:@"/user/login/facebook"
                                   parameters:params
                                      success:^(NSURLSessionDataTask *__unused task, id JSON)
@@ -49,11 +50,12 @@
     NSDictionary *params = @{@"token":fbAccessToken,
                              @"email":email,
                              @"firstname":firstName,
-                             @"lastname":lastName};
+                             @"lastname":lastName,
+                             @"device_token":[FlatAPIClientManager sharedClient].deviceToken};
     
     [[FlatAPIClientManager sharedClient] POST:@"/user/signup/facebook"
-                                  parameters:params
-                                     success:^(NSURLSessionDataTask *__unused task, id JSON)
+                                   parameters:params
+                                      success:^(NSURLSessionDataTask *__unused task, id JSON)
      {
          NSLog(@"success in authentication network reqest");
          NSError *error = [ErrorHelper apiErrorFromDictionary:JSON];
