@@ -116,11 +116,11 @@
 {
     JSMessage *currMessage = [self.messages objectAtIndex:indexPath.row];
     ProfileUser *user = [FlatAPIClientManager sharedClient].profileUser;
+    UIColor * bubbleColor = [ProfileUser getColorFromUserID:[NSNumber numberWithInt:currMessage.senderID]];
     if (currMessage.senderID == [user.userID intValue]) {
         return [JSBubbleImageViewFactory bubbleImageViewForType:type
-                                                          color:[UIColor js_bubbleBlueColor]];
+                                                          color:bubbleColor];
     }
-    UIColor * bubbleColor = [ProfileUser getColorFromUserID:[NSNumber numberWithInt:currMessage.senderID]];
     return [JSBubbleImageViewFactory bubbleImageViewForType:type
                                                       color:bubbleColor];
 }
