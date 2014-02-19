@@ -141,7 +141,7 @@
 		F25DCF1E18A84EAD00710B03 /* MessageNetworkRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MessageNetworkRequest.m; sourceTree = "<group>"; };
 		F25DCF2018A8564700710B03 /* JSMessage+Json.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "JSMessage+Json.h"; sourceTree = "<group>"; };
 		F25DCF2118A8564700710B03 /* JSMessage+Json.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "JSMessage+Json.m"; sourceTree = "<group>"; };
-		F2C51D90188C887400489989 /* flat.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = flat.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		F2C51D90188C887400489989 /* Flat.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Flat.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F2C51D93188C887400489989 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		F2C51D95188C887400489989 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		F2C51D97188C887400489989 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
@@ -235,7 +235,7 @@
 		F2C51D91188C887400489989 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				F2C51D90188C887400489989 /* flat.app */,
+				F2C51D90188C887400489989 /* Flat.app */,
 				F2C51DB4188C887400489989 /* flatTests.xctest */,
 			);
 			name = Products;
@@ -485,7 +485,7 @@
 			);
 			name = flat;
 			productName = flat;
-			productReference = F2C51D90188C887400489989 /* flat.app */;
+			productReference = F2C51D90188C887400489989 /* Flat.app */;
 			productType = "com.apple.product-type.application";
 		};
 		F2C51DB3188C887400489989 /* flatTests */ = {
@@ -801,8 +801,8 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "flat/flat-Prefix.pch";
 				INFOPLIST_FILE = "flat/flat-Info.plist";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
+				PRODUCT_NAME = Flat;
+				PROVISIONING_PROFILE = "34929005-C3F7-4506-9A26-14EA3F630009";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -818,8 +818,8 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "flat/flat-Prefix.pch";
 				INFOPLIST_FILE = "flat/flat-Info.plist";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
+				PRODUCT_NAME = Flat;
+				PROVISIONING_PROFILE = "34929005-C3F7-4506-9A26-14EA3F630009";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
