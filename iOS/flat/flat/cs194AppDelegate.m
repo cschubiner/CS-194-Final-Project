@@ -274,10 +274,12 @@
 {
     RootController *mainViewController = self.mainViewController;
     HomeViewController *homeViewController = mainViewController.centerPanel;
-    [MessageHelper getMessagesWithCompletionBlock:^(NSError *error, NSArray *messages){
+    [MessageHelper getMessagesWithCompletionBlock:^(NSError *error, NSArray *messages) {
+        if ([messages count] != [homeViewController.messages count]) {
+            [JSMessageSoundEffect playMessageReceivedAlert];
+        }
         homeViewController.messages = [messages mutableCopy];
         [homeViewController.tableView reloadData];
-        [JSMessageSoundEffect playMessageReceivedAlert];
         [homeViewController scrollToBottomAnimated:YES];
     }];
 }
