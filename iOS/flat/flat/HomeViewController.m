@@ -39,7 +39,7 @@
     }];
 }
 
-- (void)viewWillAppear:(BOOL)animated
+- (void)viewDidAppear:(BOOL)animated
 {
     if ([[FlatAPIClientManager sharedClient].users count] == 1 && self.justLoggedIn) {
         //show groups
