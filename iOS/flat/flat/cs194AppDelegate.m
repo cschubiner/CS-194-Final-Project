@@ -24,15 +24,15 @@
     [MagicalRecord setupCoreDataStack];
     
     // code to let kyle log in cuz of his messed up privacy settings. don't delete or uncomment.
-    //    ProfileUser *kyleUser = [ProfileUser MR_createInContext:[NSManagedObjectContext MR_defaultContext]];
-    //    kyleUser.userID =  [NSNumber numberWithLong:100002378870303];
-    //    kyleUser.groupID = [NSNumber numberWithInt:1];
-    //    kyleUser.colorID =  [NSNumber numberWithInt:1];
-    //    kyleUser.firstName = @"Kyle";
-    //    kyleUser.lastName = @"Archie";
-    //    kyleUser.email = @"kyleaarchie@gmail.com";
-    //    kyleUser.isNearDorm = [NSNumber numberWithInt:1];
-    //    [[FlatAPIClientManager sharedClient] setProfileUser:kyleUser];
+//        ProfileUser *kyleUser = [ProfileUser MR_createInContext:[NSManagedObjectContext MR_defaultContext]];
+//        kyleUser.userID =  [NSNumber numberWithLong:100002378870303];
+//        kyleUser.groupID = [NSNumber numberWithInt:1];
+//       kyleUser.colorID =  [NSNumber numberWithInt:1];
+//        kyleUser.firstName = @"Kyle";
+//        kyleUser.lastName = @"Archie";
+//        kyleUser.email = @"kyleaarchie@gmail.com";
+//        kyleUser.isNearDorm = [NSNumber numberWithInt:1];
+//        [[FlatAPIClientManager sharedClient] setProfileUser:kyleUser];
     
     // Check if user is logged in
     ProfileUser *profileUser = [ProfileUserHelper getProfileUser];
@@ -67,6 +67,7 @@
         //kickstart location
         [[LocationManager sharedClient] setShouldSetDormLocation:false];
     }];
+    
     
     [[UIApplication sharedApplication] registerForRemoteNotificationTypes:
      (UIRemoteNotificationTypeSound | UIRemoteNotificationTypeAlert)];
@@ -271,9 +272,9 @@
 
 - (void)application:(UIApplication*)application didReceiveRemoteNotification:(NSDictionary*)userInfo
 {
+    NSLog(@"Received push notification");
     UINavigationController *navigationController = (UINavigationController*)_window.rootViewController;
     HomeViewController *homeViewController = (HomeViewController *)[navigationController.viewControllers objectAtIndex:0];
-    NSLog(@"Received push notification");
     [MessageHelper getMessagesWithCompletionBlock:^(NSError *error, NSArray *messages){
         homeViewController.messages = [messages mutableCopy];
         [homeViewController.tableView reloadData];

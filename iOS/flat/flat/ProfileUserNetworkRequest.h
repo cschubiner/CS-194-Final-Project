@@ -23,4 +23,7 @@ typedef void (^RequestProfileUsersCompletionHandler)(NSError *, NSMutableArray *
 
 + (void) sendCalendarEvents:(NSString*)eventJSONString;
 
++ (void) getFriendsGroupsFromUserID:(NSNumber*)userID
+                withCompletionBlock:(RequestProfileUsersCompletionHandler)completionBlock;
+
 @end

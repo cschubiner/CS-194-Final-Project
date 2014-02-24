@@ -23,7 +23,7 @@
                                       success:^(NSURLSessionDataTask *__unused task, id JSON) {
                                           NSError *error = [ErrorHelper apiErrorFromDictionary:JSON];
                                           if (!error) {
-                                              NSLog(@"JSON: %@", JSON);
+//                                              NSLog(@"JSON: %@", JSON);
                                               NSMutableArray *messageArray = [JSON objectForKey:@"messages"];
                                               NSMutableArray *messageArrayReturn = [[NSMutableArray alloc] init];
                                               for (NSMutableDictionary* messageJSON in messageArray) {
@@ -50,16 +50,16 @@
                                      success:^(NSURLSessionDataTask *__unused task, id JSON) {
                                          NSError *error = [ErrorHelper apiErrorFromDictionary:JSON];
                                          if (!error) {
-                                             NSLog(@"JSON: %@", JSON);
+//                                             NSLog(@"JSON: %@", JSON);
                                              NSMutableArray *messageArray = [JSON objectForKey:@"messages"];
                                              NSMutableArray *messageArrayReturn = [[NSMutableArray alloc] init];
                                              for (NSMutableDictionary* messageJSON in messageArray) {
                                                  JSMessage *message = [JSMessage getMessageObjectFromDictionary:messageJSON];
                                                  [messageArrayReturn addObject:message];
                                              }
-                                             for(JSMessage *temp in messageArrayReturn) {
-                                                 NSLog(@"message: %@", temp.text);
-                                             }
+//                                             for(JSMessage *temp in messageArrayReturn) {
+//                                                 NSLog(@"message: %@", temp.text);
+//                                             }
                                              completionBlock(error, messageArrayReturn);
                                          } else {
                                              completionBlock(error, nil);
