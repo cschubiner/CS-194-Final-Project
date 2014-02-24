@@ -100,4 +100,42 @@
                                       }];
 }
 
++ (void) getFriendsGroupsFromUserID:(NSNumber*)userID
+         withCompletionBlock:(RequestProfileUsersCompletionHandler)completionBlock
+{
+    NSString * url = [NSString stringWithFormat:@"http://flatappapi.appspot.com/facebook/user/%@/friendgroups", userID];
+    [[FlatAPIClientManager sharedClient]GET:url
+                                 parameters:Nil
+                                    success:^(NSURLSessionDataTask * task, id JSON) {
+                                        NSError *error = [ErrorHelper apiErrorFromDictionary:JSON];
+                                        if (!error) {
+                                            NSMutableArray *groupsArrayReturn = [[NSMutableArray alloc] init];
+                                            NSMutableArray *groupsArray = [JSON objectForKey:@"groups"];
+                                            for (NSMutableDictionary * group in groupsArray) {
+                                                NSMutableArray *usersArray = [group objectForKey:@"users"];
+                                                NSMutableArray *usersArrayReturn = [[NSMutableArray alloc] init];
+                                                
+                                                bool shouldAddThisUsersGroup = true;
+                                                for (NSMutableDictionary* userJSON in usersArray) {
+                                                    ProfileUser *profileUser = [ProfileUser getProfileUserObjectFromDictionary:userJSON
+                                                                                                       AndManagedObjectContext:[NSManagedObjectContext MR_defaultContext]];
+                                                    if ([profileUser.userID isEqualToNumber:userID])
+                                                        shouldAddThisUsersGroup = false; //do not add the group that belongs to current user
+                                                    [usersArrayReturn addObject:profileUser];
+                                                }
+                                                if (shouldAddThisUsersGroup)
+                                                    [groupsArrayReturn addObject:usersArrayReturn];
+                                            }
+                                            completionBlock(error, groupsArrayReturn);
+                                        } else {
+                                            completionBlock(error, nil);
+                                        }
+                                    }
+                                    failure: ^(NSURLSessionDataTask *__unused task, NSError *error) {
+                                        NSLog(@"error in getting friend groups");
+                                        completionBlock(error, nil);
+                                    }];
+    
+}
+
 @end
