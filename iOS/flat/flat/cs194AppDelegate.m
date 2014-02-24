@@ -24,15 +24,15 @@
     [MagicalRecord setupCoreDataStack];
     
     // code to let kyle log in cuz of his messed up privacy settings. don't delete or uncomment.
-//        ProfileUser *kyleUser = [ProfileUser MR_createInContext:[NSManagedObjectContext MR_defaultContext]];
-//        kyleUser.userID =  [NSNumber numberWithLong:100002378870303];
-//        kyleUser.groupID = [NSNumber numberWithInt:1];
-//       kyleUser.colorID =  [NSNumber numberWithInt:1];
-//        kyleUser.firstName = @"Kyle";
-//        kyleUser.lastName = @"Archie";
-//        kyleUser.email = @"kyleaarchie@gmail.com";
-//        kyleUser.isNearDorm = [NSNumber numberWithInt:1];
-//        [[FlatAPIClientManager sharedClient] setProfileUser:kyleUser];
+    //        ProfileUser *kyleUser = [ProfileUser MR_createInContext:[NSManagedObjectContext MR_defaultContext]];
+    //        kyleUser.userID =  [NSNumber numberWithLong:100002378870303];
+    //        kyleUser.groupID = [NSNumber numberWithInt:1];
+    //       kyleUser.colorID =  [NSNumber numberWithInt:1];
+    //        kyleUser.firstName = @"Kyle";
+    //        kyleUser.lastName = @"Archie";
+    //        kyleUser.email = @"kyleaarchie@gmail.com";
+    //        kyleUser.isNearDorm = [NSNumber numberWithInt:1];
+    //        [[FlatAPIClientManager sharedClient] setProfileUser:kyleUser];
     
     // Check if user is logged in
     ProfileUser *profileUser = [ProfileUserHelper getProfileUser];
@@ -171,7 +171,7 @@
                                                     [FlatAPIClientManager sharedClient].profileUser = profileUser;
                                                     [FlatAPIClientManager sharedClient].users = users;
                                                     [self showInitialView];
-                            }];
+                                                }];
                          }
                      }];
                 }
@@ -232,11 +232,31 @@
     }
 }
 
+-(void)showFBLogin
+{
+    [FBSession openActiveSessionWithPublishPermissions:@[@"basic_info", @"email"] defaultAudience:FBSessionDefaultAudienceFriends allowLoginUI:YES
+                                     completionHandler:^(FBSession *session, FBSessionState state, NSError *error) {
+                                         if (error) {
+                                             [FBSession.activeSession closeAndClearTokenInformation];
+                                             [self openFacebookSession];
+                                         }
+                                         [self sessionStateChanged:session
+                                                             state:state
+                                                             error:error];
+                                     }];
+}
+
 - (void)openFacebookSession
 {
+//    [self showFBLogin];
+//    return;
     [FBSession openActiveSessionWithReadPermissions:@[@"basic_info", @"email"]
                                        allowLoginUI:YES
                                   completionHandler:^(FBSession *session, FBSessionState state, NSError *error) {
+                                      if (error) {
+                                          [FBSession.activeSession closeAndClearTokenInformation];
+//                                          [self openFacebookSession];
+                                      }
                                       [self sessionStateChanged:session
                                                           state:state
                                                           error:error];

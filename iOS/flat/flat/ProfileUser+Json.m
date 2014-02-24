@@ -66,8 +66,8 @@
 }
 
 + (UIColor *) getColorFromUser:(ProfileUser*)user {
-    if ([user.firstName isEqualToString:@"Zach"])
-        NSLog(@"zach");
+//    if ([user.firstName isEqualToString:@"Zach"])
+//        NSLog(@"zach");
     NSString * colorStr = @"FFFFFF";
     if ([user.colorID isEqualToNumber:[NSNumber numberWithInt:0]])
         colorStr = @"fb605e";
