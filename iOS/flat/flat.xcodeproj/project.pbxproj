@@ -102,6 +102,7 @@
 		0C498F48189F22F5003B87F6 /* GroupNetworkRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GroupNetworkRequest.m; sourceTree = "<group>"; };
 		0C498F4D189F2EC9003B87F6 /* Group+Json.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Group+Json.h"; sourceTree = "<group>"; };
 		0C498F4E189F2EC9003B87F6 /* Group+Json.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "Group+Json.m"; sourceTree = "<group>"; };
+		0C5014F118BACC29009E0677 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
 		0C52C5BC18A9BAF40094D428 /* GroupLocalRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GroupLocalRequest.h; sourceTree = "<group>"; };
 		0C52C5BD18A9BAF40094D428 /* GroupLocalRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GroupLocalRequest.m; sourceTree = "<group>"; };
 		0C8CA09C18A84C47001A9DD6 /* GroupTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GroupTableViewController.h; sourceTree = "<group>"; };
@@ -244,6 +245,7 @@
 		F2C51D92188C887400489989 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				0C5014F118BACC29009E0677 /* libz.dylib */,
 				0CD4DD1A18B1AD01003F3B75 /* EventKit.framework */,
 				0C498F42189F1AFF003B87F6 /* CoreLocation.framework */,
 				F2C51E591895D17C00489989 /* QuartzCore.framework */,
@@ -771,8 +773,8 @@
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				COPY_PHASE_STRIP = YES;
 				ENABLE_NS_ASSERTIONS = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -783,7 +785,7 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
-				PROVISIONING_PROFILE = "34929005-C3F7-4506-9A26-14EA3F630009";
+				PROVISIONING_PROFILE = "8301BBCE-4D39-4230-9D9A-F065E962B58C";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
@@ -801,6 +803,10 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "flat/flat-Prefix.pch";
 				INFOPLIST_FILE = "flat/flat-Info.plist";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"/Users/clayschubiner/CS-194-Final-Project/iOS/flat/TestFlightSDK3",
+				);
 				PRODUCT_NAME = Flat;
 				PROVISIONING_PROFILE = "34929005-C3F7-4506-9A26-14EA3F630009";
 				WRAPPER_EXTENSION = app;
@@ -813,13 +819,17 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "flat/flat-Prefix.pch";
 				INFOPLIST_FILE = "flat/flat-Info.plist";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"/Users/clayschubiner/CS-194-Final-Project/iOS/flat/TestFlightSDK3",
+				);
 				PRODUCT_NAME = Flat;
-				PROVISIONING_PROFILE = "34929005-C3F7-4506-9A26-14EA3F630009";
+				PROVISIONING_PROFILE = "8301BBCE-4D39-4230-9D9A-F065E962B58C";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;

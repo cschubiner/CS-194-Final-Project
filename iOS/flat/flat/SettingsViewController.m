@@ -67,11 +67,11 @@
     }
     
     // Configure the cell...
-    if (indexPath.row ==  2) {
+    if (indexPath.row ==  1) {
         cell.textLabel.text = @"Switch groups";
         return cell;
     }
-    if (indexPath.row == 1) {
+    if (indexPath.row == 2) {
         cell.textLabel.text = @"Logout";
         return cell;
     }
@@ -111,7 +111,7 @@
 
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (indexPath.row == 1) {
+    if (indexPath.row == 2) {
         NSString *logoutTitle = @"Do you really want to logout?";
         UIActionSheet *logoutActionSheet = [[UIActionSheet alloc]
                                             initWithTitle:logoutTitle
@@ -131,7 +131,7 @@
         [alert setTag:0];
         [alert show];
     }
-    else if (indexPath.row == 2) {
+    else if (indexPath.row == 1) {
         [self performSegueWithIdentifier:@"SidebarToGroupTableView"
                                   sender:self];
         //        GroupTableViewController * groupTableVC = [[GroupTableViewController alloc] init];
