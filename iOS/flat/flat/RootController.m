@@ -56,11 +56,11 @@
     
 //    self.navigationItem.leftBarButtonItem = leftBarButton;
     self.navigationItem.leftBarButtonItem = lbb;
-    UIBarButtonItem *rightBarButton = [[UIBarButtonItem alloc]
-                               initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh
-                                       target:self
-                                       action:@selector(refreshMessages:)];
-    self.navigationItem.rightBarButtonItem = rightBarButton;
+//    UIBarButtonItem *rightBarButton = [[UIBarButtonItem alloc]
+//                               initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh
+//                                       target:self
+//                                       action:@selector(refreshMessages:)];
+//    self.navigationItem.rightBarButtonItem = rightBarButton;
     /*
     self.navigationItem.rightBarButtonItem.tintColor = [UIColor colorWithRed:109.0/255.0
                                                                        green:207.0/255.0
