@@ -17,7 +17,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="zwE-FQ-1fc" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-219" y="-260"/>
+            <point key="canvasLocation" x="-691" y="-488"/>
         </scene>
         <!--Main Navigation View Controller-->
         <scene sceneID="Z44-Kd-3ob">
@@ -52,7 +52,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="wmv-zT-jqp" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="206" y="-488"/>
+            <point key="canvasLocation" x="-178" y="-488"/>
         </scene>
         <!--Settings View Controller-->
         <scene sceneID="of6-HX-6EN">
@@ -84,7 +84,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="D0U-hv-S1L" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="725" y="-177"/>
+            <point key="canvasLocation" x="961" y="19"/>
         </scene>
         <!--Root Controller-->
         <scene sceneID="23k-k3-8EV">
@@ -165,7 +165,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="QE1-bK-8M2" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1467" y="19"/>
+            <point key="canvasLocation" x="1549" y="19"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="AGk-ZA-fls">
@@ -206,10 +206,13 @@
                     </view>
                     <extendedEdge key="edgesForExtendedLayout" bottom="YES"/>
                     <navigationItem key="navigationItem" id="cXJ-AY-2RT"/>
+                    <connections>
+                        <segue destination="4Nf-yR-N3T" kind="push" identifier="HomeViewControllerToGroupTableViewController" id="KKH-3J-qvk"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="JLz-sH-5kq" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1861" y="703"/>
+            <point key="canvasLocation" x="1795" y="839"/>
         </scene>
     </scenes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
@@ -217,4 +220,7 @@
         <simulatedOrientationMetrics key="orientation"/>
         <simulatedScreenMetrics key="destination" type="retina4"/>
     </simulatedMetricsContainer>
+    <inferredMetricsTieBreakers>
+        <segue reference="KKH-3J-qvk"/>
+    </inferredMetricsTieBreakers>
 </document>

@@ -11,6 +11,7 @@
 #import "cs194AppDelegate.h"
 #import "AuthenticationHelper.h"
 #import "OpeningButton.h"
+#import "GroupTableViewController.h"
 
 @interface OpeningViewController ()
 @property NSArray *readPermissions;
@@ -56,8 +57,9 @@
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
-    [super prepareForSegue:segue sender:sender];
-    [self.view setHidden:YES];
+    if ([segue.identifier isEqualToString:@"OpeningToGroup"]) {
+        //Do something here if necessary
+    }
 }
 
 -(void)setBackground {
@@ -88,9 +90,14 @@
                                  andLastName:lastName
                          withCompletionBlock:^(NSError *error, ProfileUser *profileUser)
      {
-         NSLog(@"openingViewController completion block %@", profileUser);
-         [FlatAPIClientManager sharedClient].profileUser = profileUser;
-         [self dismissViewControllerAnimated:YES completion:nil];
+         NSLog(@"signing up with facebook");
+         if (!error) {
+             NSLog(@"openingViewController completion block %@", profileUser);
+             [FlatAPIClientManager sharedClient].profileUser = profileUser;
+             [self performSegueWithIdentifier:@"OpeningToGroup"
+                                       sender:self];
+             //[self dismissViewControllerAnimated:YES completion:nil];
+         }
      }];
 }
 

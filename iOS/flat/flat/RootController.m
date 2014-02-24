@@ -10,6 +10,8 @@
 #import <EventKit/EventKit.h>
 #import "EventModel.h"
 #import "ProfileUserNetworkRequest.h"
+#import "HomeViewController.h"
+#import "MessageHelper.h"
 
 @interface RootController ()
 
@@ -54,13 +56,12 @@
     
 //    self.navigationItem.leftBarButtonItem = leftBarButton;
     self.navigationItem.leftBarButtonItem = lbb;
-    
-    /*
-    UIBarButtonItem *rightBarButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"notify_icon"]
-                                                                       style:UIBarButtonItemStylePlain
-                                                                      target:self
-                                                                      action:@selector(showNotifications:)];
+    UIBarButtonItem *rightBarButton = [[UIBarButtonItem alloc]
+                               initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh
+                                       target:self
+                                       action:@selector(refreshMessages:)];
     self.navigationItem.rightBarButtonItem = rightBarButton;
+    /*
     self.navigationItem.rightBarButtonItem.tintColor = [UIColor colorWithRed:109.0/255.0
                                                                        green:207.0/255.0
                                                                         blue:246.0/255.0
@@ -87,7 +88,16 @@
 
 }
 
--(void)getCalendarEvents {
+- (IBAction)refreshMessages:(id)sender
+{
+    [MessageHelper getMessagesWithCompletionBlock:^(NSError *error, NSArray *messages) {
+        NSLog(@"Messages: %@", messages);
+        self.centerPanel.messages = [messages mutableCopy];
+        [self.centerPanel.tableView reloadData];
+    }];
+}
+
+- (void)getCalendarEvents {
     EKEventStore *store = [[EKEventStore alloc] init];
     NSCalendar *calendar = [NSCalendar currentCalendar];
     

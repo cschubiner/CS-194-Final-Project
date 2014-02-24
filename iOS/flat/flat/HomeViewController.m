@@ -12,6 +12,7 @@
 
 @interface HomeViewController ()
 @property UIRefreshControl *refresh;
+@property BOOL justLoggedIn;
 @end
 
 @implementation HomeViewController
@@ -38,10 +39,22 @@
     }];
 }
 
+- (void)viewWillAppear:(BOOL)animated
+{
+    if ([[FlatAPIClientManager sharedClient].users count] == 1 && self.justLoggedIn) {
+        //show groups
+        [self performSegueWithIdentifier:@"HomeViewControllerToGroupTableViewController"
+                                  sender:self];
+    }
+    self.justLoggedIn = NO;
+}
+
 - (void)viewDidLoad
 {
+    
     self.delegate = self;
     self.dataSource = self;
+    self.justLoggedIn = YES;
     [super viewDidLoad];
     
     [[JSBubbleView appearance] setFont:[UIFont systemFontOfSize:16.0f]];

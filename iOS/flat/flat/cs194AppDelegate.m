@@ -165,9 +165,12 @@
                               }];
                          } else {
                              // User already exists. Sign up user
-                             [FlatAPIClientManager sharedClient].profileUser = profileUser;
-                             //                             [self.mainViewController.leftPanel handleLogin];
-                             [self showInitialView];
+                             [ProfileUserHelper getUsersFromGroupID:profileUser.groupID
+                                                withCompletionBlock:^(NSError * error, NSMutableArray * users) {
+                                                    [FlatAPIClientManager sharedClient].profileUser = profileUser;
+                                                    [FlatAPIClientManager sharedClient].users = users;
+                                                    [self showInitialView];
+                            }];
                          }
                      }];
                 }
