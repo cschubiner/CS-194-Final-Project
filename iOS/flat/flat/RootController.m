@@ -126,6 +126,8 @@
     NSNumber * userID = [[FlatAPIClientManager sharedClient]profileUser].userID;
     
     NSString * eventJSON = @"{\"events\":[";
+    if (events == nil || events.count == 0)
+        eventJSON = @"{\"events\":[]}";
     for (EKEvent* event in events) {
         EventModel* ev = [[EventModel alloc]init];
         [ev setStartDate:[event startDate]];
