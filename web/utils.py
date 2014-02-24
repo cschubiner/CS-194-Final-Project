@@ -1,6 +1,7 @@
 from flask import Response
 import json
 
+
 # Converts a sqlalchemy query result (list) to json
 def list_to_json(response_type, obj_list):
     if obj_list:

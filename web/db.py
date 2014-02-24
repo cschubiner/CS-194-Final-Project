@@ -10,6 +10,9 @@ import sqlalchemy
 from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker, scoped_session
+from google.appengine.api import taskqueue
+from apns import APNs, Payload
+import time
 
 from flask import Flask
 from flask import render_template
@@ -26,10 +29,14 @@ GROUP = "group"
 MESSAGES = "messages"
 EPS = 0.00001
 
-engine = create_engine('mysql+gaerdbms:///add12?instance=flatappapi:db0')
+engine = create_engine('mysql+gaerdbms:///add15?instance=flatappapi:db0')
 db_session = scoped_session(sessionmaker(autocommit=False,
                                          autoflush=False,
                                          bind=engine))
+apns = APNs(use_sandbox=True,cert_file='ck.pem', key_file='FlatKeyD.pem')
+
+
+
 Base = declarative_base()
 
 
@@ -61,11 +68,10 @@ def get_group_id():
     Handles the connection to the database and adds a user
     along with a group
 '''
-def add_user(access_token):
+def add_user(access_token, device_id):
 
     graph = facebook.GraphAPI(access_token)
     profile = graph.get_object("me")
-    friends = graph.get_connections("me", "friends")
     request_picture_url = "http://graph.facebook.com/" + profile['id']+"/picture"
     picture_url = urllib2.urlopen(request_picture_url).geturl()
 
@@ -78,10 +84,18 @@ def add_user(access_token):
             last_name = profile["last_name"],
             image_url = picture_url,
             email = profile["email"],
+            device_id = device_id
         )
+    # t = threading.Thread(target=add_friends, args=[friends['data'], profile['id']])
+    # t.daemon = False
+    # t.start()
+    print device_id
 
     # Adds each friend to the friend table in the db
-    add_friends_to_db(friends['data'], profile['id'])
+    params = dict()
+    params['access_token'] = access_token
+    params['id'] = profile['id']
+    taskqueue.add(url='/tasks/add_friends', method='POST', params=params)
 
     # Assign the user to the newly created group
     new_group.users = [new_user]
@@ -90,21 +104,43 @@ def add_user(access_token):
     db_session.commit()
 
     # Updates the friends table in case the newly register user
-    # was previous in the friends table
+    # was previously in the friends table
     update_friend_table(profile['id'])
 
     # query = db_session.query(models.User).all()
+    print device_id
     return utils.obj_to_json('user', new_group.users[0], True)
 
+'''
+    This is the subprocess that adds users' friends into the database
+'''
+def task_add_friends(access_token, left_id):
+    print access_token
+    graph = facebook.GraphAPI(access_token)
+    friends = graph.get_connections("me", "friends")
+    print friends
+    print access_token
+    print left_id
+    add_friends_to_db(friends, left_id)
+    update_friend_table(left_id)
+    return "Done"
+
+def add_friends(friends, left_id):
+    add_friends_to_db(friends, left_id)
+    update_friend_table(left_id)
+    print "done with process"
+
 def add_friends_to_db(friends, left_id):
-    for friend in friends:
-        is_user = user_exists(left_id)
+    for friend in friends['data']:
+        is_user = user_exists(friend['id'])
         new_friend = models.Friend(
             right_id=friend['id'],
             left_id=left_id,
-            is_user=False
+            is_user=is_user
         )
         db_session.add(new_friend)
+
+    db_session.commit()
 
 
 '''
@@ -309,6 +345,21 @@ def get_messages(fb_id):
         return utils.list_to_json('messages', all_messages)
     return utils.error_json_message()
 
+def send_push_notification(group_id, fb_id, name, msg):
+    recipients = db_session.query(models.User).filter(and_(models.User.group_id == int(group_id), models.User.fb_id != fb_id)).all()
+
+    # PyAPNs code
+    message = name + ': ' + msg + ''
+    payload = Payload(alert=message, sound="default", badge=1)
+    for recipient in recipients:
+        print recipient
+        print recipient.device_id
+        print payload
+        apns.gateway_server.send_notification(recipient.device_id, payload)
+    for (token_hex, fail_time) in apns.feedback_server.items():
+        print (token_hex, fail_time)
+    return 0
+
 def add_new_message(body, fb_id):
     user = db_session.query(models.User).filter(models.User.fb_id == fb_id).first()
 
@@ -323,16 +374,24 @@ def add_new_message(body, fb_id):
 
         db_session.add(new_msg)
         db_session.commit()
+
+        # Setting the parameters to the task callback
+        push_params = dict()
+        push_params['group_id'] = user.group_id
+        push_params['fb_id'] = fb_id
+        push_params['name'] = user.first_name
+        push_params['msg'] = body
+        taskqueue.add(url='/tasks/message/push', method='POST', params=push_params)
         # TODO: this query is probably buggy
         all_messages = db_session.query(models.Message).filter(models.Message.group_id == group_id).order_by(models.Message.time_stamp).all()
         return utils.list_to_json('messages', all_messages)
-    return utils.error_json_message()
+    return utils.error_json_message("hello")
 
 def get_name_from_fbid(fb_id):
     user = db_session.query(models.User).filter(models.User.fb_id == fb_id).first()
     if user is not None:
         return user.first_name
-    return utils.error_json_message()
+    return utils.error_json_message('fuck')
 
 def get_group_by_id(group_id):
     group = db_session.query(models.Group).filter(models.Group.id == int(group_id)).first()
@@ -340,5 +399,24 @@ def get_group_by_id(group_id):
         return utils.obj_to_json('group', group, True)
     return utils.error_json_message('Group does not exist')
 
+
 def update_calendar():
     return utils.error_json_message("Dummy endpoint")
+
+def hello():
+    new_friend = models.Friend(
+        right_id=1234,
+        left_id=4321,
+        is_user=True
+    )
+    db_session.add(new_friend)
+    db_session.commit()
+    return 'hello'
+    print "HELLO WORLD"
+
+def test_push_clay():
+    apns = APNs(use_sandbox=True,cert_file='ck.pem', key_file='FlatKeyD.pem')
+    token_hex = '82d02d1cdc21bed400017fec232f7d126002ac514eed6b9a1b48e45a41df519f'
+    payload = Payload(alert="8===================================D", sound="default", badge=1)
+    apns.gateway_server.send_notification(token_hex, payload)
+    return "Success!"
