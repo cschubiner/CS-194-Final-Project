@@ -272,12 +272,13 @@
 
 - (void)application:(UIApplication*)application didReceiveRemoteNotification:(NSDictionary*)userInfo
 {
-    NSLog(@"Received push notification");
-    UINavigationController *navigationController = (UINavigationController*)_window.rootViewController;
-    HomeViewController *homeViewController = (HomeViewController *)[navigationController.viewControllers objectAtIndex:0];
+    RootController *mainViewController = self.mainViewController;
+    HomeViewController *homeViewController = mainViewController.centerPanel;
     [MessageHelper getMessagesWithCompletionBlock:^(NSError *error, NSArray *messages){
         homeViewController.messages = [messages mutableCopy];
         [homeViewController.tableView reloadData];
+        [JSMessageSoundEffect playMessageReceivedAlert];
+        [homeViewController scrollToBottomAnimated:YES];
     }];
 }
 
