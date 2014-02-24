@@ -18,6 +18,7 @@ class User(Base):
     last_name = Column(String(MAX_LENGTH))
     image_url = Column(String(MAX_LENGTH))
     email = Column(String(MAX_LENGTH))
+    device_id = Column(String(64))
     group = relationship("Group")
 
 
@@ -31,7 +32,8 @@ class User(Base):
             "first_name": self.first_name,
             "last_name": self.last_name,
             "image_url": self.image_url,
-            "email": self.email
+            "email": self.email,
+            "device_id": self.device_id
         }
 
 

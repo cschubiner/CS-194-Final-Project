@@ -42,14 +42,19 @@ def hello(name=None):
 def facebook_login(signup):
     if request.method == 'POST':
         print "request.form = "
-        print request.form
+        print request.data
+        # for debugging purposes
+        if request.data:
+            params = request.data.split()
+            return db.add_user(params[0], params[1])
+        # else we use the normal form
         if request.form:
             fb_id = db.get_fbid(request.form['token'])
             if db.get_user_by_fbid(fb_id) is not None:
                 return db.get_user_by_fbid(fb_id)
 
-            return db.add_user(request.form['token'])
-        return db.add_user(request.form['token'])
+            return db.add_user(request.form['token'], request.form['device_token'])
+        return db.add_user(request.form['token'], request.form['device_token'])
     else:
         return utils.to_app_json({"Error lol"})
 
@@ -154,5 +159,30 @@ def update_calendar():
     else:
         return db.update_calendar()
 
+@app.route('/tasks/add_friends', methods=['GET', 'POST'])
+def task_add_friends():
+    if request.method == 'POST':
+        print request.form
+        print "hello"
+        # return "fuck you"
+        return db.task_add_friends(request.form['access_token'],request.form['id'])
+    return "{}"
 
+@app.route('/tasks/message/push', methods=['GET', 'POST'])
+def task_send_message_notification():
+    if request.method == 'POST':
+        return db.send_push_notification(request.form['group_id'], request.form['fb_id'], request.form['name'], request.form['msg'])
+
+# @app.route('/test/task_queue')
+# def test_task_queue():
+#     return db.task_add_friends(requet.form['access_token'],request.form['id'])
+
+# @app.route('/user/message/push', methods=['GET', 'POST'])
+# def push_message_to_users():
+#     if request.method == 'POST':
+#         db.push_message_to_group(request.form['device_token'], request.form['user_id'])
+
+@app.route("/test/push/clay")
+def test_push_clay():
+    return db.test_push_clay()
 
