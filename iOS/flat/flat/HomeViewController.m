@@ -174,6 +174,9 @@
     //    if (cell.subtitleLabel) {
     //        cell.subtitleLabel.textColor = [UIColor lightGrayColor];
     //    }
+    if ([cell messageType] == JSBubbleMessageTypeOutgoing) {
+            cell.bubbleView.textView.textColor = [UIColor whiteColor];
+    }
 }
 
 - (JSMessagesViewTimestampPolicy)timestampPolicy
@@ -183,12 +186,12 @@
 
 - (JSMessagesViewAvatarPolicy)avatarPolicy
 {
-    return JSMessagesViewAvatarPolicyAll;
+    return JSMessagesViewAvatarPolicyIncomingOnly;
 }
 
 - (JSMessagesViewSubtitlePolicy)subtitlePolicy
 {
-    return JSMessagesViewSubtitlePolicyAll;
+    return JSMessagesViewSubtitlePolicyIncomingOnly;
 }
 
 - (JSMessageInputViewStyle)inputViewStyle
