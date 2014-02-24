@@ -73,7 +73,7 @@
                      action:@selector(getMessages)
            forControlEvents:UIControlEventValueChanged];
     [self.tableView addSubview:self.refresh];
-
+    
     [self loadInitialMessages];
 }
 
@@ -109,7 +109,7 @@
                             NSLog(@"Just reloaded data");
                             [self scrollToBottomAnimated:YES];
                         }
-                            [self finishSend];
+                        [self finishSend];
                     }];
 }
 
@@ -128,11 +128,17 @@
                        forRowAtIndexPath:(NSIndexPath *)indexPath
 {
     JSMessage *currMessage = [self.messages objectAtIndex:indexPath.row];
-    ProfileUser *user = [FlatAPIClientManager sharedClient].profileUser;
-    UIColor * bubbleColor = [ProfileUser getColorFromUserID:[NSNumber numberWithInt:currMessage.senderID]];
-    if (currMessage.senderID == [user.userID intValue]) {
-        return [JSBubbleImageViewFactory bubbleImageViewForType:type
-                                                          color:bubbleColor];
+    UIColor * bubbleColor;
+    if (currMessage.senderID == 0) { //if current message is a calendar event
+        bubbleColor = [UIColor grayColor];
+    }
+    else {
+        ProfileUser *user = [FlatAPIClientManager sharedClient].profileUser;
+        bubbleColor = [ProfileUser getColorFromUserID:[NSNumber numberWithInt:currMessage.senderID]];
+        if (currMessage.senderID == [user.userID intValue]) {
+            return [JSBubbleImageViewFactory bubbleImageViewForType:type
+                                                              color:bubbleColor];
+        }
     }
     return [JSBubbleImageViewFactory bubbleImageViewForType:type
                                                       color:bubbleColor];
@@ -141,29 +147,29 @@
 
 - (void)configureCell:(JSBubbleMessageCell *)cell atIndexPath:(NSIndexPath *)indexPath
 {
-//    if ([cell messageType] == JSBubbleMessageTypeOutgoing) {
-//        cell.bubbleView.textView.textColor = [UIColor whiteColor];
-//        
-//        if ([cell.bubbleView.textView respondsToSelector:@selector(linkTextAttributes)]) {
-//            NSMutableDictionary *attrs = [cell.bubbleView.textView.linkTextAttributes mutableCopy];
-//            [attrs setValue:[UIColor blueColor] forKey:UITextAttributeTextColor];
-//            
-//            cell.bubbleView.textView.linkTextAttributes = attrs;
-//        }
-//    }
-//    
-//    //    [[JSBubbleView appearance] setFont:[UIFont systemFontOfSize:16.0f]];
-//    
-//    if (cell.timestampLabel) {
-//        cell.timestampLabel.textColor = [UIColor lightGrayColor];
-//        cell.timestampLabel.shadowOffset = CGSizeZero;
-//    }
-//    
-//    
-//    
-//    if (cell.subtitleLabel) {
-//        cell.subtitleLabel.textColor = [UIColor lightGrayColor];
-//    }
+    //    if ([cell messageType] == JSBubbleMessageTypeOutgoing) {
+    //        cell.bubbleView.textView.textColor = [UIColor whiteColor];
+    //
+    //        if ([cell.bubbleView.textView respondsToSelector:@selector(linkTextAttributes)]) {
+    //            NSMutableDictionary *attrs = [cell.bubbleView.textView.linkTextAttributes mutableCopy];
+    //            [attrs setValue:[UIColor blueColor] forKey:UITextAttributeTextColor];
+    //
+    //            cell.bubbleView.textView.linkTextAttributes = attrs;
+    //        }
+    //    }
+    //
+    //    //    [[JSBubbleView appearance] setFont:[UIFont systemFontOfSize:16.0f]];
+    //
+    //    if (cell.timestampLabel) {
+    //        cell.timestampLabel.textColor = [UIColor lightGrayColor];
+    //        cell.timestampLabel.shadowOffset = CGSizeZero;
+    //    }
+    //
+    //
+    //
+    //    if (cell.subtitleLabel) {
+    //        cell.subtitleLabel.textColor = [UIColor lightGrayColor];
+    //    }
 }
 
 - (JSMessagesViewTimestampPolicy)timestampPolicy

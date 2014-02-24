@@ -71,8 +71,11 @@
                                         if (!error) {
                                             NSLog(@"successfully set user group id");
                                             [[[FlatAPIClientManager sharedClient]profileUser] setGroupID:groupID];
+                                            
+                                            [[NSManagedObjectContext MR_defaultContext] MR_saveToPersistentStoreAndWait];
                                             [GroupNetworkRequest getGroupFromGroupID:groupID withCompletionBlock:^(NSError * error, Group* group) {
                                                 [[FlatAPIClientManager sharedClient] setGroup:group];
+                                                [[NSManagedObjectContext MR_defaultContext] MR_saveToPersistentStoreAndWait];
                                             }];
                                             
                                         } else {
@@ -119,7 +122,7 @@
                                                 for (NSMutableDictionary* userJSON in usersArray) {
                                                     ProfileUser *profileUser = [ProfileUser getProfileUserObjectFromDictionary:userJSON
                                                                                                        AndManagedObjectContext:[NSManagedObjectContext MR_defaultContext]];
-                                                    if ([profileUser.userID isEqualToNumber:userID])
+                                                    if ([profileUser.userID isEqualToNumber:userID] && [profileUser.groupID isEqualToNumber:[[FlatAPIClientManager sharedClient]profileUser].groupID])
                                                         shouldAddThisUsersGroup = false; //do not add the group that belongs to current user
                                                     [usersArrayReturn addObject:profileUser];
                                                 }
