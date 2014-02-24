@@ -29,7 +29,7 @@ GROUP = "group"
 MESSAGES = "messages"
 EPS = 0.00001
 
-engine = create_engine('mysql+gaerdbms:///add15?instance=flatappapi:db0')
+engine = create_engine('mysql+gaerdbms:///add16?instance=flatappapi:db0')
 db_session = scoped_session(sessionmaker(autocommit=False,
                                          autoflush=False,
                                          bind=engine))
@@ -286,15 +286,15 @@ def change_group_id(fb_id, new_group):
         if int(result.group_id) == int(new_group):
             return utils.obj_to_json('user', result, True)
 
+        # Modifying the user's color_id
         result.group_id = new_group
+        new_group = db_session.query(models.Group).filter(models.Group.id == new_group).first()
+        new_group.users.append(result)
+        new_color_id = len(new_group.users) - 1
 
         # changing the color_id
-        # num = result.randint(1,3)
-        # result.color_id = num
-        # while result.color_id == num:
-        #     result.color_id = randint(0,3)
+        result.color_id = new_color_id
 
-        # result.color_id = random.randint(1,3) # Hacky shit, will re-write later
         temp = result
         db_session.commit()
         return utils.obj_to_json('user',temp, True)
@@ -346,19 +346,22 @@ def get_messages(fb_id):
     return utils.error_json_message()
 
 def send_push_notification(group_id, fb_id, name, msg):
-    recipients = db_session.query(models.User).filter(and_(models.User.group_id == int(group_id), models.User.fb_id != fb_id)).all()
+    apns = APNs(use_sandbox=True,cert_file='ck.pem', key_file='FlatKeyD.pem')
+
+    recipients = db_session.query(models.User).filter(and_(models.User.group_id == group_id, models.User.fb_id != fb_id)).all()
 
     # PyAPNs code
     message = name + ': ' + msg + ''
     payload = Payload(alert=message, sound="default", badge=1)
+
+    # for loop through the users that aren't the sender
     for recipient in recipients:
-        print recipient
-        print recipient.device_id
-        print payload
         apns.gateway_server.send_notification(recipient.device_id, payload)
+
+    # DUnno what this does, but the sample code had it
     for (token_hex, fail_time) in apns.feedback_server.items():
         print (token_hex, fail_time)
-    return 0
+    return utils.error_json_message("Yo")
 
 def add_new_message(body, fb_id):
     user = db_session.query(models.User).filter(models.User.fb_id == fb_id).first()
@@ -369,7 +372,8 @@ def add_new_message(body, fb_id):
             body = body,
             time_stamp = datetime.datetime.utcnow(),
             user_id = fb_id,
-            group_id = user.group_id
+            group_id = user.group_id,
+            color_id = user.color_id
         )
 
         db_session.add(new_msg)

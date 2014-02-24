@@ -95,6 +95,9 @@ objects::
     mymetadata = MetaData()
     Base = declarative_base(metadata=mymetadata)
 
+
+.. _declarative_configuring_relationships:
+
 Configuring Relationships
 =========================
 
@@ -191,6 +194,7 @@ are available::
 
 
 
+.. _declarative_many_to_many:
 
 Configuring Many-to-Many Relationships
 ======================================
@@ -656,7 +660,7 @@ Using the Concrete Helpers
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 Helper classes provides a simpler pattern for concrete inheritance.
-With these objects, the ``__declare_last__`` helper is used to configure the
+With these objects, the ``__declare_first__`` helper is used to configure the
 "polymorphic" loader for the mapper after all subclasses have been declared.
 
 .. versionadded:: 0.7.3
@@ -700,6 +704,26 @@ Either ``Employee`` base can be used in the normal fashion::
         engineer_info = Column(String(40))
         __mapper_args__ = {'polymorphic_identity':'engineer',
                         'concrete':True}
+
+
+The :class:`.AbstractConcreteBase` class is itself mapped, and can be
+used as a target of relationships::
+
+    class Company(Base):
+        __tablename__ = 'company'
+
+        id = Column(Integer, primary_key=True)
+        employees = relationship("Employee",
+                        primaryjoin="Company.id == Employee.company_id")
+
+
+.. versionchanged:: 0.9.3 Support for use of :class:`.AbstractConcreteBase`
+   as the target of a :func:`.relationship` has been improved.
+
+It can also be queried directly::
+
+    for employee in session.query(Employee).filter(Employee.name == 'qbert'):
+        print(employee)
 
 
 .. _declarative_mixins:
@@ -1122,37 +1146,6 @@ inheritance::
         primary_language = Column(String(50))
         __mapper_args__ = {'polymorphic_identity': 'engineer'}
 
-If you want to use a similar pattern with a mix of single and joined
-table inheritance, you would need a slightly different mixin and use
-it on any joined table child classes in addition to their parent
-classes::
-
-    from sqlalchemy.ext.declarative import declared_attr
-    from sqlalchemy.ext.declarative import has_inherited_table
-
-    class Tablename(object):
-        @declared_attr
-        def __tablename__(cls):
-            if (has_inherited_table(cls) and
-                Tablename not in cls.__bases__):
-                return None
-            return cls.__name__.lower()
-
-    class Person(Tablename, Base):
-        id = Column(Integer, primary_key=True)
-        discriminator = Column('type', String(50))
-        __mapper_args__ = {'polymorphic_on': discriminator}
-
-    # This is single table inheritance
-    class Engineer(Person):
-        primary_language = Column(String(50))
-        __mapper_args__ = {'polymorphic_identity': 'engineer'}
-
-    # This is joined table inheritance
-    class Manager(Tablename, Person):
-        id = Column(Integer, ForeignKey('person.id'), primary_key=True)
-        preferred_recreation = Column(String(50))
-        __mapper_args__ = {'polymorphic_identity': 'engineer'}
 
 Combining Table/Mapper Arguments from Multiple Mixins
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -1222,6 +1215,20 @@ assumed to be completed and the 'configure' step has finished::
             # do something with mappings
 
 .. versionadded:: 0.7.3
+
+``__declare_first__()``
+~~~~~~~~~~~~~~~~~~~~~~~
+
+Like ``__declare_last__()``, but is called at the beginning of mapper configuration
+via the :meth:`.MapperEvents.before_configured` event::
+
+    class MyClass(Base):
+        @classmethod
+        def __declare_first__(cls):
+            ""
+            # do something before mappings are configured
+
+.. versionadded:: 0.9.3
 
 .. _declarative_abstract:
 

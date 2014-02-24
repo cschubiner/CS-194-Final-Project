@@ -12,7 +12,7 @@ from ...orm import synonym as _orm_synonym, mapper,\
                                 interfaces, properties
 from ...orm.util import polymorphic_union
 from ...orm.base import _mapper_or_none
-from ...util import compat
+from ...util import OrderedDict
 from ... import exc
 import weakref
 
@@ -20,7 +20,7 @@ from .base import _as_declarative, \
                 _declarative_constructor,\
                 _DeferredMapperConfig, _add_attribute
 from .clsregistry import _class_resolver
-
+from . import clsregistry
 
 def instrument_declarative(cls, registry, metadata):
     """Given a class, configure the class declaratively,
@@ -319,13 +319,13 @@ class ConcreteBase(object):
 
     @classmethod
     def _create_polymorphic_union(cls, mappers):
-        return polymorphic_union(dict(
+        return polymorphic_union(OrderedDict(
             (mp.polymorphic_identity, mp.local_table)
             for mp in mappers
          ), 'type', 'pjoin')
 
     @classmethod
-    def __declare_last__(cls):
+    def __declare_first__(cls):
         m = cls.__mapper__
         if m.with_polymorphic:
             return
@@ -370,10 +370,11 @@ class AbstractConcreteBase(ConcreteBase):
     __abstract__ = True
 
     @classmethod
-    def __declare_last__(cls):
+    def __declare_first__(cls):
         if hasattr(cls, '__mapper__'):
             return
 
+        clsregistry.add_class(cls.__name__, cls)
         # can't rely on 'self_and_descendants' here
         # since technically an immediate subclass
         # might not be mapped, but a subclass

@@ -834,6 +834,10 @@ class ARRAY(sqltypes.Concatenable, sqltypes.TypeEngine):
         self.as_tuple = as_tuple
         self.dimensions = dimensions
 
+    @property
+    def python_type(self):
+        return list
+
     def compare_values(self, x, y):
         return x == y
 
@@ -1567,7 +1571,8 @@ class PGDialect(default.DefaultDialect):
         # http://www.postgresql.org/docs/9.3/static/release-9-2.html#AEN116689
         self.supports_smallserial = self.server_version_info >= (9, 2)
 
-        self._backslash_escapes = connection.scalar(
+        self._backslash_escapes = self.server_version_info < (8, 2) or \
+                    connection.scalar(
                                     "show standard_conforming_strings"
                                     ) == 'off'
 
@@ -2027,20 +2032,21 @@ class PGDialect(default.DefaultDialect):
                                        info_cache=kw.get('info_cache'))
 
         if self.server_version_info < (8, 4):
-            # unnest() and generate_subscripts() both introduced in
-            # version 8.4
             PK_SQL = """
                 SELECT a.attname
                 FROM
                     pg_class t
                     join pg_index ix on t.oid = ix.indrelid
                     join pg_attribute a
-                        on t.oid=a.attrelid and a.attnum=ANY(ix.indkey)
+                        on t.oid=a.attrelid AND %s
                  WHERE
                   t.oid = :table_oid and ix.indisprimary = 't'
                 ORDER BY a.attnum
-            """
+            """ % self._pg_index_any("a.attnum", "ix.indkey")
+
         else:
+            # unnest() and generate_subscripts() both introduced in
+            # version 8.4
             PK_SQL = """
                 SELECT a.attname
                 FROM pg_attribute a JOIN (
@@ -2155,6 +2161,21 @@ class PGDialect(default.DefaultDialect):
             fkeys.append(fkey_d)
         return fkeys
 
+    def _pg_index_any(self, col, compare_to):
+        if self.server_version_info < (8, 1):
+            # http://www.postgresql.org/message-id/10279.1124395722@sss.pgh.pa.us
+            # "In CVS tip you could replace this with "attnum = ANY (indkey)".
+            # Unfortunately, most array support doesn't work on int2vector in
+            # pre-8.1 releases, so I think you're kinda stuck with the above
+            # for now.
+            # regards, tom lane"
+            return "(%s)" % " OR ".join(
+                        "%s[%d] = %s" % (compare_to, ind, col)
+                        for ind in range(0, 10)
+                    )
+        else:
+            return "%s = ANY(%s)" % (col, compare_to)
+
     @reflection.cache
     def get_indexes(self, connection, table_name, schema, **kw):
         table_oid = self.get_table_oid(connection, table_name, schema,
@@ -2167,14 +2188,14 @@ class PGDialect(default.DefaultDialect):
           SELECT
               i.relname as relname,
               ix.indisunique, ix.indexprs, ix.indpred,
-              a.attname, a.attnum, ix.indkey::varchar
+              a.attname, a.attnum, ix.indkey%s
           FROM
               pg_class t
                     join pg_index ix on t.oid = ix.indrelid
                     join pg_class i on i.oid=ix.indexrelid
                     left outer join
                         pg_attribute a
-                        on t.oid=a.attrelid and a.attnum=ANY(ix.indkey)
+                        on t.oid=a.attrelid and %s
           WHERE
               t.relkind = 'r'
               and t.oid = :table_oid
@@ -2182,7 +2203,10 @@ class PGDialect(default.DefaultDialect):
           ORDER BY
               t.relname,
               i.relname
-        """
+        """ % (
+                "::varchar" if self.server_version_info >= (8, 1) else "",
+                self._pg_index_any("a.attnum", "ix.indkey")
+            )
 
         t = sql.text(IDX_SQL, typemap={'attname': sqltypes.Unicode})
         c = connection.execute(t, table_oid=table_oid)

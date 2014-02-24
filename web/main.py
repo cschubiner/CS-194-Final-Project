@@ -139,7 +139,6 @@ def change_group_id(fb_id, new_group_id):
 def add_new_message():
     print request
     if request.method == 'POST':
-        print "============"
 
         body = request.form['message']
         fb_id = request.form['userID']
@@ -155,6 +154,7 @@ def get_messages(userID):
 @app.route('/user/update/calendar', methods=['GET', 'POST'])
 def update_calendar():
     if request.method == 'POST':
+        print request.form
         return db.update_calendar()
     else:
         return db.update_calendar()
@@ -171,16 +171,13 @@ def task_add_friends():
 @app.route('/tasks/message/push', methods=['GET', 'POST'])
 def task_send_message_notification():
     if request.method == 'POST':
-        return db.send_push_notification(request.form['group_id'], request.form['fb_id'], request.form['name'], request.form['msg'])
-
-# @app.route('/test/task_queue')
-# def test_task_queue():
-#     return db.task_add_friends(requet.form['access_token'],request.form['id'])
-
-# @app.route('/user/message/push', methods=['GET', 'POST'])
-# def push_message_to_users():
-#     if request.method == 'POST':
-#         db.push_message_to_group(request.form['device_token'], request.form['user_id'])
+        # for debugging purposes
+        print request.data
+        if request.data:
+            data = request.data.split()
+            return db.send_push_notification(data[0], data[1], data[2], data[3])
+        else:
+            return db.send_push_notification(request.form['group_id'], request.form['fb_id'], request.form['name'], request.form['msg'])
 
 @app.route("/test/push/clay")
 def test_push_clay():
