@@ -40,10 +40,10 @@
     self.rightFixedWidth = 0;
     
     self.navigationController.navigationBar.hidden = NO;
-    self.navigationController.navigationBar.barTintColor = [UIColor whiteColor];
+//    self.navigationController.navigationBar.barTintColor = [UIColor whiteColor];
     self.navigationController.navigationBar.tintColor = [UIColor blackColor]; //sets text color
     self.navigationController.navigationBar.translucent = YES;
-    self.navigationController.navigationBar.alpha = 0;
+    self.navigationController.navigationBar.alpha = .7;
     [[self navigationItem] setTitle:@"Flat"];
     
 //    UIBarButtonItem *leftBarButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"menubar"]

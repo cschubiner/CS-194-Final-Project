@@ -15,6 +15,8 @@
 		0C498F46189F1BBA003B87F6 /* LocationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C498F45189F1BBA003B87F6 /* LocationManager.m */; };
 		0C498F49189F22F5003B87F6 /* GroupNetworkRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C498F48189F22F5003B87F6 /* GroupNetworkRequest.m */; };
 		0C498F4F189F2EC9003B87F6 /* Group+Json.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C498F4E189F2EC9003B87F6 /* Group+Json.m */; };
+		0C5014F918BB059F009E0677 /* calendar+icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 0C5014F718BB059F009E0677 /* calendar+icon.png */; };
+		0C5014FA18BB059F009E0677 /* calendar+icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0C5014F818BB059F009E0677 /* calendar+icon@2x.png */; };
 		0C52C5BE18A9BAF40094D428 /* GroupLocalRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C52C5BD18A9BAF40094D428 /* GroupLocalRequest.m */; };
 		0C8CA09E18A84C47001A9DD6 /* GroupTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C8CA09D18A84C47001A9DD6 /* GroupTableViewController.m */; };
 		0C8CA0A118A87889001A9DD6 /* SettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C8CA0A018A87889001A9DD6 /* SettingsViewController.m */; };
@@ -103,6 +105,8 @@
 		0C498F4D189F2EC9003B87F6 /* Group+Json.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Group+Json.h"; sourceTree = "<group>"; };
 		0C498F4E189F2EC9003B87F6 /* Group+Json.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "Group+Json.m"; sourceTree = "<group>"; };
 		0C5014F118BACC29009E0677 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
+		0C5014F718BB059F009E0677 /* calendar+icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "calendar+icon.png"; sourceTree = "<group>"; };
+		0C5014F818BB059F009E0677 /* calendar+icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "calendar+icon@2x.png"; sourceTree = "<group>"; };
 		0C52C5BC18A9BAF40094D428 /* GroupLocalRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GroupLocalRequest.h; sourceTree = "<group>"; };
 		0C52C5BD18A9BAF40094D428 /* GroupLocalRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GroupLocalRequest.m; sourceTree = "<group>"; };
 		0C8CA09C18A84C47001A9DD6 /* GroupTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GroupTableViewController.h; sourceTree = "<group>"; };
@@ -286,6 +290,8 @@
 				358FC67A18B4327100BBBADA /* AppIcon72x72@2x.png */,
 				358FC67B18B4327100BBBADA /* AppIcon76x76.png */,
 				358FC67C18B4327100BBBADA /* AppIcon76x76@2x.png */,
+				0C5014F718BB059F009E0677 /* calendar+icon.png */,
+				0C5014F818BB059F009E0677 /* calendar+icon@2x.png */,
 				35FCF0B518B43788009DF57F /* Images.xcassets */,
 				F2C51D9A188C887400489989 /* Supporting Files */,
 			);
@@ -551,6 +557,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				F2C51DAA188C887400489989 /* Main_iPad.storyboard in Resources */,
+				0C5014FA18BB059F009E0677 /* calendar+icon@2x.png in Resources */,
 				35FCF0B618B43788009DF57F /* Images.xcassets in Resources */,
 				358FC68618B4327100BBBADA /* AppIcon60x60@2x.png in Resources */,
 				358FC67F18B4327100BBBADA /* AppIcon40x40.png in Resources */,
@@ -560,6 +567,7 @@
 				35B9DC4818A881B300AA65DC /* arrow-empty-small.png in Resources */,
 				35B9DC4B18A881C300AA65DC /* arrow-hollow-small.png in Resources */,
 				358FC68018B4327100BBBADA /* AppIcon40x40@2x.png in Resources */,
+				0C5014F918BB059F009E0677 /* calendar+icon.png in Resources */,
 				358FC68418B4327100BBBADA /* AppIcon57x57@2x.png in Resources */,
 				358FC68218B4327100BBBADA /* AppIcon50x50@2x.png in Resources */,
 				35FC368118A9E166000E4286 /* arrow-hollow-black.png in Resources */,

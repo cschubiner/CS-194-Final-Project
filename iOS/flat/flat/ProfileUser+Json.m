@@ -29,6 +29,25 @@
     return profileUser;
 }
 
++ (NSString *) getInitialsFromUserID:(NSNumber*)userID {
+    static NSMutableDictionary * colorDict = nil;
+    if (!colorDict) colorDict = [[NSMutableDictionary alloc]init];
+    NSString * ret = [colorDict objectForKey:userID];
+    if (ret) return ret;
+    
+    for (ProfileUser * user in [[FlatAPIClientManager sharedClient]users]){
+        if ([user.userID isEqualToNumber:userID]) {
+            NSString *initials  = [NSString stringWithFormat:@"%@%@",
+                                                                 [user.firstName substringWithRange:NSMakeRange(0, 1)],
+                                                                 [user.lastName substringWithRange:NSMakeRange(0, 1)]];
+            [colorDict setObject:initials forKey:userID];
+            return initials;
+        }
+    }
+    return @"NA";
+    //    return nil;
+}
+
 + (UIColor *) getColorFromUserID:(NSNumber*)userID {
     static NSMutableDictionary * colorDict = nil;
     if (!colorDict) colorDict = [[NSMutableDictionary alloc]init];

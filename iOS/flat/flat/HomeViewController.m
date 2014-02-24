@@ -9,6 +9,8 @@
 #import "HomeViewController.h"
 #import "JSMessage.h"
 #import "MessageHelper.h"
+#import <QuartzCore/QuartzCore.h>
+
 
 @interface HomeViewController ()
 @property UIRefreshControl *refresh;
@@ -59,7 +61,9 @@
     
     [[JSBubbleView appearance] setFont:[UIFont systemFontOfSize:16.0f]];
     
-    self.title = @"flat";
+    self.title = @"Flat";
+    [self.tableView setBackgroundColor:[UIColor whiteColor]];
+    [self.tableView setSeparatorColor:[UIColor whiteColor]];
     
     self.messageInputView.textView.placeHolder = @"Message";
     
@@ -137,11 +141,11 @@
         bubbleColor = [ProfileUser getColorFromUserID:[NSNumber numberWithInt:currMessage.senderID]];
         if (currMessage.senderID == [user.userID intValue]) {
             return [JSBubbleImageViewFactory bubbleImageViewForType:type
-                                                              color:bubbleColor];
+                                                              color:[UIColor js_bubbleBlueColor]];
         }
     }
     return [JSBubbleImageViewFactory bubbleImageViewForType:type
-                                                      color:bubbleColor];
+                                                      color:[UIColor js_bubbleLightGrayColor]];
 }
 
 
@@ -179,12 +183,12 @@
 
 - (JSMessagesViewAvatarPolicy)avatarPolicy
 {
-    return JSMessagesViewAvatarPolicyNone;
+    return JSMessagesViewAvatarPolicyAll;
 }
 
 - (JSMessagesViewSubtitlePolicy)subtitlePolicy
 {
-    return JSMessagesViewSubtitlePolicyIncomingOnly;
+    return JSMessagesViewSubtitlePolicyAll;
 }
 
 - (JSMessageInputViewStyle)inputViewStyle
@@ -202,10 +206,6 @@
     return [[self.messages objectAtIndex:indexPath.row] date];
 }
 
-- (UIImageView *)avatarImageViewForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    return nil;
-}
 
 -(NSString *)subtitleForRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -224,11 +224,55 @@
     return YES;
 }
 
-#pragma mark - Messages view data source: REQUIRED
 
++ (UIImage *) imageWithView:(UIView *)view
+{
+    UIGraphicsBeginImageContextWithOptions(view.bounds.size, view.opaque, 0.0);
+    [view.layer renderInContext:UIGraphicsGetCurrentContext()];
+    
+    UIImage * img = UIGraphicsGetImageFromCurrentImageContext();
+    
+    UIGraphicsEndImageContext();
+    
+    return img;
+}
+
+
+-(UIImageView *)avatarImageViewForRowAtIndexPath:(NSIndexPath *)indexPath {
+    JSMessage *currMessage = [self.messages objectAtIndex:indexPath.row];
+    if (currMessage.senderID != 0) {
+        
+        UIColor * bubbleColor = [ProfileUser getColorFromUserID:[NSNumber numberWithInt:currMessage.senderID]];
+        
+        
+        UIView * backView = [[UIView alloc] initWithFrame:CGRectMake(40,15,70,70)];
+        backView.backgroundColor = [UIColor whiteColor];
+        UIView * circleView = [[UIView alloc] initWithFrame:CGRectMake(0,0,70,70)];
+        circleView.alpha = 1.0;
+        circleView.layer.cornerRadius = 35;
+        circleView.backgroundColor = bubbleColor;
+        
+        UILabel *name = [[UILabel alloc]initWithFrame:CGRectMake(20, 1, 70, 70)];
+        name.textColor = [UIColor whiteColor];
+        name.font = [UIFont fontWithName:@"courier" size:25];
+        
+        [backView addSubview:circleView];
+        [backView addSubview:name];
+        
+        name.text = [ProfileUser getInitialsFromUserID:[NSNumber numberWithInt:currMessage.senderID]];
+        return [[UIImageView alloc]initWithImage: [HomeViewController imageWithView:backView]];
+    }
+    UIImage * image = [JSAvatarImageFactory avatarImageNamed:@"calendar+icon" croppedToCircle:NO];
+    return [[UIImageView alloc] initWithImage:image];
+}
+
+
+#pragma mark - Messages view data source: REQUIRED
 - (JSMessage *)messageForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     return [self.messages objectAtIndex:indexPath.row];
 }
+
+
 
 @end

@@ -119,11 +119,15 @@
 
 
 -(void)refreshMessages {
-    UINavigationController *navigationController = (UINavigationController*)self.view.window.rootViewController;
-     HomeViewController *homeViewController = (HomeViewController *)[navigationController.viewControllers objectAtIndex:0];
-    [MessageHelper getMessagesWithCompletionBlock:^(NSError *error, NSArray *messages){
+    RootController *mainViewController = (RootController*)self.view.window.rootViewController;
+    HomeViewController *homeViewController = mainViewController.centerPanel;
+    [MessageHelper getMessagesWithCompletionBlock:^(NSError *error, NSArray *messages) {
+        if ([messages count] != [homeViewController.messages count]) {
+            [JSMessageSoundEffect playMessageReceivedAlert];
+        }
         homeViewController.messages = [messages mutableCopy];
         [homeViewController.tableView reloadData];
+        [homeViewController scrollToBottomAnimated:YES];
     }];
 }
 
