@@ -119,9 +119,18 @@
     return 100.0;
 }
 
+-(RootController*)getRootViewController {
+    return ((RootController*)((NSArray*)((UINavigationController*)self.navigationController).childViewControllers)[0]); //madness!!
+}
+
+-(HomeViewController*) getHomeViewController {
+    return [self getRootViewController].centerPanel;
+}
 
 -(void)refreshMessages {
-    HomeViewController *homeViewController = ((HomeViewController*)((RootController*)((NSArray*)((UINavigationController*)self.navigationController).childViewControllers)[0]).centerPanel); //madness!!
+    HomeViewController *homeViewController = [self getHomeViewController];
+    homeViewController.messages = nil;
+    [homeViewController.tableView reloadData];
     [MessageHelper getMessagesWithCompletionBlock:^(NSError *error, NSArray *messages) {
         if ([messages count] != [homeViewController.messages count] && [messages count] != 0) {
             [JSMessageSoundEffect playMessageReceivedAlert];
@@ -148,7 +157,9 @@
     }
     [ProfileUserNetworkRequest setGroupIDForUser:user.userID groupID:newGroupID withCompletionBlock:^(NSError* error) {
         [self refreshMessages];
-        [self.navigationController popViewControllerAnimated:YES];
+        //        [self.navigationController popViewControllerAnimated:YES];
+        
+        [self.navigationController popToViewController:[self getRootViewController] animated:YES]; // what a convenient method
     }];
 }
 
