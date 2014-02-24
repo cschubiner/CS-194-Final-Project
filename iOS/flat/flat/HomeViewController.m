@@ -95,8 +95,8 @@
                             [self.tableView reloadData];
                             NSLog(@"Just reloaded data");
                             [self scrollToBottomAnimated:YES];
-                            [self finishSend];
                         }
+                            [self finishSend];
                     }];
 }
 
