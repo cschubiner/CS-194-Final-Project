@@ -22,6 +22,10 @@
 {
     //Magical Record
     [MagicalRecord setupCoreDataStack];
+    UIPageControl *pageControl = [UIPageControl appearance];
+    pageControl.pageIndicatorTintColor = [UIColor lightGrayColor];
+    pageControl.currentPageIndicatorTintColor = [UIColor blackColor];
+    pageControl.backgroundColor = [UIColor whiteColor];
     
     // code to let kyle log in cuz of his messed up privacy settings. don't delete or uncomment.
     //        ProfileUser *kyleUser = [ProfileUser MR_createInContext:[NSManagedObjectContext MR_defaultContext]];
