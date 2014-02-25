@@ -80,7 +80,7 @@
     
     self.messageInputView.textView.placeHolder = @"Message";
     
-    self.tableView.frame = CGRectMake(0, 64, self.view.frame.size.width, self.view.frame.size.height - 128);
+    self.tableView.frame = CGRectMake(0, 64, self.view.frame.size.width, self.view.frame.size.height - self.messageInputView.frame.size.height - 64);
     
     //Pull to refresh
     self.refresh = [[UIRefreshControl alloc] init];
