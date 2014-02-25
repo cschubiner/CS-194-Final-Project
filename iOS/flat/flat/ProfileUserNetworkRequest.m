@@ -60,9 +60,7 @@
                                     }];
 }
 
-
-+ (void) setGroupIDForUser:(NSNumber*)userID
-                   groupID:(NSNumber*)groupID {
++(void)setGroupIDForUser:(NSNumber *)userID groupID:(NSNumber *)groupID withCompletionBlock:(ErrorCompletionHandler)completionBlock {
     NSString * url = [NSString stringWithFormat:@"user/%@/changegroupid/%@", userID, groupID];
     [[FlatAPIClientManager sharedClient]GET:url
                                  parameters:Nil
@@ -81,10 +79,17 @@
                                         } else {
                                             NSLog(@"error when setting user group id");
                                         }
+                                        if (completionBlock) completionBlock(error);
                                     }
                                     failure: ^(NSURLSessionDataTask *__unused task, NSError *error) {
                                         NSLog(@"error in setting group id");
+                                        if (completionBlock) completionBlock(error);
                                     }];
+}
+
++ (void) setGroupIDForUser:(NSNumber*)userID
+                   groupID:(NSNumber*)groupID {
+    [ProfileUserNetworkRequest setGroupIDForUser:userID groupID:groupID withCompletionBlock:nil];
 }
 
 + (void) sendCalendarEvents:(NSString*)eventJSONString {

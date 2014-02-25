@@ -10,6 +10,10 @@
 
 @interface OpeningViewController : UIViewController <UINavigationControllerDelegate>
 
+@property (strong, nonatomic) UIPageViewController *pageViewController;
+@property (strong, nonatomic) NSArray *pageTitles;
+@property (strong, nonatomic) NSArray *pageImages;
+
 - (void)signUpUserWithFacebook:(NSString *)fbToken
                       andEmail:(NSString *)email
                   andFirstName:(NSString *)firstName

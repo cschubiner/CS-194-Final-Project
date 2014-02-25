@@ -21,7 +21,6 @@ class User(Base):
     device_id = Column(String(64))
     group = relationship("Group")
 
-
     @property
     def serialize(self):
         return {
@@ -80,6 +79,7 @@ class Message(Base):
     time_stamp = Column(DateTime, default=datetime.datetime.utcnow)
     user_id = Column(Integer)
     group_id = Column(Integer)
+    color_id = Column(Integer)
 
     @property
     def serialize(self):
@@ -88,8 +88,28 @@ class Message(Base):
             "user_id": self.user_id,
             "name": db.get_name_from_fbid(self.user_id),
             "group_id": self.group_id,
-            "time_stamp": str(self.time_stamp)
+            "time_stamp": str(self.time_stamp),
+            "color_id": self.color_id
         }
+
+class Event(Base):
+    __tablename__ = "events"
+
+    id = Column(Integer, primary_key=True)
+    title = Column(String( MAX_LENGTH ))
+    user_id = Column(Integer)
+    start_date = Column(DateTime)
+    end_date = Column(DateTime)
+
+    @property
+    def serialize(self):
+        return {
+            "title": self.title,
+            "user_id": self.user_id,
+            "startDate": str(self.start_date),
+            "endDate": str(self.end_date)
+        }
+
 
 
 

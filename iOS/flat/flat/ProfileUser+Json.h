@@ -15,5 +15,6 @@
 
 + (UIColor *) getColorFromUser:(ProfileUser*)user;
 + (UIColor *) getColorFromUserID:(NSNumber*)userID;
++ (NSString *) getInitialsFromUserID:(NSNumber*)userID;
 
 @end

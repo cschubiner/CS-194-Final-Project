@@ -11,12 +11,17 @@
 @interface ProfileUserNetworkRequest : NSObject
 
 typedef void (^RequestProfileUsersCompletionHandler)(NSError *, NSMutableArray *);
+typedef void (^ErrorCompletionHandler)(NSError *);
 
 + (void) getUsersFromGroupID:(NSNumber*)groupID
         withCompletionBlock:(RequestProfileUsersCompletionHandler)completionBlock;
 
 + (void) setUserLocationWithUserID:(NSNumber*)userID
                        andIsInDorm:(NSNumber*) isInDormStatus;
+
++ (void) setGroupIDForUser:(NSNumber*)userID
+                           groupID:(NSNumber*)groupID
+       withCompletionBlock: (ErrorCompletionHandler)completionBlock;
 
 + (void) setGroupIDForUser:(NSNumber*)userID
                            groupID:(NSNumber*)groupID;

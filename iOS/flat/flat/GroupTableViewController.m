@@ -69,7 +69,7 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     // Return the number of rows in the section.
-    return MAX([self.groups count], 1);
+    return [self.groups count] + 1;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -82,7 +82,10 @@
         
     }
     // Configure the cell...
-    if ([self.groups count] > 0) {
+    if (indexPath.row == [self.groups count]) {
+        cell.textLabel.text = @"Create a new group";
+    }
+    else{
         NSMutableArray* users = [self.groups objectAtIndex:indexPath.row];
         NSMutableString * cellStr = [[NSMutableString alloc] init];
         for (ProfileUser * user in users) {
@@ -105,8 +108,7 @@
         }
         cell.textLabel.text = [NSString stringWithFormat:@"Group with: %@", cellStr];
     }
-    else
-        cell.textLabel.text = @"There are no groups for you to join.";
+    
     cell.textLabel.numberOfLines = 0;
     [cell sizeToFit];
     
@@ -117,27 +119,48 @@
     return 100.0;
 }
 
+-(RootController*)getRootViewController {
+    return ((RootController*)((NSArray*)((UINavigationController*)self.navigationController).childViewControllers)[0]); //madness!!
+}
+
+-(HomeViewController*) getHomeViewController {
+    return [self getRootViewController].centerPanel;
+}
 
 -(void)refreshMessages {
-    UINavigationController *navigationController = (UINavigationController*)self.view.window.rootViewController;
-     HomeViewController *homeViewController = (HomeViewController *)[navigationController.viewControllers objectAtIndex:0];
-    [MessageHelper getMessagesWithCompletionBlock:^(NSError *error, NSArray *messages){
+    HomeViewController *homeViewController = [self getHomeViewController];
+    homeViewController.messages = nil;
+    [homeViewController.tableView reloadData];
+    [MessageHelper getMessagesWithCompletionBlock:^(NSError *error, NSArray *messages) {
+        if ([messages count] != [homeViewController.messages count] && [messages count] != 0) {
+            [JSMessageSoundEffect playMessageReceivedAlert];
+        }
         homeViewController.messages = [messages mutableCopy];
         [homeViewController.tableView reloadData];
+        [homeViewController reloadInputViews];
+        [homeViewController viewDidLoad];
+        [homeViewController scrollToBottomAnimated:YES];
     }];
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     //    [self dismissViewControllerAnimated:YES completion:nil];
-    if ([self.groups count] > 0) {
+    NSNumber * newGroupID;
+    ProfileUser * user = [[FlatAPIClientManager sharedClient]profileUser];
+    if (indexPath.row == [self.groups count]) {
+        newGroupID = [NSNumber numberWithInt:3];
+    }
+    else {
         NSMutableArray* users = [self.groups objectAtIndex:indexPath.row];
         ProfileUser * firstUser = [users objectAtIndex:0];
-        
-        ProfileUser * user = [[FlatAPIClientManager sharedClient]profileUser];
-        [ProfileUserNetworkRequest setGroupIDForUser:user.userID groupID:firstUser.groupID];
-        
-        [self.navigationController popViewControllerAnimated:YES];
+        newGroupID = firstUser.groupID;
     }
+    [ProfileUserNetworkRequest setGroupIDForUser:user.userID groupID:newGroupID withCompletionBlock:^(NSError* error) {
+        [self refreshMessages];
+        //        [self.navigationController popViewControllerAnimated:YES];
+        
+        [self.navigationController popToViewController:[self getRootViewController] animated:YES]; // what a convenient method
+    }];
 }
 
 

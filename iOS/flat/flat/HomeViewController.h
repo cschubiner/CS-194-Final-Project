@@ -13,4 +13,6 @@
 
 @property (strong, nonatomic) NSMutableArray *messages;
 
++ (UIImage *) imageWithView:(UIView *)view;
+
 @end

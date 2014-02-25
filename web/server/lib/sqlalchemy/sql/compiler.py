@@ -616,10 +616,9 @@ class SQLCompiler(Compiled):
                                     )
 
         if populate_result_map:
-            for c in taf.c:
-                self._add_to_result_map(
-                        c.key, c.key, (c,), c.type
-                )
+            for c in taf.column_args:
+                self.process(c, within_columns_clause=True,
+                                add_to_result_map=self._add_to_result_map)
 
         text = self.process(taf.element, **kw)
         if asfrom and parens:
@@ -969,7 +968,7 @@ class SQLCompiler(Compiled):
         if literal_binds or \
             (within_columns_clause and \
                 self.ansi_bind_rules):
-            if bindparam.value is None:
+            if bindparam.value is None and bindparam.callable is None:
                 raise exc.CompileError("Bind parameter '%s' without a "
                                         "renderable value not allowed here."
                                         % bindparam.key)
@@ -1005,7 +1004,7 @@ class SQLCompiler(Compiled):
         return self.bindparam_string(name, **kwargs)
 
     def render_literal_bindparam(self, bindparam, **kw):
-        value = bindparam.value
+        value = bindparam.effective_value
         return self.render_literal_value(value, bindparam.type)
 
     def render_literal_value(self, value, type_):
@@ -1287,7 +1286,7 @@ class SQLCompiler(Compiled):
         # call down to compiler.visit_join(), compiler.visit_select()
         join_name = selectable.Join.__visit_name__
         select_name = selectable.Select.__visit_name__
-
+        alias_name = selectable.Alias.__visit_name__
         def visit(element, **kw):
             if element in column_translate[-1]:
                 return column_translate[-1][element]
@@ -1308,7 +1307,6 @@ class SQLCompiler(Compiled):
                 selectable_ = selectable.Select(
                                     [right.element],
                                     use_labels=True).alias()
-
                 for c in selectable_.c:
                     c._key_label = c.key
                     c._label = c.name
@@ -1317,8 +1315,13 @@ class SQLCompiler(Compiled):
                     zip(newelem.right.element.c, selectable_.c)
                 )
 
+                # translating from both the old and the new
+                # because different select() structures will lead us
+                # to traverse differently
                 translate_dict[right.element.left] = selectable_
                 translate_dict[right.element.right] = selectable_
+                translate_dict[newelem.right.element.left] = selectable_
+                translate_dict[newelem.right.element.right] = selectable_
 
                 # propagate translations that we've gained
                 # from nested visit(newelem.right) outwards
@@ -1337,7 +1340,8 @@ class SQLCompiler(Compiled):
                 newelem.right = selectable_
 
                 newelem.onclause = visit(newelem.onclause, **kw)
-            elif newelem.__visit_name__ is select_name:
+            elif newelem.__visit_name__ is alias_name \
+                and newelem.element.__visit_name__ is select_name:
                 column_translate.append({})
                 newelem._copy_internals(clone=visit, **kw)
                 del column_translate[-1]

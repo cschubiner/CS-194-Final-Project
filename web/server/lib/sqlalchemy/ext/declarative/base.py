@@ -12,6 +12,7 @@ from ...orm.properties import ColumnProperty, CompositeProperty
 from ...orm.attributes import QueryableAttribute
 from ...orm.base import _is_mapped_class
 from ... import util, exc
+from ...util import topological
 from ...sql import expression
 from ... import event
 from . import clsregistry
@@ -51,6 +52,10 @@ def _as_declarative(cls, classname, dict_):
             @event.listens_for(mapper, "after_configured")
             def go():
                 cls.__declare_last__()
+        if '__declare_first__' in base.__dict__:
+            @event.listens_for(mapper, "before_configured")
+            def go():
+                cls.__declare_first__()
         if '__abstract__' in base.__dict__:
             if (base is cls or
                 (base in cls.__bases__ and not _is_declarative_inherits)
@@ -432,9 +437,30 @@ class _DeferredMapperConfig(_MapperConfig):
 
 
     @classmethod
-    def classes_for_base(cls, base_cls):
-        return [m for m in cls._configs.values()
-                    if issubclass(m.cls, base_cls)]
+    def classes_for_base(cls, base_cls, sort=True):
+        classes_for_base = [m for m in cls._configs.values()
+                        if issubclass(m.cls, base_cls)]
+        if not sort:
+            return classes_for_base
+
+        all_m_by_cls = dict(
+                            (m.cls, m)
+                            for m in classes_for_base
+                        )
+
+        tuples = []
+        for m_cls in all_m_by_cls:
+            tuples.extend(
+                    (all_m_by_cls[base_cls], all_m_by_cls[m_cls])
+                    for base_cls in m_cls.__bases__
+                    if base_cls in all_m_by_cls
+                )
+        return list(
+            topological.sort(
+                tuples,
+                classes_for_base
+            )
+        )
 
     def map(self):
         self._configs.pop(self._cls, None)

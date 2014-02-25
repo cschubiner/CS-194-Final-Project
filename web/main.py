@@ -11,8 +11,11 @@ import json
 from flask import Flask, Response, request, render_template
 from db import db_init, db_session
 import db
+import groups
 import models
+import calendar
 import utils
+import push_notification
 
 app = Flask(__name__.split('.')[0])
 
@@ -64,7 +67,7 @@ def get_group_members(group_id):
 
 @app.route('/group/<group_id>', methods=['GET','POST'])
 def get_location_by_group(group_id):
-    return db.get_group_by_id(group_id)
+    return groups.get_group_by_id(group_id)
     data = {
         "group":
         {
@@ -115,7 +118,7 @@ def get_user_friends():
 @app.route('/facebook/user/<user_id>/friendgroups', methods = ['GET', 'POST'])
 def get_friend_groups(user_id):
     if request.method == 'GET':
-        return db.get_user_friend_groups(user_id)
+        return groups.get_user_friend_groups(user_id)
 
 # Given a specific facebook_id, returns the information
 # about that user in JSON format
@@ -131,15 +134,16 @@ def add_user_by_fbid():
         db.add_user_by_fb_id(request.data)
         return "Success!"
 
+# Get request to change user's group
+# Get instead of post because lazy
 @app.route('/user/<fb_id>/changegroupid/<new_group_id>')
 def change_group_id(fb_id, new_group_id):
-    return db.change_group_id(fb_id, new_group_id)
+    return groups.change_group_id(fb_id, new_group_id)
 
 @app.route('/message/new', methods=['GET', 'POST'])
 def add_new_message():
     print request
     if request.method == 'POST':
-        print "============"
 
         body = request.form['message']
         fb_id = request.form['userID']
@@ -155,7 +159,9 @@ def get_messages(userID):
 @app.route('/user/update/calendar', methods=['GET', 'POST'])
 def update_calendar():
     if request.method == 'POST':
-        return db.update_calendar()
+        # for debugging purposes
+        if request.data:
+            return calendar.calendar_store_event(request.form)
     else:
         return db.update_calendar()
 
@@ -168,21 +174,44 @@ def task_add_friends():
         return db.task_add_friends(request.form['access_token'],request.form['id'])
     return "{}"
 
+
 @app.route('/tasks/message/push', methods=['GET', 'POST'])
 def task_send_message_notification():
     if request.method == 'POST':
-        return db.send_push_notification(request.form['group_id'], request.form['fb_id'], request.form['name'], request.form['msg'])
+        # for debugging purposes
+        print request.data
+        if request.data:
+            data = request.data.split()
+            return db.send_push_notification(data[0], data[1], data[2], data[3])
+        else:
+            return db.send_push_notification(request.form['group_id'], request.form['fb_id'], request.form['name'], request.form['msg'])
 
-# @app.route('/test/task_queue')
-# def test_task_queue():
-#     return db.task_add_friends(requet.form['access_token'],request.form['id'])
-
-# @app.route('/user/message/push', methods=['GET', 'POST'])
-# def push_message_to_users():
-#     if request.method == 'POST':
-#         db.push_message_to_group(request.form['device_token'], request.form['user_id'])
+'''
+    params: group_id, body
+'''
+@app.route('/tasks/group/push', methods=['GET', 'POST'])
+def task_notify_group():
+    if request.method == 'POST':
+        # for debugging purposes
+        print request.data
+        if request.data:
+            data = request.data.split()
+            return push_notification.task_send_to_group(data[0], data[1])
+        else:
+            # It's a post request with parameters
+            return push_notification.task_send_to_group(request.form['group_id'], request.form['body'])
+    # TODO: handle get request
 
 @app.route("/test/push/clay")
 def test_push_clay():
     return db.test_push_clay()
+
+@app.route("/test/group/push", methods=['GET', 'POST'])
+def test_push_to_group():
+    if request.method == 'POST':
+        # for debugging purposes
+        print request.data
+        if request.data:
+            data = request.data.split()
+            return push_notification.send_to_group(data[0], data[1])
 
