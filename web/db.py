@@ -328,7 +328,7 @@ def update_calendar():
 '''
     Method: db_get_group
     Params: group_id, the group id
-    Return: SQLalchemy object of the group
+    Return: SQLAlchemy object of the group
 '''
 def db_get_group(group_id):
     return db_session.query(models.Group).filter(models.Group.id == group_id).first()
