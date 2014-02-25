@@ -26,3 +26,8 @@ def error_json_message(message):
         "data": message
     }
     return to_app_json(ret)
+
+# Return customized json message with no useful information
+# Used so we don't get any 500 errors
+def json_message(message):
+    return error_json_message(message)

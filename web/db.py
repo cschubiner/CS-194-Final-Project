@@ -14,8 +14,6 @@ from google.appengine.api import taskqueue
 from apns import APNs, Payload
 import time
 
-from flask import Flask
-from flask import render_template
 from sqlalchemy import Column, Integer, String, and_
 import utils
 import facebook
@@ -33,10 +31,8 @@ engine = create_engine('mysql+gaerdbms:///add16?instance=flatappapi:db0')
 db_session = scoped_session(sessionmaker(autocommit=False,
                                          autoflush=False,
                                          bind=engine))
+# Gateway into sending push notifications
 apns = APNs(use_sandbox=True,cert_file='ck.pem', key_file='FlatKeyD.pem')
-
-
-
 Base = declarative_base()
 
 
@@ -86,10 +82,6 @@ def add_user(access_token, device_id):
             email = profile["email"],
             device_id = device_id
         )
-    # t = threading.Thread(target=add_friends, args=[friends['data'], profile['id']])
-    # t.daemon = False
-    # t.start()
-    print device_id
 
     # Adds each friend to the friend table in the db
     params = dict()
@@ -142,62 +134,6 @@ def add_friends_to_db(friends, left_id):
 
     db_session.commit()
 
-
-'''
-
-    Implements the /facebook/user/<user_id>/friendgroups endpoint
-    Returns a list of groups containing information about users
-    in the following format:
-
-    { groups: [
-            group: {
-                users: [
-                        user: {
-                           firstname, last name, fb id, etc.
-                           }
-               latlocation,
-               longlocation,
-               groupID
-           }
-       ]
-    }
-'''
-def get_user_friend_groups(user_id):
-    # gets all the users who active and friends with the user
-    users_are_friends = db_session.query(models.Friend).filter(and_(models.Friend.left_id == user_id, models.Friend.is_user == True)).all()
-
-    if users_are_friends:
-        return get_groups_users_map(users_are_friends)
-    return utils.error_json_message("You have no friends")
-
-def get_groups_users_map(friends):
-    # creating a map from groups to users
-    result = dict()
-
-    print friends
-
-    for friend_id in friends:
-        friend = db_session.query(models.User).filter(models.User.fb_id == friend_id.right_id).first()
-        print friend
-        if friend:
-            if friend.group_id in result.keys():
-                result[friend.group_id].append(utils.obj_to_json(None, friend, False))
-            else:
-                result[friend.group_id] = [utils.obj_to_json(None, friend, False)]
-
-    # now that we have a dictionary mapping from
-    # groups -> users
-    # we need the information about the groups
-    group_array = []
-
-    for group_id in result.keys():
-        group = db_session.query(models.Group).filter(models.Group.id == group_id).first()
-        group_array.append(group)
-
-    print group_array
-
-    return utils.list_to_json("groups", group_array)
-
 '''
     Updates the Friends table when a new user signs up
     Specifically, it updates the is_use tuple when someone who
@@ -209,18 +145,6 @@ def update_friend_table(fb_id):
     for friend in result:
         friend.is_user = True
     db_session.commit()
-
-'''
-    Function: in_group
-    params: fb_id, the facebook id
-    Given a fb_id, function returns a boolean
-    whether that fb_id is contained within the
-    database
-'''
-def in_group(fbid):
-    print db_session.query(models.User).filter(models.User.first_name=='Colby').first()
-    result = db_session.query(models.User).filter(models.User.first_name.in_(['Colby'])).all()
-    return result
 
 '''
     Given a group id, fetch all users in that group
@@ -279,27 +203,6 @@ def get_fbid(access_token):
     profile = graph.get_object("me")
     return profile['id']
 
-def change_group_id(fb_id, new_group):
-    result = db_session.query(models.User).filter(models.User.fb_id == fb_id).first()
-    if result:
-        # Changing a group_id to the same group_id will cause a server error
-        if int(result.group_id) == int(new_group):
-            return utils.obj_to_json('user', result, True)
-
-        # Modifying the user's color_id
-        result.group_id = new_group
-        new_group = db_session.query(models.Group).filter(models.Group.id == new_group).first()
-        new_group.users.append(result)
-        new_color_id = len(new_group.users) - 1
-
-        # changing the color_id
-        result.color_id = new_color_id
-
-        temp = result
-        db_session.commit()
-        return utils.obj_to_json('user',temp, True)
-    return utils.error_json_message()
-
 def update_location(group, lat, lon):
     result = db_session.query(models.Group).filter(models.Group.id == int(group)).first()
 
@@ -337,14 +240,30 @@ def update_location(group, lat, lon):
         return utils.obj_to_json('group', temp, True)
     return utils.to_app_json({})
 
+'''
+    Function: get_messages
+    param: fb_id
+    return: all messages in JSON format
+    -----------------------------------
+    Given a fb_id, retrives all the messages in that
+    user's group.
+'''
 def get_messages(fb_id):
     user = db_session.query(models.User).filter(models.User.fb_id == fb_id).first()
     if user:
         group_id = user.group_id
         all_messages = db_session.query(models.Message).filter(models.Message.group_id == group_id).order_by(models.Message.time_stamp).all()
         return utils.list_to_json('messages', all_messages)
-    return utils.error_json_message()
+    return utils.error_json_message("invalid fb_id")
 
+'''
+    Function: send_push_notification
+    param: group_id, the id of the group
+           fb_id, the user who sent the message
+           name, name of the user who sent the message
+           msg, the text body/content of the message
+    return: Misc JSON #TODO: fix this
+'''
 def send_push_notification(group_id, fb_id, name, msg):
     apns = APNs(use_sandbox=True,cert_file='ck.pem', key_file='FlatKeyD.pem')
 
@@ -363,6 +282,12 @@ def send_push_notification(group_id, fb_id, name, msg):
         print (token_hex, fail_time)
     return utils.error_json_message("Yo")
 
+'''
+    function: add_new_message
+    params: body, the text content of the message
+            fb_id, the facebook_id of the sender
+    return: all messages of that user's group in JSON
+'''
 def add_new_message(body, fb_id):
     user = db_session.query(models.User).filter(models.User.fb_id == fb_id).first()
 
@@ -395,32 +320,16 @@ def get_name_from_fbid(fb_id):
     user = db_session.query(models.User).filter(models.User.fb_id == fb_id).first()
     if user is not None:
         return user.first_name
-    return utils.error_json_message('fuck')
-
-def get_group_by_id(group_id):
-    group = db_session.query(models.Group).filter(models.Group.id == int(group_id)).first()
-    if group:
-        return utils.obj_to_json('group', group, True)
-    return utils.error_json_message('Group does not exist')
-
+    return utils.error_json_message('nooo')
 
 def update_calendar():
     return utils.error_json_message("Dummy endpoint")
 
-def hello():
-    new_friend = models.Friend(
-        right_id=1234,
-        left_id=4321,
-        is_user=True
-    )
-    db_session.add(new_friend)
-    db_session.commit()
-    return 'hello'
-    print "HELLO WORLD"
+'''
+    Method: db_get_group
+    Params: group_id, the group id
+    Return: SQLalchemy object of the group
+'''
+def db_get_group(group_id):
+    return db_session.query(models.Group).filter(models.Group.id == group_id).first()
 
-def test_push_clay():
-    apns = APNs(use_sandbox=True,cert_file='ck.pem', key_file='FlatKeyD.pem')
-    token_hex = '82d02d1cdc21bed400017fec232f7d126002ac514eed6b9a1b48e45a41df519f'
-    payload = Payload(alert="8===================================D", sound="default", badge=1)
-    apns.gateway_server.send_notification(token_hex, payload)
-    return "Success!"

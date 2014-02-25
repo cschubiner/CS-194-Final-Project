@@ -21,7 +21,6 @@ class User(Base):
     device_id = Column(String(64))
     group = relationship("Group")
 
-
     @property
     def serialize(self):
         return {
@@ -92,6 +91,25 @@ class Message(Base):
             "time_stamp": str(self.time_stamp),
             "color_id": self.color_id
         }
+
+class Event(Base):
+    __tablename__ = "events"
+
+    id = Column(Integer, primary_key=True)
+    title = Column(String( MAX_LENGTH ))
+    user_id = Column(Integer)
+    start_date = Column(DateTime)
+    end_date = Column(DateTime)
+
+    @property
+    def serialize(self):
+        return {
+            "title": self.title,
+            "user_id": self.user_id,
+            "startDate": str(self.start_date),
+            "endDate": str(self.end_date)
+        }
+
 
 
 
