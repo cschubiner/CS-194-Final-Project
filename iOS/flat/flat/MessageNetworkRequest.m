@@ -8,6 +8,7 @@
 
 #import "MessageNetworkRequest.h"
 #import "JSMessage+Json.h"
+#import "CalendarMessage+Json.h"
 
 @implementation MessageNetworkRequest
 
@@ -50,16 +51,17 @@
                                      success:^(NSURLSessionDataTask *__unused task, id JSON) {
                                          NSError *error = [ErrorHelper apiErrorFromDictionary:JSON];
                                          if (!error) {
-//                                             NSLog(@"JSON: %@", JSON);
                                              NSMutableArray *messageArray = [JSON objectForKey:@"messages"];
                                              NSMutableArray *messageArrayReturn = [[NSMutableArray alloc] init];
                                              for (NSMutableDictionary* messageJSON in messageArray) {
-                                                 JSMessage *message = [JSMessage getMessageObjectFromDictionary:messageJSON];
-                                                 [messageArrayReturn addObject:message];
+                                                 //if ([[messageJSON objectForKey:@"type"] isEqualToString:@"text"]) {
+                                                     JSMessage *message = [JSMessage getMessageObjectFromDictionary:messageJSON];
+                                                     [messageArrayReturn addObject:message];
+                                                 /*} else if ([[messageJSON objectForKey:@"type"] isEqualToString:@"calendar"]) {
+                                                     CalendarMessage *message = [CalendarMessage getMessageObjectFromDictionary:messageJSON];
+                                                     [messageArrayReturn addObject:message];
+                                                 }*/
                                              }
-//                                             for(JSMessage *temp in messageArrayReturn) {
-//                                                 NSLog(@"message: %@", temp.text);
-//                                             }
                                              completionBlock(error, messageArrayReturn);
                                          } else {
                                              completionBlock(error, nil);

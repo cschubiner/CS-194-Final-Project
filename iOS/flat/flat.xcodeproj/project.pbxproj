@@ -45,6 +45,8 @@
 		F25DCF1C18A84E9600710B03 /* MessageHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = F25DCF1B18A84E9600710B03 /* MessageHelper.m */; };
 		F25DCF1F18A84EAD00710B03 /* MessageNetworkRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = F25DCF1E18A84EAD00710B03 /* MessageNetworkRequest.m */; };
 		F25DCF2218A8564700710B03 /* JSMessage+Json.m in Sources */ = {isa = PBXBuildFile; fileRef = F25DCF2118A8564700710B03 /* JSMessage+Json.m */; };
+		F279A6A418BD3B9E007A2A9E /* CalendarMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = F279A6A318BD3B9E007A2A9E /* CalendarMessage.m */; };
+		F279A6A718BD3DA7007A2A9E /* CalendarMessage+Json.m in Sources */ = {isa = PBXBuildFile; fileRef = F279A6A618BD3DA7007A2A9E /* CalendarMessage+Json.m */; };
 		F2C51D94188C887400489989 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F2C51D93188C887400489989 /* Foundation.framework */; };
 		F2C51D96188C887400489989 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F2C51D95188C887400489989 /* CoreGraphics.framework */; };
 		F2C51D98188C887400489989 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F2C51D97188C887400489989 /* UIKit.framework */; };
@@ -142,6 +144,10 @@
 		F25DCF1E18A84EAD00710B03 /* MessageNetworkRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MessageNetworkRequest.m; sourceTree = "<group>"; };
 		F25DCF2018A8564700710B03 /* JSMessage+Json.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "JSMessage+Json.h"; sourceTree = "<group>"; };
 		F25DCF2118A8564700710B03 /* JSMessage+Json.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "JSMessage+Json.m"; sourceTree = "<group>"; };
+		F279A6A218BD3B9E007A2A9E /* CalendarMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CalendarMessage.h; sourceTree = "<group>"; };
+		F279A6A318BD3B9E007A2A9E /* CalendarMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CalendarMessage.m; sourceTree = "<group>"; };
+		F279A6A518BD3DA7007A2A9E /* CalendarMessage+Json.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "CalendarMessage+Json.h"; sourceTree = "<group>"; };
+		F279A6A618BD3DA7007A2A9E /* CalendarMessage+Json.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "CalendarMessage+Json.m"; sourceTree = "<group>"; };
 		F2C51D90188C887400489989 /* Flat.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Flat.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F2C51D93188C887400489989 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		F2C51D95188C887400489989 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -464,6 +470,10 @@
 				F2C51E651895E38100489989 /* JSMessageData.h */,
 				F25DCF2018A8564700710B03 /* JSMessage+Json.h */,
 				F25DCF2118A8564700710B03 /* JSMessage+Json.m */,
+				F279A6A218BD3B9E007A2A9E /* CalendarMessage.h */,
+				F279A6A318BD3B9E007A2A9E /* CalendarMessage.m */,
+				F279A6A518BD3DA7007A2A9E /* CalendarMessage+Json.h */,
+				F279A6A618BD3DA7007A2A9E /* CalendarMessage+Json.m */,
 			);
 			name = Messages;
 			sourceTree = "<group>";
@@ -637,6 +647,7 @@
 				F2C51DEC188C992E00489989 /* OpeningButton.m in Sources */,
 				F2C51DDC188C960B00489989 /* OpeningViewController.m in Sources */,
 				F2C51DDF188C963D00489989 /* OpeningNavigationController.m in Sources */,
+				F279A6A718BD3DA7007A2A9E /* CalendarMessage+Json.m in Sources */,
 				F2C51DF5188C9A9200489989 /* ProfileUser+Json.m in Sources */,
 				0C2E87D918B1B35700ADF8D2 /* EventModel.m in Sources */,
 				F2C51DD9188C94CC00489989 /* RootController.m in Sources */,
@@ -651,6 +662,7 @@
 				0CBB52051896008C00B9615F /* UIColor+ColorHelper.m in Sources */,
 				F2C51DE9188C97E300489989 /* FlatAPIClientManager.m in Sources */,
 				F2C51DEF188C9A1600489989 /* Model.xcdatamodeld in Sources */,
+				F279A6A418BD3B9E007A2A9E /* CalendarMessage.m in Sources */,
 				F2C51E661895E38100489989 /* JSMessage.m in Sources */,
 				F2C51DFB188C9B9200489989 /* ProfileUserHelper.m in Sources */,
 				F25DCF1C18A84E9600710B03 /* MessageHelper.m in Sources */,
