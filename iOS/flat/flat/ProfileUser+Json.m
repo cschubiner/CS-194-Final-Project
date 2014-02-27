@@ -65,18 +65,31 @@
     //    return nil;
 }
 
-+ (UIColor *) getColorFromUser:(ProfileUser*)user {
-//    if ([user.firstName isEqualToString:@"Zach"])
-//        NSLog(@"zach");
-    NSString * colorStr = @"FFFFFF";
++ (UIColor *) getColorFromUser:(ProfileUser*)user
+{
+    NSString * colorStr = @"FF2A68";
     if ([user.colorID isEqualToNumber:[NSNumber numberWithInt:0]])
-        colorStr = @"fb605e";
+        colorStr = @"FF5E3A";
     else if ([user.colorID isEqualToNumber:[NSNumber numberWithInt:1]])
-        colorStr = @"FF7A00";
+        colorStr = @"FFCD02";
     else if ([user.colorID isEqualToNumber:[NSNumber numberWithInt:2]])
-        colorStr = @"03899C";
+        colorStr = @"0BD318";
     else if ([user.colorID isEqualToNumber:[NSNumber numberWithInt:3]])
-        colorStr = @"00C322";
+        colorStr = @"5AC8FB";
+    else if ([user.colorID isEqualToNumber:[NSNumber numberWithInt:4]])
+        colorStr = @"1D62F0";
+    else if ([user.colorID isEqualToNumber:[NSNumber numberWithInt:5]])
+        colorStr = @"5856D6";
+    else if ([user.colorID isEqualToNumber:[NSNumber numberWithInt:6]])
+        colorStr = @"C643FC";
+    else if ([user.colorID isEqualToNumber:[NSNumber numberWithInt:7]])
+        colorStr = @"A4E786";
+    else if ([user.colorID isEqualToNumber:[NSNumber numberWithInt:8]])
+        colorStr = @"E4B7F0";
+    else if ([user.colorID isEqualToNumber:[NSNumber numberWithInt:9]])
+        colorStr = @"FF1300";
+    else if ([user.colorID isEqualToNumber:[NSNumber numberWithInt:9]])
+        colorStr = @"FF2A68";
     
     return [self colorWithHexString:colorStr];
 }

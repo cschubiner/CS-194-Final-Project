@@ -141,7 +141,7 @@
 -(void)setBackground {
     UIImageView *background = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height-60)];
     //[background setImage:[UIImage imageNamed:@"opening_background.png"]];
-    [background setBackgroundColor:[UIColor whiteColor]];
+    [background setBackgroundColor:[UIColor blackColor]];
     background.contentMode = UIViewContentModeScaleAspectFill;
     [self.view insertSubview:background atIndex:0];
     self.view.backgroundColor = [UIColor clearColor];
