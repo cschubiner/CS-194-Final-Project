@@ -23,6 +23,10 @@
 		0CBB52051896008C00B9615F /* UIColor+ColorHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CBB52041896008C00B9615F /* UIColor+ColorHelper.m */; };
 		0CD4DD1B18B1AD01003F3B75 /* EventKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0CD4DD1A18B1AD01003F3B75 /* EventKit.framework */; };
 		0CDA0F011895E89500F5A1F8 /* ProfileUserNetworkRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CDA0F001895E89500F5A1F8 /* ProfileUserNetworkRequest.m */; };
+		35381FA018BD5D9A00250B97 /* page4.png in Resources */ = {isa = PBXBuildFile; fileRef = 35381F9C18BD5D9A00250B97 /* page4.png */; };
+		35381FA118BD5D9A00250B97 /* page3.png in Resources */ = {isa = PBXBuildFile; fileRef = 35381F9D18BD5D9A00250B97 /* page3.png */; };
+		35381FA218BD5D9A00250B97 /* page2.png in Resources */ = {isa = PBXBuildFile; fileRef = 35381F9E18BD5D9A00250B97 /* page2.png */; };
+		35381FA318BD5D9A00250B97 /* page1.png in Resources */ = {isa = PBXBuildFile; fileRef = 35381F9F18BD5D9A00250B97 /* page1.png */; };
 		358FC67D18B4327100BBBADA /* AppIcon29x29.png in Resources */ = {isa = PBXBuildFile; fileRef = 358FC66F18B4327100BBBADA /* AppIcon29x29.png */; };
 		358FC67E18B4327100BBBADA /* AppIcon29x29@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 358FC67018B4327100BBBADA /* AppIcon29x29@2x.png */; };
 		358FC67F18B4327100BBBADA /* AppIcon40x40.png in Resources */ = {isa = PBXBuildFile; fileRef = 358FC67118B4327100BBBADA /* AppIcon40x40.png */; };
@@ -40,6 +44,7 @@
 		35B9DC4818A881B300AA65DC /* arrow-empty-small.png in Resources */ = {isa = PBXBuildFile; fileRef = 35B9DC4718A881B300AA65DC /* arrow-empty-small.png */; };
 		35B9DC4B18A881C300AA65DC /* arrow-hollow-small.png in Resources */ = {isa = PBXBuildFile; fileRef = 35B9DC4918A881C300AA65DC /* arrow-hollow-small.png */; };
 		35B9DC4C18A881C300AA65DC /* arrow-small.png in Resources */ = {isa = PBXBuildFile; fileRef = 35B9DC4A18A881C300AA65DC /* arrow-small.png */; };
+		35EAB5C918BADC2A00C82117 /* PageContentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 35EAB5C818BADC2A00C82117 /* PageContentViewController.m */; };
 		35FC368018A9E166000E4286 /* arrow-black.png in Resources */ = {isa = PBXBuildFile; fileRef = 35FC367E18A9E166000E4286 /* arrow-black.png */; };
 		35FC368118A9E166000E4286 /* arrow-hollow-black.png in Resources */ = {isa = PBXBuildFile; fileRef = 35FC367F18A9E166000E4286 /* arrow-hollow-black.png */; };
 		35FCF0B618B43788009DF57F /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 35FCF0B518B43788009DF57F /* Images.xcassets */; };
@@ -47,6 +52,8 @@
 		F25DCF1C18A84E9600710B03 /* MessageHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = F25DCF1B18A84E9600710B03 /* MessageHelper.m */; };
 		F25DCF1F18A84EAD00710B03 /* MessageNetworkRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = F25DCF1E18A84EAD00710B03 /* MessageNetworkRequest.m */; };
 		F25DCF2218A8564700710B03 /* JSMessage+Json.m in Sources */ = {isa = PBXBuildFile; fileRef = F25DCF2118A8564700710B03 /* JSMessage+Json.m */; };
+		F279A6A418BD3B9E007A2A9E /* CalendarMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = F279A6A318BD3B9E007A2A9E /* CalendarMessage.m */; };
+		F279A6A718BD3DA7007A2A9E /* CalendarMessage+Json.m in Sources */ = {isa = PBXBuildFile; fileRef = F279A6A618BD3DA7007A2A9E /* CalendarMessage+Json.m */; };
 		F2C51D94188C887400489989 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F2C51D93188C887400489989 /* Foundation.framework */; };
 		F2C51D96188C887400489989 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F2C51D95188C887400489989 /* CoreGraphics.framework */; };
 		F2C51D98188C887400489989 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F2C51D97188C887400489989 /* UIKit.framework */; };
@@ -118,6 +125,10 @@
 		0CD4DD1A18B1AD01003F3B75 /* EventKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = EventKit.framework; path = System/Library/Frameworks/EventKit.framework; sourceTree = SDKROOT; };
 		0CDA0EFF1895E89500F5A1F8 /* ProfileUserNetworkRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProfileUserNetworkRequest.h; sourceTree = "<group>"; };
 		0CDA0F001895E89500F5A1F8 /* ProfileUserNetworkRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProfileUserNetworkRequest.m; sourceTree = "<group>"; };
+		35381F9C18BD5D9A00250B97 /* page4.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = page4.png; sourceTree = "<group>"; };
+		35381F9D18BD5D9A00250B97 /* page3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = page3.png; sourceTree = "<group>"; };
+		35381F9E18BD5D9A00250B97 /* page2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = page2.png; sourceTree = "<group>"; };
+		35381F9F18BD5D9A00250B97 /* page1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = page1.png; sourceTree = "<group>"; };
 		358FC66F18B4327100BBBADA /* AppIcon29x29.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = AppIcon29x29.png; sourceTree = "<group>"; };
 		358FC67018B4327100BBBADA /* AppIcon29x29@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AppIcon29x29@2x.png"; sourceTree = "<group>"; };
 		358FC67118B4327100BBBADA /* AppIcon40x40.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = AppIcon40x40.png; sourceTree = "<group>"; };
@@ -135,6 +146,8 @@
 		35B9DC4718A881B300AA65DC /* arrow-empty-small.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "arrow-empty-small.png"; sourceTree = "<group>"; };
 		35B9DC4918A881C300AA65DC /* arrow-hollow-small.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "arrow-hollow-small.png"; sourceTree = "<group>"; };
 		35B9DC4A18A881C300AA65DC /* arrow-small.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "arrow-small.png"; sourceTree = "<group>"; };
+		35EAB5C718BADC2A00C82117 /* PageContentViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PageContentViewController.h; sourceTree = "<group>"; };
+		35EAB5C818BADC2A00C82117 /* PageContentViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PageContentViewController.m; sourceTree = "<group>"; };
 		35FC367E18A9E166000E4286 /* arrow-black.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "arrow-black.png"; sourceTree = "<group>"; };
 		35FC367F18A9E166000E4286 /* arrow-hollow-black.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "arrow-hollow-black.png"; sourceTree = "<group>"; };
 		35FCF0B518B43788009DF57F /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
@@ -146,6 +159,10 @@
 		F25DCF1E18A84EAD00710B03 /* MessageNetworkRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MessageNetworkRequest.m; sourceTree = "<group>"; };
 		F25DCF2018A8564700710B03 /* JSMessage+Json.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "JSMessage+Json.h"; sourceTree = "<group>"; };
 		F25DCF2118A8564700710B03 /* JSMessage+Json.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "JSMessage+Json.m"; sourceTree = "<group>"; };
+		F279A6A218BD3B9E007A2A9E /* CalendarMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CalendarMessage.h; sourceTree = "<group>"; };
+		F279A6A318BD3B9E007A2A9E /* CalendarMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CalendarMessage.m; sourceTree = "<group>"; };
+		F279A6A518BD3DA7007A2A9E /* CalendarMessage+Json.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "CalendarMessage+Json.h"; sourceTree = "<group>"; };
+		F279A6A618BD3DA7007A2A9E /* CalendarMessage+Json.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "CalendarMessage+Json.m"; sourceTree = "<group>"; };
 		F2C51D90188C887400489989 /* Flat.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Flat.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F2C51D93188C887400489989 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		F2C51D95188C887400489989 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -442,10 +459,16 @@
 		F2C51DD3188C944500489989 /* Opening */ = {
 			isa = PBXGroup;
 			children = (
+				35381F9C18BD5D9A00250B97 /* page4.png */,
+				35381F9D18BD5D9A00250B97 /* page3.png */,
+				35381F9E18BD5D9A00250B97 /* page2.png */,
+				35381F9F18BD5D9A00250B97 /* page1.png */,
 				F2C51DDA188C960B00489989 /* OpeningViewController.h */,
 				F2C51DDB188C960B00489989 /* OpeningViewController.m */,
 				F2C51DDD188C963D00489989 /* OpeningNavigationController.h */,
 				F2C51DDE188C963D00489989 /* OpeningNavigationController.m */,
+				35EAB5C718BADC2A00C82117 /* PageContentViewController.h */,
+				35EAB5C818BADC2A00C82117 /* PageContentViewController.m */,
 			);
 			name = Opening;
 			sourceTree = "<group>";
@@ -470,6 +493,10 @@
 				F2C51E651895E38100489989 /* JSMessageData.h */,
 				F25DCF2018A8564700710B03 /* JSMessage+Json.h */,
 				F25DCF2118A8564700710B03 /* JSMessage+Json.m */,
+				F279A6A218BD3B9E007A2A9E /* CalendarMessage.h */,
+				F279A6A318BD3B9E007A2A9E /* CalendarMessage.m */,
+				F279A6A518BD3DA7007A2A9E /* CalendarMessage+Json.h */,
+				F279A6A618BD3DA7007A2A9E /* CalendarMessage+Json.m */,
 			);
 			name = Messages;
 			sourceTree = "<group>";
@@ -567,6 +594,7 @@
 				35B9DC4818A881B300AA65DC /* arrow-empty-small.png in Resources */,
 				35B9DC4B18A881C300AA65DC /* arrow-hollow-small.png in Resources */,
 				358FC68018B4327100BBBADA /* AppIcon40x40@2x.png in Resources */,
+				35381FA218BD5D9A00250B97 /* page2.png in Resources */,
 				0C5014F918BB059F009E0677 /* calendar+icon.png in Resources */,
 				358FC68418B4327100BBBADA /* AppIcon57x57@2x.png in Resources */,
 				358FC68218B4327100BBBADA /* AppIcon50x50@2x.png in Resources */,
@@ -575,11 +603,14 @@
 				358FC67D18B4327100BBBADA /* AppIcon29x29.png in Resources */,
 				358FC68818B4327100BBBADA /* AppIcon72x72@2x.png in Resources */,
 				358FC68A18B4327100BBBADA /* AppIcon76x76@2x.png in Resources */,
+				35381FA018BD5D9A00250B97 /* page4.png in Resources */,
 				358FC68518B4327100BBBADA /* AppIcon60x60.png in Resources */,
+				35381FA318BD5D9A00250B97 /* page1.png in Resources */,
 				358FC68718B4327100BBBADA /* AppIcon72x72.png in Resources */,
 				35B9DC4C18A881C300AA65DC /* arrow-small.png in Resources */,
 				358FC68318B4327100BBBADA /* AppIcon57x57.png in Resources */,
 				358FC67E18B4327100BBBADA /* AppIcon29x29@2x.png in Resources */,
+				35381FA118BD5D9A00250B97 /* page3.png in Resources */,
 				35FC368018A9E166000E4286 /* arrow-black.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -645,8 +676,10 @@
 				F2C51DEC188C992E00489989 /* OpeningButton.m in Sources */,
 				F2C51DDC188C960B00489989 /* OpeningViewController.m in Sources */,
 				F2C51DDF188C963D00489989 /* OpeningNavigationController.m in Sources */,
+				F279A6A718BD3DA7007A2A9E /* CalendarMessage+Json.m in Sources */,
 				F2C51DF5188C9A9200489989 /* ProfileUser+Json.m in Sources */,
 				0C2E87D918B1B35700ADF8D2 /* EventModel.m in Sources */,
+				35EAB5C918BADC2A00C82117 /* PageContentViewController.m in Sources */,
 				F2C51DD9188C94CC00489989 /* RootController.m in Sources */,
 				0C52C5BE18A9BAF40094D428 /* GroupLocalRequest.m in Sources */,
 				0CDA0F011895E89500F5A1F8 /* ProfileUserNetworkRequest.m in Sources */,
@@ -659,6 +692,7 @@
 				0CBB52051896008C00B9615F /* UIColor+ColorHelper.m in Sources */,
 				F2C51DE9188C97E300489989 /* FlatAPIClientManager.m in Sources */,
 				F2C51DEF188C9A1600489989 /* Model.xcdatamodeld in Sources */,
+				F279A6A418BD3B9E007A2A9E /* CalendarMessage.m in Sources */,
 				F2C51E661895E38100489989 /* JSMessage.m in Sources */,
 				F2C51DFB188C9B9200489989 /* ProfileUserHelper.m in Sources */,
 				F25DCF1C18A84E9600710B03 /* MessageHelper.m in Sources */,
@@ -827,7 +861,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "flat/flat-Prefix.pch";

@@ -17,7 +17,10 @@
     self = [super init];
     if (self) {
         self = [UIButton buttonWithType:UIButtonTypeSystem];
-        [self setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+        [self setTitleColor: [UIColor colorWithRed:57.0/255.0
+                                             green:90.0/255.0
+                                              blue:161.0/255.0
+                                             alpha:1.0] forState:UIControlStateNormal];
         self.contentHorizontalAlignment = UIControlContentHorizontalAlignmentCenter;
         self.titleLabel.font = [UIFont fontWithName:@"ProximaNova-Bold" size:18.0f];
         [self addTarget:parent action:action forControlEvents:UIControlEventTouchUpInside];
@@ -25,11 +28,8 @@
         int height = [[UIScreen mainScreen] bounds].size.height;
         int width = [[UIScreen mainScreen] bounds].size.width;
         if ([type isEqualToString:@"facebookSignIn"]) {
-            self.frame = CGRectMake(0, height-60, width, 60);
-            self.backgroundColor = [UIColor colorWithRed:57.0/255.0
-                                                   green:90.0/255.0
-                                                    blue:161.0/255.0
-                                                   alpha:1.0];
+            self.frame = CGRectMake(0, height-110, width, 50);
+            self.backgroundColor = [UIColor whiteColor];
             [self setTitle:@"Sign up with Facebook" forState:UIControlStateNormal];
             
             CAGradientLayer *gradient = [CAGradientLayer layer];

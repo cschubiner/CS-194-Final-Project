@@ -17,9 +17,12 @@
         andCompletionBlock:(RequestProfileUserCompletionHandler)completionBlock
 {
     NSLog(@"before setting dict");
-    NSLog(@"%@", [FlatAPIClientManager sharedClient].deviceToken);
+    NSString * devToken = [FlatAPIClientManager sharedClient].deviceToken;
+    NSLog(@"%@", devToken);
+    if (devToken == nil)
+        devToken = @"simulator";
     NSDictionary *params = @{@"token":fbAccessToken,
-                             @"device_token":[FlatAPIClientManager sharedClient].deviceToken};
+                             @"device_token":devToken};
     NSLog(@"after setting dict");
     [[FlatAPIClientManager sharedClient] POST:@"/user/login/facebook"
                                   parameters:params
