@@ -52,6 +52,7 @@ def calendar_store_event(event_string):
         )
         db_session.add(new_event)
     db_session.commit()
+    return utils.json_message("Woo")
 
 '''
     Function: calendar_notify_event
