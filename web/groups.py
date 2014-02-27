@@ -94,7 +94,7 @@ def change_group_id(fb_id, new_group):
         result.group_id = new_group
         new_group = db_session.query(models.Group).filter(models.Group.id == new_group).first()
         new_group.users.append(result)
-        new_color_id = (len(new_group.users) - 1) % 4
+        new_color_id = (len(new_group.users) - 1) % 5
 
         # changing the color_id
         result.color_id = new_color_id
