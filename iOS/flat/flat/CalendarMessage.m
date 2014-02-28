@@ -12,7 +12,7 @@
 
 - (instancetype)initWithText:(NSString *)text
                       sender:(NSString *)sender
-                senderUserId:(int)senderID
+                senderUserId:(NSNumber*)senderID
                         date:(NSDate *)date
                 andStartDate:(NSDate *)startDate
                   andEndDate:(NSDate *)endDate
@@ -42,7 +42,7 @@
 {
     return [[[self class] allocWithZone:zone] initWithText:[self.text copy]
                                                     sender:[self.sender copy]
-                                              senderUserId:self.senderID
+                                              senderUserId:[self.senderID copy]
                                                       date:[self.date copy]
                                               andStartDate:[self.startDate copy]
                                                 andEndDate:[self.endDate copy]];

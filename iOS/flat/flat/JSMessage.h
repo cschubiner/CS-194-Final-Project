@@ -24,8 +24,7 @@
  */
 @property (copy, nonatomic) NSString *sender;
 
-
-@property (nonatomic) int senderID;
+@property (copy, nonatomic) NSNumber *senderID;
 
 /**
  *  The date that the message was sent. The default value is `nil`.
@@ -45,7 +44,7 @@
  */
 - (instancetype)initWithText:(NSString *)text
                       sender:(NSString *)sender
-                senderUserId:(int)senderID
+                senderUserId:(NSNumber*)senderID
                         date:(NSDate *)date;
 
 @end

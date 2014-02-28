@@ -50,10 +50,16 @@
 //                                                                      style:UIBarButtonItemStylePlain
 //                                                                     target:self
 //                                                                     action:@selector(toggleSidebarMenu:)];
+    
+//    UIImage *faceImage = [UIImage imageNamed:@"facebook.png"];
+//    UIButton *face = [UIButton buttonWithType:UIButtonTypeCustom];
+//    face.bounds = CGRectMake( 0, 0, faceImage.size.width, faceImage.size.height );
+//    [face setImage:faceImage forState:UIControlStateNormal];
+//    UIBarButtonItem *faceBtn = [[UIBarButtonItem alloc] initWithCustomView:face];
+    
     UIBarButtonItem* lbb = [[UIBarButtonItem alloc]initWithTitle:@"Settings" style:UIBarButtonItemStyleBordered target:self action:@selector(openSettings)];
     [lbb setTintColor:[UIColor blackColor]];
 
-    
 //    self.navigationItem.leftBarButtonItem = leftBarButton;
     self.navigationItem.leftBarButtonItem = lbb;
 //    UIBarButtonItem *rightBarButton = [[UIBarButtonItem alloc]

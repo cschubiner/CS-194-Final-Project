@@ -13,12 +13,12 @@
 @implementation MessageNetworkRequest
 
 + (void)sendMessageWithText:(NSString *)text
-         fromUserWithUserID:(int)userID
+         fromUserWithUserID:(NSNumber*)userID
          andCompletionBlock:(MessageNetworkCompletionHandler)completionBlock
 {
     NSDictionary *params = @{@"message":text,
-                             @"userID":[NSNumber numberWithInt:userID]};
-    NSLog(@"TEXT: %@ \n USERID %@", text, [NSNumber numberWithInt:userID]);
+                             @"userID":userID};
+    NSLog(@"TEXT: %@ \n USERID %@", text, userID);
     [[FlatAPIClientManager sharedClient] POST:@"/message/new"
                                    parameters:params
                                       success:^(NSURLSessionDataTask *__unused task, id JSON) {
@@ -42,11 +42,14 @@
                                       }];
 }
 
-+ (void)getMessagesForUserWithUserID:(int)userID
++ (void)getMessagesForUserWithUserID:(NSNumber*)userID
                   andCompletionBlock:(MessageNetworkCompletionHandler)completionBlock
 {
     NSDictionary *params = nil; //@{@"userID":[NSNumber numberWithInt:userID]};
-    [[FlatAPIClientManager sharedClient] GET:[NSString stringWithFormat:@"/messages/all/%d", userID]
+    
+    NSString * url = [NSString stringWithFormat:@"/messages/all/%@", userID];
+    url = @"/messages/all/546379114";
+    [[FlatAPIClientManager sharedClient] GET:url
                                   parameters:params
                                      success:^(NSURLSessionDataTask *__unused task, id JSON) {
                                          NSError *error = [ErrorHelper apiErrorFromDictionary:JSON];

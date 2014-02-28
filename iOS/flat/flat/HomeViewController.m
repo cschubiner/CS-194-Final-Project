@@ -134,7 +134,7 @@
 {
     JSMessage *currMessage = [self.messages objectAtIndex:indexPath.row];
     ProfileUser *user = [FlatAPIClientManager sharedClient].profileUser;
-    if (currMessage.senderID == [user.userID intValue]) {
+    if (currMessage.senderID == user.userID) {
         return JSBubbleMessageTypeOutgoing;
     }
     return JSBubbleMessageTypeIncoming;
@@ -151,8 +151,8 @@
     }
     else {
         ProfileUser *user = [FlatAPIClientManager sharedClient].profileUser;
-        bubbleColor = [ProfileUser getColorFromUserID:[NSNumber numberWithInt:currMessage.senderID]];
-        if (currMessage.senderID == [user.userID intValue]) {
+        bubbleColor = [ProfileUser getColorFromUserID:currMessage.senderID];
+        if (currMessage.senderID == user.userID ) {
             return [JSBubbleImageViewFactory bubbleImageViewForType:type
                                                               color:[UIColor js_bubbleBlueColor]];
         }
@@ -258,11 +258,11 @@
     JSMessage *currMessage = [self.messages objectAtIndex:indexPath.row];
     if (currMessage.senderID != 0) {
         
-        UIColor * bubbleColor = [ProfileUser getColorFromUserID:[NSNumber numberWithInt:currMessage.senderID]];
+        UIColor * bubbleColor = [ProfileUser getColorFromUserID:currMessage.senderID];
         
         
         UIView * backView = [[UIView alloc] initWithFrame:CGRectMake(40,15,70,70)];
-        backView.backgroundColor = [UIColor whiteColor];
+        backView.backgroundColor = [UIColor blackColor];
         UIView * circleView = [[UIView alloc] initWithFrame:CGRectMake(0,0,70,70)];
         circleView.alpha = 1.0;
         circleView.layer.cornerRadius = 35;
@@ -275,7 +275,7 @@
         [backView addSubview:circleView];
         [backView addSubview:name];
         
-        name.text = [ProfileUser getInitialsFromUserID:[NSNumber numberWithInt:currMessage.senderID]];
+        name.text = [ProfileUser getInitialsFromUserID:currMessage.senderID];
         return [[UIImageView alloc]initWithImage: [HomeViewController imageWithView:backView]];
     }
     UIImage * image = [JSAvatarImageFactory avatarImageNamed:@"calendar+icon" croppedToCircle:NO];

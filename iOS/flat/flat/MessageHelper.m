@@ -14,7 +14,7 @@
 +(void)sendMessageWithText:(NSString *)text
         andCompletionBlock:(MessageHelperCompletionHandler)completionBlock
 {
-    int userID = [[FlatAPIClientManager sharedClient].profileUser.userID intValue];
+    NSNumber * userID = [FlatAPIClientManager sharedClient].profileUser.userID;
     [MessageNetworkRequest sendMessageWithText:text
                             fromUserWithUserID:userID
                             andCompletionBlock:^(NSError *error, NSArray *messages) {
@@ -29,7 +29,7 @@
 
 +(void)getMessagesWithCompletionBlock:(MessageHelperCompletionHandler)completionBlock
 {
-    int userID = [[FlatAPIClientManager sharedClient].profileUser.userID intValue];
+    NSNumber* userID = [FlatAPIClientManager sharedClient].profileUser.userID;
     [MessageNetworkRequest getMessagesForUserWithUserID:userID
                                      andCompletionBlock:^(NSError *error, NSArray *messages) {
                                          if (error) {

@@ -37,6 +37,6 @@
 /**
  * @return the sender's ID
  */
-- (int)senderID;
+- (NSNumber*)senderID;
 
 @end

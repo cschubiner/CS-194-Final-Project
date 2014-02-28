@@ -14,7 +14,7 @@
 
 - (instancetype)initWithText:(NSString *)text
                       sender:(NSString *)sender
-                senderUserId:(int)senderID
+                senderUserId:(NSNumber*)senderID
                         date:(NSDate *)date
 {
     self = [super init];
@@ -42,7 +42,7 @@
     if (self) {
         _text = [aDecoder decodeObjectForKey:@"text"];
         _sender = [aDecoder decodeObjectForKey:@"sender"];
-        _senderID = (int)[aDecoder decodeObjectForKey:@"senderID"];
+        _senderID = [aDecoder decodeObjectForKey:@"senderID"];
         _date = [aDecoder decodeObjectForKey:@"date"];
     }
     return self;
