@@ -14,12 +14,13 @@
 
 + (void)sendMessageWithText:(NSString *)text
          fromUserWithUserID:(NSNumber*)userID
+                    postURL: (NSString*)postURL
          andCompletionBlock:(MessageNetworkCompletionHandler)completionBlock
 {
     NSDictionary *params = @{@"message":text,
                              @"userID":userID};
     NSLog(@"TEXT: %@ \n USERID %@", text, userID);
-    [[FlatAPIClientManager sharedClient] POST:@"/message/new"
+    [[FlatAPIClientManager sharedClient] POST:postURL
                                    parameters:params
                                       success:^(NSURLSessionDataTask *__unused task, id JSON) {
                                           NSError *error = [ErrorHelper apiErrorFromDictionary:JSON];
@@ -40,6 +41,13 @@
                                           NSLog(@"Error in MessageNetworkRequest: %@", error);
                                           completionBlock(error, nil);
                                       }];
+}
+
++ (void)sendMessageWithText:(NSString *)text
+         fromUserWithUserID:(NSNumber*)userID
+         andCompletionBlock:(MessageNetworkCompletionHandler)completionBlock
+{
+    [self sendMessageWithText:text fromUserWithUserID:userID postURL:@"/message/new" andCompletionBlock:completionBlock];
 }
 
 + (void)getMessagesForUserWithUserID:(NSNumber*)userID

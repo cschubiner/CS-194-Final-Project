@@ -14,6 +14,7 @@
 #import "GroupNetworkRequest.h"
 #import "GroupLocalRequest.h"
 #import "HomeViewController.h"
+#import <EventKit/EventKit.h>
 #import "MessageHelper.h"
 
 @implementation cs194AppDelegate
@@ -28,7 +29,7 @@
     pageControl.backgroundColor = [UIColor whiteColor];
     
     application.applicationIconBadgeNumber = 0;
-
+    
     
     // code to let kyle log in cuz of his messed up privacy settings. don't delete or uncomment.
     //        ProfileUser *kyleUser = [ProfileUser MR_createInContext:[NSManagedObjectContext MR_defaultContext]];
@@ -252,7 +253,8 @@
     //and create new timer with async call:
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         //run function methodRunAfterBackground
-        NSTimer* t = [NSTimer scheduledTimerWithTimeInterval:10 target:self selector:@selector(checkForCalendarEvent) userInfo:nil repeats:NO];
+        int checkEvery = 10; //290 //almost every 5 minutes
+        NSTimer* t = [NSTimer scheduledTimerWithTimeInterval:checkEvery target:self selector:@selector(checkForCalendarEvent) userInfo:nil repeats:YES];
         [[NSRunLoop currentRunLoop] addTimer:t forMode:NSDefaultRunLoopMode];
         [[NSRunLoop currentRunLoop] run];
     });
@@ -260,6 +262,26 @@
 
 -(void)checkForCalendarEvent {
     NSLog(@"calendar event checking");
+    NSCalendar* calendar = [[NSCalendar alloc] initWithCalendarIdentifier: NSGregorianCalendar];
+    NSDateComponents* components = [[NSDateComponents alloc] init];
+    components.minute = 5;
+    NSDate* fiveMinutesFromNow = [calendar dateByAddingComponents: components toDate: [NSDate date] options: 0];
+    
+    NSMutableIndexSet *discardedItems = [NSMutableIndexSet indexSet];
+    NSUInteger index = 0;
+    NSMutableArray * events = [FlatAPIClientManager sharedClient].events;
+    for (EKEvent* event in events) {
+        NSComparisonResult result = [fiveMinutesFromNow compare:event.startDate];
+        NSComparisonResult resultNow = [[NSDate date] compare:event.startDate];
+        if ((result == NSOrderedSame || result == NSOrderedDescending) &&
+            (resultNow == NSOrderedSame || resultNow == NSOrderedAscending)) { //if event occurs within next five minutes
+            [MessageHelper sendCalendarMessageForEvent:event];
+            [discardedItems addIndex:index];
+        }
+        index++;
+    }
+    
+    [events removeObjectsAtIndexes:discardedItems];
 }
 
 -(void)showFBLogin
@@ -278,14 +300,14 @@
 
 - (void)openFacebookSession
 {
-//    [self showFBLogin];
-//    return;
+    //    [self showFBLogin];
+    //    return;
     [FBSession openActiveSessionWithReadPermissions:@[@"basic_info", @"email"]
                                        allowLoginUI:YES
                                   completionHandler:^(FBSession *session, FBSessionState state, NSError *error) {
                                       if (error) {
                                           [FBSession.activeSession closeAndClearTokenInformation];
-//                                          [self openFacebookSession];
+                                          //                                          [self openFacebookSession];
                                       }
                                       [self sessionStateChanged:session
                                                           state:state

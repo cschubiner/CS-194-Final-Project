@@ -14,6 +14,11 @@ typedef void (^MessageNetworkCompletionHandler)(NSError *, NSArray *messages);
 
 + (void)sendMessageWithText:(NSString *)text
          fromUserWithUserID:(NSNumber*)userID
+                    postURL:(NSString*)postURL
+         andCompletionBlock:(MessageNetworkCompletionHandler)completionBlock;
+
++ (void)sendMessageWithText:(NSString *)text
+         fromUserWithUserID:(NSNumber*)userID
          andCompletionBlock:(MessageNetworkCompletionHandler)completionBlock;
 
 + (void)getMessagesForUserWithUserID:(NSNumber*)userID

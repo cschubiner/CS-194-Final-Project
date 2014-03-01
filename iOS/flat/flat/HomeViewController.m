@@ -80,7 +80,8 @@
     
     self.messageInputView.textView.placeHolder = @"Message";
     
-    self.tableView.frame = CGRectMake(0, 64, self.view.frame.size.width, self.view.frame.size.height - self.messageInputView.frame.size.height - 64);
+//    self.tableView.frame = CGRectMake(0, 64, self.view.frame.size.width, self.view.frame.size.height - self.messageInputView.frame.size.height - 64);
+    self.tableView.frame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height - self.messageInputView.frame.size.height);
     
     //Pull to refresh
     self.refresh = [[UIRefreshControl alloc] init];
@@ -262,7 +263,7 @@
         
         
         UIView * backView = [[UIView alloc] initWithFrame:CGRectMake(40,15,70,70)];
-        backView.backgroundColor = [UIColor blackColor];
+        backView.backgroundColor = [UIColor whiteColor];
         UIView * circleView = [[UIView alloc] initWithFrame:CGRectMake(0,0,70,70)];
         circleView.alpha = 1.0;
         circleView.layer.cornerRadius = 35;

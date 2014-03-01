@@ -41,4 +41,22 @@
                                      }];
 }
 
+
++(void)sendCalendarMessageForEvent:(EKEvent*)event {
+    NSNumber * userID = [FlatAPIClientManager sharedClient].profileUser.userID;
+    NSString * messageText = [NSString stringWithFormat:@"%@ has an event from %@ to %@.\n%@",
+                              [FlatAPIClientManager sharedClient].profileUser.firstName,
+                              event.startDate, event.endDate,
+                              event.title];
+    [MessageNetworkRequest sendMessageWithText:messageText
+                            fromUserWithUserID:userID
+                            postURL:@"calendar/message/new"
+                            andCompletionBlock:^(NSError *error, NSArray *messages) {
+                                if (error) {
+                                    NSLog(@"Error in sending calendar message %@", error);
+                                } else {
+                                    NSLog(@"calendar message sent successfully");
+                                }
+                            }];
+}
 @end
