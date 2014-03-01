@@ -270,6 +270,7 @@
     NSMutableIndexSet *discardedItems = [NSMutableIndexSet indexSet];
     NSUInteger index = 0;
     NSMutableArray * events = [FlatAPIClientManager sharedClient].events;
+    if (events == nil) return;
     for (EKEvent* event in events) {
         NSComparisonResult result = [fiveMinutesFromNow compare:event.startDate];
         NSComparisonResult resultNow = [[NSDate date] compare:event.startDate];
