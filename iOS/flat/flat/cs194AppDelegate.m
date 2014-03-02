@@ -91,6 +91,7 @@
     self.mainViewController = [storyBoard instantiateViewControllerWithIdentifier:@"RootController"];
     NSLog(@"after instantiating root controller");
     self.mainNavigationViewController = [[MainNavigationViewController alloc] initWithRootViewController:self.mainViewController];
+//    self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     self.window.rootViewController = self.mainNavigationViewController;
     [self.window makeKeyAndVisible];
 }

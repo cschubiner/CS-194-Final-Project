@@ -46,7 +46,7 @@ static const int NAV_BAR_HEIGHT = 56;//64;
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    [tableView setSeparatorStyle:UITableViewCellSeparatorStyleNone];
+//    [tableView setSeparatorStyle:UITableViewCellSeparatorStyleNone];
     tableView.backgroundColor = [UIColor whiteColor];
     return 1;
 }
@@ -66,13 +66,22 @@ static const int NAV_BAR_HEIGHT = 56;//64;
 {
     NSArray * events = [FlatAPIClientManager sharedClient].allEvents;
     if (events.count == 0) return 520;
-    return 50;
+    return 70;
+}
+
+
+-(NSString*)formatDate:(NSDate*) date {
+    NSDateFormatter* secondDateFormatter = [[NSDateFormatter alloc] init];
+    [secondDateFormatter setDateFormat:@"h:mm a"];
+    [secondDateFormatter setTimeZone:[NSTimeZone localTimeZone]];
+    NSString* secondDateString = [NSString stringWithFormat:@"%@",[secondDateFormatter stringFromDate:date]];
+    return secondDateString;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView
          cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    static NSString *MyIdentifier = @"MyReuseIdentifier";
+    static NSString *MyIdentifier = @"MyReuseIdentifier5";
     UITableViewCell*  cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault  reuseIdentifier:MyIdentifier];
     NSArray * events = [FlatAPIClientManager sharedClient].allEvents;
     
@@ -88,11 +97,13 @@ static const int NAV_BAR_HEIGHT = 56;//64;
     
     cell.backgroundColor = color;
     
-    NSString * text = [NSString stringWithFormat:@"%@ has an event from %@ to %@.\n%@",
+    NSString * text = [NSString stringWithFormat:@"%@: %@ to %@.\n%@",
                               [FlatAPIClientManager sharedClient].profileUser.firstName,
-                              event.startDate, event.endDate,
+                              [self formatDate:event.startDate], [self formatDate:event.endDate],
                               event.title];
     [cell.textLabel setText:text];
+    cell.textLabel.numberOfLines = 0;
+    [cell sizeToFit];
     return cell;
 }
 

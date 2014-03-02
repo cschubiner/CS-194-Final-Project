@@ -12,6 +12,8 @@
 #import "ProfileUserNetworkRequest.h"
 #import "HomeViewController.h"
 #import "MessageHelper.h"
+#import <Firebase/Firebase.h>
+
 
 @interface RootController ()
 
@@ -39,7 +41,7 @@
     self.rightFixedWidth = self.view.frame.size.width * .85;
     //    self.allowRightOverpan= YES;
     
-    self.navigationController.navigationBar.hidden = NO;
+//    self.navigationController.navigationBar.hidden = NO;
     //    self.navigationController.navigationBar.barTintColor = [UIColor whiteColor];
     self.navigationController.navigationBar.tintColor = [UIColor blackColor]; //sets text color
     self.navigationController.navigationBar.translucent = YES;
@@ -73,7 +75,7 @@
      blue:246.0/255.0
      alpha:1.0];
      */
-    self.navigationController.toolbarHidden = TRUE;
+//    self.navigationController.toolbarHidden = TRUE;
     
     
     EKEventStore *store = [[EKEventStore alloc] init];
@@ -91,7 +93,48 @@
         }
     }];
     
+    [self getAllCalendarEvents];
+}
+
+-(NSDate*)dateFromString:(NSString*)str {
+    if (str == nil || str == [NSNull null]) return nil;
+    [NSDateFormatter setDefaultFormatterBehavior:NSDateFormatterBehavior10_4];
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    //[NSDateFormatter setDefaultFormatterBehavior:NSDateFormatterBehaviorDefault];
+    [dateFormatter setDateFormat:@"yyyy-MM-dd hh:mm:ss +hhmm"];
+    NSDate* ret= [dateFormatter dateFromString:str];
+//    NSLog(@"ret: %@", ret);
+    return ret;
+}
+
+-(NSNumber*)numberFromString:(NSString*)str {
+    NSNumberFormatter * f = [[NSNumberFormatter alloc] init];
+    [f setNumberStyle:NSNumberFormatterNoStyle];
+   return [f numberFromString:str];
+}
+
+-(void)getAllCalendarEvents {
+    NSMutableArray*events = [[NSMutableArray alloc]init];
     
+    Firebase* fCal = [[Firebase alloc] initWithUrl:@"https://flatapp.firebaseio.com/calendars"];
+    [fCal observeEventType:FEventTypeValue withBlock:^(FDataSnapshot *snapshot) {
+        for (FDataSnapshot * fCalUser in snapshot.children) {
+            for (FDataSnapshot * fCalEvent in fCalUser.children) {
+                NSLog(@"child%@", fCalEvent.value);
+                EventModel * event = [[EventModel alloc]init];
+                NSLog(@"title: %@", [fCalEvent childSnapshotForPath:@"title"].value);
+                NSLog(@"endDate: %@",[fCalEvent childSnapshotForPath:@"endDate"].value);
+                [event setTitle:[fCalEvent childSnapshotForPath:@"endDate"].value];
+                [event setStartDate:[self dateFromString:[fCalEvent childSnapshotForPath:@"startDate"].value]];
+                [event setEndDate:[self dateFromString:[fCalEvent childSnapshotForPath:@"endDate"].value]];
+                [event setUserID:[self numberFromString:[fCalEvent childSnapshotForPath:@"userID"].value]];
+                [events addObject:event];
+            }
+        }
+        
+        NSLog(@"events: %@",events);
+        [[FlatAPIClientManager sharedClient]setAllEvents:events];
+    }];
 }
 
 - (IBAction)refreshMessages:(id)sender
@@ -136,6 +179,13 @@
     if (events == nil || events.count == 0)
         eventJSON = @"{\"events\":[]}";
     
+    Firebase* fCal = [[Firebase alloc] initWithUrl:@"https://flatapp.firebaseio.com/calendars"];
+    
+    
+    Firebase* fCalUser = [fCal childByAppendingPath:[NSString stringWithFormat:@"%@",userID]];
+    [fCalUser setValue:nil]; //delete all calendar events for this user
+    
+    
     NSMutableArray * allEventArray = [[NSMutableArray alloc]init];
     for (EKEvent* event in events) {
         EventModel* ev = [[EventModel alloc]init];
@@ -148,6 +198,13 @@
         else
             eventJSON = [NSString stringWithFormat:@"%@%@,", eventJSON, [ev toJSONString]];
         [allEventArray addObject:ev];
+        Firebase* fEvent = [fCalUser childByAppendingPath:[NSString stringWithFormat:@"%@", event.startDate]];
+        [[fEvent childByAppendingPath:@"startDate"] setValue:[NSString stringWithFormat:@"%@", event.startDate]];
+        [[fEvent childByAppendingPath:@"endDate"] setValue:[NSString stringWithFormat:@"%@", event.endDate]];
+        [[fEvent childByAppendingPath:@"userID"] setValue:[NSString stringWithFormat:@"%@", userID]];
+        [[fEvent childByAppendingPath:@"title"] setValue:event.title];
+        //        [fEvent setValue:@"hi" forKey:@"startDate"];
+        //        [fEvent setValue:event.title forKey:@"title"];
     }
     [[FlatAPIClientManager sharedClient]setAllEvents:[NSArray arrayWithArray:allEventArray]];
     [ProfileUserNetworkRequest sendCalendarEvents:eventJSON];
