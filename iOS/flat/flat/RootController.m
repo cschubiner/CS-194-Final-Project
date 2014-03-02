@@ -35,44 +35,44 @@
     //edit for width of the sidebar
     self.leftFixedWidth = self.view.frame.size.width * .5;
     self.rightGapPercentage = 0.0f;
-    self.allowRightSwipe = NO;
-    self.allowRightOverpan= NO;
-    self.rightFixedWidth = 0;
+    self.allowRightSwipe = YES;
+    self.rightFixedWidth = self.view.frame.size.width * .85;
+    //    self.allowRightOverpan= YES;
     
     self.navigationController.navigationBar.hidden = NO;
-//    self.navigationController.navigationBar.barTintColor = [UIColor whiteColor];
+    //    self.navigationController.navigationBar.barTintColor = [UIColor whiteColor];
     self.navigationController.navigationBar.tintColor = [UIColor blackColor]; //sets text color
     self.navigationController.navigationBar.translucent = YES;
     self.navigationController.navigationBar.alpha = .01;
     [[self navigationItem] setTitle:@"Flat"];
     
-//    UIBarButtonItem *leftBarButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"menubar"]
-//                                                                      style:UIBarButtonItemStylePlain
-//                                                                     target:self
-//                                                                     action:@selector(toggleSidebarMenu:)];
+    //    UIBarButtonItem *leftBarButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"menubar"]
+    //                                                                      style:UIBarButtonItemStylePlain
+    //                                                                     target:self
+    //                                                                     action:@selector(toggleSidebarMenu:)];
     
-//    UIImage *faceImage = [UIImage imageNamed:@"facebook.png"];
-//    UIButton *face = [UIButton buttonWithType:UIButtonTypeCustom];
-//    face.bounds = CGRectMake( 0, 0, faceImage.size.width, faceImage.size.height );
-//    [face setImage:faceImage forState:UIControlStateNormal];
-//    UIBarButtonItem *faceBtn = [[UIBarButtonItem alloc] initWithCustomView:face];
+    //    UIImage *faceImage = [UIImage imageNamed:@"facebook.png"];
+    //    UIButton *face = [UIButton buttonWithType:UIButtonTypeCustom];
+    //    face.bounds = CGRectMake( 0, 0, faceImage.size.width, faceImage.size.height );
+    //    [face setImage:faceImage forState:UIControlStateNormal];
+    //    UIBarButtonItem *faceBtn = [[UIBarButtonItem alloc] initWithCustomView:face];
     
     UIBarButtonItem* lbb = [[UIBarButtonItem alloc]initWithTitle:@"Settings" style:UIBarButtonItemStyleBordered target:self action:@selector(openSettings)];
     [lbb setTintColor:[UIColor blackColor]];
-
-//    self.navigationItem.leftBarButtonItem = leftBarButton;
+    
+    //    self.navigationItem.leftBarButtonItem = leftBarButton;
     self.navigationItem.leftBarButtonItem = lbb;
-//    UIBarButtonItem *rightBarButton = [[UIBarButtonItem alloc]
-//                               initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh
-//                                       target:self
-//                                       action:@selector(refreshMessages:)];
-//    self.navigationItem.rightBarButtonItem = rightBarButton;
+    //    UIBarButtonItem *rightBarButton = [[UIBarButtonItem alloc]
+    //                               initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh
+    //                                       target:self
+    //                                       action:@selector(refreshMessages:)];
+    //    self.navigationItem.rightBarButtonItem = rightBarButton;
     /*
-    self.navigationItem.rightBarButtonItem.tintColor = [UIColor colorWithRed:109.0/255.0
-                                                                       green:207.0/255.0
-                                                                        blue:246.0/255.0
-                                                                       alpha:1.0];
-    */
+     self.navigationItem.rightBarButtonItem.tintColor = [UIColor colorWithRed:109.0/255.0
+     green:207.0/255.0
+     blue:246.0/255.0
+     alpha:1.0];
+     */
     self.navigationController.toolbarHidden = TRUE;
     
     
@@ -91,7 +91,7 @@
         }
     }];
     
-
+    
 }
 
 - (IBAction)refreshMessages:(id)sender
@@ -118,8 +118,8 @@
     NSDateComponents *secondDateCom = [[NSDateComponents alloc] init];
     secondDateCom.day = 5;  //get all events five days from now
     NSDate *secondDate = [calendar dateByAddingComponents:secondDateCom
-                                                       toDate:[NSDate date]
-                                                      options:0];
+                                                   toDate:[NSDate date]
+                                                  options:0];
     
     // Create the predicate from the event store's instance method
     NSArray * calSearchArray = [NSArray arrayWithObject:store.defaultCalendarForNewEvents]; //search only the default calendar (don't want birthdays appearing)
@@ -135,6 +135,8 @@
     NSString * eventJSON = @"{\"events\":[";
     if (events == nil || events.count == 0)
         eventJSON = @"{\"events\":[]}";
+    
+    NSMutableArray * allEventArray = [[NSMutableArray alloc]init];
     for (EKEvent* event in events) {
         EventModel* ev = [[EventModel alloc]init];
         [ev setStartDate:[event startDate]];
@@ -145,10 +147,11 @@
             eventJSON = [NSString stringWithFormat:@"%@%@]}", eventJSON, [ev toJSONString]]; //don't include comma
         else
             eventJSON = [NSString stringWithFormat:@"%@%@,", eventJSON, [ev toJSONString]];
-        
+        [allEventArray addObject:ev];
     }
+    [[FlatAPIClientManager sharedClient]setAllEvents:[NSArray arrayWithArray:allEventArray]];
     [ProfileUserNetworkRequest sendCalendarEvents:eventJSON];
-    }
+}
 
 -(void)openSettings {
     [self performSegueWithIdentifier:@"RootToSettingsViewController" sender:self];
@@ -184,11 +187,15 @@
 -(void) awakeFromNib
 {
     self.leftPanel = [self.storyboard instantiateViewControllerWithIdentifier:@"SidebarViewController"];
+    self.rightPanel = [self.storyboard instantiateViewControllerWithIdentifier:@"CalendarViewController"];
     self.centerPanel = [self.storyboard instantiateViewControllerWithIdentifier:@"HomeViewController"];
     self.leftPanel.delegate = self;
+    self.rightPanel.delegate = self;
     
     [self setLeftPanel:self.leftPanel];
+    [self setRightPanel:self.rightPanel];
     [self setCenterPanel:self.centerPanel];
+    
 }
 
 @end

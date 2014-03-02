@@ -18,6 +18,7 @@
 @property (nonatomic, strong) Group *group;
 @property NSMutableArray *users;
 @property (nonatomic, strong) NSMutableArray *events;
+@property (nonatomic, strong) NSArray *allEvents;
 @property NSString *deviceToken;
 
 @end

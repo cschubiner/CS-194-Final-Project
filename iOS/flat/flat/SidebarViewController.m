@@ -50,7 +50,7 @@ static const int NAV_BAR_HEIGHT = 56;//64;
 -(void)viewWillAppear:(BOOL)animated {
     
     [self refreshUsers];
-    [NSTimer scheduledTimerWithTimeInterval:8.0
+    [NSTimer scheduledTimerWithTimeInterval:30.0
                                      target:self
                                    selector:@selector(refreshUsers)
                                    userInfo:nil
@@ -76,7 +76,7 @@ static const int NAV_BAR_HEIGHT = 56;//64;
 - (NSInteger)tableView:(UITableView *)tableView
  numberOfRowsInSection:(NSInteger)section
 {
-    return self.users.count;
+    return MAX(1,self.users.count);
 }
 
 - (NSString *)tableView:(UITableView *)tableView
@@ -97,6 +97,7 @@ titleForHeaderInSection:(NSInteger)section
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    if (self.users.count == 0) return 520;
     return 90;
 }
 
@@ -110,6 +111,10 @@ titleForHeaderInSection:(NSInteger)section
 //    }
     UITableViewCell*  cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault  reuseIdentifier:MyIdentifier];
     
+    if (self.users.count == 0) {
+        [cell.textLabel setText:@"Loading..."];
+        return cell;
+    }
     [tableView setSeparatorStyle:UITableViewCellSeparatorStyleNone];
     tableView.backgroundColor = [UIColor whiteColor];
     
