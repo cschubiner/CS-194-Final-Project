@@ -21,4 +21,5 @@
 @property (nonatomic, strong) NSArray *allEvents;
 @property NSString *deviceToken;
 
+-(void)getAllCalendarEvents:(void(^)())callback;
 @end

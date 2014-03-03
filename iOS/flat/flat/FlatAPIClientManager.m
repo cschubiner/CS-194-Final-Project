@@ -7,6 +7,9 @@
 //
 
 #import "FlatAPIClientManager.h"
+#import <EventKit/EventKit.h>
+#import "EventModel.h"
+#import <Firebase/Firebase.h>
 
 static NSString * const FLATAPIBASEURLSTRING = @"http://flatappapi.appspot.com";
 static NSString * const KEY = @"";
@@ -69,5 +72,31 @@ static NSString * const SIGNATURE = @"";
                failure:(void ( ^ ) ( NSURLSessionDataTask *task , NSError *error ))failure];
 }
 
+
+
+-(void)getAllCalendarEvents:(void(^)())callback{
+    NSMutableArray*events = [[NSMutableArray alloc]init];
+    
+    Firebase* fCal = [[Firebase alloc] initWithUrl:@"https://flatapp.firebaseio.com/calendars"];
+    [fCal observeEventType:FEventTypeValue withBlock:^(FDataSnapshot *snapshot) {
+        for (FDataSnapshot * fCalUser in snapshot.children) {
+            for (FDataSnapshot * fCalEvent in fCalUser.children) {
+                NSLog(@"child%@", fCalEvent.value);
+                EventModel * event = [[EventModel alloc]init];
+                NSLog(@"title: %@", [fCalEvent childSnapshotForPath:@"title"].value);
+                NSLog(@"endDate: %@",[fCalEvent childSnapshotForPath:@"endDate"].value);
+                [event setTitle:[fCalEvent childSnapshotForPath:@"title"].value];
+                [event setStartDate:[Utils dateFromString:[fCalEvent childSnapshotForPath:@"startDate"].value]];
+                [event setEndDate:[Utils dateFromString:[fCalEvent childSnapshotForPath:@"endDate"].value]];
+                [event setUserID:[Utils numberFromString:[fCalEvent childSnapshotForPath:@"userID"].value]];
+                [events addObject:event];
+            }
+        }
+        
+        NSLog(@"events: %@",events);
+        [[FlatAPIClientManager sharedClient]setAllEvents:events];
+        callback();
+    }];
+}
 
 @end

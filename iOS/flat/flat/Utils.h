@@ -12,4 +12,6 @@
 
 +(NSNumber*)numberFromString:(NSString*)str;
 +(NSDate*)dateFromString:(NSString*)str;
++(NSString*)formatDate:(NSDate*) date ;
++(NSString*)formatDate:(NSDate*) date withFormat:(NSString*) formatStr ;
 @end

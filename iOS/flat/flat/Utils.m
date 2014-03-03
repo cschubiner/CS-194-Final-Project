@@ -21,11 +21,29 @@
     if ((NSNull*)str == nil || [[NSNull null] isEqual:str]) return nil;
     [NSDateFormatter setDefaultFormatterBehavior:NSDateFormatterBehavior10_4];
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    [dateFormatter setTimeZone:[NSTimeZone localTimeZone]];
     //[NSDateFormatter setDefaultFormatterBehavior:NSDateFormatterBehaviorDefault];
-    [dateFormatter setDateFormat:@"yyyy-MM-dd hh:mm:ss +hhmm"];
+    [dateFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ss +0000"];
     NSDate* ret= [dateFormatter dateFromString:str];
     //    NSLog(@"ret: %@", ret);
     return ret;
 }
+
+
++(NSString*)formatDate:(NSDate*) date {
+    return [Utils formatDate:date withFormat:@"h:mm a"];
+}
+
+
++(NSString *)formatDate:(NSDate *)date withFormat:(NSString *)formatStr {
+    if (date == nil) return nil;
+    NSDateFormatter* secondDateFormatter = [[NSDateFormatter alloc] init];
+    [secondDateFormatter setDateFormat:formatStr];
+    [secondDateFormatter setTimeZone:[NSTimeZone localTimeZone]];
+    NSString* secondDateString = [NSString stringWithFormat:@"%@",[secondDateFormatter stringFromDate:date]];
+    return secondDateString;
+}
+
+
 
 @end

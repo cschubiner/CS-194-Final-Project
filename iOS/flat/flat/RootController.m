@@ -35,7 +35,7 @@
     [super viewDidLoad];
     
     //edit for width of the sidebar
-    self.leftFixedWidth = self.view.frame.size.width * .5;
+    self.leftFixedWidth = self.view.frame.size.width * .5 * .9;
     self.rightGapPercentage = 0.0f;
     self.allowRightSwipe = YES;
     self.rightFixedWidth = self.view.frame.size.width * .85;
@@ -92,34 +92,9 @@
             [alertView show];
         }
     }];
-    
-    [self getAllCalendarEvents];
 }
 
 
--(void)getAllCalendarEvents {
-    NSMutableArray*events = [[NSMutableArray alloc]init];
-    
-    Firebase* fCal = [[Firebase alloc] initWithUrl:@"https://flatapp.firebaseio.com/calendars"];
-    [fCal observeEventType:FEventTypeValue withBlock:^(FDataSnapshot *snapshot) {
-        for (FDataSnapshot * fCalUser in snapshot.children) {
-            for (FDataSnapshot * fCalEvent in fCalUser.children) {
-                NSLog(@"child%@", fCalEvent.value);
-                EventModel * event = [[EventModel alloc]init];
-                NSLog(@"title: %@", [fCalEvent childSnapshotForPath:@"title"].value);
-                NSLog(@"endDate: %@",[fCalEvent childSnapshotForPath:@"endDate"].value);
-                [event setTitle:[fCalEvent childSnapshotForPath:@"endDate"].value];
-                [event setStartDate:[Utils dateFromString:[fCalEvent childSnapshotForPath:@"startDate"].value]];
-                [event setEndDate:[Utils dateFromString:[fCalEvent childSnapshotForPath:@"endDate"].value]];
-                [event setUserID:[Utils numberFromString:[fCalEvent childSnapshotForPath:@"userID"].value]];
-                [events addObject:event];
-            }
-        }
-        
-        NSLog(@"events: %@",events);
-        [[FlatAPIClientManager sharedClient]setAllEvents:events];
-    }];
-}
 
 - (IBAction)refreshMessages:(id)sender
 {
@@ -144,6 +119,7 @@
     // Create the end date components
     NSDateComponents *secondDateCom = [[NSDateComponents alloc] init];
     secondDateCom.day = 5;  //get all events five days from now
+//    secondDateCom.hour = 24;
     NSDate *secondDate = [calendar dateByAddingComponents:secondDateCom
                                                    toDate:[NSDate date]
                                                   options:0];
@@ -190,7 +166,7 @@
         //        [fEvent setValue:@"hi" forKey:@"startDate"];
         //        [fEvent setValue:event.title forKey:@"title"];
     }
-    [[FlatAPIClientManager sharedClient]setAllEvents:[NSArray arrayWithArray:allEventArray]];
+//    [[FlatAPIClientManager sharedClient]setAllEvents:[NSArray arrayWithArray:allEventArray]];
     [ProfileUserNetworkRequest sendCalendarEvents:eventJSON];
 }
 

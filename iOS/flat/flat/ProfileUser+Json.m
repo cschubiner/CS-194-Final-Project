@@ -51,6 +51,22 @@
     //    return nil;
 }
 
++ (NSString *) getFirstNameFromUserID:(NSNumber*)userID {
+    static NSMutableDictionary * colorDict = nil;
+    if (!colorDict) colorDict = [[NSMutableDictionary alloc]init];
+    NSString * ret = [colorDict objectForKey:userID];
+    if (ret) return ret;
+    
+    for (ProfileUser * user in [[FlatAPIClientManager sharedClient]users]){
+        if ([user.userID isEqualToNumber2:userID]) {
+            NSString *initials  = user.firstName;
+            [colorDict setObject:initials forKey:userID];
+            return initials;
+        }
+    }
+    return @"John";
+}
+
 + (UIColor *) getColorFromUserID:(NSNumber*)userID {
     static NSMutableDictionary * colorDict = nil;
     if (!colorDict) colorDict = [[NSMutableDictionary alloc]init];
@@ -73,8 +89,6 @@
 
 + (UIColor *) getColorFromUser:(ProfileUser*)user
 {
-    
-
     NSString * colorStr = @"FF2A68";
     if ([user.colorID isEqualToNumber2:[NSNumber numberWithInt:0]])
         colorStr = @"FF5E3A";
