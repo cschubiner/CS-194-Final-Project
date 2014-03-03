@@ -319,6 +319,8 @@
 				0C5014F818BB059F009E0677 /* calendar+icon@2x.png */,
 				35FCF0B518B43788009DF57F /* Images.xcassets */,
 				355493F718BEFAA500FA7BA6 /* iphone-launch.png */,
+				0C1F934918C40F0000949F10 /* NSValue+NSValueEqualTo.h */,
+				0C1F934A18C40F0000949F10 /* NSValue+NSValueEqualTo.m */,
 				F2C51D9A188C887400489989 /* Supporting Files */,
 			);
 			path = flat;
@@ -461,8 +463,6 @@
 				F2C51DE1188C96C500489989 /* SidebarViewController.m */,
 				0C46A9B818C2A8CC000E30E2 /* CalendarViewController.h */,
 				0C46A9B918C2A8CC000E30E2 /* CalendarViewController.m */,
-				0C1F934918C40F0000949F10 /* NSValue+NSValueEqualTo.h */,
-				0C1F934A18C40F0000949F10 /* NSValue+NSValueEqualTo.m */,
 				F2C51DE4188C974E00489989 /* HomeViewController.h */,
 				F2C51DE5188C974E00489989 /* HomeViewController.m */,
 			);
