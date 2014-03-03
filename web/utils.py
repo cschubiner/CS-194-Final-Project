@@ -1,9 +1,12 @@
 from flask import Response
 import json
+import db
 
 
 # Converts a sqlalchemy query result (list) to json
 def list_to_json(response_type, obj_list):
+    for o in [i.serialize for i in obj_list]:
+        print o
     if obj_list:
         return to_app_json({response_type:[i.serialize for i in obj_list]})
     return to_app_json({})
@@ -31,3 +34,4 @@ def error_json_message(message):
 # Used so we don't get any 500 errors
 def json_message(message):
     return error_json_message(message)
+

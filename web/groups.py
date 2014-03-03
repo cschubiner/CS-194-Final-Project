@@ -8,6 +8,7 @@
 import utils
 from db import db_session
 import models
+import db
 from sqlalchemy import and_
 
 '''
@@ -90,6 +91,23 @@ def change_group_id(fb_id, new_group):
         if int(result.group_id) == int(new_group):
             return utils.obj_to_json('user', result, True)
 
+        #TODO: if new group does not exist, create a new group
+
+        # check if the new group exists
+        if db.db_get_group(new_group) is None:
+            print "entered correct code"
+            # create new group
+            new_g = models.Group(curr_color=0, latitude=0.0, longitude=0.0)
+
+            # reflect that in the user info
+            result.group_id = new_g.id
+            new_g.users.append(result)
+            result.color_id = 0
+            temp = result
+            db_session.add(new_g)
+            db_session.commit()
+            return utils.obj_to_json('user',temp, True) 
+
         # Modifying the user's color_id
         result.group_id = new_group
         new_group = db_session.query(models.Group).filter(models.Group.id == new_group).first()
@@ -103,6 +121,7 @@ def change_group_id(fb_id, new_group):
         db_session.commit()
         return utils.obj_to_json('user',temp, True)
     return utils.error_json_message()
+
 
 '''
     Function: get_group_by_id

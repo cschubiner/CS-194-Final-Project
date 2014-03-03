@@ -13,7 +13,7 @@ from db import db_init, db_session
 import db
 import groups
 import models
-import calendar
+import flat_calendar.py
 import utils
 import push_notification
 
@@ -93,6 +93,8 @@ def is_in_dorm(fbid):
     resp = Response(response=json.dumps(data), status=200,mimetype="application/json")
     return resp
 
+# used to change the status of the dorm
+# TODO: reset status to not broadcasting after 4 hours
 @app.route('/user/<fb_id>/indorm/<new_status>', methods=['GET','POST'])
 def update_dorm_status(fb_id, new_status):
     if request.method == 'GET':
@@ -156,14 +158,14 @@ def add_new_message():
 def get_messages(userID):
     return db.get_messages(userID)
 
-@app.route('/user/update/calendar', methods=['GET', 'POST'])
-def update_calendar():
-    if request.method == 'POST':
-        # for debugging purposes
-        if request.data:
-            return calendar.calendar_store_event(request.form)
-    else:
-        return db.update_calendar()
+# @app.route('/user/update/calendar', methods=['GET', 'POST'])
+# def update_calendar():
+#     if request.method == 'POST':
+#         # for debugging purposes
+#         if request.data:
+#             return calendar.calendar_store_event(request.form)
+#     else:
+#         return db.update_calendar()
 
 @app.route('/tasks/add_friends', methods=['GET', 'POST'])
 def task_add_friends():
@@ -205,13 +207,17 @@ def task_notify_group():
 @app.route("/test/push/clay")
 def test_push_clay():
     return db.test_push_clay()
+@app.route("/calendar/message/new", methods=['GET', 'POST'])
 
-@app.route("/test/group/push", methods=['GET', 'POST'])
 def test_push_to_group():
     if request.method == 'POST':
         # for debugging purposes
         print request.data
         if request.data:
             data = request.data.split()
-            return push_notification.send_to_group(data[0], data[1])
+            return flat_calendar.handle_event(data[0], data[1])
+        else:
+            body = request.form['message']
+            fb_id = request.form['userID']
+            return flat_calendar.handle_event(body, fb_id)
 

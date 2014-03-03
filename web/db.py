@@ -12,6 +12,7 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker, scoped_session
 from google.appengine.api import taskqueue
 from apns import APNs, Payload
+
 import time
 
 from sqlalchemy import Column, Integer, String, and_
@@ -27,7 +28,7 @@ GROUP = "group"
 MESSAGES = "messages"
 EPS = 0.00001
 
-engine = create_engine('mysql+gaerdbms:///add16?instance=flatappapi:db0')
+engine = create_engine('mysql+gaerdbms:///add17?instance=flatappapi:db0')
 db_session = scoped_session(sessionmaker(autocommit=False,
                                          autoflush=False,
                                          bind=engine))
@@ -68,7 +69,7 @@ def add_user(access_token, device_id):
 
     graph = facebook.GraphAPI(access_token)
     profile = graph.get_object("me")
-    request_picture_url = "http://graph.facebook.com/" + profile['id']+"/picture"
+    request_picture_url = "http://graph.facebook.com/" + profile['id'] + "/picture"
     picture_url = urllib2.urlopen(request_picture_url).geturl()
 
     new_group = models.Group(curr_color=0, latitude=0.0, longitude=0.0)
@@ -131,7 +132,6 @@ def add_friends_to_db(friends, left_id):
             is_user=is_user
         )
         db_session.add(new_friend)
-
     db_session.commit()
 
 '''
@@ -188,6 +188,7 @@ def update_dorm_status(fb_id, status):
     if result:
         if int(result.is_near_dorm) == int(status):
             return utils.to_app_json({"data":"cannot change user to same status"})
+        # TODO: add code that will send APN to users when status changes
         result.is_near_dorm = status
         temp = result
         db_session.commit()
@@ -317,6 +318,11 @@ def add_new_message(body, fb_id):
     return utils.error_json_message("hello")
 
 def get_name_from_fbid(fb_id):
+
+    # Check for the event message
+    if fb_id == '0':
+        return 'Event'
+
     user = db_session.query(models.User).filter(models.User.fb_id == fb_id).first()
     if user is not None:
         return user.first_name
@@ -331,5 +337,5 @@ def update_calendar():
     Return: SQLAlchemy object of the group
 '''
 def db_get_group(group_id):
-    return db_session.query(models.Group).filter(models.Group.id == group_id).first()
+    return db_session.query(models.Group).filter(models.Group.id == int(group_id)).first()
 

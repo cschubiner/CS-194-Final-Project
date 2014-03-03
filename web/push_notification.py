@@ -17,7 +17,7 @@ from apns import APNs, Payload
 '''
 def send_to_group(group_id, body):
     push_params = dict()
-    push_params['group_id'] = int(group_id)
+    push_params['group_id'] = group_id
     push_params['body'] = body
     taskqueue.add(url='/tasks/group/push', method='POST', params=push_params)
     return utils.json_message("Added to taskQueue")
@@ -29,6 +29,7 @@ def task_send_to_group(group_id, body):
     apns = APNs(use_sandbox=True,cert_file='ck.pem', key_file='FlatKeyD.pem')
 
     group = db.db_get_group(group_id)
+    print group
 
     # PyAPNs code
     payload = Payload(alert=body, sound="default", badge=1)
@@ -43,4 +44,11 @@ def task_send_to_group(group_id, body):
     for (token_hex, fail_time) in apns.feedback_server.items():
         print (token_hex, fail_time)
     return utils.json_message("Yo")
+
+def push_notify_group(group_id, body):
+    send_to_group(group_id, body)
+
+
+def doesthiswork():
+    return "This works"
 

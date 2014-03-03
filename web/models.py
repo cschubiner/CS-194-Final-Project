@@ -1,5 +1,6 @@
 from sqlalchemy import Column, Integer, String, ForeignKey, Float, DateTime, Boolean
 from sqlalchemy.orm import relationship, backref
+from sqlalchemy.types import Float
 from db import Base
 import db
 import datetime
@@ -54,8 +55,8 @@ class Group(Base):
 
     id = Column(Integer, primary_key=True)
     curr_color = Column(Integer)
-    latitude = Column(String(MAX_LENGTH))
-    longitude = Column(String(MAX_LENGTH))
+    latitude = Column(Float())
+    longitude = Column(Float())
 
     users = relationship("User")
 
@@ -77,7 +78,7 @@ class Message(Base):
     id = Column(Integer, primary_key=True)
     body = Column(String(260))
     time_stamp = Column(DateTime, default=datetime.datetime.utcnow)
-    user_id = Column(Integer)
+    user_id = Column(String(MAX_LENGTH))
     group_id = Column(Integer)
     color_id = Column(Integer)
 
