@@ -96,23 +96,6 @@
     [self getAllCalendarEvents];
 }
 
--(NSDate*)dateFromString:(NSString*)str {
-    if ((NSNull*)str == nil || str == [NSNull null]) return nil;
-    [NSDateFormatter setDefaultFormatterBehavior:NSDateFormatterBehavior10_4];
-    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-    //[NSDateFormatter setDefaultFormatterBehavior:NSDateFormatterBehaviorDefault];
-    [dateFormatter setDateFormat:@"yyyy-MM-dd hh:mm:ss +hhmm"];
-    NSDate* ret= [dateFormatter dateFromString:str];
-//    NSLog(@"ret: %@", ret);
-    return ret;
-}
-
--(NSNumber*)numberFromString:(NSString*)str {
-    if ((NSNull*)str == [NSNull null] || str == nil) return nil;
-    NSNumberFormatter * f = [[NSNumberFormatter alloc] init];
-    [f setNumberStyle:NSNumberFormatterNoStyle];
-   return [f numberFromString:str];
-}
 
 -(void)getAllCalendarEvents {
     NSMutableArray*events = [[NSMutableArray alloc]init];
@@ -126,9 +109,9 @@
                 NSLog(@"title: %@", [fCalEvent childSnapshotForPath:@"title"].value);
                 NSLog(@"endDate: %@",[fCalEvent childSnapshotForPath:@"endDate"].value);
                 [event setTitle:[fCalEvent childSnapshotForPath:@"endDate"].value];
-                [event setStartDate:[self dateFromString:[fCalEvent childSnapshotForPath:@"startDate"].value]];
-                [event setEndDate:[self dateFromString:[fCalEvent childSnapshotForPath:@"endDate"].value]];
-                [event setUserID:[self numberFromString:[fCalEvent childSnapshotForPath:@"userID"].value]];
+                [event setStartDate:[Utils dateFromString:[fCalEvent childSnapshotForPath:@"startDate"].value]];
+                [event setEndDate:[Utils dateFromString:[fCalEvent childSnapshotForPath:@"endDate"].value]];
+                [event setUserID:[Utils numberFromString:[fCalEvent childSnapshotForPath:@"userID"].value]];
                 [events addObject:event];
             }
         }

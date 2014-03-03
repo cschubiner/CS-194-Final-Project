@@ -12,12 +12,6 @@
 
 #pragma mark - Initialization
 
--(NSNumber*)numberFromString:(NSString*)str {
-    NSNumberFormatter * f = [[NSNumberFormatter alloc] init];
-    [f setNumberStyle:NSNumberFormatterNoStyle];
-    return [f numberFromString:str];
-}
-
 - (instancetype)initWithText:(NSString *)text
                       sender:(NSString *)sender
                 senderUserId:(NSNumber*)senderID
@@ -27,7 +21,7 @@
     if (self) {
         _text = text ? text : @" ";
         _sender = sender;
-        _senderID = [self numberFromString:senderID]; //ignoring this warning. Xcode is broken
+        _senderID = [Utils numberFromString:senderID]; //ignoring this warning. Xcode is broken
         _date = date;
     }
     return self;

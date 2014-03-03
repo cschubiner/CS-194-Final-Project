@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		0C1F934B18C40F0000949F10 /* NSValue+NSValueEqualTo.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C1F934A18C40F0000949F10 /* NSValue+NSValueEqualTo.m */; };
+		0C1F934E18C417AD00949F10 /* Utils.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C1F934D18C417AD00949F10 /* Utils.m */; };
 		0C2E87D918B1B35700ADF8D2 /* EventModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C2E87D818B1B35700ADF8D2 /* EventModel.m */; };
 		0C46A9BA18C2A8CC000E30E2 /* CalendarViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C46A9B918C2A8CC000E30E2 /* CalendarViewController.m */; };
 		0C498F32189F153C003B87F6 /* GroupModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 0C498F30189F153C003B87F6 /* GroupModel.xcdatamodeld */; };
@@ -102,6 +103,8 @@
 /* Begin PBXFileReference section */
 		0C1F934918C40F0000949F10 /* NSValue+NSValueEqualTo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSValue+NSValueEqualTo.h"; sourceTree = "<group>"; };
 		0C1F934A18C40F0000949F10 /* NSValue+NSValueEqualTo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSValue+NSValueEqualTo.m"; sourceTree = "<group>"; };
+		0C1F934C18C417AD00949F10 /* Utils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Utils.h; sourceTree = "<group>"; };
+		0C1F934D18C417AD00949F10 /* Utils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Utils.m; sourceTree = "<group>"; };
 		0C2E87D718B1B35700ADF8D2 /* EventModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EventModel.h; sourceTree = "<group>"; };
 		0C2E87D818B1B35700ADF8D2 /* EventModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EventModel.m; sourceTree = "<group>"; };
 		0C46A9B818C2A8CC000E30E2 /* CalendarViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CalendarViewController.h; sourceTree = "<group>"; };
@@ -394,6 +397,8 @@
 				0CBB52041896008C00B9615F /* UIColor+ColorHelper.m */,
 				F25DCF1A18A84E9600710B03 /* MessageHelper.h */,
 				F25DCF1B18A84E9600710B03 /* MessageHelper.m */,
+				0C1F934C18C417AD00949F10 /* Utils.h */,
+				0C1F934D18C417AD00949F10 /* Utils.m */,
 			);
 			name = Operations;
 			sourceTree = "<group>";
@@ -680,6 +685,7 @@
 				0C498F49189F22F5003B87F6 /* GroupNetworkRequest.m in Sources */,
 				0C498F46189F1BBA003B87F6 /* LocationManager.m in Sources */,
 				F25DCF1F18A84EAD00710B03 /* MessageNetworkRequest.m in Sources */,
+				0C1F934E18C417AD00949F10 /* Utils.m in Sources */,
 				0C8CA09E18A84C47001A9DD6 /* GroupTableViewController.m in Sources */,
 				F2C51DA0188C887400489989 /* main.m in Sources */,
 				F2C51DFE188C9BAB00489989 /* AuthenticationHelper.m in Sources */,

@@ -20,3 +20,4 @@
 #import "ErrorHelper.h"
 #import "CoreData+MagicalRecord.h"
 #import "NSValue+NSValueEqualTo.h"
+#import "Utils.h"
