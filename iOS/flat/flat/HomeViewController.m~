@@ -135,8 +135,15 @@
 {
     JSMessage *currMessage = [self.messages objectAtIndex:indexPath.row];
     ProfileUser *user = [FlatAPIClientManager sharedClient].profileUser;
+<<<<<<< HEAD
+    if ([currMessage.senderID isEqualToNumber:user.userID]) {
+=======
+    
 
     if ([currMessage.senderID isEqualToNumber2: user.userID]) {
+        
+
+>>>>>>> 49aec1b08fb68b52310109bd1629fa623114d1b1
         return JSBubbleMessageTypeOutgoing;
     }
     return JSBubbleMessageTypeIncoming;
