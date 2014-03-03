@@ -105,7 +105,7 @@
     }];
 }
 
-- (void)getCalendarEvents {
+-(void)getCalendarEventsForDays {
     EKEventStore *store = [[EKEventStore alloc] init];
     NSCalendar *calendar = [NSCalendar currentCalendar];
     
@@ -119,7 +119,7 @@
     // Create the end date components
     NSDateComponents *secondDateCom = [[NSDateComponents alloc] init];
     secondDateCom.day = 5;  //get all events five days from now
-//    secondDateCom.hour = 24;
+    //    secondDateCom.hour = 24;
     NSDate *secondDate = [calendar dateByAddingComponents:secondDateCom
                                                    toDate:[NSDate date]
                                                   options:0];
@@ -133,6 +133,11 @@
     // Fetch all events that match the predicate
     NSArray *events = [store eventsMatchingPredicate:predicate];
     [[FlatAPIClientManager sharedClient]setEvents:[NSMutableArray arrayWithArray:events]];
+}
+
+- (void)getCalendarEvents {
+    [self getCalendarEventsForDays];
+    NSArray *events = [FlatAPIClientManager sharedClient].events;
     NSNumber * userID = [[FlatAPIClientManager sharedClient]profileUser].userID;
     
     NSString * eventJSON = @"{\"events\":[";

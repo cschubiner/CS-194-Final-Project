@@ -67,7 +67,7 @@ static const int NAV_BAR_HEIGHT = 64;
 }
 
 -(NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
-    return @"Today's Events";
+    return @"Upcoming Events";
 }
 
 - (NSInteger)tableView:(UITableView *)tableView
@@ -105,10 +105,12 @@ static const int NAV_BAR_HEIGHT = 64;
     UIColor * color = [ProfileUser getColorFromUserID:event.userID];
     cell.backgroundColor = color;
     
-    NSString * text = [NSString stringWithFormat:@"%@: %@ to %@.\n%@",
+    NSString * text = [NSString stringWithFormat:@"%@: %@\n%@ from %@ to %@",
                               [ProfileUser getFirstNameFromUserID:event.userID],
-                              [Utils formatDate:event.startDate], [Utils formatDate:event.endDate],
-                              event.title];
+                              event.title,
+                              [Utils formatDateDayOfWeek:event.startDate],
+                              [Utils formatDate:event.startDate], [Utils formatDate:event.endDate]
+                              ];
     [cell.textLabel setText:text];
     cell.textLabel.numberOfLines = 0;
     [cell sizeToFit];

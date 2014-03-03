@@ -23,7 +23,7 @@
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
     [dateFormatter setTimeZone:[NSTimeZone localTimeZone]];
     //[NSDateFormatter setDefaultFormatterBehavior:NSDateFormatterBehaviorDefault];
-    [dateFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ss +0000"];
+    [dateFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ssZZZZZZ"];
     NSDate* ret= [dateFormatter dateFromString:str];
     //    NSLog(@"ret: %@", ret);
     return ret;
@@ -34,16 +34,41 @@
     return [Utils formatDate:date withFormat:@"h:mm a"];
 }
 
+//+(NSDate*)correctTimeZone:(NSDate*) date {
+//    NSCalendar *gregorian=[[NSCalendar alloc] initWithCalendarIdentifier: NSGregorianCalendar];
+//    [gregorian setTimeZone:[NSTimeZone timeZoneWithName:@"GMT"]];
+//    NSDateComponents* components = [gregorian components:NSYearCalendarUnit|NSMonthCalendarUnit|NSDayCalendarUnit|NSHourCalendarUnit|NSMinuteCalendarUnit
+//                                                 fromDate:date];
+//    return [gregorian dateFromComponents:components];
+//}
+
 
 +(NSString *)formatDate:(NSDate *)date withFormat:(NSString *)formatStr {
     if (date == nil) return nil;
     NSDateFormatter* secondDateFormatter = [[NSDateFormatter alloc] init];
     [secondDateFormatter setDateFormat:formatStr];
-    [secondDateFormatter setTimeZone:[NSTimeZone localTimeZone]];
+//    [secondDateFormatter setTimeZone:defa];
     NSString* secondDateString = [NSString stringWithFormat:@"%@",[secondDateFormatter stringFromDate:date]];
     return secondDateString;
 }
 
++(NSString*)formatDateDayOfWeek:(NSDate*) date  {
+    NSCalendar *cal = [NSCalendar currentCalendar];
+    static NSTimeInterval secondsPerDay = 24 * 60 * 60;
+    NSDateComponents *components = [cal components:(NSEraCalendarUnit|NSYearCalendarUnit|NSMonthCalendarUnit|NSDayCalendarUnit) fromDate:[NSDate date]];
+    NSDate *today = [cal dateFromComponents:components];
+    NSDate *tomorrow = [cal dateFromComponents:[cal components:(NSEraCalendarUnit|NSYearCalendarUnit|NSMonthCalendarUnit|NSDayCalendarUnit) fromDate:[[NSDate date]dateByAddingTimeInterval:secondsPerDay]]];
+    components = [cal components:(NSEraCalendarUnit|NSYearCalendarUnit|NSMonthCalendarUnit|NSDayCalendarUnit) fromDate:date];
+    NSDate *otherDate = [cal dateFromComponents:components];
+    
+    if([today isEqualToDate:otherDate])
+        return @"Today";
+    
+    if([tomorrow isEqualToDate:otherDate])
+        return @"Tomorrow";
+    
+    return [Utils formatDate:date withFormat:@"EEEE"];
+}
 
 
 @end

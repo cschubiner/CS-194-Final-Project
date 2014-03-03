@@ -9,6 +9,7 @@
 #import "AFHTTPSessionManager.h"
 #import "ProfileUser.h"
 #import "Group.h"
+#import "RootController.h"
 
 @interface FlatAPIClientManager : AFHTTPSessionManager
 
@@ -20,6 +21,7 @@
 @property (nonatomic, strong) NSMutableArray *events;
 @property (nonatomic, strong) NSArray *allEvents;
 @property NSString *deviceToken;
+@property (nonatomic, strong) RootController * rootController;
 
 -(void)getAllCalendarEvents:(void(^)())callback;
 @end

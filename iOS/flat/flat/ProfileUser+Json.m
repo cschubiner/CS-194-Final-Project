@@ -64,7 +64,7 @@
             return initials;
         }
     }
-    return @"John";
+    return @"DB Error";
 }
 
 + (UIColor *) getColorFromUserID:(NSNumber*)userID {

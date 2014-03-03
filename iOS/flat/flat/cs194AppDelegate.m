@@ -30,7 +30,7 @@
     
     application.applicationIconBadgeNumber = 0;
     
-    
+//    [NSTimeZone setDefaultTimeZone:[NSTimeZone localTimeZone]];
     // code to let kyle log in cuz of his messed up privacy settings. don't delete or uncomment.
     //        ProfileUser *kyleUser = [ProfileUser MR_createInContext:[NSManagedObjectContext MR_defaultContext]];
     //        kyleUser.userID =  [NSNumber numberWithLong:100002378870303];
@@ -89,6 +89,7 @@
                                                          bundle:nil];
     NSLog(@"before instantiating root controller");
     self.mainViewController = [storyBoard instantiateViewControllerWithIdentifier:@"RootController"];
+    [[FlatAPIClientManager sharedClient] setRootController:self.mainViewController];
     NSLog(@"after instantiating root controller");
     self.mainNavigationViewController = [[MainNavigationViewController alloc] initWithRootViewController:self.mainViewController];
 //    self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
@@ -254,7 +255,8 @@
     //and create new timer with async call:
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         //run function methodRunAfterBackground
-        int checkEvery = 10; //290 //almost every 5 minutes
+        int checkEvery = 290; //almost every 5 minutes
+//        checkEvery = 10;
         NSTimer* t = [NSTimer scheduledTimerWithTimeInterval:checkEvery target:self selector:@selector(checkForCalendarEvent) userInfo:nil repeats:YES];
         [[NSRunLoop currentRunLoop] addTimer:t forMode:NSDefaultRunLoopMode];
         [[NSRunLoop currentRunLoop] run];
@@ -270,6 +272,7 @@
     
     NSMutableIndexSet *discardedItems = [NSMutableIndexSet indexSet];
     NSUInteger index = 0;
+    [[[FlatAPIClientManager sharedClient]rootController]getCalendarEventsForDays];
     NSMutableArray * events = [FlatAPIClientManager sharedClient].events;
     if (events == nil) return;
     for (EKEvent* event in events) {

@@ -13,5 +13,7 @@
 +(NSNumber*)numberFromString:(NSString*)str;
 +(NSDate*)dateFromString:(NSString*)str;
 +(NSString*)formatDate:(NSDate*) date ;
++(NSString*)formatDateDayOfWeek:(NSDate*) date ;
+//+(NSDate*)correctTimeZone:(NSDate*) date ;
 +(NSString*)formatDate:(NSDate*) date withFormat:(NSString*) formatStr ;
 @end
