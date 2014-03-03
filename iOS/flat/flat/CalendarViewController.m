@@ -39,7 +39,7 @@ static const int NAV_BAR_HEIGHT = 56;//64;
     [super viewDidLoad];
     
     int startingWidth = 60;
-    self.sideBarMenuTable = [[UITableView alloc] initWithFrame:CGRectMake(startingWidth, NAV_BAR_HEIGHT, self.view.frame.size.width-startingWidth, self.view.frame.size.height)];
+    self.sideBarMenuTable = [[UITableView alloc] initWithFrame:CGRectMake(startingWidth, NAV_BAR_HEIGHT, self.view.frame.size.width-startingWidth, self.view.frame.size.height - NAV_BAR_HEIGHT)];
     self.sideBarMenuTable.delegate = self;
     self.sideBarMenuTable.dataSource = self;
     [self.view addSubview:self.sideBarMenuTable];

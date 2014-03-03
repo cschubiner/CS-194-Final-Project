@@ -19,3 +19,4 @@
 #import "FlatAPIClientManager.h"
 #import "ErrorHelper.h"
 #import "CoreData+MagicalRecord.h"
+#import "NSValue+NSValueEqualTo.h"

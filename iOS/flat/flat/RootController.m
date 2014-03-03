@@ -97,7 +97,7 @@
 }
 
 -(NSDate*)dateFromString:(NSString*)str {
-    if (str == nil || str == [NSNull null]) return nil;
+    if ((NSNull*)str == nil || str == [NSNull null]) return nil;
     [NSDateFormatter setDefaultFormatterBehavior:NSDateFormatterBehavior10_4];
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
     //[NSDateFormatter setDefaultFormatterBehavior:NSDateFormatterBehaviorDefault];
@@ -108,6 +108,7 @@
 }
 
 -(NSNumber*)numberFromString:(NSString*)str {
+    if ((NSNull*)str == [NSNull null] || str == nil) return nil;
     NSNumberFormatter * f = [[NSNumberFormatter alloc] init];
     [f setNumberStyle:NSNumberFormatterNoStyle];
    return [f numberFromString:str];

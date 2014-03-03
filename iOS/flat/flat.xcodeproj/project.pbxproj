@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0C1F934B18C40F0000949F10 /* NSValue+NSValueEqualTo.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C1F934A18C40F0000949F10 /* NSValue+NSValueEqualTo.m */; };
 		0C2E87D918B1B35700ADF8D2 /* EventModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C2E87D818B1B35700ADF8D2 /* EventModel.m */; };
 		0C46A9BA18C2A8CC000E30E2 /* CalendarViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C46A9B918C2A8CC000E30E2 /* CalendarViewController.m */; };
 		0C498F32189F153C003B87F6 /* GroupModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 0C498F30189F153C003B87F6 /* GroupModel.xcdatamodeld */; };
@@ -99,6 +100,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		0C1F934918C40F0000949F10 /* NSValue+NSValueEqualTo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSValue+NSValueEqualTo.h"; sourceTree = "<group>"; };
+		0C1F934A18C40F0000949F10 /* NSValue+NSValueEqualTo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSValue+NSValueEqualTo.m"; sourceTree = "<group>"; };
 		0C2E87D718B1B35700ADF8D2 /* EventModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EventModel.h; sourceTree = "<group>"; };
 		0C2E87D818B1B35700ADF8D2 /* EventModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EventModel.m; sourceTree = "<group>"; };
 		0C46A9B818C2A8CC000E30E2 /* CalendarViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CalendarViewController.h; sourceTree = "<group>"; };
@@ -458,6 +461,8 @@
 				F2C51DE1188C96C500489989 /* SidebarViewController.m */,
 				0C46A9B818C2A8CC000E30E2 /* CalendarViewController.h */,
 				0C46A9B918C2A8CC000E30E2 /* CalendarViewController.m */,
+				0C1F934918C40F0000949F10 /* NSValue+NSValueEqualTo.h */,
+				0C1F934A18C40F0000949F10 /* NSValue+NSValueEqualTo.m */,
 				F2C51DE4188C974E00489989 /* HomeViewController.h */,
 				F2C51DE5188C974E00489989 /* HomeViewController.m */,
 			);
@@ -567,7 +572,7 @@
 					};
 				};
 			};
-			buildConfigurationList = F2C51D8B188C887400489989 /* Build configuration list for PBXProject "flat" */;
+			buildConfigurationList = F2C51D8B188C887400489989 /* Build configuration list for PBXProject "Flat" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -701,6 +706,7 @@
 				F25DCF2218A8564700710B03 /* JSMessage+Json.m in Sources */,
 				0CBB52051896008C00B9615F /* UIColor+ColorHelper.m in Sources */,
 				F2C51DE9188C97E300489989 /* FlatAPIClientManager.m in Sources */,
+				0C1F934B18C40F0000949F10 /* NSValue+NSValueEqualTo.m in Sources */,
 				F2C51DEF188C9A1600489989 /* Model.xcdatamodeld in Sources */,
 				F279A6A418BD3B9E007A2A9E /* CalendarMessage.m in Sources */,
 				F2C51E661895E38100489989 /* JSMessage.m in Sources */,
@@ -925,7 +931,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		F2C51D8B188C887400489989 /* Build configuration list for PBXProject "flat" */ = {
+		F2C51D8B188C887400489989 /* Build configuration list for PBXProject "Flat" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				F2C51DC3188C887400489989 /* Debug */,
