@@ -14,8 +14,9 @@
               AndManagedObjectContext:(NSManagedObjectContext *)context
 {
     Task *task = [Task MR_createInContext:context];
-    task.text = [dictionary objectForKey:@"text"];
-    task.dueDate = [NSDate dateWithTimeIntervalSince1970:(int)[dictionary objectForKey:@"due_date"]];
+    task.body = [dictionary objectForKey:@"body"];
+    //task.dueDate = [NSDate dateWithTimeIntervalSince1970:(int)[dictionary objectForKey:@"due_date"]];
+    task.taskId = [dictionary objectForKey:@"id"];
     [[NSManagedObjectContext MR_defaultContext] MR_saveToPersistentStoreAndWait];
     return task;
 }

@@ -45,7 +45,7 @@
                    andCompletionBlock:(TaskNetworkCompletionHandler)completion
 {
     NSDictionary *params = @{@"group_id":groupId,
-                             @"due_date":date,
+                             @"due_date":[NSString stringWithFormat:@"%@", date],
                              @"body":text};
     [[FlatAPIClientManager sharedClient] POST:@"/tasks/add"
                                   parameters:params

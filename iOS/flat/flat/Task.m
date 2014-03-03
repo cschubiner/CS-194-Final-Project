@@ -12,7 +12,7 @@
 @implementation Task
 
 @dynamic dueDate;
-@dynamic text;
 @dynamic taskId;
+@dynamic body;
 
 @end

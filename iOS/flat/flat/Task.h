@@ -13,7 +13,7 @@
 @interface Task : NSManagedObject
 
 @property (nonatomic, retain) NSDate * dueDate;
-@property (nonatomic, retain) NSString * text;
 @property (nonatomic, retain) NSNumber * taskId;
+@property (nonatomic, retain) NSString * body;
 
 @end
