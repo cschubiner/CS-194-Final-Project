@@ -45,4 +45,19 @@
     }];
 }
 
++ (void)deleteTaskWithTaskId:(NSNumber *)taskId
+        andCompletionHandler:(TaskHelperCompletionHandler)completion
+{
+    [TasksNetworkRequest deleteTaskWithTaskId:taskId
+                           andCompletionBlock:^(NSError *error, NSArray *tasks)
+    {
+        if (error) {
+            NSLog(@"Error in TaskHelper: %@", error);
+            completion(error, nil);
+        } else {
+            completion(error, tasks);
+        }
+    }];
+}
+
 @end

@@ -78,8 +78,13 @@ static const int DESCRIPTION_LABEL_HEIGHT = 20;
     [self.view addSubview:submitButton];
 }
 
+- (void) touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
+    [self.view endEditing:YES];
+}
+
 - (void)submitButtonPressed
 {
+    NSLog(@"submit button pressed");
     [TasksHelper createTaskWithText:self.text
                             andDate:self.date
                  andCompletionBlock:^(NSError *error, NSArray *tasks)
