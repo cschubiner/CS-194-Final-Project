@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface TasksViewController : UIViewController <UITableViewDelegate, UITableViewDataSource>
+@interface TasksViewController : UIViewController <UITableViewDelegate, UITableViewDataSource, UIActionSheetDelegate>
 
 @property UITableView *tasksTable;
 

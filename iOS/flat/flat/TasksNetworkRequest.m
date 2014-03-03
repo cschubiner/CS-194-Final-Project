@@ -14,9 +14,9 @@
 +(void)getTasksForGroupWithGroupId:(NSNumber *)groupId
                 andCompletionBlock:(TaskNetworkCompletionHandler)completion
 {
-    NSDictionary *params = @{@"groupId":groupId};
-    [[FlatAPIClientManager sharedClient] GET:@""
-                                  parameters:params
+    NSString *url = [NSString stringWithFormat:@"tasks/%@", groupId];
+    [[FlatAPIClientManager sharedClient] GET:url
+                                  parameters:nil
                                      success:^(NSURLSessionDataTask *task, id JSON) {
                                          NSError *error = [ErrorHelper apiErrorFromDictionary:JSON];
                                          if (!error) {
@@ -44,9 +44,10 @@
                               andDate:(NSDate *)date
                    andCompletionBlock:(TaskNetworkCompletionHandler)completion
 {
-    NSDictionary *params = @{@"groupId":groupId,
-                             @"text":text};
-    [[FlatAPIClientManager sharedClient] POST:@""
+    NSDictionary *params = @{@"group_id":groupId,
+                             @"due_date":date,
+                             @"body":text};
+    [[FlatAPIClientManager sharedClient] POST:@"/tasks/add"
                                   parameters:params
                                      success:^(NSURLSessionDataTask *task, id JSON) {
                                          NSError *error = [ErrorHelper apiErrorFromDictionary:JSON];
@@ -68,6 +69,35 @@
                                          NSLog(@"Error in TasksNetworkFile: %@", error);
                                          completion(error, nil);
                                      }];
+}
+
++ (void)deleteTaskWithTaskId:taskId
+          andCompletionBlock:(TaskNetworkCompletionHandler)completion
+{
+    NSDictionary *params = @{@"task_id":taskId};
+    [[FlatAPIClientManager sharedClient] POST:@""
+                                   parameters:params
+                                      success:^(NSURLSessionDataTask *task, id JSON) {
+                                          NSError *error = [ErrorHelper apiErrorFromDictionary:JSON];
+                                          if (!error) {
+                                              NSMutableArray *tasksArray = [JSON objectForKey:@"tasks"];
+                                              NSMutableArray *tasksArrayReturn = [[NSMutableArray alloc] init];
+                                              for (NSMutableDictionary* userJSON in tasksArray) {
+                                                  Task *task = [Task getTaskObjectFromDictionary:userJSON
+                                                                         AndManagedObjectContext:[NSManagedObjectContext MR_defaultContext]];
+                                                  [tasksArrayReturn addObject:task];
+                                              }
+                                              completion(error, tasksArrayReturn);
+                                          } else {
+                                              completion(error, nil);
+                                          }
+                                          
+                                      }
+                                      failure:^(NSURLSessionDataTask *task, NSError *error) {
+                                          NSLog(@"Error in TasksNetworkFile: %@", error);
+                                          completion(error, nil);
+                                      }];
+
 }
 
 @end
