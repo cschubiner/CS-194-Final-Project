@@ -14,7 +14,7 @@
 {
     JSMessage *message = [[JSMessage alloc] initWithText:[dictionary objectForKey:@"body"]
                                                   sender:[dictionary objectForKey:@"name"]
-                                            senderUserId:[[dictionary objectForKey:@"user_id"] intValue]
+                                            senderUserId:[dictionary objectForKey:@"user_id"]
                                                     date:[dictionary objectForKey:@"time_stamp"]];
     return message;
 }

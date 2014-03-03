@@ -81,6 +81,7 @@
     self.messageInputView.textView.placeHolder = @"Message";
     
     self.tableView.frame = CGRectMake(0, 64, self.view.frame.size.width, self.view.frame.size.height - self.messageInputView.frame.size.height - 64);
+//    self.tableView.frame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height - self.messageInputView.frame.size.height);
     
     //Pull to refresh
     self.refresh = [[UIRefreshControl alloc] init];
@@ -134,7 +135,7 @@
 {
     JSMessage *currMessage = [self.messages objectAtIndex:indexPath.row];
     ProfileUser *user = [FlatAPIClientManager sharedClient].profileUser;
-    if (currMessage.senderID == [user.userID intValue]) {
+    if ([currMessage.senderID isEqualToNumber: user.userID]) {
         return JSBubbleMessageTypeOutgoing;
     }
     return JSBubbleMessageTypeIncoming;
@@ -146,13 +147,13 @@
 {
     JSMessage *currMessage = [self.messages objectAtIndex:indexPath.row];
     UIColor * bubbleColor;
-    if (currMessage.senderID == 0) { //if current message is a calendar event
+    if ([currMessage.senderID isEqualToNumber:[NSNumber numberWithInt:0]]) { //if current message is a calendar event
         bubbleColor = [UIColor grayColor];
     }
     else {
         ProfileUser *user = [FlatAPIClientManager sharedClient].profileUser;
-        bubbleColor = [ProfileUser getColorFromUserID:[NSNumber numberWithInt:currMessage.senderID]];
-        if (currMessage.senderID == [user.userID intValue]) {
+        bubbleColor = [ProfileUser getColorFromUserID:currMessage.senderID];
+        if ([currMessage.senderID isEqualToNumber:user.userID] ) {
             return [JSBubbleImageViewFactory bubbleImageViewForType:type
                                                               color:[UIColor js_bubbleBlueColor]];
         }
@@ -256,9 +257,9 @@
 
 -(UIImageView *)avatarImageViewForRowAtIndexPath:(NSIndexPath *)indexPath {
     JSMessage *currMessage = [self.messages objectAtIndex:indexPath.row];
-    if (currMessage.senderID != 0) {
+    if (![currMessage.senderID isEqualToNumber:[NSNumber numberWithInt:0]]) {
         
-        UIColor * bubbleColor = [ProfileUser getColorFromUserID:[NSNumber numberWithInt:currMessage.senderID]];
+        UIColor * bubbleColor = [ProfileUser getColorFromUserID:currMessage.senderID];
         
         
         UIView * backView = [[UIView alloc] initWithFrame:CGRectMake(40,15,70,70)];
@@ -275,7 +276,7 @@
         [backView addSubview:circleView];
         [backView addSubview:name];
         
-        name.text = [ProfileUser getInitialsFromUserID:[NSNumber numberWithInt:currMessage.senderID]];
+        name.text = [ProfileUser getInitialsFromUserID:currMessage.senderID];
         return [[UIImageView alloc]initWithImage: [HomeViewController imageWithView:backView]];
     }
     UIImage * image = [JSAvatarImageFactory avatarImageNamed:@"calendar+icon" croppedToCircle:NO];

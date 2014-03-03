@@ -13,10 +13,15 @@ typedef void (^MessageNetworkCompletionHandler)(NSError *, NSArray *messages);
 @interface MessageNetworkRequest : NSObject
 
 + (void)sendMessageWithText:(NSString *)text
-         fromUserWithUserID:(int)userID
+         fromUserWithUserID:(NSNumber*)userID
+                    postURL:(NSString*)postURL
          andCompletionBlock:(MessageNetworkCompletionHandler)completionBlock;
 
-+ (void)getMessagesForUserWithUserID:(int)userID
++ (void)sendMessageWithText:(NSString *)text
+         fromUserWithUserID:(NSNumber*)userID
+         andCompletionBlock:(MessageNetworkCompletionHandler)completionBlock;
+
++ (void)getMessagesForUserWithUserID:(NSNumber*)userID
                   andCompletionBlock:(MessageNetworkCompletionHandler)completionBlock;
 
 @end

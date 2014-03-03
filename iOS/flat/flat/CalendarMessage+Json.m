@@ -14,7 +14,7 @@
 {
     CalendarMessage *calendarMessage = [[CalendarMessage alloc] initWithText:[dictionary objectForKey:@"body"]
                                                                       sender:[dictionary objectForKey:@"name"]
-                                                                senderUserId:[[dictionary objectForKey:@"user_id"] intValue]
+                                                                senderUserId:[dictionary objectForKey:@"user_id"] 
                                                                         date:[dictionary objectForKey:@"time_stamp"]
                                                                 andStartDate:[dictionary objectForKey:@"start_time"]
                                                                   andEndDate:[dictionary objectForKey:@"end_time"]];

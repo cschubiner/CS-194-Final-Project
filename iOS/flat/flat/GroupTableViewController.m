@@ -116,7 +116,7 @@
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return 100.0;
+    return 95.0;
 }
 
 -(RootController*)getRootViewController {
@@ -143,12 +143,15 @@
     }];
 }
 
+
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     //    [self dismissViewControllerAnimated:YES completion:nil];
     NSNumber * newGroupID;
     ProfileUser * user = [[FlatAPIClientManager sharedClient]profileUser];
     if (indexPath.row == [self.groups count]) {
-        newGroupID = [NSNumber numberWithInt:3];
+        NSTimeInterval secondsElapsed = [[NSDate date] timeIntervalSinceDate:[NSDate dateWithTimeIntervalSince1970:1000000]];
+        newGroupID = [NSNumber numberWithInt:(int)secondsElapsed];
+        NSLog(@"new group ID: %@", newGroupID);
     }
     else {
         NSMutableArray* users = [self.groups objectAtIndex:indexPath.row];
@@ -157,8 +160,6 @@
     }
     [ProfileUserNetworkRequest setGroupIDForUser:user.userID groupID:newGroupID withCompletionBlock:^(NSError* error) {
         [self refreshMessages];
-        //        [self.navigationController popViewControllerAnimated:YES];
-        
         [self.navigationController popToViewController:[self getRootViewController] animated:YES]; // what a convenient method
     }];
 }

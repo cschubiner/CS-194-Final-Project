@@ -16,7 +16,7 @@
 
 - (instancetype)initWithText:(NSString *)text
                       sender:(NSString *)sender
-                senderUserId:(int)senderID
+                senderUserId:(NSNumber*)senderID
                         date:(NSDate *)date
                 andStartDate:(NSDate *)startDate
                   andEndDate:(NSDate *)endDate;

@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <EventKit/EventKit.h>
 
 typedef void (^MessageHelperCompletionHandler)(NSError *, NSArray *messages);
 
@@ -16,5 +17,7 @@ typedef void (^MessageHelperCompletionHandler)(NSError *, NSArray *messages);
         andCompletionBlock:(MessageHelperCompletionHandler)completionBlock;
 
 +(void)getMessagesWithCompletionBlock:(MessageHelperCompletionHandler)completionBlock;
+
++(void)sendCalendarMessageForEvent:(EKEvent*)event;
 
 @end

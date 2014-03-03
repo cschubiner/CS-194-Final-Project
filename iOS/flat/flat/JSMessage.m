@@ -12,16 +12,22 @@
 
 #pragma mark - Initialization
 
+-(NSNumber*)numberFromString:(NSString*)str {
+    NSNumberFormatter * f = [[NSNumberFormatter alloc] init];
+    [f setNumberStyle:NSNumberFormatterNoStyle];
+    return [f numberFromString:str];
+}
+
 - (instancetype)initWithText:(NSString *)text
                       sender:(NSString *)sender
-                senderUserId:(int)senderID
+                senderUserId:(NSNumber*)senderID
                         date:(NSDate *)date
 {
     self = [super init];
     if (self) {
         _text = text ? text : @" ";
         _sender = sender;
-        _senderID = senderID;
+        _senderID = [self numberFromString:senderID]; //ignoring this warning. Xcode is broken
         _date = date;
     }
     return self;
@@ -42,7 +48,7 @@
     if (self) {
         _text = [aDecoder decodeObjectForKey:@"text"];
         _sender = [aDecoder decodeObjectForKey:@"sender"];
-        _senderID = (int)[aDecoder decodeObjectForKey:@"senderID"];
+        _senderID = [aDecoder decodeObjectForKey:@"senderID"];
         _date = [aDecoder decodeObjectForKey:@"date"];
     }
     return self;
@@ -52,7 +58,7 @@
 {
     [aCoder encodeObject:self.text forKey:@"text"];
     [aCoder encodeObject:self.sender forKey:@"sender"];
-    [aCoder encodeObject:self.sender forKey:@"senderID"];
+    [aCoder encodeObject:self.senderID forKey:@"senderID"];
     [aCoder encodeObject:self.date forKey:@"date"];
 }
 
@@ -62,7 +68,7 @@
 {
     return [[[self class] allocWithZone:zone] initWithText:[self.text copy]
                                                     sender:[self.sender copy]
-                                              senderUserId:self.senderID
+                                              senderUserId:[self.senderID copy]
                                                       date:[self.date copy]];
 }
 

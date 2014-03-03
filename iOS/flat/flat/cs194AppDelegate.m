@@ -14,6 +14,7 @@
 #import "GroupNetworkRequest.h"
 #import "GroupLocalRequest.h"
 #import "HomeViewController.h"
+#import <EventKit/EventKit.h>
 #import "MessageHelper.h"
 
 @implementation cs194AppDelegate
@@ -26,6 +27,9 @@
     pageControl.pageIndicatorTintColor = [UIColor lightGrayColor];
     pageControl.currentPageIndicatorTintColor = [UIColor blackColor];
     pageControl.backgroundColor = [UIColor whiteColor];
+    
+    application.applicationIconBadgeNumber = 0;
+    
     
     // code to let kyle log in cuz of his messed up privacy settings. don't delete or uncomment.
     //        ProfileUser *kyleUser = [ProfileUser MR_createInContext:[NSManagedObjectContext MR_defaultContext]];
@@ -87,6 +91,7 @@
     self.mainViewController = [storyBoard instantiateViewControllerWithIdentifier:@"RootController"];
     NSLog(@"after instantiating root controller");
     self.mainNavigationViewController = [[MainNavigationViewController alloc] initWithRootViewController:self.mainViewController];
+//    self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     self.window.rootViewController = self.mainNavigationViewController;
     [self.window makeKeyAndVisible];
 }
@@ -236,6 +241,51 @@
     }
 }
 
+- (void)applicationDidEnterBackground:(UIApplication *)application
+{
+    UIApplication *app = [UIApplication sharedApplication];
+    
+    //create new uiBackgroundTask
+    __block UIBackgroundTaskIdentifier bgTask = [app beginBackgroundTaskWithExpirationHandler:^{
+        [app endBackgroundTask:bgTask];
+        bgTask = UIBackgroundTaskInvalid;
+    }];
+    
+    //and create new timer with async call:
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        //run function methodRunAfterBackground
+        int checkEvery = 10; //290 //almost every 5 minutes
+        NSTimer* t = [NSTimer scheduledTimerWithTimeInterval:checkEvery target:self selector:@selector(checkForCalendarEvent) userInfo:nil repeats:YES];
+        [[NSRunLoop currentRunLoop] addTimer:t forMode:NSDefaultRunLoopMode];
+        [[NSRunLoop currentRunLoop] run];
+    });
+}
+
+-(void)checkForCalendarEvent {
+    NSLog(@"calendar event checking");
+    NSCalendar* calendar = [[NSCalendar alloc] initWithCalendarIdentifier: NSGregorianCalendar];
+    NSDateComponents* components = [[NSDateComponents alloc] init];
+    components.minute = 5;
+    NSDate* fiveMinutesFromNow = [calendar dateByAddingComponents: components toDate: [NSDate date] options: 0];
+    
+    NSMutableIndexSet *discardedItems = [NSMutableIndexSet indexSet];
+    NSUInteger index = 0;
+    NSMutableArray * events = [FlatAPIClientManager sharedClient].events;
+    if (events == nil) return;
+    for (EKEvent* event in events) {
+        NSComparisonResult result = [fiveMinutesFromNow compare:event.startDate];
+        NSComparisonResult resultNow = [[NSDate date] compare:event.startDate];
+        if ((result == NSOrderedSame || result == NSOrderedDescending) &&
+            (resultNow == NSOrderedSame || resultNow == NSOrderedAscending)) { //if event occurs within next five minutes
+            [MessageHelper sendCalendarMessageForEvent:event];
+            [discardedItems addIndex:index];
+        }
+        index++;
+    }
+    
+    [events removeObjectsAtIndexes:discardedItems];
+}
+
 -(void)showFBLogin
 {
     [FBSession openActiveSessionWithPublishPermissions:@[@"basic_info", @"email"] defaultAudience:FBSessionDefaultAudienceFriends allowLoginUI:YES
@@ -252,14 +302,14 @@
 
 - (void)openFacebookSession
 {
-//    [self showFBLogin];
-//    return;
+    //    [self showFBLogin];
+    //    return;
     [FBSession openActiveSessionWithReadPermissions:@[@"basic_info", @"email"]
                                        allowLoginUI:YES
                                   completionHandler:^(FBSession *session, FBSessionState state, NSError *error) {
                                       if (error) {
                                           [FBSession.activeSession closeAndClearTokenInformation];
-//                                          [self openFacebookSession];
+                                          //                                          [self openFacebookSession];
                                       }
                                       [self sessionStateChanged:session
                                                           state:state
@@ -271,12 +321,6 @@
 {
     // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
     // Use this method to pause ongoing tasks, disable timers, and throttle down OpenGL ES frame rates. Games should use this method to pause the game.
-}
-
-- (void)applicationDidEnterBackground:(UIApplication *)application
-{
-    // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
-    // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
 }
 
 - (void)applicationWillEnterForeground:(UIApplication *)application

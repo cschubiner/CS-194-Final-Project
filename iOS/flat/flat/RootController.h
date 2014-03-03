@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "JASidePanelController.h"
 #import "SidebarViewController.h"
+#import "CalendarViewController.h"
 #import "HomeViewController.h"
 
 @interface RootController : JASidePanelController <SidebarViewDelegate>
@@ -16,6 +17,7 @@
 -(IBAction)toggleSidebarMenu:(id)sender;
 
 @property (nonatomic, strong) SidebarViewController *leftPanel;
+@property (nonatomic, strong) CalendarViewController *rightPanel;
 @property (nonatomic, strong) HomeViewController *centerPanel;
 
 @end

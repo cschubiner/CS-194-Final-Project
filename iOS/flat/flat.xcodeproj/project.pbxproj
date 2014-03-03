@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		0C2E87D918B1B35700ADF8D2 /* EventModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C2E87D818B1B35700ADF8D2 /* EventModel.m */; };
+		0C46A9BA18C2A8CC000E30E2 /* CalendarViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C46A9B918C2A8CC000E30E2 /* CalendarViewController.m */; };
 		0C498F32189F153C003B87F6 /* GroupModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 0C498F30189F153C003B87F6 /* GroupModel.xcdatamodeld */; };
 		0C498F3E189F17FF003B87F6 /* Group.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C498F3D189F17FF003B87F6 /* Group.m */; };
 		0C498F41189F1825003B87F6 /* ProfileUser.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C498F40189F1825003B87F6 /* ProfileUser.m */; };
@@ -27,6 +28,7 @@
 		35381FA118BD5D9A00250B97 /* page3.png in Resources */ = {isa = PBXBuildFile; fileRef = 35381F9D18BD5D9A00250B97 /* page3.png */; };
 		35381FA218BD5D9A00250B97 /* page2.png in Resources */ = {isa = PBXBuildFile; fileRef = 35381F9E18BD5D9A00250B97 /* page2.png */; };
 		35381FA318BD5D9A00250B97 /* page1.png in Resources */ = {isa = PBXBuildFile; fileRef = 35381F9F18BD5D9A00250B97 /* page1.png */; };
+		355493F818BEFAA500FA7BA6 /* iphone-launch.png in Resources */ = {isa = PBXBuildFile; fileRef = 355493F718BEFAA500FA7BA6 /* iphone-launch.png */; };
 		358FC67D18B4327100BBBADA /* AppIcon29x29.png in Resources */ = {isa = PBXBuildFile; fileRef = 358FC66F18B4327100BBBADA /* AppIcon29x29.png */; };
 		358FC67E18B4327100BBBADA /* AppIcon29x29@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 358FC67018B4327100BBBADA /* AppIcon29x29@2x.png */; };
 		358FC67F18B4327100BBBADA /* AppIcon40x40.png in Resources */ = {isa = PBXBuildFile; fileRef = 358FC67118B4327100BBBADA /* AppIcon40x40.png */; };
@@ -99,6 +101,8 @@
 /* Begin PBXFileReference section */
 		0C2E87D718B1B35700ADF8D2 /* EventModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EventModel.h; sourceTree = "<group>"; };
 		0C2E87D818B1B35700ADF8D2 /* EventModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EventModel.m; sourceTree = "<group>"; };
+		0C46A9B818C2A8CC000E30E2 /* CalendarViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CalendarViewController.h; sourceTree = "<group>"; };
+		0C46A9B918C2A8CC000E30E2 /* CalendarViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CalendarViewController.m; sourceTree = "<group>"; };
 		0C498F31189F153C003B87F6 /* GroupModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = GroupModel.xcdatamodel; sourceTree = "<group>"; };
 		0C498F3C189F17FE003B87F6 /* Group.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Group.h; sourceTree = "<group>"; };
 		0C498F3D189F17FF003B87F6 /* Group.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Group.m; sourceTree = "<group>"; };
@@ -129,6 +133,7 @@
 		35381F9D18BD5D9A00250B97 /* page3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = page3.png; sourceTree = "<group>"; };
 		35381F9E18BD5D9A00250B97 /* page2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = page2.png; sourceTree = "<group>"; };
 		35381F9F18BD5D9A00250B97 /* page1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = page1.png; sourceTree = "<group>"; };
+		355493F718BEFAA500FA7BA6 /* iphone-launch.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "iphone-launch.png"; sourceTree = "<group>"; };
 		358FC66F18B4327100BBBADA /* AppIcon29x29.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = AppIcon29x29.png; sourceTree = "<group>"; };
 		358FC67018B4327100BBBADA /* AppIcon29x29@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AppIcon29x29@2x.png"; sourceTree = "<group>"; };
 		358FC67118B4327100BBBADA /* AppIcon40x40.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = AppIcon40x40.png; sourceTree = "<group>"; };
@@ -310,6 +315,7 @@
 				0C5014F718BB059F009E0677 /* calendar+icon.png */,
 				0C5014F818BB059F009E0677 /* calendar+icon@2x.png */,
 				35FCF0B518B43788009DF57F /* Images.xcassets */,
+				355493F718BEFAA500FA7BA6 /* iphone-launch.png */,
 				F2C51D9A188C887400489989 /* Supporting Files */,
 			);
 			path = flat;
@@ -450,6 +456,8 @@
 				F2C51DD8188C94CC00489989 /* RootController.m */,
 				F2C51DE0188C96C500489989 /* SidebarViewController.h */,
 				F2C51DE1188C96C500489989 /* SidebarViewController.m */,
+				0C46A9B818C2A8CC000E30E2 /* CalendarViewController.h */,
+				0C46A9B918C2A8CC000E30E2 /* CalendarViewController.m */,
 				F2C51DE4188C974E00489989 /* HomeViewController.h */,
 				F2C51DE5188C974E00489989 /* HomeViewController.m */,
 			);
@@ -584,6 +592,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				F2C51DAA188C887400489989 /* Main_iPad.storyboard in Resources */,
+				355493F818BEFAA500FA7BA6 /* iphone-launch.png in Resources */,
 				0C5014FA18BB059F009E0677 /* calendar+icon@2x.png in Resources */,
 				35FCF0B618B43788009DF57F /* Images.xcassets in Resources */,
 				358FC68618B4327100BBBADA /* AppIcon60x60@2x.png in Resources */,
@@ -670,6 +679,7 @@
 				F2C51DA0188C887400489989 /* main.m in Sources */,
 				F2C51DFE188C9BAB00489989 /* AuthenticationHelper.m in Sources */,
 				F2C51DA4188C887400489989 /* cs194AppDelegate.m in Sources */,
+				0C46A9BA18C2A8CC000E30E2 /* CalendarViewController.m in Sources */,
 				0C498F32189F153C003B87F6 /* GroupModel.xcdatamodeld in Sources */,
 				F2C51DD6188C948A00489989 /* MainNavigationViewController.m in Sources */,
 				F2C51DE2188C96C500489989 /* SidebarViewController.m in Sources */,
@@ -845,10 +855,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "flat/flat-Prefix.pch";
 				INFOPLIST_FILE = "flat/flat-Info.plist";
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"/Users/clayschubiner/CS-194-Final-Project/iOS/flat/TestFlightSDK3",
-				);
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				PRODUCT_NAME = Flat;
 				PROVISIONING_PROFILE = "9ECDB962-DA3C-4D25-85C8-A61A1E9C6E3A";
 				WRAPPER_EXTENSION = app;
@@ -866,10 +873,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "flat/flat-Prefix.pch";
 				INFOPLIST_FILE = "flat/flat-Info.plist";
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"/Users/clayschubiner/CS-194-Final-Project/iOS/flat/TestFlightSDK3",
-				);
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				PRODUCT_NAME = Flat;
 				PROVISIONING_PROFILE = "B8033F56-8C61-4A18-9661-35B3F7CD53FC";
 				WRAPPER_EXTENSION = app;
