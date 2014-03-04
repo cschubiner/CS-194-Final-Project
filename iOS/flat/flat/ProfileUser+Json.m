@@ -9,6 +9,7 @@
 #import "ProfileUser+Json.h"
 #import "cs194AppDelegate.h"
 #import "ProfileUser.h"
+#import "NSValue+NSValueEqualTo.h"
 @implementation ProfileUser (Json)
 
 + (ProfileUser *)getProfileUserObjectFromDictionary:(NSDictionary *)dictionary
@@ -36,7 +37,9 @@
     if (ret) return ret;
     
     for (ProfileUser * user in [[FlatAPIClientManager sharedClient]users]){
-        if ([user.userID isEqualToNumber:userID]) {
+        
+
+        if ([user.userID isEqualToNumber2:userID]) {
             NSString *initials  = [NSString stringWithFormat:@"%@%@",
                                                                  [user.firstName substringWithRange:NSMakeRange(0, 1)],
                                                                  [user.lastName substringWithRange:NSMakeRange(0, 1)]];
@@ -48,6 +51,22 @@
     //    return nil;
 }
 
++ (NSString *) getFirstNameFromUserID:(NSNumber*)userID {
+    static NSMutableDictionary * colorDict = nil;
+    if (!colorDict) colorDict = [[NSMutableDictionary alloc]init];
+    NSString * ret = [colorDict objectForKey:userID];
+    if (ret) return ret;
+    
+    for (ProfileUser * user in [[FlatAPIClientManager sharedClient]users]){
+        if ([user.userID isEqualToNumber2:userID]) {
+            NSString *initials  = user.firstName;
+            [colorDict setObject:initials forKey:userID];
+            return initials;
+        }
+    }
+    return @"DB Error";
+}
+
 + (UIColor *) getColorFromUserID:(NSNumber*)userID {
     static NSMutableDictionary * colorDict = nil;
     if (!colorDict) colorDict = [[NSMutableDictionary alloc]init];
@@ -55,11 +74,14 @@
     if (ret) return ret;
     
     for (ProfileUser * user in [[FlatAPIClientManager sharedClient]users]){
-        if ([user.userID isEqualToNumber:userID]) {
+        NSLog(@"6: %@, %@ %@", user, user.userID, userID);
+        if ([user.userID isEqualToNumber2:userID]) {
             ret = [self getColorFromUser:user];
             [colorDict setObject:ret forKey:userID];
             return ret;
         }
+        
+
     }
     return [UIColor grayColor];
     //    return nil;
@@ -68,27 +90,27 @@
 + (UIColor *) getColorFromUser:(ProfileUser*)user
 {
     NSString * colorStr = @"FF2A68";
-    if ([user.colorID isEqualToNumber:[NSNumber numberWithInt:0]])
+    if ([user.colorID isEqualToNumber2:[NSNumber numberWithInt:0]])
         colorStr = @"FF5E3A";
-    else if ([user.colorID isEqualToNumber:[NSNumber numberWithInt:1]])
+    else if ([user.colorID isEqualToNumber2:[NSNumber numberWithInt:1]])
         colorStr = @"FFCD02";
-    else if ([user.colorID isEqualToNumber:[NSNumber numberWithInt:2]])
+    else if ([user.colorID isEqualToNumber2:[NSNumber numberWithInt:2]])
         colorStr = @"0BD318";
-    else if ([user.colorID isEqualToNumber:[NSNumber numberWithInt:3]])
+    else if ([user.colorID isEqualToNumber2:[NSNumber numberWithInt:3]])
         colorStr = @"5AC8FB";
-    else if ([user.colorID isEqualToNumber:[NSNumber numberWithInt:4]])
+    else if ([user.colorID isEqualToNumber2:[NSNumber numberWithInt:4]])
         colorStr = @"1D62F0";
-    else if ([user.colorID isEqualToNumber:[NSNumber numberWithInt:5]])
+    else if ([user.colorID isEqualToNumber2:[NSNumber numberWithInt:5]])
         colorStr = @"5856D6";
-    else if ([user.colorID isEqualToNumber:[NSNumber numberWithInt:6]])
+    else if ([user.colorID isEqualToNumber2:[NSNumber numberWithInt:6]])
         colorStr = @"C643FC";
-    else if ([user.colorID isEqualToNumber:[NSNumber numberWithInt:7]])
+    else if ([user.colorID isEqualToNumber2:[NSNumber numberWithInt:7]])
         colorStr = @"A4E786";
-    else if ([user.colorID isEqualToNumber:[NSNumber numberWithInt:8]])
+    else if ([user.colorID isEqualToNumber2:[NSNumber numberWithInt:8]])
         colorStr = @"E4B7F0";
-    else if ([user.colorID isEqualToNumber:[NSNumber numberWithInt:9]])
+    else if ([user.colorID isEqualToNumber2:[NSNumber numberWithInt:9]])
         colorStr = @"FF1300";
-    else if ([user.colorID isEqualToNumber:[NSNumber numberWithInt:9]])
+    else if ([user.colorID isEqualToNumber2:[NSNumber numberWithInt:10]])
         colorStr = @"FF2A68";
     
     return [self colorWithHexString:colorStr];

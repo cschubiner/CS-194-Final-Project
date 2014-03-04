@@ -35,7 +35,7 @@
     [super viewDidLoad];
     
     //edit for width of the sidebar
-    self.leftFixedWidth = self.view.frame.size.width * .5;
+    self.leftFixedWidth = self.view.frame.size.width * .5 * .9;
     self.rightGapPercentage = 0.0f;
     self.allowRightSwipe = YES;
     self.rightFixedWidth = self.view.frame.size.width * .85;
@@ -92,50 +92,9 @@
             [alertView show];
         }
     }];
-    
-    [self getAllCalendarEvents];
 }
 
--(NSDate*)dateFromString:(NSString*)str {
-    if (str == nil || str == [NSNull null]) return nil;
-    [NSDateFormatter setDefaultFormatterBehavior:NSDateFormatterBehavior10_4];
-    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-    //[NSDateFormatter setDefaultFormatterBehavior:NSDateFormatterBehaviorDefault];
-    [dateFormatter setDateFormat:@"yyyy-MM-dd hh:mm:ss +hhmm"];
-    NSDate* ret= [dateFormatter dateFromString:str];
-//    NSLog(@"ret: %@", ret);
-    return ret;
-}
 
--(NSNumber*)numberFromString:(NSString*)str {
-    NSNumberFormatter * f = [[NSNumberFormatter alloc] init];
-    [f setNumberStyle:NSNumberFormatterNoStyle];
-   return [f numberFromString:str];
-}
-
--(void)getAllCalendarEvents {
-    NSMutableArray*events = [[NSMutableArray alloc]init];
-    
-    Firebase* fCal = [[Firebase alloc] initWithUrl:@"https://flatapp.firebaseio.com/calendars"];
-    [fCal observeEventType:FEventTypeValue withBlock:^(FDataSnapshot *snapshot) {
-        for (FDataSnapshot * fCalUser in snapshot.children) {
-            for (FDataSnapshot * fCalEvent in fCalUser.children) {
-                NSLog(@"child%@", fCalEvent.value);
-                EventModel * event = [[EventModel alloc]init];
-                NSLog(@"title: %@", [fCalEvent childSnapshotForPath:@"title"].value);
-                NSLog(@"endDate: %@",[fCalEvent childSnapshotForPath:@"endDate"].value);
-                [event setTitle:[fCalEvent childSnapshotForPath:@"endDate"].value];
-                [event setStartDate:[self dateFromString:[fCalEvent childSnapshotForPath:@"startDate"].value]];
-                [event setEndDate:[self dateFromString:[fCalEvent childSnapshotForPath:@"endDate"].value]];
-                [event setUserID:[self numberFromString:[fCalEvent childSnapshotForPath:@"userID"].value]];
-                [events addObject:event];
-            }
-        }
-        
-        NSLog(@"events: %@",events);
-        [[FlatAPIClientManager sharedClient]setAllEvents:events];
-    }];
-}
 
 - (IBAction)refreshMessages:(id)sender
 {
@@ -146,7 +105,7 @@
     }];
 }
 
-- (void)getCalendarEvents {
+-(void)getCalendarEventsForDays {
     EKEventStore *store = [[EKEventStore alloc] init];
     NSCalendar *calendar = [NSCalendar currentCalendar];
     
@@ -160,6 +119,7 @@
     // Create the end date components
     NSDateComponents *secondDateCom = [[NSDateComponents alloc] init];
     secondDateCom.day = 5;  //get all events five days from now
+    //    secondDateCom.hour = 24;
     NSDate *secondDate = [calendar dateByAddingComponents:secondDateCom
                                                    toDate:[NSDate date]
                                                   options:0];
@@ -173,6 +133,11 @@
     // Fetch all events that match the predicate
     NSArray *events = [store eventsMatchingPredicate:predicate];
     [[FlatAPIClientManager sharedClient]setEvents:[NSMutableArray arrayWithArray:events]];
+}
+
+- (void)getCalendarEvents {
+    [self getCalendarEventsForDays];
+    NSArray *events = [FlatAPIClientManager sharedClient].events;
     NSNumber * userID = [[FlatAPIClientManager sharedClient]profileUser].userID;
     
     NSString * eventJSON = @"{\"events\":[";
@@ -206,7 +171,7 @@
         //        [fEvent setValue:@"hi" forKey:@"startDate"];
         //        [fEvent setValue:event.title forKey:@"title"];
     }
-    [[FlatAPIClientManager sharedClient]setAllEvents:[NSArray arrayWithArray:allEventArray]];
+//    [[FlatAPIClientManager sharedClient]setAllEvents:[NSArray arrayWithArray:allEventArray]];
     [ProfileUserNetworkRequest sendCalendarEvents:eventJSON];
 }
 

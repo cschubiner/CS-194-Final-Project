@@ -44,10 +44,12 @@
 
 +(void)sendCalendarMessageForEvent:(EKEvent*)event {
     NSNumber * userID = [FlatAPIClientManager sharedClient].profileUser.userID;
-    NSString * messageText = [NSString stringWithFormat:@"%@ has an event from %@ to %@.\n%@",
+    NSString * messageText = [NSString stringWithFormat:@"%@'s event, %@, starts at %@.",
                               [FlatAPIClientManager sharedClient].profileUser.firstName,
-                              event.startDate, event.endDate,
-                              event.title];
+                              event.title,
+                       [Utils formatDate:event.startDate]
+//                              , [Utils formatDate:event.endDate]
+                              ];
     [MessageNetworkRequest sendMessageWithText:messageText
                             fromUserWithUserID:userID
                             postURL:@"calendar/message/new"

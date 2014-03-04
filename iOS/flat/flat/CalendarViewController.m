@@ -22,7 +22,7 @@
 {
 }
 
-static const int NAV_BAR_HEIGHT = 56;//64;
+static const int NAV_BAR_HEIGHT = 64;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -34,12 +34,27 @@ static const int NAV_BAR_HEIGHT = 56;//64;
     return self;
 }
 
+-(void)refreshEvents {
+    [[FlatAPIClientManager sharedClient]getAllCalendarEvents:^(){
+        [self.sideBarMenuTable reloadData];
+    }];
+}
+
+-(void)viewWillAppear:(BOOL)animated {
+    [self refreshEvents];
+    [NSTimer scheduledTimerWithTimeInterval:30.0
+                                     target:self
+                                   selector:@selector(refreshEvents)
+                                   userInfo:nil
+                                    repeats:YES];
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     
-    int startingWidth = 60;
-    self.sideBarMenuTable = [[UITableView alloc] initWithFrame:CGRectMake(startingWidth, NAV_BAR_HEIGHT, self.view.frame.size.width-startingWidth, self.view.frame.size.height)];
+    int startingWidth = 47;
+    self.sideBarMenuTable = [[UITableView alloc] initWithFrame:CGRectMake(startingWidth, NAV_BAR_HEIGHT, self.view.frame.size.width-startingWidth, self.view.frame.size.height - NAV_BAR_HEIGHT)];
     self.sideBarMenuTable.delegate = self;
     self.sideBarMenuTable.dataSource = self;
     [self.view addSubview:self.sideBarMenuTable];
@@ -49,6 +64,10 @@ static const int NAV_BAR_HEIGHT = 56;//64;
 //    [tableView setSeparatorStyle:UITableViewCellSeparatorStyleNone];
     tableView.backgroundColor = [UIColor whiteColor];
     return 1;
+}
+
+-(NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
+    return @"Upcoming Events";
 }
 
 - (NSInteger)tableView:(UITableView *)tableView
@@ -69,15 +88,6 @@ static const int NAV_BAR_HEIGHT = 56;//64;
     return 70;
 }
 
-
--(NSString*)formatDate:(NSDate*) date {
-    NSDateFormatter* secondDateFormatter = [[NSDateFormatter alloc] init];
-    [secondDateFormatter setDateFormat:@"h:mm a"];
-    [secondDateFormatter setTimeZone:[NSTimeZone localTimeZone]];
-    NSString* secondDateString = [NSString stringWithFormat:@"%@",[secondDateFormatter stringFromDate:date]];
-    return secondDateString;
-}
-
 - (UITableViewCell *)tableView:(UITableView *)tableView
          cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -93,14 +103,14 @@ static const int NAV_BAR_HEIGHT = 56;//64;
     
     
     UIColor * color = [ProfileUser getColorFromUserID:event.userID];
-    
-    
     cell.backgroundColor = color;
     
-    NSString * text = [NSString stringWithFormat:@"%@: %@ to %@.\n%@",
-                              [FlatAPIClientManager sharedClient].profileUser.firstName,
-                              [self formatDate:event.startDate], [self formatDate:event.endDate],
-                              event.title];
+    NSString * text = [NSString stringWithFormat:@"%@: %@\n%@ from %@ to %@",
+                              [ProfileUser getFirstNameFromUserID:event.userID],
+                              event.title,
+                              [Utils formatDateDayOfWeek:event.startDate],
+                              [Utils formatDate:event.startDate], [Utils formatDate:event.endDate]
+                              ];
     [cell.textLabel setText:text];
     cell.textLabel.numberOfLines = 0;
     [cell sizeToFit];

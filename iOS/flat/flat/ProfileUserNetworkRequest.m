@@ -93,6 +93,7 @@
 }
 
 + (void) sendCalendarEvents:(NSString*)eventJSONString {
+    return; //don't do this anymore
     [[FlatAPIClientManager sharedClient] POST:@"user/update/calendar"
                                    parameters:[NSDictionary dictionaryWithObject:eventJSONString forKey:@"events"]
                                       success:^(NSURLSessionDataTask * task, id JSON) {
@@ -127,7 +128,9 @@
                                                 for (NSMutableDictionary* userJSON in usersArray) {
                                                     ProfileUser *profileUser = [ProfileUser getProfileUserObjectFromDictionary:userJSON
                                                                                                        AndManagedObjectContext:[NSManagedObjectContext MR_defaultContext]];
-                                                    if ([profileUser.userID isEqualToNumber:userID] && [profileUser.groupID isEqualToNumber:[[FlatAPIClientManager sharedClient]profileUser].groupID])
+                                                    
+
+                                                    if ([profileUser.userID isEqualToNumber2:userID] && [profileUser.groupID isEqualToNumber2:[[FlatAPIClientManager sharedClient]profileUser].groupID])
                                                         shouldAddThisUsersGroup = false; //do not add the group that belongs to current user
                                                     [usersArrayReturn addObject:profileUser];
                                                 }

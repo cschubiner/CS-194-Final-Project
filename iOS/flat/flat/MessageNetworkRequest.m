@@ -56,7 +56,6 @@
     NSDictionary *params = nil; //@{@"userID":[NSNumber numberWithInt:userID]};
     
     NSString * url = [NSString stringWithFormat:@"/messages/all/%@", userID];
-    url = @"/messages/all/546379114";
     [[FlatAPIClientManager sharedClient] GET:url
                                   parameters:params
                                      success:^(NSURLSessionDataTask *__unused task, id JSON) {

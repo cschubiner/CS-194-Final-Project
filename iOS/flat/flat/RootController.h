@@ -20,4 +20,7 @@
 @property (nonatomic, strong) CalendarViewController *rightPanel;
 @property (nonatomic, strong) HomeViewController *centerPanel;
 
+
+-(void)getCalendarEventsForDays;
+
 @end
