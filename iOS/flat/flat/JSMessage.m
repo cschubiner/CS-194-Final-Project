@@ -14,7 +14,7 @@
 
 - (instancetype)initWithText:(NSString *)text
                       sender:(NSString *)sender
-                senderUserId:(NSString *)senderID
+                senderUserId:(NSNumber*)senderID
                         date:(NSDate *)date
 {
     self = [super init];

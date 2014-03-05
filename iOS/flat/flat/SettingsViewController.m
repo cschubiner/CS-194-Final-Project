@@ -55,7 +55,7 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     // Return the number of rows in the section.
-    return 4;
+    return 3;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -71,12 +71,8 @@
         cell.textLabel.text = @"Switch groups";
         return cell;
     }
-    if (indexPath.row == 3) {
-        cell.textLabel.text = @"Logout";
-        return cell;
-    }
     if (indexPath.row == 2) {
-        cell.textLabel.text = @"Tasks";
+        cell.textLabel.text = @"Logout";
         return cell;
     }
     if (indexPath.row == 0) {
@@ -115,7 +111,7 @@
 
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (indexPath.row == 3) {
+    if (indexPath.row == 2) {
         NSString *logoutTitle = @"Do you really want to logout?";
         UIActionSheet *logoutActionSheet = [[UIActionSheet alloc]
                                             initWithTitle:logoutTitle
@@ -126,9 +122,6 @@
         [logoutActionSheet showInView:self.view];
         [tableView deselectRowAtIndexPath:indexPath
                                  animated:YES];
-    } else if (indexPath.row == 2) {
-        [self performSegueWithIdentifier:@"SettingsToTasks"
-                                  sender:self];
     } else if (indexPath.row == 0) {
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle: @"Set dorm location"
                                                         message: @"Do you want to set your current location as your group's dorm location?"
