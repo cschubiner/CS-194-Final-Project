@@ -11,5 +11,6 @@
 @interface TasksViewController : UIViewController <UITableViewDelegate, UITableViewDataSource, UIActionSheetDelegate>
 
 @property UITableView *tasksTable;
+@property NSMutableArray *tasks;
 
 @end

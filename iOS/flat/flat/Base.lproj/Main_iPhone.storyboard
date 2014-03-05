@@ -150,10 +150,57 @@
                             </connections>
                         </barButtonItem>
                     </navigationItem>
+                    <connections>
+                        <segue destination="Eop-jp-PlT" kind="push" identifier="TasksToDetailView" id="HF4-7H-H3I"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="s7w-8D-zRm" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1661" y="19"/>
+        </scene>
+        <!--Task Detail View Controller-->
+        <scene sceneID="4nY-GX-wkm">
+            <objects>
+                <viewController storyboardIdentifier="TaskDetailViewController" id="Eop-jp-PlT" customClass="TaskDetailViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="x9a-4q-qzG"/>
+                        <viewControllerLayoutGuide type="bottom" id="Xjk-67-pNg"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="2KS-rJ-2S1">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="dlO-1l-oqN">
+                        <barButtonItem key="rightBarButtonItem" systemItem="edit" id="93G-pS-z3e">
+                            <connections>
+                                <segue destination="FDF-Iq-KvN" kind="push" identifier="DetailViewToEditTask" id="M0X-WV-Y0C"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="alE-Cu-3xN" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2517" y="274"/>
+        </scene>
+        <!--Edit Task View Controller-->
+        <scene sceneID="rQN-1A-izg">
+            <objects>
+                <viewController id="FDF-Iq-KvN" customClass="EditTaskViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="TlP-fn-ZN3"/>
+                        <viewControllerLayoutGuide type="bottom" id="cpk-fo-w3m"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="UC7-9e-T4H">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="93O-yy-BoJ"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="wJJ-dz-26K" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2915" y="286"/>
         </scene>
         <!--Create Tasks View Controller-->
         <scene sceneID="TPM-Oo-Jyo">
@@ -172,7 +219,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="wEV-zz-t3j" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2283" y="19"/>
+            <point key="canvasLocation" x="2679" y="-405"/>
         </scene>
         <!--Root Controller-->
         <scene sceneID="23k-k3-8EV">

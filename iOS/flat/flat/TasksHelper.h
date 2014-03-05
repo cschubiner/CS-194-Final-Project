@@ -21,4 +21,9 @@ typedef void (^TaskHelperCompletionHandler)(NSError *, NSArray *tasks);
 + (void)deleteTaskWithTaskId:(NSNumber *)taskId
         andCompletionHandler:(TaskHelperCompletionHandler)completion;
 
++ (void)editTaskWithTaskId:(NSNumber *)taskId
+                   andBody:(NSString *)body
+                   andDate:(NSDate *)date
+      andCompletionHandler:(TaskHelperCompletionHandler)completion;
+
 @end

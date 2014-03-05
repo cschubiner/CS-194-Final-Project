@@ -9,9 +9,9 @@
 #import "TasksViewController.h"
 #import "TasksHelper.h"
 #import "Task+Json.h"
+#import "TaskDetailViewController.h"
 
 @interface TasksViewController ()
-@property NSMutableArray *tasks;
 @property Task *taskSelected;
 @end
 
@@ -29,21 +29,30 @@ static const int NAV_BAR_HEIGHT = 64;
     return self;
 }
 
--(void)tableView:(UITableView *)tableView
+- (void)tableView:(UITableView *)tableView
 didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    
+    [self.tasksTable deselectRowAtIndexPath:indexPath
+                                   animated:YES];
+    NSLog(@"Cell clicked at index: %lu", indexPath.row);
+    [self performSegueWithIdentifier:@"TasksToDetailView"
+                              sender:[tableView cellForRowAtIndexPath:indexPath]];
 }
 
--(BOOL)tableView:(UITableView *)tableView
-shouldHighlightRowAtIndexPath:(NSIndexPath *)indexPath
+- (void)prepareForSegue:(UIStoryboardSegue *)segue
+                 sender:(id)sender
 {
-    return NO;
+    if ([segue.identifier isEqualToString:@"TasksToDetailView"]) {
+        TaskDetailViewController *dest = (TaskDetailViewController *)segue.destinationViewController;
+        dest.task = [self.tasks objectAtIndex:((UITableViewCell *)sender).tag];
+        dest.tasks = self.tasks;
+    }
 }
 
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+- (CGFloat)tableView:(UITableView *)tableView
+heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return 90;
+    return 70;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView
@@ -52,22 +61,27 @@ shouldHighlightRowAtIndexPath:(NSIndexPath *)indexPath
     NSString *cellIdentifier = @"cell4";
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
     if (cell == nil) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault  reuseIdentifier:cellIdentifier];
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle
+                                      reuseIdentifier:cellIdentifier];
     }
     Task *currTask = [self.tasks objectAtIndex:indexPath.row];
     cell.textLabel.text = currTask.body;
+    NSLog(@"TASK: %@", cell.textLabel.text);
+    NSLog(@"DATE: %@", currTask.dueDate);
+    cell.detailTextLabel.text = [NSString stringWithFormat:@"Due date: %@", [Utils formatDate:currTask.dueDate withFormat:@"MM-dd-yyyy HH:mm"]];
+    cell.tag = indexPath.row;
     return cell;
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return [self.tasks count];
+    return 1;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView
  numberOfRowsInSection:(NSInteger)section
 {
-    return 1;
+    return [self.tasks count];
 }
 
 - (NSString *)tableView:(UITableView *)tableView
@@ -76,7 +90,11 @@ titleForHeaderInSection:(NSInteger)section
     return nil;
 }
 
-- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
+
+
+- (BOOL)tableView:(UITableView *)tableView
+canEditRowAtIndexPath:(NSIndexPath *)indexPath
+{
     return YES;
 }
 
@@ -87,11 +105,14 @@ clickedButtonAtIndex:(NSInteger)buttonIndex
         [TasksHelper deleteTaskWithTaskId:self.taskSelected.taskId
                      andCompletionHandler:^(NSError *error, NSArray *tasks) {
                          self.tasks = [tasks mutableCopy];
+                         [self.tasksTable reloadData];
                      }];
     }
 }
 
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
+- (void)tableView:(UITableView *)tableView
+commitEditingStyle:(UITableViewCellEditingStyle)editingStyle
+forRowAtIndexPath:(NSIndexPath *)indexPath {
     if (editingStyle == UITableViewCellEditingStyleDelete) {
         //remove the deleted object from your data source.
         UIActionSheet *logoutActionSheet = [[UIActionSheet alloc]
@@ -105,11 +126,6 @@ clickedButtonAtIndex:(NSInteger)buttonIndex
     }
 }
 
-/*
- [TasksHelper deleteTaskWith
- [self.tasks removeObjectAtIndex:indexPath.row];
- */
-
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -120,10 +136,6 @@ clickedButtonAtIndex:(NSInteger)buttonIndex
     [TasksHelper getTasksWithCompletionBlock:^(NSError *error, NSArray *tasks)
     {
         self.tasks = [tasks mutableCopy];
-        NSLog(@"Num taskssss: %lu", [self.tasks count]);
-        if ([self.tasks count] > 0) {
-            NSLog(@"task: %@", [self.tasks objectAtIndex:0]);
-        }
         self.tasksTable = [[UITableView alloc] initWithFrame:CGRectMake(0, NAV_BAR_HEIGHT
 , width, height - NAV_BAR_HEIGHT)];
         self.tasksTable.delegate = self;

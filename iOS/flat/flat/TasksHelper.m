@@ -31,6 +31,7 @@
         andCompletionBlock:(TaskHelperCompletionHandler)completion
 {
     NSNumber *groupId = [FlatAPIClientManager sharedClient].group.groupID;
+    NSLog(@"about to make network request in task helper");
     [TasksNetworkRequest createTaskForGroupWithGroupId:groupId
                                                andText:(NSString *)text
                                                andDate:date
@@ -48,8 +49,31 @@
 + (void)deleteTaskWithTaskId:(NSNumber *)taskId
         andCompletionHandler:(TaskHelperCompletionHandler)completion
 {
+    Group *group = [FlatAPIClientManager sharedClient].group;
     [TasksNetworkRequest deleteTaskWithTaskId:taskId
+                                   andGroupId:group.groupID
                            andCompletionBlock:^(NSError *error, NSArray *tasks)
+    {
+        if (error) {
+            NSLog(@"Error in TaskHelper: %@", error);
+            completion(error, nil);
+        } else {
+            completion(error, tasks);
+        }
+    }];
+}
+
++ (void)editTaskWithTaskId:(NSNumber *)taskId
+                   andBody:(NSString *)body
+                   andDate:(NSDate *)date
+      andCompletionHandler:(TaskHelperCompletionHandler)completion
+{
+    Group *group = [FlatAPIClientManager sharedClient].group;
+    [TasksNetworkRequest editTaskWithTaskId:taskId
+                                    andBody:body
+                                    andDate:date
+                                 andGroupId:group.groupID
+                         andCompletionBlock:^(NSError *error, NSArray *tasks)
     {
         if (error) {
             NSLog(@"Error in TaskHelper: %@", error);
