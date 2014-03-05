@@ -417,10 +417,10 @@
 				0CBB52041896008C00B9615F /* UIColor+ColorHelper.m */,
 				F25DCF1A18A84E9600710B03 /* MessageHelper.h */,
 				F25DCF1B18A84E9600710B03 /* MessageHelper.m */,
-<<<<<<< HEAD
+
 				0C1F934C18C417AD00949F10 /* Utils.h */,
 				0C1F934D18C417AD00949F10 /* Utils.m */,
-=======
+
 				F2D2E7B618C3EC100016BF66 /* TasksHelper.h */,
 				F2D2E7B718C3EC100016BF66 /* TasksHelper.m */,
 >>>>>>> tasks view controllers and other files
