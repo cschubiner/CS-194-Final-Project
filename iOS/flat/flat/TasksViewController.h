@@ -11,6 +11,9 @@
 @interface TasksViewController : UIViewController <UITableViewDelegate, UITableViewDataSource, UIActionSheetDelegate>
 
 @property UITableView *tasksTable;
+<<<<<<< HEAD
 @property NSMutableArray *tasks;
+=======
+>>>>>>> my-temporary-work
 
 @end

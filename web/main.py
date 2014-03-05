@@ -13,9 +13,11 @@ from db import db_init, db_session
 import db
 import groups
 import models
-import flat_calendar.py
+import flat_calendar
 import utils
+import tasks
 import push_notification
+import location_timer
 
 app = Flask(__name__.split('.')[0])
 
@@ -158,15 +160,6 @@ def add_new_message():
 def get_messages(userID):
     return db.get_messages(userID)
 
-# @app.route('/user/update/calendar', methods=['GET', 'POST'])
-# def update_calendar():
-#     if request.method == 'POST':
-#         # for debugging purposes
-#         if request.data:
-#             return calendar.calendar_store_event(request.form)
-#     else:
-#         return db.update_calendar()
-
 @app.route('/tasks/add_friends', methods=['GET', 'POST'])
 def task_add_friends():
     if request.method == 'POST':
@@ -207,8 +200,8 @@ def task_notify_group():
 @app.route("/test/push/clay")
 def test_push_clay():
     return db.test_push_clay()
-@app.route("/calendar/message/new", methods=['GET', 'POST'])
 
+@app.route("/calendar/message/new", methods=['GET', 'POST'])
 def test_push_to_group():
     if request.method == 'POST':
         # for debugging purposes
@@ -220,4 +213,48 @@ def test_push_to_group():
             body = request.form['message']
             fb_id = request.form['userID']
             return flat_calendar.handle_event(body, fb_id)
+
+@app.route('/tasks/add', methods=['GET', 'POST'])
+def add_task():
+    if request.method == 'POST':
+        # For debugging
+        print request.data
+        if request.data:
+            data = request.data.split()
+            return tasks.add_task(data[0], data[1], data[2])
+        else:
+            body = request.form['body']
+            group_id = request.form['group_id']
+            due_date = request.form['due_date']
+            return tasks.add_task(group_id, body, due_date)
+    return utils.json_message("not supposed to happen")
+
+@app.route('/tasks/<group_id>')
+def get_tasks(group_id):
+    return tasks.get_tasks(group_id)
+
+@app.route('/tasks/delete', methods=['GET', 'POST'])
+def delete_task(task_id):
+    if request.method == 'POST':
+        return tasks.delete_task(request.form['task_id'], request.form['group_id'])
+
+@app.route('/tasks/edit', methods=['GET', 'POST'])
+def edit_task():
+    if request.methods == 'POST':
+        task_id = request.form['task_id']
+        group_id = request.form['group_id']
+        new_body = request.form['body']
+        new_time = request.form['due_date']
+        return tasks.edit_task(task_id, group_id, new_body, new_time)
+
+@app.route('/cron/check_broadcast')
+def check_broadcast():
+    return location_timer.check_broadcast()
+
+
+
+
+
+
+
 

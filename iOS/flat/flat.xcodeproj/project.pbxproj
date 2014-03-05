@@ -56,9 +56,13 @@
 		F25DCF1C18A84E9600710B03 /* MessageHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = F25DCF1B18A84E9600710B03 /* MessageHelper.m */; };
 		F25DCF1F18A84EAD00710B03 /* MessageNetworkRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = F25DCF1E18A84EAD00710B03 /* MessageNetworkRequest.m */; };
 		F25DCF2218A8564700710B03 /* JSMessage+Json.m in Sources */ = {isa = PBXBuildFile; fileRef = F25DCF2118A8564700710B03 /* JSMessage+Json.m */; };
+<<<<<<< HEAD
 		F27291A318C429CC001C32AE /* Task.m in Sources */ = {isa = PBXBuildFile; fileRef = F27291A218C429CC001C32AE /* Task.m */; };
 		F27291A618C5ECDE001C32AE /* TaskDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F27291A518C5ECDE001C32AE /* TaskDetailViewController.m */; };
 		F27291A918C5EDB9001C32AE /* EditTaskViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F27291A818C5EDB9001C32AE /* EditTaskViewController.m */; };
+=======
+		F27291A018C425AA001C32AE /* Task.m in Sources */ = {isa = PBXBuildFile; fileRef = F272919F18C425AA001C32AE /* Task.m */; };
+>>>>>>> my-temporary-work
 		F279A6A418BD3B9E007A2A9E /* CalendarMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = F279A6A318BD3B9E007A2A9E /* CalendarMessage.m */; };
 		F279A6A718BD3DA7007A2A9E /* CalendarMessage+Json.m in Sources */ = {isa = PBXBuildFile; fileRef = F279A6A618BD3DA7007A2A9E /* CalendarMessage+Json.m */; };
 		F2C51D94188C887400489989 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F2C51D93188C887400489989 /* Foundation.framework */; };
@@ -178,12 +182,17 @@
 		F25DCF1E18A84EAD00710B03 /* MessageNetworkRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MessageNetworkRequest.m; sourceTree = "<group>"; };
 		F25DCF2018A8564700710B03 /* JSMessage+Json.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "JSMessage+Json.h"; sourceTree = "<group>"; };
 		F25DCF2118A8564700710B03 /* JSMessage+Json.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "JSMessage+Json.m"; sourceTree = "<group>"; };
+<<<<<<< HEAD
 		F27291A118C429CC001C32AE /* Task.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Task.h; sourceTree = "<group>"; };
 		F27291A218C429CC001C32AE /* Task.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Task.m; sourceTree = "<group>"; };
 		F27291A418C5ECDE001C32AE /* TaskDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TaskDetailViewController.h; sourceTree = "<group>"; };
 		F27291A518C5ECDE001C32AE /* TaskDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TaskDetailViewController.m; sourceTree = "<group>"; };
 		F27291A718C5EDB9001C32AE /* EditTaskViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EditTaskViewController.h; sourceTree = "<group>"; };
 		F27291A818C5EDB9001C32AE /* EditTaskViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EditTaskViewController.m; sourceTree = "<group>"; };
+=======
+		F272919E18C425AA001C32AE /* Task.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Task.h; sourceTree = "<group>"; };
+		F272919F18C425AA001C32AE /* Task.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Task.m; sourceTree = "<group>"; };
+>>>>>>> my-temporary-work
 		F279A6A218BD3B9E007A2A9E /* CalendarMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CalendarMessage.h; sourceTree = "<group>"; };
 		F279A6A318BD3B9E007A2A9E /* CalendarMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CalendarMessage.m; sourceTree = "<group>"; };
 		F279A6A518BD3DA7007A2A9E /* CalendarMessage+Json.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "CalendarMessage+Json.h"; sourceTree = "<group>"; };
@@ -449,9 +458,14 @@
 			isa = PBXGroup;
 			children = (
 				F2C51E671895E3AB00489989 /* Messages */,
+				F272919E18C425AA001C32AE /* Task.h */,
+				F272919F18C425AA001C32AE /* Task.m */,
 				F2C51DED188C9A1600489989 /* Model.xcdatamodeld */,
+<<<<<<< HEAD
 				F27291A118C429CC001C32AE /* Task.h */,
 				F27291A218C429CC001C32AE /* Task.m */,
+=======
+>>>>>>> my-temporary-work
 				F2D2E7BC18C3ED850016BF66 /* Task+Json.h */,
 				F2D2E7BD18C3ED850016BF66 /* Task+Json.m */,
 				0C498F3F189F1825003B87F6 /* ProfileUser.h */,
@@ -559,10 +573,13 @@
 				F2D2E7B118C3EB1C0016BF66 /* TasksViewController.m */,
 				F2D2E7B318C3EB2C0016BF66 /* CreateTasksViewController.h */,
 				F2D2E7B418C3EB2C0016BF66 /* CreateTasksViewController.m */,
+<<<<<<< HEAD
 				F27291A418C5ECDE001C32AE /* TaskDetailViewController.h */,
 				F27291A518C5ECDE001C32AE /* TaskDetailViewController.m */,
 				F27291A718C5EDB9001C32AE /* EditTaskViewController.h */,
 				F27291A818C5EDB9001C32AE /* EditTaskViewController.m */,
+=======
+>>>>>>> my-temporary-work
 			);
 			name = Tasks;
 			sourceTree = "<group>";
@@ -746,7 +763,10 @@
 				F2C51DEC188C992E00489989 /* OpeningButton.m in Sources */,
 				F2C51DDC188C960B00489989 /* OpeningViewController.m in Sources */,
 				F2D2E7B818C3EC100016BF66 /* TasksHelper.m in Sources */,
+<<<<<<< HEAD
 				F27291A618C5ECDE001C32AE /* TaskDetailViewController.m in Sources */,
+=======
+>>>>>>> my-temporary-work
 				F2C51DDF188C963D00489989 /* OpeningNavigationController.m in Sources */,
 				F279A6A718BD3DA7007A2A9E /* CalendarMessage+Json.m in Sources */,
 				F2D2E7B518C3EB2C0016BF66 /* CreateTasksViewController.m in Sources */,
@@ -756,7 +776,11 @@
 				F2C51DD9188C94CC00489989 /* RootController.m in Sources */,
 				F2D2E7C118C3EFB20016BF66 /* TasksNetworkRequest.m in Sources */,
 				0C52C5BE18A9BAF40094D428 /* GroupLocalRequest.m in Sources */,
+<<<<<<< HEAD
 				F27291A318C429CC001C32AE /* Task.m in Sources */,
+=======
+				F27291A018C425AA001C32AE /* Task.m in Sources */,
+>>>>>>> my-temporary-work
 				0CDA0F011895E89500F5A1F8 /* ProfileUserNetworkRequest.m in Sources */,
 				F27291A918C5EDB9001C32AE /* EditTaskViewController.m in Sources */,
 				F2C51DF8188C9B6E00489989 /* AuthenticationNetworkRequest.m in Sources */,

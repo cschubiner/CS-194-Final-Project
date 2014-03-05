@@ -150,14 +150,18 @@
                             </connections>
                         </barButtonItem>
                     </navigationItem>
+<<<<<<< HEAD
                     <connections>
                         <segue destination="Eop-jp-PlT" kind="push" identifier="TasksToDetailView" id="HF4-7H-H3I"/>
                     </connections>
+=======
+>>>>>>> my-temporary-work
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="s7w-8D-zRm" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1661" y="19"/>
         </scene>
+<<<<<<< HEAD
         <!--Task Detail View Controller-->
         <scene sceneID="4nY-GX-wkm">
             <objects>
@@ -202,6 +206,8 @@
             </objects>
             <point key="canvasLocation" x="2915" y="286"/>
         </scene>
+=======
+>>>>>>> my-temporary-work
         <!--Create Tasks View Controller-->
         <scene sceneID="TPM-Oo-Jyo">
             <objects>
@@ -219,7 +225,11 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="wEV-zz-t3j" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
+<<<<<<< HEAD
             <point key="canvasLocation" x="2679" y="-405"/>
+=======
+            <point key="canvasLocation" x="2283" y="19"/>
+>>>>>>> my-temporary-work
         </scene>
         <!--Root Controller-->
         <scene sceneID="23k-k3-8EV">

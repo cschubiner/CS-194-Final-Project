@@ -20,6 +20,7 @@ typedef void (^TaskNetworkCompletionHandler)(NSError *, NSArray *tasks);
                               andDate:(NSDate *)date
                    andCompletionBlock:(TaskNetworkCompletionHandler)completion;
 
+<<<<<<< HEAD
 + (void)deleteTaskWithTaskId:(NSNumber *)taskId
                   andGroupId:(NSNumber *)groupId
           andCompletionBlock:(TaskNetworkCompletionHandler)completion;
@@ -30,4 +31,9 @@ typedef void (^TaskNetworkCompletionHandler)(NSError *, NSArray *tasks);
                 andGroupId:(NSNumber *)groupId
         andCompletionBlock:(TaskNetworkCompletionHandler)completion;
 
+=======
++ (void)deleteTaskWithTaskId:taskId
+          andCompletionBlock:(TaskNetworkCompletionHandler)completion;
+
+>>>>>>> my-temporary-work
 @end

@@ -9,9 +9,15 @@
 #import "TasksViewController.h"
 #import "TasksHelper.h"
 #import "Task+Json.h"
+<<<<<<< HEAD
 #import "TaskDetailViewController.h"
 
 @interface TasksViewController ()
+=======
+
+@interface TasksViewController ()
+@property NSMutableArray *tasks;
+>>>>>>> my-temporary-work
 @property Task *taskSelected;
 @end
 
@@ -29,6 +35,7 @@ static const int NAV_BAR_HEIGHT = 64;
     return self;
 }
 
+<<<<<<< HEAD
 - (void)tableView:(UITableView *)tableView
 didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -53,11 +60,29 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     return 70;
+=======
+-(void)tableView:(UITableView *)tableView
+didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    
+}
+
+-(BOOL)tableView:(UITableView *)tableView
+shouldHighlightRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return NO;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return 90;
+>>>>>>> my-temporary-work
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView
          cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
+<<<<<<< HEAD
     NSString *cellIdentifier = @"cell4";
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
     if (cell == nil) {
@@ -71,17 +96,28 @@ heightForRowAtIndexPath:(NSIndexPath *)indexPath
     cell.detailTextLabel.text = [NSString stringWithFormat:@"Due date: %@", [Utils formatDate:currTask.dueDate withFormat:@"MM-dd-yyyy HH:mm"]];
     cell.tag = indexPath.row;
     return cell;
+=======
+    return nil;
+>>>>>>> my-temporary-work
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
+<<<<<<< HEAD
     return 1;
+=======
+    return [self.tasks count];
+>>>>>>> my-temporary-work
 }
 
 - (NSInteger)tableView:(UITableView *)tableView
  numberOfRowsInSection:(NSInteger)section
 {
+<<<<<<< HEAD
     return [self.tasks count];
+=======
+    return 1;
+>>>>>>> my-temporary-work
 }
 
 - (NSString *)tableView:(UITableView *)tableView
@@ -90,11 +126,15 @@ titleForHeaderInSection:(NSInteger)section
     return nil;
 }
 
+<<<<<<< HEAD
 
 
 - (BOOL)tableView:(UITableView *)tableView
 canEditRowAtIndexPath:(NSIndexPath *)indexPath
 {
+=======
+- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
+>>>>>>> my-temporary-work
     return YES;
 }
 
@@ -105,14 +145,21 @@ clickedButtonAtIndex:(NSInteger)buttonIndex
         [TasksHelper deleteTaskWithTaskId:self.taskSelected.taskId
                      andCompletionHandler:^(NSError *error, NSArray *tasks) {
                          self.tasks = [tasks mutableCopy];
+<<<<<<< HEAD
                          [self.tasksTable reloadData];
+=======
+>>>>>>> my-temporary-work
                      }];
     }
 }
 
+<<<<<<< HEAD
 - (void)tableView:(UITableView *)tableView
 commitEditingStyle:(UITableViewCellEditingStyle)editingStyle
 forRowAtIndexPath:(NSIndexPath *)indexPath {
+=======
+- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
+>>>>>>> my-temporary-work
     if (editingStyle == UITableViewCellEditingStyleDelete) {
         //remove the deleted object from your data source.
         UIActionSheet *logoutActionSheet = [[UIActionSheet alloc]
@@ -126,6 +173,14 @@ forRowAtIndexPath:(NSIndexPath *)indexPath {
     }
 }
 
+<<<<<<< HEAD
+=======
+/*
+ [TasksHelper deleteTaskWith
+ [self.tasks removeObjectAtIndex:indexPath.row];
+ */
+
+>>>>>>> my-temporary-work
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -136,6 +191,13 @@ forRowAtIndexPath:(NSIndexPath *)indexPath {
     [TasksHelper getTasksWithCompletionBlock:^(NSError *error, NSArray *tasks)
     {
         self.tasks = [tasks mutableCopy];
+<<<<<<< HEAD
+=======
+        NSLog(@"Num taskssss: %lu", [self.tasks count]);
+        if ([self.tasks count] > 0) {
+            NSLog(@"task: %@", [self.tasks objectAtIndex:0]);
+        }
+>>>>>>> my-temporary-work
         self.tasksTable = [[UITableView alloc] initWithFrame:CGRectMake(0, NAV_BAR_HEIGHT
 , width, height - NAV_BAR_HEIGHT)];
         self.tasksTable.delegate = self;

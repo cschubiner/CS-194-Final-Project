@@ -1,4 +1,5 @@
-from sqlalchemy import Column, Integer, String, ForeignKey, Float, DateTime, Boolean
+from sqlalchemy import Column, Integer, String
+from sqlalchemy import DateTime, ForeignKey, Boolean
 from sqlalchemy.orm import relationship, backref
 from sqlalchemy.types import Float
 from db import Base
@@ -20,6 +21,7 @@ class User(Base):
     image_url = Column(String(MAX_LENGTH))
     email = Column(String(MAX_LENGTH))
     device_id = Column(String(64))
+    last_broadcast = Column(DateTime)
     group = relationship("Group")
 
     @property
@@ -35,7 +37,6 @@ class User(Base):
             "email": self.email,
             "device_id": self.device_id
         }
-
 
     def __repr__(self):
         return "<User(firstname='%s', lastname='%s')>" % (self.first_name, self.last_name)
@@ -110,6 +111,26 @@ class Event(Base):
             "startDate": str(self.start_date),
             "endDate": str(self.end_date)
         }
+
+class Task(Base):
+    __tablename__ = "tasks"
+
+    id = Column(Integer, primary_key=True)
+    group_id = Column(Integer)
+    body = Column(String(MAX_LENGTH))
+    date = Column(DateTime, default=datetime.datetime.utcnow)
+    due_date = Column(String(MAX_LENGTH))
+
+    @property
+    def serialize(self):
+        return {
+            "id": self.id,
+            "group_id": self.group_id,
+            "body": self.body,
+            "date": str(self.date),
+            "due_date": self.due_date
+        }
+
 
 
 

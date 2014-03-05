@@ -8,12 +8,19 @@
 
 #import "CreateTasksViewController.h"
 #import "TasksHelper.h"
+<<<<<<< HEAD
 #import "TasksViewController.h"
 
 @interface CreateTasksViewController ()
 @property NSDate *date;
 @property UITextField *textField;
 @property UITextView *textView;
+=======
+
+@interface CreateTasksViewController ()
+@property NSDate *date;
+@property NSString *text;
+>>>>>>> my-temporary-work
 @end
 
 @implementation CreateTasksViewController
@@ -22,7 +29,10 @@ static const int SUBMIT_BUTTON_HEIGHT = 60;
 static const int SUBMIT_BUTTON_WIDTH = 200;
 static const int NAV_BAR_HEIGHT = 64;
 static const int DESCRIPTION_LABEL_HEIGHT = 20;
+<<<<<<< HEAD
 static const int SIDE_SPACING = 5;
+=======
+>>>>>>> my-temporary-work
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -42,11 +52,16 @@ static const int SIDE_SPACING = 5;
     int height = self.view.frame.size.height - NAV_BAR_HEIGHT;
     self.navigationItem.title = @"Create Task";
     
+<<<<<<< HEAD
     UILabel *descriptionLabel = [[UILabel alloc] initWithFrame:CGRectMake(SIDE_SPACING, NAV_BAR_HEIGHT, width - (2 * SIDE_SPACING), DESCRIPTION_LABEL_HEIGHT)];
+=======
+    UILabel *descriptionLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, NAV_BAR_HEIGHT, width, DESCRIPTION_LABEL_HEIGHT)];
+>>>>>>> my-temporary-work
     descriptionLabel.text = @"Description:";
     [self.view addSubview:descriptionLabel];
     
     //TextField
+<<<<<<< HEAD
     self.textField = [[UITextField alloc] initWithFrame:CGRectMake(SIDE_SPACING, NAV_BAR_HEIGHT + DESCRIPTION_LABEL_HEIGHT + 5, width - (SIDE_SPACING * 2), 40)];
     CGRect frameRect = self.textField.frame;
     frameRect.size.height = 53;
@@ -59,6 +74,18 @@ static const int SIDE_SPACING = 5;
     self.textView.backgroundColor = nil;
     self.textView.font = [UIFont systemFontOfSize:16];
     [self.view addSubview:self.textView];
+=======
+    UITextField *textField = [[UITextField alloc] initWithFrame:CGRectMake(0, NAV_BAR_HEIGHT + DESCRIPTION_LABEL_HEIGHT, width, 40)];
+    CGRect frameRect = textField.frame;
+    frameRect.size.height = 53;
+    textField.frame = frameRect;
+    textField.borderStyle = UITextBorderStyleLine;
+    [self.view addSubview:textField];
+    
+    UITextView *textView = [[UITextView alloc] initWithFrame:CGRectMake(0, NAV_BAR_HEIGHT + DESCRIPTION_LABEL_HEIGHT, width, 53)];
+    textView.backgroundColor = nil;
+    [self.view addSubview:textView];
+>>>>>>> my-temporary-work
     
     //Date picker
     UIDatePicker *myPicker = [[UIDatePicker alloc] initWithFrame:CGRectMake(0, 0, 320, 216)];
@@ -66,7 +93,10 @@ static const int SIDE_SPACING = 5;
                  action:@selector(pickerChanged:)
         forControlEvents:UIControlEventValueChanged];
     [myPicker setCenter:CGPointMake(width / 2, NAV_BAR_HEIGHT + height - (height / 4) - 130)];
+<<<<<<< HEAD
     [myPicker setDate:[NSDate date]];
+=======
+>>>>>>> my-temporary-work
     [self.view addSubview:myPicker];
     
     
@@ -84,20 +114,29 @@ static const int SIDE_SPACING = 5;
     [self.view addSubview:submitButton];
 }
 
+<<<<<<< HEAD
 - (void) touchesBegan:(NSSet *)touches
             withEvent:(UIEvent *)event
 {
+=======
+- (void) touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
+>>>>>>> my-temporary-work
     [self.view endEditing:YES];
 }
 
 - (void)submitButtonPressed
 {
+<<<<<<< HEAD
     NSString *text = self.textView.text;
     if(self.date == NULL || self.date == nil) {
         self.date = [NSDate date];
     }
     NSLog(@"submit button pressed %@ %@", text, self.date);
     [TasksHelper createTaskWithText:text
+=======
+    NSLog(@"submit button pressed");
+    [TasksHelper createTaskWithText:self.text
+>>>>>>> my-temporary-work
                             andDate:self.date
                  andCompletionBlock:^(NSError *error, NSArray *tasks)
      {
@@ -105,10 +144,13 @@ static const int SIDE_SPACING = 5;
              NSLog(@"Error creating a task: %@", error);
          } else {
              NSLog(@"Created Task");
+<<<<<<< HEAD
              TasksViewController *tasksVC = [self.navigationController.viewControllers objectAtIndex:self.navigationController.viewControllers.count - 2];
              tasksVC.tasks = [tasks mutableCopy];
              [tasksVC.tasksTable reloadData];
              [self.navigationController popViewControllerAnimated:YES];
+=======
+>>>>>>> my-temporary-work
          }
      }];
 }

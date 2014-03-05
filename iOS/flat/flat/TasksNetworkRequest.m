@@ -20,7 +20,10 @@
                                      success:^(NSURLSessionDataTask *task, id JSON) {
                                          NSError *error = [ErrorHelper apiErrorFromDictionary:JSON];
                                          if (!error) {
+<<<<<<< HEAD
                                              NSLog(@"JSON: %@", JSON);
+=======
+>>>>>>> my-temporary-work
                                              NSMutableArray *tasksArray = [JSON objectForKey:@"tasks"];
                                              NSMutableArray *tasksArrayReturn = [[NSMutableArray alloc] init];
                                              for (NSMutableDictionary* userJSON in tasksArray) {
@@ -46,15 +49,23 @@
                    andCompletionBlock:(TaskNetworkCompletionHandler)completion
 {
     NSDictionary *params = @{@"group_id":groupId,
+<<<<<<< HEAD
                              @"due_date":[NSString stringWithFormat:@"%@", date],
                              @"body":text};
     NSLog(@"after making dictionary");
+=======
+                             @"due_date":date,
+                             @"body":text};
+>>>>>>> my-temporary-work
     [[FlatAPIClientManager sharedClient] POST:@"/tasks/add"
                                   parameters:params
                                      success:^(NSURLSessionDataTask *task, id JSON) {
                                          NSError *error = [ErrorHelper apiErrorFromDictionary:JSON];
                                          if (!error) {
+<<<<<<< HEAD
                                              NSLog(@"Post JSON: %@", JSON);
+=======
+>>>>>>> my-temporary-work
                                              NSMutableArray *tasksArray = [JSON objectForKey:@"tasks"];
                                              NSMutableArray *tasksArrayReturn = [[NSMutableArray alloc] init];
                                              for (NSMutableDictionary* userJSON in tasksArray) {
@@ -74,6 +85,7 @@
                                      }];
 }
 
+<<<<<<< HEAD
 + (void)deleteTaskWithTaskId:(NSNumber *)taskId
                   andGroupId:(NSNumber *)groupId
           andCompletionBlock:(TaskNetworkCompletionHandler)completion
@@ -81,6 +93,13 @@
     NSDictionary *params = @{@"task_id":taskId,
                              @"group_id":groupId};
     [[FlatAPIClientManager sharedClient] POST:@"tasks/delete"
+=======
++ (void)deleteTaskWithTaskId:taskId
+          andCompletionBlock:(TaskNetworkCompletionHandler)completion
+{
+    NSDictionary *params = @{@"task_id":taskId};
+    [[FlatAPIClientManager sharedClient] POST:@""
+>>>>>>> my-temporary-work
                                    parameters:params
                                       success:^(NSURLSessionDataTask *task, id JSON) {
                                           NSError *error = [ErrorHelper apiErrorFromDictionary:JSON];
@@ -105,6 +124,7 @@
 
 }
 
+<<<<<<< HEAD
 + (void)editTaskWithTaskId:(NSNumber *)taskId
                    andBody:(NSString *)body
                    andDate:(NSDate *)date
@@ -142,4 +162,6 @@
 
 }
 
+=======
+>>>>>>> my-temporary-work
 @end

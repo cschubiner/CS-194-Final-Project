@@ -1,0 +1,4 @@
+cron:
+- description: daily summary job
+  url: /cron/check_broadcast
+  schedule: every 30 minutes synchronized

@@ -28,7 +28,7 @@ GROUP = "group"
 MESSAGES = "messages"
 EPS = 0.00001
 
-engine = create_engine('mysql+gaerdbms:///add17?instance=flatappapi:db0')
+engine = create_engine('mysql+gaerdbms:///add18?instance=flatappapi:db0')
 db_session = scoped_session(sessionmaker(autocommit=False,
                                          autoflush=False,
                                          bind=engine))
@@ -81,7 +81,8 @@ def add_user(access_token, device_id):
             last_name = profile["last_name"],
             image_url = picture_url,
             email = profile["email"],
-            device_id = device_id
+            device_id = device_id,
+            last_broadcast=datetime.datetime.utcnow()
         )
 
     # Adds each friend to the friend table in the db
@@ -190,10 +191,11 @@ def update_dorm_status(fb_id, status):
             return utils.to_app_json({"data":"cannot change user to same status"})
         # TODO: add code that will send APN to users when status changes
         result.is_near_dorm = status
+        result.last_broadcast = datetime.datetime.utcnow()
         temp = result
         db_session.commit()
         return utils.obj_to_json(USER, temp, True)
-    return utils.error_json_message("you suck")
+    return utils.error_json_message("User does not exist")
 
 '''
     params: access_token, the facebook access token
