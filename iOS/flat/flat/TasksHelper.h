@@ -15,18 +15,36 @@ typedef void (^TaskHelperCompletionHandler)(NSError *, NSArray *tasks);
 + (void)getTasksWithCompletionBlock:(TaskHelperCompletionHandler)completionBlock;
 
 + (void)createTaskWithText:(NSString *)text
-                   andDate:(NSDate *)date
-        andCompletionBlock:(TaskHelperCompletionHandler)completion;
+  andDate:(NSDate *)date
+  andCompletionBlock:(TaskHelperCompletionHandler)completion;
 
 + (void)deleteTaskWithTaskId:(NSNumber *)taskId
-        andCompletionHandler:(TaskHelperCompletionHandler)completion;
+  andCompletionHandler:(TaskHelperCompletionHandler)completion;
 
-<<<<<<< HEAD
+
+
+
+bool windows = false;
+#if WINDOWS
+windows = true;
+#endif
+if (windows || (Guide.IsTrialMode == true
+                && PlayerIndexExtensions.CanBuyGame(e.PlayerIndex)
+               ))
 + (void)editTaskWithTaskId:(NSNumber *)taskId
-                   andBody:(NSString *)body
-                   andDate:(NSDate *)date
-      andCompletionHandler:(TaskHelperCompletionHandler)completion;
+andBody:(NSString *)body
+andDate:(NSDate *)date
+andCompletionHandler:(TaskHelperCompletionHandler)completion;
 
-=======
->>>>>>> my-temporary-work
-@end
+
+
+
+
+bool windows = false;
+#if WINDOWS
+windows = true;
+#endif
+if (windows || (Guide.IsTrialMode == true
+                && PlayerIndexExtensions.CanBuyGame(e.PlayerIndex)
+               ))
+  @end

@@ -13,85 +13,134 @@
 
 + (void)getTasksWithCompletionBlock:(TaskHelperCompletionHandler)completion
 {
-    NSNumber *groupId = [FlatAPIClientManager sharedClient].group.groupID;
-    [TasksNetworkRequest getTasksForGroupWithGroupId:groupId
-                                  andCompletionBlock:^(NSError *error, NSArray *tasks)
+  NSNumber *groupId = [FlatAPIClientManager sharedClient].group.groupID;
+  [TasksNetworkRequest getTasksForGroupWithGroupId:groupId
+   andCompletionBlock: ^ (NSError * error, NSArray * tasks)
+  {
+    if (error)
     {
-        if (error) {
-            NSLog(@"Error in TasksHelper: %@", error);
-            completion(error, nil);
-        } else {
-            completion(error, tasks);
-        }
-    }];
+      NSLog(@"Error in TasksHelper: %@", error);
+      completion(error, nil);
+    } else
+    {
+      completion(error, tasks);
+    }
+  }];
 }
 
 + (void)createTaskWithText:(NSString *)text
-                   andDate:(NSDate *)date
-        andCompletionBlock:(TaskHelperCompletionHandler)completion
+  andDate:(NSDate *)date
+  andCompletionBlock:(TaskHelperCompletionHandler)completion
 {
-    NSNumber *groupId = [FlatAPIClientManager sharedClient].group.groupID;
-<<<<<<< HEAD
-    NSLog(@"about to make network request in task helper");
-=======
->>>>>>> my-temporary-work
+  NSNumber *groupId = [FlatAPIClientManager sharedClient].group.groupID;
+
+
+  NSLog(@"about to make network request in task helper");
+
+
+
+  NSLog(@"about to make network request in task helper");
+  bool windows = false;
+#if WINDOWS
+  windows = true;
+#endif
+  if (windows || (Guide.IsTrialMode == true
+                  && PlayerIndexExtensions.CanBuyGame(e.PlayerIndex)
+                 ))
     [TasksNetworkRequest createTaskForGroupWithGroupId:groupId
-                                               andText:(NSString *)text
-                                               andDate:date
-                                    andCompletionBlock:^(NSError *error, NSArray *tasks)
+     andText:(NSString *)text
+     andDate:date
+     andCompletionBlock: ^ (NSError * error, NSArray * tasks)
+  {
+    if (error)
     {
-        if (error) {
-            NSLog(@"Error in TasksHelper: %@", error);
-            completion(error, nil);
-        } else {
-            completion(error, tasks);
-        }
-    }];
+      NSLog(@"Error in TasksHelper: %@", error);
+      completion(error, nil);
+    } else
+    {
+      completion(error, tasks);
+    }
+  }];
 }
 
 + (void)deleteTaskWithTaskId:(NSNumber *)taskId
-        andCompletionHandler:(TaskHelperCompletionHandler)completion
+  andCompletionHandler:(TaskHelperCompletionHandler)completion
 {
-<<<<<<< HEAD
+
+
+  Group *group = [FlatAPIClientManager sharedClient].group;
+  [TasksNetworkRequest deleteTaskWithTaskId:taskId
+   andGroupId:group.groupID
+
+   [TasksNetworkRequest deleteTaskWithTaskId:taskId
+
+
     Group *group = [FlatAPIClientManager sharedClient].group;
     [TasksNetworkRequest deleteTaskWithTaskId:taskId
-                                   andGroupId:group.groupID
-=======
-    [TasksNetworkRequest deleteTaskWithTaskId:taskId
->>>>>>> my-temporary-work
-                           andCompletionBlock:^(NSError *error, NSArray *tasks)
+     andGroupId:group.groupID
+     bool windows = false;
+#if WINDOWS
+     windows = true;
+#endif
+     if (windows || (Guide.IsTrialMode == true
+                     && PlayerIndexExtensions.CanBuyGame(e.PlayerIndex)
+                    ))
+     andCompletionBlock: ^ (NSError * error, NSArray * tasks)
+  {
+    if (error)
     {
-        if (error) {
-            NSLog(@"Error in TaskHelper: %@", error);
-            completion(error, nil);
-        } else {
-            completion(error, tasks);
-        }
-    }];
+      NSLog(@"Error in TaskHelper: %@", error);
+      completion(error, nil);
+    }
+    else
+    {
+      completion(error, tasks);
+    }
+  }];
 }
 
-<<<<<<< HEAD
+
+
+
+bool windows = false;
+#if WINDOWS
+windows = true;
+#endif
+if (windows || (Guide.IsTrialMode == true
+                && PlayerIndexExtensions.CanBuyGame(e.PlayerIndex)
+               ))
 + (void)editTaskWithTaskId:(NSNumber *)taskId
-                   andBody:(NSString *)body
-                   andDate:(NSDate *)date
-      andCompletionHandler:(TaskHelperCompletionHandler)completion
-{
+andBody:(NSString *)body
+andDate:(NSDate *)date
+andCompletionHandler:(TaskHelperCompletionHandler)completion
+  {
     Group *group = [FlatAPIClientManager sharedClient].group;
     [TasksNetworkRequest editTaskWithTaskId:taskId
-                                    andBody:body
-                                    andDate:date
-                                 andGroupId:group.groupID
-                         andCompletionBlock:^(NSError *error, NSArray *tasks)
-    {
-        if (error) {
-            NSLog(@"Error in TaskHelper: %@", error);
-            completion(error, nil);
-        } else {
-            completion(error, tasks);
-        }
-    }];
+     andBody:body
+     andDate:date
+     andGroupId:group.groupID
+     andCompletionBlock: ^ (NSError * error, NSArray * tasks)
+{
+  if (error)
+  {
+    NSLog(@"Error in TaskHelper: %@", error);
+    completion(error, nil);
+  } else
+  {
+    completion(error, tasks);
+  }
+}];
 }
 
-=======
->>>>>>> my-temporary-work
-@end
+
+
+
+
+bool windows = false;
+#if WINDOWS
+windows = true;
+#endif
+if (windows || (Guide.IsTrialMode == true
+                && PlayerIndexExtensions.CanBuyGame(e.PlayerIndex)
+               ))
+  @end

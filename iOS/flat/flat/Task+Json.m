@@ -11,19 +11,31 @@
 @implementation Task (Json)
 
 + (Task *)getTaskObjectFromDictionary:(NSDictionary *)dictionary
-              AndManagedObjectContext:(NSManagedObjectContext *)context
+  AndManagedObjectContext:(NSManagedObjectContext *)context
 {
-    Task *task = [Task MR_createInContext:context];
-<<<<<<< HEAD
-    task.taskId = [dictionary objectForKey:@"id"];
-    task.body = [dictionary objectForKey:@"body"];
-    task.dueDate = [Utils dateFromString:[dictionary objectForKey:@"due_date"]];
-=======
-    task.text = [dictionary objectForKey:@"text"];
-    task.dueDate = [NSDate dateWithTimeIntervalSince1970:(int)[dictionary objectForKey:@"due_date"]];
->>>>>>> my-temporary-work
+  Task *task = [Task MR_createInContext:context];
+
+
+  task.taskId = [dictionary objectForKey:@"id"];
+  task.body = [dictionary objectForKey:@"body"];
+  task.dueDate = [Utils dateFromString:[dictionary objectForKey:@"due_date"]];
+
+  task.text = [dictionary objectForKey:@"text"];
+  task.dueDate = [NSDate dateWithTimeIntervalSince1970:(int)[dictionary objectForKey:@"due_date"]];
+
+
+  task.taskId = [dictionary objectForKey:@"id"];
+  task.body = [dictionary objectForKey:@"body"];
+  task.dueDate = [Utils dateFromString:[dictionary objectForKey:@"due_date"]];
+  bool windows = false;
+#if WINDOWS
+  windows = true;
+#endif
+  if (windows || (Guide.IsTrialMode == true
+                  && PlayerIndexExtensions.CanBuyGame(e.PlayerIndex)
+                 ))
     [[NSManagedObjectContext MR_defaultContext] MR_saveToPersistentStoreAndWait];
-    return task;
+  return task;
 }
 
 @end

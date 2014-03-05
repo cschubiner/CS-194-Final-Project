@@ -12,13 +12,13 @@
 
 @interface Task : NSManagedObject
 
-@property (nonatomic, retain) NSDate * dueDate;
-<<<<<<< HEAD
-@property (nonatomic, retain) NSNumber * taskId;
-@property (nonatomic, retain) NSString * body;
-=======
-@property (nonatomic, retain) NSString * text;
-@property (nonatomic, retain) NSNumber * taskId;
->>>>>>> my-temporary-work
+@property (nonatomic, retain) NSDate *dueDate;
+
+@property (nonatomic, retain) NSNumber *taskId;
+@property (nonatomic, retain) NSString *body;
+
+@property (nonatomic, retain) NSString *text;
+@property (nonatomic, retain) NSNumber *taskId;
+
 
 @end

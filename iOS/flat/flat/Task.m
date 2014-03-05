@@ -12,12 +12,12 @@
 @implementation Task
 
 @dynamic dueDate;
-<<<<<<< HEAD
+
 @dynamic taskId;
 @dynamic body;
-=======
+
 @dynamic text;
 @dynamic taskId;
->>>>>>> my-temporary-work
+
 
 @end

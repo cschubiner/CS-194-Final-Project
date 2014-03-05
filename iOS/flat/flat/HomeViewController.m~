@@ -135,9 +135,9 @@
 {
     JSMessage *currMessage = [self.messages objectAtIndex:indexPath.row];
     ProfileUser *user = [FlatAPIClientManager sharedClient].profileUser;
-<<<<<<< HEAD
+
     if ([currMessage.senderID isEqualToNumber:user.userID]) {
-=======
+
     
 
     if ([currMessage.senderID isEqualToNumber2: user.userID]) {

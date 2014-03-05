@@ -60,9 +60,12 @@
 		F27291A318C429CC001C32AE /* Task.m in Sources */ = {isa = PBXBuildFile; fileRef = F27291A218C429CC001C32AE /* Task.m */; };
 		F27291A618C5ECDE001C32AE /* TaskDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F27291A518C5ECDE001C32AE /* TaskDetailViewController.m */; };
 		F27291A918C5EDB9001C32AE /* EditTaskViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F27291A818C5EDB9001C32AE /* EditTaskViewController.m */; };
+<<<<<<< HEAD
 =======
 		F27291A018C425AA001C32AE /* Task.m in Sources */ = {isa = PBXBuildFile; fileRef = F272919F18C425AA001C32AE /* Task.m */; };
 >>>>>>> my-temporary-work
+=======
+>>>>>>> added files to edit and view tasks
 		F279A6A418BD3B9E007A2A9E /* CalendarMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = F279A6A318BD3B9E007A2A9E /* CalendarMessage.m */; };
 		F279A6A718BD3DA7007A2A9E /* CalendarMessage+Json.m in Sources */ = {isa = PBXBuildFile; fileRef = F279A6A618BD3DA7007A2A9E /* CalendarMessage+Json.m */; };
 		F2C51D94188C887400489989 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F2C51D93188C887400489989 /* Foundation.framework */; };
@@ -189,10 +192,13 @@
 		F27291A518C5ECDE001C32AE /* TaskDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TaskDetailViewController.m; sourceTree = "<group>"; };
 		F27291A718C5EDB9001C32AE /* EditTaskViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EditTaskViewController.h; sourceTree = "<group>"; };
 		F27291A818C5EDB9001C32AE /* EditTaskViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EditTaskViewController.m; sourceTree = "<group>"; };
+<<<<<<< HEAD
 =======
 		F272919E18C425AA001C32AE /* Task.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Task.h; sourceTree = "<group>"; };
 		F272919F18C425AA001C32AE /* Task.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Task.m; sourceTree = "<group>"; };
 >>>>>>> my-temporary-work
+=======
+>>>>>>> added files to edit and view tasks
 		F279A6A218BD3B9E007A2A9E /* CalendarMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CalendarMessage.h; sourceTree = "<group>"; };
 		F279A6A318BD3B9E007A2A9E /* CalendarMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CalendarMessage.m; sourceTree = "<group>"; };
 		F279A6A518BD3DA7007A2A9E /* CalendarMessage+Json.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "CalendarMessage+Json.h"; sourceTree = "<group>"; };
@@ -574,12 +580,18 @@
 				F2D2E7B318C3EB2C0016BF66 /* CreateTasksViewController.h */,
 				F2D2E7B418C3EB2C0016BF66 /* CreateTasksViewController.m */,
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> added files to edit and view tasks
 				F27291A418C5ECDE001C32AE /* TaskDetailViewController.h */,
 				F27291A518C5ECDE001C32AE /* TaskDetailViewController.m */,
 				F27291A718C5EDB9001C32AE /* EditTaskViewController.h */,
 				F27291A818C5EDB9001C32AE /* EditTaskViewController.m */,
+<<<<<<< HEAD
 =======
 >>>>>>> my-temporary-work
+=======
+>>>>>>> added files to edit and view tasks
 			);
 			name = Tasks;
 			sourceTree = "<group>";
@@ -764,9 +776,13 @@
 				F2C51DDC188C960B00489989 /* OpeningViewController.m in Sources */,
 				F2D2E7B818C3EC100016BF66 /* TasksHelper.m in Sources */,
 <<<<<<< HEAD
+<<<<<<< HEAD
 				F27291A618C5ECDE001C32AE /* TaskDetailViewController.m in Sources */,
 =======
 >>>>>>> my-temporary-work
+=======
+				F27291A618C5ECDE001C32AE /* TaskDetailViewController.m in Sources */,
+>>>>>>> added files to edit and view tasks
 				F2C51DDF188C963D00489989 /* OpeningNavigationController.m in Sources */,
 				F279A6A718BD3DA7007A2A9E /* CalendarMessage+Json.m in Sources */,
 				F2D2E7B518C3EB2C0016BF66 /* CreateTasksViewController.m in Sources */,
