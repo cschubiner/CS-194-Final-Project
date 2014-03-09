@@ -108,10 +108,10 @@ def update_location():
         group = request.form['groupID']
         lat = request.form['lat']
         lon = request.form['long']
-        return db.update_location(group, lat, lon)
+        return groups.update_location(group, lat, lon)
     elif request.method == 'POST' and request.data:
         args = request.data.split()
-        return db.update_location(args[0], args[1], args[2])
+        return groups.update_location(args[0], args[1], args[2])
 
 @app.route('/facebook/user/friendgroups', methods = ['GET', 'POST'])
 def get_user_friends():

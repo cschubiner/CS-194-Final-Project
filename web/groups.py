@@ -12,6 +12,8 @@ import db
 from sqlalchemy import and_
 
 NUM_COLORS = 10
+NOT_BROADCASTING = 2
+EPS = 0.00001
 
 '''
     Implements the /facebook/user/<user_id>/friendgroups endpoint
@@ -151,3 +153,60 @@ def get_group_by_id(group_id):
         if group:
             return utils.obj_to_json('group', group, True)
     return utils.error_json_message('Group does not exist')
+
+
+def update_location(group, lat, lon):
+    result = db_session.query(models.Group).filter(models.Group.id == int(group)).first()
+
+    print "PARAMS"
+    print lat
+    print lon
+    print "PARAMS AS FLOATS"
+    print float(lat)
+    print float(lon)
+    print "STORED IN DB"
+    print float(result.latitude)
+    print float(result.longitude)
+    print "NEW NUMBERS"
+    latitude = float(lat)
+    longitude = float(lon)
+    print latitude
+    print longitude
+
+    if result:
+        if latitude != result.latitude and longitude != result.longitude:
+            # Updating both
+            print "updating both"
+            result.latitude = latitude
+            result.longitude = longitude
+        elif latitude == result.latitude and longitude != result.longitude:
+            print "updating longitude only"
+            # Updating longitude only
+            result.longitude = longitude
+        elif latitude != result.latitude and longitude == result.longitude:
+            #updating latitude only
+            print "updating latitude only"
+            result.latitude = latitude
+        else:
+            print "updating none"
+            # Update none of them
+            # Updating each user to not broadcasting
+            update_broadcasting_status(group)
+        temp = result
+        db_session.commit()
+        return utils.obj_to_json('group', temp, True)
+    return utils.to_app_json({})
+
+'''
+    Changes all users in specified group to NOT_BROADCASTING
+
+    This method is used when the user changes the location
+    of his/her group
+'''
+def update_broadcasting_status(group_id):
+    users = db_session.query(models.User).filter(models.User.group_id == group_id)
+    if users:
+        for user in users:
+            user.is_near_dorm = NOT_BROADCASTING
+        db_session.commit()
+    return 1

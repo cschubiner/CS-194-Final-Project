@@ -56,8 +56,8 @@ class Group(Base):
 
     id = Column(Integer, primary_key=True)
     curr_color = Column(Integer)
-    latitude = Column(Float())
-    longitude = Column(Float())
+    latitude = Column(Float(precision=53))
+    longitude = Column(Float(precision=53))
 
     users = relationship("User")
 

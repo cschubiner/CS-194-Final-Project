@@ -26,9 +26,8 @@ USER = "user"
 USERS = "users"
 GROUP = "group"
 MESSAGES = "messages"
-EPS = 0.00001
 
-engine = create_engine('mysql+gaerdbms:///add18?instance=flatappapi:db0')
+engine = create_engine('mysql+gaerdbms:///add19?instance=flatappapi:db0')
 db_session = scoped_session(sessionmaker(autocommit=False,
                                          autoflush=False,
                                          bind=engine))
@@ -44,19 +43,6 @@ import models
 def db_init():
     print "created models"
     Base.metadata.create_all(engine)
-
-"""
-    Function: get_group_id
-    @return incremented group counter
-"""
-def get_group_id():
-    curr_counter = db_session.query(models.GroupId).first()
-    temp = curr_counter.counter
-    temp += 1
-    db_session.delete(curr_counter)
-    db_session.add(models.GroupId(counter=temp))
-    db_session.commit()
-    return temp
 
 '''
     function: add_user
@@ -208,60 +194,6 @@ def get_fbid(access_token):
     profile = graph.get_object("me")
     return profile['id']
 
-def update_location(group, lat, lon):
-    result = db_session.query(models.Group).filter(models.Group.id == int(group)).first()
-
-    print "PARAMS"
-    print lat
-    print lon
-    print "PARAMS AS FLOATS"
-    print str(float(lat))
-    print str(float(lon))
-    print "STORED IN DB"
-    print str(float(result.latitude))
-    print str(float(result.longitude))
-    latitude = float(lat)
-    longitude = float(lon)
-
-    # if result:
-    #     if latitude != result.latitude and longitude != result.longitude:
-    #         # Updating both
-    #         result.latitude = latitude
-    #         result.longitude = longitude
-    #     elif latitude == result.latitude and longitude != result.longitude:
-    #         # Updating longitude only
-    #         result.longitude = longitude
-    #     elif latitude != result.latitude and longitude == result.longitude:
-    #         #updating latitude only
-    #         result.latitude = latitude
-    #     else:
-    #         # Update none of them
-    #     temp = result
-    #     db_session.commit()
-    #     return utils.obj_to_json('group', temp, True)
-
-    if result:
-        if abs(float(result.latitude) - float(lat)) < EPS and abs(float(result.longitude) - float(lon)) < EPS:
-            print "UPDATING NOTHING"
-            return utils.obj_to_json('group', result, True)
-        elif abs(float(result.latitude) - float(lat )) < EPS and abs(float(result.longitude) - float(lon)) > EPS:
-            print "UPDATING LONGITUDE ONLY"
-            # update longitude only
-            result.longitude = lon
-        elif abs(float(result.latitude) - float(lat)) > EPS and abs(float(result.longitude) - float(lon)) < EPS:
-            print "UPDATING LATITUDE ONLY"
-            # update latitude only
-            result.latitude = lat
-        else:
-            print "UPDATING BOTH"
-            # update both
-            result.latitude = lat
-            result.longitude = lon
-        temp = result
-        db_session.commit()
-        return utils.obj_to_json('group', temp, True)
-    return utils.to_app_json({})
-
 '''
     Function: get_messages
     param: fb_id
@@ -340,7 +272,6 @@ def add_new_message(body, fb_id):
     return utils.error_json_message("hello")
 
 def get_name_from_fbid(fb_id):
-
     # Check for the event message
     if fb_id == '0':
         return 'Event'
