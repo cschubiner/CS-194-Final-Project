@@ -24,7 +24,7 @@
         _sharedClient.locationManager = [[CLLocationManager alloc] init];
         _sharedClient.locationManager.delegate = _sharedClient;
         _sharedClient.locationManager.desiredAccuracy = kCLLocationAccuracyBest;
-        _sharedClient.locationManager.distanceFilter = 15; // meters
+        _sharedClient.locationManager.distanceFilter = 20; // meters
         [_sharedClient.locationManager startMonitoringForRegion:[_sharedClient getGroupLocationRegion]];
         [_sharedClient.locationManager startUpdatingLocation];
     });
@@ -149,7 +149,7 @@
     CLLocationDegrees latitude = [[[[FlatAPIClientManager sharedClient] group] latLocation] doubleValue];
     CLLocationDegrees longitude = [[[[FlatAPIClientManager sharedClient] group] longLocation] doubleValue];
     CLLocationCoordinate2D centerCoordinate = CLLocationCoordinate2DMake(latitude, longitude);
-    CLLocationDistance regionRadius = 20.0f; //geofence radius
+    CLLocationDistance regionRadius = 60.0f; //geofence radius
     
     if(regionRadius > self.locationManager.maximumRegionMonitoringDistance)
     {
