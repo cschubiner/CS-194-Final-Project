@@ -14,6 +14,7 @@
 @property NSDate *date;
 @property UITextField *textField;
 @property UITextView *textView;
+@property UIButton *submitButton;
 @end
 
 @implementation CreateTasksViewController
@@ -71,17 +72,17 @@ static const int SIDE_SPACING = 5;
     
     
     //submit button
-    UIButton *submitButton = [[UIButton alloc] initWithFrame:CGRectMake(width / 2 - SUBMIT_BUTTON_WIDTH / 2, height - SUBMIT_BUTTON_HEIGHT, SUBMIT_BUTTON_WIDTH, SUBMIT_BUTTON_HEIGHT)];
-    [submitButton setTitle:@"Submit"
+    self.submitButton = [[UIButton alloc] initWithFrame:CGRectMake(width / 2 - SUBMIT_BUTTON_WIDTH / 2, height - SUBMIT_BUTTON_HEIGHT, SUBMIT_BUTTON_WIDTH, SUBMIT_BUTTON_HEIGHT)];
+    [self.submitButton setTitle:@"Submit"
                   forState:UIControlStateNormal];
-    [submitButton setTitleColor:[UIColor whiteColor]
+    [self.submitButton setTitleColor:[UIColor whiteColor]
                        forState:UIControlStateNormal];
-    [submitButton.titleLabel setFont:[UIFont systemFontOfSize:16]];
-    [submitButton addTarget:self
+    [self.submitButton.titleLabel setFont:[UIFont systemFontOfSize:16]];
+    [self.submitButton addTarget:self
                      action:@selector(submitButtonPressed)
            forControlEvents:UIControlEventTouchUpInside];
-    [submitButton setBackgroundColor:[UIColor greenColor]];
-    [self.view addSubview:submitButton];
+    [self.submitButton setBackgroundColor:[UIColor greenColor]];
+    [self.view addSubview:self.submitButton];
 }
 
 - (void) touchesBegan:(NSSet *)touches
@@ -92,6 +93,7 @@ static const int SIDE_SPACING = 5;
 
 - (void)submitButtonPressed
 {
+    [self.submitButton setEnabled:NO];
     NSString *text = self.textView.text;
     if(self.date == NULL || self.date == nil) {
         self.date = [NSDate date];
@@ -108,6 +110,7 @@ static const int SIDE_SPACING = 5;
              TasksViewController *tasksVC = [self.navigationController.viewControllers objectAtIndex:self.navigationController.viewControllers.count - 2];
              tasksVC.tasks = [tasks mutableCopy];
              [tasksVC.tasksTable reloadData];
+             [self.submitButton setEnabled:YES];
              [self.navigationController popViewControllerAnimated:YES];
          }
      }];
