@@ -33,20 +33,23 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    [self setNeedsStatusBarAppearanceUpdate];
     
     //edit for width of the sidebar
     self.leftFixedWidth = self.view.frame.size.width * .5 * .9;
     self.rightGapPercentage = 0.0f;
     self.allowRightSwipe = YES;
     self.rightFixedWidth = self.view.frame.size.width * .85;
-    //    self.allowRightOverpan= YES;
     
-    //    self.navigationController.navigationBar.hidden = NO;
-    //    self.navigationController.navigationBar.barTintColor = [UIColor whiteColor];
     self.navigationController.navigationBar.tintColor = [UIColor blackColor]; //sets text color
+    self.navigationController.navigationBar.barTintColor = [UIColor blackColor];
     self.navigationController.navigationBar.translucent = YES;
     self.navigationController.navigationBar.alpha = .01;
+    [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName : [UIColor whiteColor]}];
     [[self navigationItem] setTitle:@"Flat"];
+    [self.navigationController.navigationBar setTitleTextAttributes:
+     @{ NSFontAttributeName: [UIFont fontWithName:@"HelveticaNeue-UltraLight" size:20.0f], NSForegroundColorAttributeName: [UIColor whiteColor]}];
+    
     
     //    UIBarButtonItem *leftBarButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"menubar"]
     //                                                                      style:UIBarButtonItemStylePlain
@@ -59,11 +62,32 @@
     //    [face setImage:faceImage forState:UIControlStateNormal];
     //    UIBarButtonItem *faceBtn = [[UIBarButtonItem alloc] initWithCustomView:face];
     
-    UIBarButtonItem* lbb = [[UIBarButtonItem alloc]initWithTitle:@"Settings" style:UIBarButtonItemStyleBordered target:self action:@selector(openSettings)];
-    [lbb setTintColor:[UIColor blackColor]];
+    //    UIBarButtonItem* lbb = [[UIBarButtonItem alloc]initWithTitle:@"Settings" style:UIBarButtonItemStyleBordered target:self action:@selector(openSettings)];
+    //    [lbb setTintColor:[UIColor whiteColor]];
+    
+    
+    UIImage* image = [UIImage imageNamed:@"circleicon.png"];
+    CGRect frame = CGRectMake(0, 0, image.size.width + 5, image.size.height + 5);
+    UIButton* someButton = [[UIButton alloc] initWithFrame:frame];
+    [someButton setBackgroundImage:image forState:UIControlStateNormal];
+    [someButton setShowsTouchWhenHighlighted:YES];
+    UIBarButtonItem* someBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:someButton];
+    [self.navigationItem setRightBarButtonItem:someBarButtonItem];
+    
+    UIImage* image2 = [UIImage imageNamed:@"listicon.png"];
+    CGRect frame2 = CGRectMake(0, 0, image2.size.width, image2.size.height);
+    UIButton* someButton2 = [[UIButton alloc] initWithFrame:frame2];
+    [someButton2 setBackgroundImage:image2 forState:UIControlStateNormal];
+    [someButton2 setShowsTouchWhenHighlighted:YES];
+    UIBarButtonItem* someBarButtonItem2 = [[UIBarButtonItem alloc] initWithCustomView:someButton2];
+    [self.navigationItem setRightBarButtonItem: someBarButtonItem2];
+    //[someBarButtonItem release];
+    //[someButton release];
     
     //    self.navigationItem.leftBarButtonItem = leftBarButton;
-    self.navigationItem.leftBarButtonItem = lbb;
+    self.navigationItem.leftBarButtonItem = someBarButtonItem;
+    self.navigationItem.rightBarButtonItem = someBarButtonItem2;
+
     //    UIBarButtonItem *rightBarButton = [[UIBarButtonItem alloc]
     //                               initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh
     //                                       target:self

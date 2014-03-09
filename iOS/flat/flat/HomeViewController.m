@@ -262,21 +262,19 @@
 
 
 -(UIImageView *)avatarImageViewForRowAtIndexPath:(NSIndexPath *)indexPath {
-    NSLog(@"Getting messages n");
     JSMessage *currMessage = [self.messages objectAtIndex:indexPath.row];
     
-    NSLog(@"Getting messages i");
     if (![currMessage.senderID isEqualToNumber2:[NSNumber numberWithInt:0]]) {
         
-
+        
         UIColor * bubbleColor = [ProfileUser getColorFromUserID:currMessage.senderID];
         
         
         UIView * backView = [[UIView alloc] initWithFrame:CGRectMake(40,15,70,70)];
         backView.backgroundColor = [UIColor whiteColor];
-        UIView * circleView = [[UIView alloc] initWithFrame:CGRectMake(0,0,70,70)];
+        UIView * circleView = [[UIView alloc] initWithFrame:CGRectMake(5,6,60,60)];
         circleView.alpha = 1.0;
-        circleView.layer.cornerRadius = 35;
+        circleView.layer.cornerRadius = 30;
         circleView.backgroundColor = bubbleColor;
         
         UILabel *name = [[UILabel alloc]initWithFrame:CGRectMake(20, 1, 70, 70)];
@@ -290,7 +288,6 @@
         return [[UIImageView alloc]initWithImage: [HomeViewController imageWithView:backView]];
     }
     UIImage * image = [JSAvatarImageFactory avatarImageNamed:@"calendar+icon" croppedToCircle:NO];
-    NSLog(@"Getting messages b");
     return [[UIImageView alloc] initWithImage:image];
 }
 
