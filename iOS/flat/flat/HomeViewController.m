@@ -44,13 +44,15 @@
 
 - (void)getMessages
 {
-    NSLog(@"Getting messages");
+    NSLog(@"Getting messages 0");
     [MessageHelper getMessagesWithCompletionBlock:^(NSError *error, NSArray *messages) {
         //        NSLog(@"MESSAGES ARE %@", messages);
+    NSLog(@"Getting messages 1");
         self.messages = [messages mutableCopy];
         [self.tableView reloadData];
         [self.refresh endRefreshing];
         [self scrollToBottomAnimated:YES];
+    NSLog(@"Getting messages 2");
     }];
 }
 
@@ -97,12 +99,15 @@
 
 - (void)loadInitialMessages
 {
+    NSLog(@"Getting messages y");
     [ProfileUserHelper getUsersFromGroupID:[[FlatAPIClientManager sharedClient]profileUser].groupID withCompletionBlock:^(NSError * error, NSMutableArray * users) {
         [[FlatAPIClientManager sharedClient] setUsers:users];
         [MessageHelper getMessagesWithCompletionBlock:^(NSError *error, NSArray *messages) {
             self.messages = [messages mutableCopy];
             [self.tableView reloadData];
             [self scrollToBottomAnimated:NO];
+            
+    NSLog(@"Getting messages z");
         }];
     }];
 }
@@ -133,6 +138,7 @@
 
 - (JSBubbleMessageType)messageTypeForRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    NSLog(@"Getting messages znz");
     JSMessage *currMessage = [self.messages objectAtIndex:indexPath.row];
     ProfileUser *user = [FlatAPIClientManager sharedClient].profileUser;
     
@@ -149,6 +155,7 @@
 - (UIImageView *)bubbleImageViewWithType:(JSBubbleMessageType)type
                        forRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    NSLog(@"Getting messages zzk");
     JSMessage *currMessage = [self.messages objectAtIndex:indexPath.row];
     UIColor * bubbleColor;
     
@@ -175,32 +182,15 @@
 
 - (void)configureCell:(JSBubbleMessageCell *)cell atIndexPath:(NSIndexPath *)indexPath
 {
-    //    if ([cell messageType] == JSBubbleMessageTypeOutgoing) {
-    //        cell.bubbleView.textView.textColor = [UIColor whiteColor];
-    //
-    //        if ([cell.bubbleView.textView respondsToSelector:@selector(linkTextAttributes)]) {
-    //            NSMutableDictionary *attrs = [cell.bubbleView.textView.linkTextAttributes mutableCopy];
-    //            [attrs setValue:[UIColor blueColor] forKey:UITextAttributeTextColor];
-    //
-    //            cell.bubbleView.textView.linkTextAttributes = attrs;
-    //        }
-    //    }
-    //
-    //    //    [[JSBubbleView appearance] setFont:[UIFont systemFontOfSize:16.0f]];
-    //
-    //    if (cell.timestampLabel) {
-    //        cell.timestampLabel.textColor = [UIColor lightGrayColor];
-    //        cell.timestampLabel.shadowOffset = CGSizeZero;
-    //    }
-    //
-    //
-    //
-    //    if (cell.subtitleLabel) {
-    //        cell.subtitleLabel.textColor = [UIColor lightGrayColor];
-    //    }
+    NSLog(@"Getting messages zzz");
+        if (cell.timestampLabel) {
+            cell.timestampLabel.textColor = [UIColor lightGrayColor];
+            cell.timestampLabel.shadowOffset = CGSizeZero;
+        }
     if ([cell messageType] == JSBubbleMessageTypeOutgoing) {
             cell.bubbleView.textView.textColor = [UIColor whiteColor];
     }
+    NSLog(@"Getting messages zzu");
 }
 
 - (JSMessagesViewTimestampPolicy)timestampPolicy
@@ -225,17 +215,21 @@
 
 - (NSString *)textForRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    NSLog(@"Getting messages e");
     return [[self.messages objectAtIndex:indexPath.row] text];
 }
 
 - (NSDate *)timestampForRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    NSLog(@"Getting messages r");
     return [[self.messages objectAtIndex:indexPath.row] date];
 }
 
 
 -(NSString *)subtitleForRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    
+    NSLog(@"Getting messages t");
     JSMessage *currMessage = [self.messages objectAtIndex:indexPath.row];
     return currMessage.sender;
 }
@@ -243,6 +237,8 @@
 - (NSInteger)tableView:(UITableView *)tableView
  numberOfRowsInSection:(NSInteger)section
 {
+    
+    NSLog(@"Getting messages o");
     return [self.messages count];
 }
 
@@ -266,8 +262,10 @@
 
 
 -(UIImageView *)avatarImageViewForRowAtIndexPath:(NSIndexPath *)indexPath {
+    NSLog(@"Getting messages n");
     JSMessage *currMessage = [self.messages objectAtIndex:indexPath.row];
     
+    NSLog(@"Getting messages i");
     if (![currMessage.senderID isEqualToNumber2:[NSNumber numberWithInt:0]]) {
         
 
@@ -292,6 +290,7 @@
         return [[UIImageView alloc]initWithImage: [HomeViewController imageWithView:backView]];
     }
     UIImage * image = [JSAvatarImageFactory avatarImageNamed:@"calendar+icon" croppedToCircle:NO];
+    NSLog(@"Getting messages b");
     return [[UIImageView alloc] initWithImage:image];
 }
 
@@ -299,6 +298,8 @@
 #pragma mark - Messages view data source: REQUIRED
 - (JSMessage *)messageForRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    
+    NSLog(@"Getting messages h");
     return [self.messages objectAtIndex:indexPath.row];
 }
 

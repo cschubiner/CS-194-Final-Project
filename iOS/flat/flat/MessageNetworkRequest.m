@@ -53,12 +53,14 @@
 + (void)getMessagesForUserWithUserID:(NSNumber*)userID
                   andCompletionBlock:(MessageNetworkCompletionHandler)completionBlock
 {
+    NSLog(@"Getting messages c");
     NSDictionary *params = nil; //@{@"userID":[NSNumber numberWithInt:userID]};
     
     NSString * url = [NSString stringWithFormat:@"/messages/all/%@", userID];
     [[FlatAPIClientManager sharedClient] GET:url
                                   parameters:params
                                      success:^(NSURLSessionDataTask *__unused task, id JSON) {
+    NSLog(@"Getting messages d");
                                          NSError *error = [ErrorHelper apiErrorFromDictionary:JSON];
                                          if (!error) {
                                              NSMutableArray *messageArray = [JSON objectForKey:@"messages"];
@@ -78,8 +80,10 @@
                                          }
                                      }
                                      failure:^(NSURLSessionDataTask *task, NSError *error) {
+    NSLog(@"Getting messages f");
                                          NSLog(@"Error in MessageNetworkRequest: %@", error);
                                          completionBlock(error, nil);
+    NSLog(@"Getting messages e");
                                      }];
 }
 
