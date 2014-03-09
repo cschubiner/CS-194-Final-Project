@@ -117,7 +117,7 @@ class Task(Base):
 
     id = Column(Integer, primary_key=True)
     group_id = Column(Integer)
-    body = Column(String(MAX_LENGTH))
+    body = Column(String(250))
     date = Column(DateTime, default=datetime.datetime.utcnow)
     due_date = Column(String(MAX_LENGTH))
 

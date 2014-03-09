@@ -234,18 +234,28 @@ def get_tasks(group_id):
     return tasks.get_tasks(group_id)
 
 @app.route('/tasks/delete', methods=['GET', 'POST'])
-def delete_task(task_id):
+def delete_task():
     if request.method == 'POST':
-        return tasks.delete_task(request.form['task_id'], request.form['group_id'])
+        print request.data
+        if request.data:
+            data = request.data.split()
+            return tasks.delete_task(data[0], data[1])
+        else:
+            return tasks.delete_task(request.form['task_id'], request.form['group_id'])
 
 @app.route('/tasks/edit', methods=['GET', 'POST'])
 def edit_task():
-    if request.methods == 'POST':
-        task_id = request.form['task_id']
-        group_id = request.form['group_id']
-        new_body = request.form['body']
-        new_time = request.form['due_date']
-        return tasks.edit_task(task_id, group_id, new_body, new_time)
+    if request.method == 'POST':
+        print request.data
+        if request.data:
+            data = request.data.split()
+            return tasks.edit_task(data[0], data[1], data[2], data[3])
+        else:
+            task_id = request.form['task_id']
+            group_id = request.form['group_id']
+            new_body = request.form['body']
+            new_time = request.form['due_date']
+            return tasks.edit_task(task_id, group_id, new_body, new_time)
 
 @app.route('/cron/check_broadcast')
 def check_broadcast():

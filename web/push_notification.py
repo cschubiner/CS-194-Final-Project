@@ -37,7 +37,7 @@ def task_send_to_group(group_id, body):
     # for loop through the users in group
     for recipient in group.users:
         # If a user signed up on the web and not on an iPhone
-        if recipient.device_id != None:
+        if recipient.device_id != None and len(recipient.device_id) == 64:
             apns.gateway_server.send_notification(recipient.device_id, payload)
 
     # DUnno what this does, but the sample code had it
