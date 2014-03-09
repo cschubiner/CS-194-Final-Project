@@ -59,6 +59,8 @@
     [[UIApplication sharedApplication] registerForRemoteNotificationTypes:
      (UIRemoteNotificationTypeSound | UIRemoteNotificationTypeAlert)];
     
+    [NSTimer scheduledTimerWithTimeInterval:280.0 target:self selector:@selector(checkForCalendarEvent) userInfo:nil repeats:YES];
+    
     return YES;
 }
 
@@ -227,7 +229,7 @@
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         //run function methodRunAfterBackground
         int checkEvery = 290; //almost every 5 minutes
-        //        checkEvery = 10;
+        //                checkEvery = 10;
         NSTimer* t = [NSTimer scheduledTimerWithTimeInterval:checkEvery target:self selector:@selector(backgroundTask) userInfo:nil repeats:YES];
         [[NSRunLoop currentRunLoop] addTimer:t forMode:NSDefaultRunLoopMode];
         [[NSRunLoop currentRunLoop] run];
@@ -242,6 +244,7 @@
             numUsersHome++;
     }
     [UIApplication sharedApplication].applicationIconBadgeNumber = numUsersHome;
+    NSLog(@"there are currently %d users home.", numUsersHome);
 }
 
 -(void)backgroundTask {
@@ -344,17 +347,21 @@
 - (void)application:(UIApplication*)application didReceiveRemoteNotification:(NSDictionary*)userInfo
 {
     [self refreshMessages];
+    [self getNumUsersHome];
 }
 
 -(void)refreshMessages {
     RootController *mainViewController = self.mainViewController;
     HomeViewController *homeViewController = mainViewController.centerPanel;
+    homeViewController.messages = nil;
+    [homeViewController.tableView reloadData];
     [MessageHelper getMessagesWithCompletionBlock:^(NSError *error, NSArray *messages) {
         NSLog(@"Getting messages 4");
-        if ([messages count] != [homeViewController.messages count]) {
-            [JSMessageSoundEffect playMessageReceivedAlert];
-        }
         homeViewController.messages = [messages mutableCopy];
+        [homeViewController.tableView reloadData];
+        [homeViewController reloadInputViews];
+        [homeViewController viewDidLoad];
+        [homeViewController scrollToBottomAnimated:YES];
         NSLog(@"Getting messages 5");
     }];
 }

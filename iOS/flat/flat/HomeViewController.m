@@ -265,11 +265,7 @@
     JSMessage *currMessage = [self.messages objectAtIndex:indexPath.row];
     
     if (![currMessage.senderID isEqualToNumber2:[NSNumber numberWithInt:0]]) {
-        
-        
         UIColor * bubbleColor = [ProfileUser getColorFromUserID:currMessage.senderID];
-        
-        
         UIView * backView = [[UIView alloc] initWithFrame:CGRectMake(40,15,70,70)];
         backView.backgroundColor = [UIColor whiteColor];
         UIView * circleView = [[UIView alloc] initWithFrame:CGRectMake(5,6,60,60)];

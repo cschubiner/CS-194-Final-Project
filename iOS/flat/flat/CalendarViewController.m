@@ -41,7 +41,7 @@ static const int NAV_BAR_HEIGHT = 64;
 }
 
 -(void)viewWillAppear:(BOOL)animated {
-    [NSTimer scheduledTimerWithTimeInterval:5.0 target:self selector:@selector(refreshEvents) userInfo:nil repeats:NO];
+    [NSTimer scheduledTimerWithTimeInterval:4.0 target:self selector:@selector(refreshEvents) userInfo:nil repeats:NO];
     [NSTimer scheduledTimerWithTimeInterval:15.0 target:self selector:@selector(refreshEvents) userInfo:nil repeats:NO];
     [NSTimer scheduledTimerWithTimeInterval:30.0 target:self selector:@selector(refreshEvents) userInfo:nil repeats:YES];
 }

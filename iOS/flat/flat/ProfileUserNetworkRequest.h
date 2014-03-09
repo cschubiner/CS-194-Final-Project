@@ -26,8 +26,6 @@ typedef void (^ErrorCompletionHandler)(NSError *);
 + (void) setGroupIDForUser:(NSNumber*)userID
                            groupID:(NSNumber*)groupID;
 
-+ (void) sendCalendarEvents:(NSString*)eventJSONString;
-
 + (void) getFriendsGroupsFromUserID:(NSNumber*)userID
                 withCompletionBlock:(RequestProfileUsersCompletionHandler)completionBlock;
 

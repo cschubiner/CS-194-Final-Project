@@ -40,6 +40,9 @@
 }
 
 
+//const static int AWAY_DORM_STATUS = 0;
+//const static int IN_DORM_STATUS = 1;
+//const static int NOT_BROADCASTING_DORM_STATUS = 2;
 + (void) setUserLocationWithUserID:(NSNumber*)userID
                        andIsInDorm:(NSNumber*) isInDormStatus {
     NSLog(@"telling colby our indorm status is: %@", isInDormStatus);
@@ -50,6 +53,7 @@
                                         NSError *error = [ErrorHelper apiErrorFromDictionary:JSON];
                                         if (!error) {
                                             NSLog(@"successfully set user location");
+                                            [[[FlatAPIClientManager sharedClient]rootController]refreshUsers];
                                         } else {
                                             NSLog(@"error when setting user location");
                                         }

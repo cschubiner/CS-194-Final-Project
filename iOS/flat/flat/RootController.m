@@ -138,6 +138,7 @@
     
     [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(refreshUsers) userInfo:nil repeats:NO];
     [NSTimer scheduledTimerWithTimeInterval:30.0 target:self selector:@selector(refreshUsers) userInfo:nil repeats:YES];
+    
 }
 
 - (IBAction)refreshMessages:(id)sender
