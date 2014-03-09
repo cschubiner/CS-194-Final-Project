@@ -31,11 +31,6 @@
     return _sharedClient;
 }
 
-const static int AWAY_DORM_STATUS = 0;
-const static int IN_DORM_STATUS = 1;
-const static int NOT_BROADCASTING_DORM_STATUS = 2;
-
-
 
 #pragma mark - CLLocationManagerDelegate
 
@@ -82,22 +77,6 @@ const static int NOT_BROADCASTING_DORM_STATUS = 2;
 {
     NSLog(@"locationManager didFailWithError: %@", error);
 }
-
-//- (void)locationManager:(CLLocationManager *)manager
-//     didUpdateLocations:(NSArray *)locations {
-//    // If it's a relatively recent event, turn off updates to save power.
-//    CLLocation* location = [locations lastObject];
-//    NSDate* eventDate = location.timestamp;
-//    NSTimeInterval howRecent = [eventDate timeIntervalSinceNow];
-//    if (abs(howRecent) < 15.0) {
-//        // If the event is recent, do something with it.
-//        self.currentLongitude = location.coordinate.longitude;
-//        self.currentLatitude = location.coordinate.latitude;
-//        NSLog(@"latitude %+.6f, longitude %+.6f\n",
-//              location.coordinate.latitude,
-//              location.coordinate.longitude);
-//    }
-//}
 
 - (void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation
 {

@@ -12,286 +12,134 @@
 @implementation TasksNetworkRequest
 
 +(void)getTasksForGroupWithGroupId:(NSNumber *)groupId
-  andCompletionBlock:(TaskNetworkCompletionHandler)completion
+                andCompletionBlock:(TaskNetworkCompletionHandler)completion
 {
-  NSString *url = [NSString stringWithFormat:@"tasks/%@", groupId];
-  [[FlatAPIClientManager sharedClient] GET:url
-   parameters:nil
-   success: ^ (NSURLSessionDataTask * task, id JSON)
-  {
-    NSError *error = [ErrorHelper apiErrorFromDictionary:JSON];
-    if (!error)
-    {
-
-
-      NSLog(@"JSON: %@", JSON);
-
-
-
-      NSLog(@"JSON: %@", JSON);
-      bool windows = false;
-#if WINDOWS
-      windows = true;
-#endif
-      if (windows || (Guide.IsTrialMode == true
-                      && PlayerIndexExtensions.CanBuyGame(e.PlayerIndex)
-                     ))
-        NSMutableArray *tasksArray = [JSON objectForKey:@"tasks"];
-      NSMutableArray *tasksArrayReturn = [[NSMutableArray alloc] init];
-      for (NSMutableDictionary * userJSON in tasksArray)
-      {
-        Task *task = [Task getTaskObjectFromDictionary:userJSON
-                      AndManagedObjectContext:[NSManagedObjectContext MR_defaultContext]];
-        [tasksArrayReturn addObject:task];
-      }
-      completion(error, tasksArrayReturn);
-    }
-    else
-    {
-      completion(error, nil);
-    }
-
-  }
-  failure: ^ (NSURLSessionDataTask * task, NSError * error)
-  {
-    NSLog(@"Error in TasksNetworkFile: %@", error);
-    completion(error, nil);
-  }];
+    NSString *url = [NSString stringWithFormat:@"tasks/%@", groupId];
+    [[FlatAPIClientManager sharedClient] GET:url
+                                  parameters:nil
+                                     success:^(NSURLSessionDataTask *task, id JSON) {
+                                         NSError *error = [ErrorHelper apiErrorFromDictionary:JSON];
+                                         if (!error) {
+                                             NSLog(@"JSON: %@", JSON);
+                                             NSMutableArray *tasksArray = [JSON objectForKey:@"tasks"];
+                                             NSMutableArray *tasksArrayReturn = [[NSMutableArray alloc] init];
+                                             for (NSMutableDictionary* userJSON in tasksArray) {
+                                                 Task *task = [Task getTaskObjectFromDictionary:userJSON
+                                                                        AndManagedObjectContext:[NSManagedObjectContext MR_defaultContext]];
+                                                 [tasksArrayReturn addObject:task];
+                                             }
+                                             completion(error, tasksArrayReturn);
+                                         } else {
+                                             completion(error, nil);
+                                         }
+                                         
+                                     }
+                                     failure:^(NSURLSessionDataTask *task, NSError *error) {
+                                         NSLog(@"Error in TasksNetworkFile: %@", error);
+                                         completion(error, nil);
+                                     }];
 }
 
 + (void)createTaskForGroupWithGroupId:(NSNumber *)groupId
-  andText:(NSString *)text
-  andDate:(NSDate *)date
-  andCompletionBlock:(TaskNetworkCompletionHandler)completion
+                              andText:(NSString *)text
+                              andDate:(NSDate *)date
+                   andCompletionBlock:(TaskNetworkCompletionHandler)completion
 {
-  NSDictionary *params = @ {@"group_id": groupId,
-
-                            @"due_date": [NSString stringWithFormat:@"%@", date],
-                            @"body": text
-                           };
-  NSLog(@"after making dictionary");
-
-
-@"due_date": date,
-@"body": text
-};
-
-
-bool windows = false;
-#if WINDOWS
-windows = true;
-#endif
-if (windows || (Guide.IsTrialMode == true
-                && PlayerIndexExtensions.CanBuyGame(e.PlayerIndex)
-               ))
-  [[FlatAPIClientManager sharedClient] POST:@"/tasks/add"
-   parameters:params
-   success: ^ (NSURLSessionDataTask *task, id JSON)
-{
-  NSError *error = [ErrorHelper apiErrorFromDictionary:JSON];
-  if (!error)
-  {
-
-
-    NSLog(@"Post JSON: %@", JSON);
-
-
-
-    NSLog(@"Post JSON: %@", JSON);
-    bool windows = false;
-#if WINDOWS
-    windows = true;
-#endif
-    if (windows || (Guide.IsTrialMode == true
-                    && PlayerIndexExtensions.CanBuyGame(e.PlayerIndex)
-                   ))
-      NSMutableArray *tasksArray = [JSON objectForKey:@"tasks"];
-    NSMutableArray *tasksArrayReturn = [[NSMutableArray alloc] init];
-    for (NSMutableDictionary * userJSON in tasksArray)
-    {
-      Task *task = [Task getTaskObjectFromDictionary:userJSON
-                    AndManagedObjectContext:[NSManagedObjectContext MR_defaultContext]];
-      [tasksArrayReturn addObject:task];
-    }
-    completion(error, tasksArrayReturn);
-  }
-  else
-  {
-    completion(error, nil);
-  }
-
+    NSDictionary *params = @{@"group_id":groupId,
+                             @"due_date":[NSString stringWithFormat:@"%@", date],
+                             @"body":text};
+    NSLog(@"after making dictionary");
+    [[FlatAPIClientManager sharedClient] POST:@"/tasks/add"
+                                   parameters:params
+                                      success:^(NSURLSessionDataTask *task, id JSON) {
+                                          NSError *error = [ErrorHelper apiErrorFromDictionary:JSON];
+                                          if (!error) {
+                                              NSLog(@"Post JSON: %@", JSON);
+                                              NSMutableArray *tasksArray = [JSON objectForKey:@"tasks"];
+                                              NSMutableArray *tasksArrayReturn = [[NSMutableArray alloc] init];
+                                              for (NSMutableDictionary* userJSON in tasksArray) {
+                                                  Task *task = [Task getTaskObjectFromDictionary:userJSON
+                                                                         AndManagedObjectContext:[NSManagedObjectContext MR_defaultContext]];
+                                                  [tasksArrayReturn addObject:task];
+                                              }
+                                              completion(error, tasksArrayReturn);
+                                          } else {
+                                              completion(error, nil);
+                                          }
+                                          
+                                      }
+                                      failure:^(NSURLSessionDataTask *task, NSError *error) {
+                                          NSLog(@"Error in TasksNetworkFile: %@", error);
+                                          completion(error, nil);
+                                      }];
 }
-failure: ^ (NSURLSessionDataTask *task, NSError *error)
-{
-  NSLog(@"Error in TasksNetworkFile: %@", error);
-  completion(error, nil);
-}];
-}
-
-
 
 + (void)deleteTaskWithTaskId:(NSNumber *)taskId
-  andGroupId:(NSNumber *)groupId
-  andCompletionBlock:(TaskNetworkCompletionHandler)completion
+                  andGroupId:(NSNumber *)groupId
+          andCompletionBlock:(TaskNetworkCompletionHandler)completion
 {
-  NSDictionary *params = @ {@"task_id": taskId,
-                            @"group_id": groupId
-                           };
-  [[FlatAPIClientManager sharedClient] POST:@"tasks/delete"
+    NSDictionary *params = @{@"task_id":taskId,
+                             @"group_id":groupId};
+    [[FlatAPIClientManager sharedClient] POST:@"tasks/delete"
+                                   parameters:params
+                                      success:^(NSURLSessionDataTask *task, id JSON) {
+                                          NSError *error = [ErrorHelper apiErrorFromDictionary:JSON];
+                                          if (!error) {
+                                              NSMutableArray *tasksArray = [JSON objectForKey:@"tasks"];
+                                              NSMutableArray *tasksArrayReturn = [[NSMutableArray alloc] init];
+                                              for (NSMutableDictionary* userJSON in tasksArray) {
+                                                  Task *task = [Task getTaskObjectFromDictionary:userJSON
+                                                                         AndManagedObjectContext:[NSManagedObjectContext MR_defaultContext]];
+                                                  [tasksArrayReturn addObject:task];
+                                              }
+                                              completion(error, tasksArrayReturn);
+                                          } else {
+                                              completion(error, nil);
+                                          }
+                                          
+                                      }
+                                      failure:^(NSURLSessionDataTask *task, NSError *error) {
+                                          NSLog(@"Error in TasksNetworkFile: %@", error);
+                                          completion(error, nil);
+                                      }];
+    
+}
 
-   + (void)deleteTaskWithTaskId:taskId
-   andCompletionBlock:(TaskNetworkCompletionHandler)completion
-  {
-NSDictionary *params = @{@"task_id":taskId};
-    [[FlatAPIClientManager sharedClient] POST:@""
-
-     parameters:params
-     success: ^ (NSURLSessionDataTask * task, id JSON)
-    {
-      NSError *error = [ErrorHelper apiErrorFromDictionary:JSON];
-      if (!error)
-      {
-        NSMutableArray *tasksArray = [JSON objectForKey:@"tasks"];
-        NSMutableArray *tasksArrayReturn = [[NSMutableArray alloc] init];
-        for (NSMutableDictionary * userJSON in tasksArray)
-        {
-          Task *task = [Task getTaskObjectFromDictionary:userJSON
-                        AndManagedObjectContext:[NSManagedObjectContext MR_defaultContext]];
-          [tasksArrayReturn addObject:task];
-        }
-        completion(error, tasksArrayReturn);
-      }
-      else
-      {
-        completion(error, nil);
-      }
-
-    }
-    failure: ^ (NSURLSessionDataTask * task, NSError * error)
-    {
-      NSLog(@"Error in TasksNetworkFile: %@", error);
-      completion(error, nil);
-    }];
-
-  }
-
-
-  + (void)editTaskWithTaskId: (NSNumber *)taskId
-  andBody: (NSString *)body
-  andDate: (NSDate *)date
-  andGroupId: (NSNumber *)groupId
-  andCompletionBlock: (TaskNetworkCompletionHandler)completion
-  {
-    NSDictionary *params = @{
-@"group_id": groupId,
-@"due_date": [NSString stringWithFormat:@"%@", date],
-@"task_id": taskId,
-@"body": body
-    };
++ (void)editTaskWithTaskId:(NSNumber *)taskId
+                   andBody:(NSString *)body
+                   andDate:(NSDate *)date
+                andGroupId:(NSNumber *)groupId
+        andCompletionBlock:(TaskNetworkCompletionHandler)completion
+{
+    NSDictionary *params = @{@"group_id":groupId,
+                             @"due_date":[NSString stringWithFormat:@"%@", date],
+                             @"task_id":taskId,
+                             @"body":body};
     NSLog(@"after making dictionary");
     [[FlatAPIClientManager sharedClient] POST:@"/tasks/edit"
+                                   parameters:params
+                                      success:^(NSURLSessionDataTask *task, id JSON) {
+                                          NSError *error = [ErrorHelper apiErrorFromDictionary:JSON];
+                                          if (!error) {
+                                              NSLog(@"Post JSON: %@", JSON);
+                                              NSMutableArray *tasksArray = [JSON objectForKey:@"tasks"];
+                                              NSMutableArray *tasksArrayReturn = [[NSMutableArray alloc] init];
+                                              for (NSMutableDictionary* userJSON in tasksArray) {
+                                                  Task *task = [Task getTaskObjectFromDictionary:userJSON
+                                                                         AndManagedObjectContext:[NSManagedObjectContext MR_defaultContext]];
+                                                  [tasksArrayReturn addObject:task];
+                                              }
+                                              completion(error, tasksArrayReturn);
+                                          } else {
+                                              completion(error, nil);
+                                          }
+                                          
+                                      }
+                                      failure:^(NSURLSessionDataTask *task, NSError *error) {
+                                          NSLog(@"Error in TasksNetworkFile: %@", error);
+                                          completion(error, nil);
+                                      }];
+    
+}
 
-     + (void)deleteTaskWithTaskId:(NSNumber *)taskId
-     andGroupId:(NSNumber *)groupId
-     andCompletionBlock:(TaskNetworkCompletionHandler)completion
-    {
-      NSDictionary *params = @{
-@"task_id":taskId,
-@"group_id":groupId
-      };
-      [[FlatAPIClientManager sharedClient] POST:@"tasks/delete"
-       bool windows = false;
-#if WINDOWS
-       windows = true;
-#endif
-       if (windows || (Guide.IsTrialMode == true
-                       && PlayerIndexExtensions.CanBuyGame(e.PlayerIndex)
-                      ))
-       parameters: params
-       success: ^ (NSURLSessionDataTask * task, id JSON)
-      {
-        NSError *error = [ErrorHelper apiErrorFromDictionary:JSON];
-        if (!error)
-        {
-          NSLog(@"Post JSON: %@", JSON);
-          NSMutableArray *tasksArray = [JSON objectForKey:@"tasks"];
-          NSMutableArray *tasksArrayReturn = [[NSMutableArray alloc] init];
-          for (NSMutableDictionary * userJSON in tasksArray)
-          {
-            Task *task = [Task getTaskObjectFromDictionary:userJSON
-                          AndManagedObjectContext:[NSManagedObjectContext MR_defaultContext]];
-            [tasksArrayReturn addObject:task];
-          }
-          completion(error, tasksArrayReturn);
-        }
-        else
-        {
-          completion(error, nil);
-        }
-
-      }
-      failure: ^ (NSURLSessionDataTask * task, NSError * error)
-      {
-        NSLog(@"Error in TasksNetworkFile: %@", error);
-        completion(error, nil);
-      }];
-
-    }
-
-
-
-
-
-    + (void)editTaskWithTaskId: (NSNumber *)taskId
-    andBody: (NSString *)body
-    andDate: (NSDate *)date
-    andGroupId: (NSNumber *)groupId
-    andCompletionBlock: (TaskNetworkCompletionHandler)completion
-    {
-      NSDictionary *params = @{
-@"group_id": groupId,
-@"due_date": [NSString stringWithFormat:@"%@", date],
-@"task_id": taskId,
-@"body": body
-      };
-      NSLog(@"after making dictionary");
-      [[FlatAPIClientManager sharedClient] POST:@"/tasks/edit"
-       parameters:params
-       success: ^ (NSURLSessionDataTask * task, id JSON)
-      {
-        NSError *error = [ErrorHelper apiErrorFromDictionary:JSON];
-        if (!error)
-        {
-          NSLog(@"Post JSON: %@", JSON);
-          NSMutableArray *tasksArray = [JSON objectForKey:@"tasks"];
-          NSMutableArray *tasksArrayReturn = [[NSMutableArray alloc] init];
-          for (NSMutableDictionary * userJSON in tasksArray)
-          {
-            Task *task = [Task getTaskObjectFromDictionary:userJSON
-                          AndManagedObjectContext:[NSManagedObjectContext MR_defaultContext]];
-            [tasksArrayReturn addObject:task];
-          }
-          completion(error, tasksArrayReturn);
-        }
-        else
-        {
-          completion(error, nil);
-        }
-
-      }
-      failure: ^ (NSURLSessionDataTask * task, NSError * error)
-      {
-        NSLog(@"Error in TasksNetworkFile: %@", error);
-        completion(error, nil);
-      }];
-
-    }
-
-    bool windows = false;
-#if WINDOWS
-                   windows = true;
-#endif
-                   if (windows || (Guide.IsTrialMode == true
-                                   && PlayerIndexExtensions.CanBuyGame(e.PlayerIndex)
-                                  ))
-                   @end
+@end

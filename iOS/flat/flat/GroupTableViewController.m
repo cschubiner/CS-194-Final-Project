@@ -132,6 +132,7 @@
     homeViewController.messages = nil;
     [homeViewController.tableView reloadData];
     [MessageHelper getMessagesWithCompletionBlock:^(NSError *error, NSArray *messages) {
+    NSLog(@"Getting messages 7");
         if ([messages count] != [homeViewController.messages count] && [messages count] != 0) {
             [JSMessageSoundEffect playMessageReceivedAlert];
         }
@@ -140,6 +141,7 @@
         [homeViewController reloadInputViews];
         [homeViewController viewDidLoad];
         [homeViewController scrollToBottomAnimated:YES];
+    NSLog(@"Getting messages 8");
     }];
 }
 

@@ -22,4 +22,15 @@
     return group;
 }
 
++(void)deleteCurrentGroupFromStore {
+    NSManagedObjectContext *localContext = [NSManagedObjectContext MR_defaultContext];
+    Group *group = [Group MR_findFirst];
+    if (group) {
+        // Delete the group found
+        [group MR_deleteInContext:localContext];
+        [localContext MR_saveToPersistentStoreWithCompletion:^(BOOL success, NSError *error) {}];
+    }
+    [Group MR_truncateAll];
+}
+
 @end

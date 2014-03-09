@@ -12,6 +12,7 @@
 #import "NSValue+NSValueEqualTo.h"
 @implementation ProfileUser (Json)
 
+
 + (ProfileUser *)getProfileUserObjectFromDictionary:(NSDictionary *)dictionary
                             AndManagedObjectContext:(NSManagedObjectContext *)context
 {
@@ -47,8 +48,7 @@
             return initials;
         }
     }
-    return @"NA";
-    //    return nil;
+    return @"--";
 }
 
 + (NSString *) getFirstNameFromUserID:(NSNumber*)userID {

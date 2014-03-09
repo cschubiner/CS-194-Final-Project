@@ -13,4 +13,5 @@
 + (Group *)getGroupObjectFromDictionary:(NSDictionary *)dictionary
                             AndManagedObjectContext:(NSManagedObjectContext *)context;
 
++(void)deleteCurrentGroupFromStore;
 @end

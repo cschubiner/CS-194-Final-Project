@@ -21,8 +21,7 @@
                                         NSError *error = [ErrorHelper apiErrorFromDictionary:JSON];
                                         if (!error) {
                                             NSMutableDictionary *groupJSON = [JSON objectForKey:@"group"];
-                                                Group *group = [Group getGroupObjectFromDictionary:groupJSON
-                                                                                                   AndManagedObjectContext:[NSManagedObjectContext MR_defaultContext]];
+                                                Group *group = [Group getGroupObjectFromDictionary:groupJSON AndManagedObjectContext:[NSManagedObjectContext MR_defaultContext]];
                                             completionBlock(error, group);
                                         } else {
                                             completionBlock(error, nil);

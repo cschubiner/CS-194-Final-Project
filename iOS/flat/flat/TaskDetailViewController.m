@@ -36,7 +36,7 @@ static const int SIDE_SPACING = 5;
 {
     self.textView.text = self.task.body;
     self.dueDateLabel.text = [NSString stringWithFormat:@"Due Date: %@", [Utils formatDate:self.task.dueDate
-                                    withFormat:@"MM-dd-yyyy HH:mm"]];
+                                                                                withFormat:@"MM-dd-yyyy HH:mm"]];
     TasksViewController *prev = [self.navigationController.viewControllers objectAtIndex:self.navigationController.viewControllers.count - 2];
     prev.tasks = self.tasks;
     [prev.tasksTable reloadData];
@@ -70,7 +70,7 @@ static const int SIDE_SPACING = 5;
 {
     if ([segue.identifier isEqualToString:@"DetailViewToEditTask"]) {
         EditTaskViewController *dest = (EditTaskViewController *)segue.destinationViewController;
-        NSLog(@"%@", self.task);
+        NSLog(@"preparing for segue, task: %@", self.task);
         dest.task = self.task;
     }
 }

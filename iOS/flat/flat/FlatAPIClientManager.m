@@ -72,7 +72,13 @@ static NSString * const SIGNATURE = @"";
                failure:(void ( ^ ) ( NSURLSessionDataTask *task , NSError *error ))failure];
 }
 
-
+-(BOOL)userIDIsInMyGroup:(NSNumber*)userID {
+    for (ProfileUser* user in [[FlatAPIClientManager sharedClient]users]) {
+        if ([userID isEqualToNumber2:user.userID])
+            return true;
+    }
+    return false;
+}
 
 -(void)getAllCalendarEvents:(void(^)())callback{
     NSMutableArray*events = [[NSMutableArray alloc]init];
@@ -81,18 +87,15 @@ static NSString * const SIGNATURE = @"";
     [fCal observeEventType:FEventTypeValue withBlock:^(FDataSnapshot *snapshot) {
         for (FDataSnapshot * fCalUser in snapshot.children) {
             for (FDataSnapshot * fCalEvent in fCalUser.children) {
-//                NSLog(@"child%@", fCalEvent.value);
                 EventModel * event = [[EventModel alloc]init];
-//                NSLog(@"title: %@", [fCalEvent childSnapshotForPath:@"title"].value);
-//                NSLog(@"endDate: %@",[fCalEvent childSnapshotForPath:@"endDate"].value);
                 [event setTitle:[fCalEvent childSnapshotForPath:@"title"].value];
                 [event setStartDate:[Utils dateFromString:[fCalEvent childSnapshotForPath:@"startDate"].value]];
                 [event setEndDate:[Utils dateFromString:[fCalEvent childSnapshotForPath:@"endDate"].value]];
-                [event setUserID:[Utils numberFromString:[fCalEvent childSnapshotForPath:@"userID"].value]];
+                NSNumber* userID = [Utils numberFromString:[fCalEvent childSnapshotForPath:@"userID"].value];
+                [event setUserID:userID];
                 
-//                [event setStartDate:[Utils correctTimeZone:event.startDate]];
-//                [event setEndDate:[Utils correctTimeZone:event.endDate]];
-                [events addObject:event];
+                if ([self userIDIsInMyGroup:userID])
+                    [events addObject:event];
             }
         }
         

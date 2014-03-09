@@ -56,6 +56,14 @@
 		F25DCF1C18A84E9600710B03 /* MessageHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = F25DCF1B18A84E9600710B03 /* MessageHelper.m */; };
 		F25DCF1F18A84EAD00710B03 /* MessageNetworkRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = F25DCF1E18A84EAD00710B03 /* MessageNetworkRequest.m */; };
 		F25DCF2218A8564700710B03 /* JSMessage+Json.m in Sources */ = {isa = PBXBuildFile; fileRef = F25DCF2118A8564700710B03 /* JSMessage+Json.m */; };
+		F270B6D218CBF47100FA90E5 /* CreateTasksViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F270B6D118CBF47100FA90E5 /* CreateTasksViewController.m */; };
+		F270B6D818CBF8F900FA90E5 /* EditTaskViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F270B6D718CBF8F900FA90E5 /* EditTaskViewController.m */; };
+		F270B6DB18CBF99F00FA90E5 /* Task.m in Sources */ = {isa = PBXBuildFile; fileRef = F270B6DA18CBF99F00FA90E5 /* Task.m */; };
+		F270B6DE18CBF9C800FA90E5 /* Task+Json.m in Sources */ = {isa = PBXBuildFile; fileRef = F270B6DD18CBF9C800FA90E5 /* Task+Json.m */; };
+		F270B6E118CBFA0500FA90E5 /* TaskDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F270B6E018CBFA0500FA90E5 /* TaskDetailViewController.m */; };
+		F270B6E418CBFA5600FA90E5 /* TasksHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = F270B6E318CBFA5600FA90E5 /* TasksHelper.m */; };
+		F270B6E718CBFAB100FA90E5 /* TasksNetworkRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = F270B6E618CBFAB100FA90E5 /* TasksNetworkRequest.m */; };
+		F270B6EA18CBFB2300FA90E5 /* TasksViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F270B6E918CBFB2300FA90E5 /* TasksViewController.m */; };
 		F279A6A418BD3B9E007A2A9E /* CalendarMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = F279A6A318BD3B9E007A2A9E /* CalendarMessage.m */; };
 		F279A6A718BD3DA7007A2A9E /* CalendarMessage+Json.m in Sources */ = {isa = PBXBuildFile; fileRef = F279A6A618BD3DA7007A2A9E /* CalendarMessage+Json.m */; };
 		F2C51D94188C887400489989 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F2C51D93188C887400489989 /* Foundation.framework */; };
@@ -170,6 +178,22 @@
 		F25DCF1E18A84EAD00710B03 /* MessageNetworkRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MessageNetworkRequest.m; sourceTree = "<group>"; };
 		F25DCF2018A8564700710B03 /* JSMessage+Json.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "JSMessage+Json.h"; sourceTree = "<group>"; };
 		F25DCF2118A8564700710B03 /* JSMessage+Json.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "JSMessage+Json.m"; sourceTree = "<group>"; };
+		F270B6D018CBF47100FA90E5 /* CreateTasksViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CreateTasksViewController.h; sourceTree = "<group>"; };
+		F270B6D118CBF47100FA90E5 /* CreateTasksViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CreateTasksViewController.m; sourceTree = "<group>"; };
+		F270B6D618CBF8F900FA90E5 /* EditTaskViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EditTaskViewController.h; sourceTree = "<group>"; };
+		F270B6D718CBF8F900FA90E5 /* EditTaskViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EditTaskViewController.m; sourceTree = "<group>"; };
+		F270B6D918CBF99F00FA90E5 /* Task.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Task.h; sourceTree = "<group>"; };
+		F270B6DA18CBF99F00FA90E5 /* Task.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Task.m; sourceTree = "<group>"; };
+		F270B6DC18CBF9C800FA90E5 /* Task+Json.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Task+Json.h"; sourceTree = "<group>"; };
+		F270B6DD18CBF9C800FA90E5 /* Task+Json.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "Task+Json.m"; sourceTree = "<group>"; };
+		F270B6DF18CBFA0500FA90E5 /* TaskDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TaskDetailViewController.h; sourceTree = "<group>"; };
+		F270B6E018CBFA0500FA90E5 /* TaskDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TaskDetailViewController.m; sourceTree = "<group>"; };
+		F270B6E218CBFA5600FA90E5 /* TasksHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TasksHelper.h; sourceTree = "<group>"; };
+		F270B6E318CBFA5600FA90E5 /* TasksHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TasksHelper.m; sourceTree = "<group>"; };
+		F270B6E518CBFAB100FA90E5 /* TasksNetworkRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TasksNetworkRequest.h; sourceTree = "<group>"; };
+		F270B6E618CBFAB100FA90E5 /* TasksNetworkRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TasksNetworkRequest.m; sourceTree = "<group>"; };
+		F270B6E818CBFB2300FA90E5 /* TasksViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TasksViewController.h; sourceTree = "<group>"; };
+		F270B6E918CBFB2300FA90E5 /* TasksViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TasksViewController.m; sourceTree = "<group>"; };
 		F279A6A218BD3B9E007A2A9E /* CalendarMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CalendarMessage.h; sourceTree = "<group>"; };
 		F279A6A318BD3B9E007A2A9E /* CalendarMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CalendarMessage.m; sourceTree = "<group>"; };
 		F279A6A518BD3DA7007A2A9E /* CalendarMessage+Json.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "CalendarMessage+Json.h"; sourceTree = "<group>"; };
@@ -254,6 +278,21 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		F270B6CF18CBF3D300FA90E5 /* Tasks */ = {
+			isa = PBXGroup;
+			children = (
+				F270B6D018CBF47100FA90E5 /* CreateTasksViewController.h */,
+				F270B6D118CBF47100FA90E5 /* CreateTasksViewController.m */,
+				F270B6D618CBF8F900FA90E5 /* EditTaskViewController.h */,
+				F270B6D718CBF8F900FA90E5 /* EditTaskViewController.m */,
+				F270B6DF18CBFA0500FA90E5 /* TaskDetailViewController.h */,
+				F270B6E018CBFA0500FA90E5 /* TaskDetailViewController.m */,
+				F270B6E818CBFB2300FA90E5 /* TasksViewController.h */,
+				F270B6E918CBFB2300FA90E5 /* TasksViewController.m */,
+			);
+			name = Tasks;
+			sourceTree = "<group>";
+		};
 		F2C51D87188C887400489989 = {
 			isa = PBXGroup;
 			children = (
@@ -369,6 +408,8 @@
 				0C498F48189F22F5003B87F6 /* GroupNetworkRequest.m */,
 				F25DCF1D18A84EAD00710B03 /* MessageNetworkRequest.h */,
 				F25DCF1E18A84EAD00710B03 /* MessageNetworkRequest.m */,
+				F270B6E518CBFAB100FA90E5 /* TasksNetworkRequest.h */,
+				F270B6E618CBFAB100FA90E5 /* TasksNetworkRequest.m */,
 			);
 			name = Network;
 			sourceTree = "<group>";
@@ -399,6 +440,8 @@
 				F25DCF1B18A84E9600710B03 /* MessageHelper.m */,
 				0C1F934C18C417AD00949F10 /* Utils.h */,
 				0C1F934D18C417AD00949F10 /* Utils.m */,
+				F270B6E218CBFA5600FA90E5 /* TasksHelper.h */,
+				F270B6E318CBFA5600FA90E5 /* TasksHelper.m */,
 			);
 			name = Operations;
 			sourceTree = "<group>";
@@ -406,6 +449,7 @@
 		F2C51DCE188C91E900489989 /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
+				F270B6CF18CBF3D300FA90E5 /* Tasks */,
 				F2C51DD3188C944500489989 /* Opening */,
 				F2C51DD2188C943300489989 /* Home */,
 				0C8CA09C18A84C47001A9DD6 /* GroupTableViewController.h */,
@@ -421,6 +465,8 @@
 			children = (
 				F2C51E671895E3AB00489989 /* Messages */,
 				F2C51DED188C9A1600489989 /* Model.xcdatamodeld */,
+				F270B6D918CBF99F00FA90E5 /* Task.h */,
+				F270B6DA18CBF99F00FA90E5 /* Task.m */,
 				0C498F3F189F1825003B87F6 /* ProfileUser.h */,
 				0C498F40189F1825003B87F6 /* ProfileUser.m */,
 				0C498F3C189F17FE003B87F6 /* Group.h */,
@@ -432,6 +478,8 @@
 				F2C51DF4188C9A9200489989 /* ProfileUser+Json.m */,
 				0C2E87D718B1B35700ADF8D2 /* EventModel.h */,
 				0C2E87D818B1B35700ADF8D2 /* EventModel.m */,
+				F270B6DC18CBF9C800FA90E5 /* Task+Json.h */,
+				F270B6DD18CBF9C800FA90E5 /* Task+Json.m */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -577,7 +625,7 @@
 					};
 				};
 			};
-			buildConfigurationList = F2C51D8B188C887400489989 /* Build configuration list for PBXProject "Flat" */;
+			buildConfigurationList = F2C51D8B188C887400489989 /* Build configuration list for PBXProject "flat" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -693,24 +741,31 @@
 				0C46A9BA18C2A8CC000E30E2 /* CalendarViewController.m in Sources */,
 				0C498F32189F153C003B87F6 /* GroupModel.xcdatamodeld in Sources */,
 				F2C51DD6188C948A00489989 /* MainNavigationViewController.m in Sources */,
+				F270B6E718CBFAB100FA90E5 /* TasksNetworkRequest.m in Sources */,
 				F2C51DE2188C96C500489989 /* SidebarViewController.m in Sources */,
 				F2C51DEC188C992E00489989 /* OpeningButton.m in Sources */,
 				F2C51DDC188C960B00489989 /* OpeningViewController.m in Sources */,
 				F2C51DDF188C963D00489989 /* OpeningNavigationController.m in Sources */,
+				F270B6D218CBF47100FA90E5 /* CreateTasksViewController.m in Sources */,
 				F279A6A718BD3DA7007A2A9E /* CalendarMessage+Json.m in Sources */,
+				F270B6D818CBF8F900FA90E5 /* EditTaskViewController.m in Sources */,
 				F2C51DF5188C9A9200489989 /* ProfileUser+Json.m in Sources */,
 				0C2E87D918B1B35700ADF8D2 /* EventModel.m in Sources */,
 				35EAB5C918BADC2A00C82117 /* PageContentViewController.m in Sources */,
 				F2C51DD9188C94CC00489989 /* RootController.m in Sources */,
 				0C52C5BE18A9BAF40094D428 /* GroupLocalRequest.m in Sources */,
 				0CDA0F011895E89500F5A1F8 /* ProfileUserNetworkRequest.m in Sources */,
+				F270B6E418CBFA5600FA90E5 /* TasksHelper.m in Sources */,
 				F2C51DF8188C9B6E00489989 /* AuthenticationNetworkRequest.m in Sources */,
 				0C498F41189F1825003B87F6 /* ProfileUser.m in Sources */,
 				0C498F3E189F17FF003B87F6 /* Group.m in Sources */,
 				F2C51E04188C9C9A00489989 /* ProfileUserLocalRequest.m in Sources */,
+				F270B6DE18CBF9C800FA90E5 /* Task+Json.m in Sources */,
+				F270B6DB18CBF99F00FA90E5 /* Task.m in Sources */,
 				F2C51E01188C9C1100489989 /* ErrorHelper.m in Sources */,
 				F25DCF2218A8564700710B03 /* JSMessage+Json.m in Sources */,
 				0CBB52051896008C00B9615F /* UIColor+ColorHelper.m in Sources */,
+				F270B6EA18CBFB2300FA90E5 /* TasksViewController.m in Sources */,
 				F2C51DE9188C97E300489989 /* FlatAPIClientManager.m in Sources */,
 				0C1F934B18C40F0000949F10 /* NSValue+NSValueEqualTo.m in Sources */,
 				F2C51DEF188C9A1600489989 /* Model.xcdatamodeld in Sources */,
@@ -720,6 +775,7 @@
 				F25DCF1C18A84E9600710B03 /* MessageHelper.m in Sources */,
 				F2C51DE6188C974E00489989 /* HomeViewController.m in Sources */,
 				0C498F4F189F2EC9003B87F6 /* Group+Json.m in Sources */,
+				F270B6E118CBFA0500FA90E5 /* TaskDetailViewController.m in Sources */,
 				0C8CA0A118A87889001A9DD6 /* SettingsViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -937,7 +993,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		F2C51D8B188C887400489989 /* Build configuration list for PBXProject "Flat" */ = {
+		F2C51D8B188C887400489989 /* Build configuration list for PBXProject "flat" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				F2C51DC3188C887400489989 /* Debug */,

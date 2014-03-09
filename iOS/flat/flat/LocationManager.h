@@ -18,5 +18,6 @@
 @property (nonatomic) double currentLongitude;
 
 @property (nonatomic) BOOL shouldSetDormLocation;
+- (CLRegion*)getGroupLocationRegion;
 
 @end
