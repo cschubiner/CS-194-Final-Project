@@ -223,6 +223,23 @@ def update_location(group, lat, lon):
     latitude = float(lat)
     longitude = float(lon)
 
+    # if result:
+    #     if latitude != result.latitude and longitude != result.longitude:
+    #         # Updating both
+    #         result.latitude = latitude
+    #         result.longitude = longitude
+    #     elif latitude == result.latitude and longitude != result.longitude:
+    #         # Updating longitude only
+    #         result.longitude = longitude
+    #     elif latitude != result.latitude and longitude == result.longitude:
+    #         #updating latitude only
+    #         result.latitude = latitude
+    #     else:
+    #         # Update none of them
+    #     temp = result
+    #     db_session.commit()
+    #     return utils.obj_to_json('group', temp, True)
+
     if result:
         if abs(float(result.latitude) - float(lat)) < EPS and abs(float(result.longitude) - float(lon)) < EPS:
             print "UPDATING NOTHING"
@@ -280,7 +297,8 @@ def send_push_notification(group_id, fb_id, name, msg):
 
     # for loop through the users that aren't the sender
     for recipient in recipients:
-        apns.gateway_server.send_notification(recipient.device_id, payload)
+        if recipient.device_id != None and len(recipient.device_id) == 64:
+            apns.gateway_server.send_notification(recipient.device_id, payload)
 
     # DUnno what this does, but the sample code had it
     for (token_hex, fail_time) in apns.feedback_server.items():

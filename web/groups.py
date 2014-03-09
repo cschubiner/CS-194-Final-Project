@@ -11,6 +11,8 @@ import models
 import db
 from sqlalchemy import and_
 
+NUM_COLORS = 10
+
 '''
     Implements the /facebook/user/<user_id>/friendgroups endpoint
     Returns a list of groups containing information about users
@@ -112,16 +114,31 @@ def change_group_id(fb_id, new_group):
         result.group_id = new_group
         new_group = db_session.query(models.Group).filter(models.Group.id == new_group).first()
         new_group.users.append(result)
-        new_color_id = (len(new_group.users) - 1) % 5
 
         # changing the color_id
-        result.color_id = new_color_id
+        result.color_id = get_new_color(result.group_id)
 
         temp = result
         db_session.commit()
         return utils.obj_to_json('user',temp, True)
     return utils.error_json_message()
 
+'''
+    Given a new group_id, we want to choose another group ID
+'''
+def get_new_color(group_id):
+    users = db_session.query(models.User).filter(models.Group.id == group_id).all()
+    all_colors = set([i for i in range(NUM_COLORS)])
+    used_colors = set()
+
+    for user in users:
+        used_colors.add(user.color_id)
+    legal_colors = all_colors - used_colors
+
+    for color in legal_colors:
+        # Returning the first color that we see, bad style but idgaf
+        return color
+    return 0
 
 '''
     Function: get_group_by_id
