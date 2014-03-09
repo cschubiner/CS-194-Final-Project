@@ -31,7 +31,7 @@ from sqlalchemy import and_
 '''
 def get_user_friend_groups(user_id):
     # gets all the users who active and friends with the user
-    users_are_friends = db_session.query(models.Friend).filter(and_(models.Friend.left_id == user_id, models.Friend.is_user == True)).all()
+    users_are_friends = db_session.query(models.Friend).filter(models.Friend.right_id == user_id).all()
 
     if users_are_friends:
         return get_groups_users_map(users_are_friends)
@@ -45,7 +45,7 @@ def get_groups_users_map(friends):
     print friends
 
     for friend_id in friends:
-        friend = db_session.query(models.User).filter(models.User.fb_id == friend_id.right_id).first()
+        friend = db_session.query(models.User).filter(models.User.fb_id == friend_id.left_id).first()
         print friend
         if friend:
             if friend.group_id in result.keys():

@@ -109,24 +109,26 @@ def add_user(access_token, device_id):
     This is the subprocess that adds users' friends into the database
 '''
 def task_add_friends(access_token, left_id):
-    print access_token
     graph = facebook.GraphAPI(access_token)
     friends = graph.get_connections("me", "friends")
-    print friends
-    print access_token
-    print left_id
     add_friends_to_db(friends, left_id)
-    update_friend_table(left_id)
+    # update_friend_table(left_id)
     return "Done"
 
+'''
+    Helper function
+'''
 def add_friends(friends, left_id):
     add_friends_to_db(friends, left_id)
-    update_friend_table(left_id)
     print "done with process"
 
+'''
+    Another helper function
+'''
 def add_friends_to_db(friends, left_id):
     for friend in friends['data']:
-        is_user = user_exists(friend['id'])
+        # is_user = user_exists(friend['id'])
+        is_user = False
         new_friend = models.Friend(
             right_id=friend['id'],
             left_id=left_id,
