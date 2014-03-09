@@ -13,46 +13,21 @@ typedef void (^TaskNetworkCompletionHandler)(NSError *, NSArray *tasks);
 @interface TasksNetworkRequest : NSObject
 
 +(void)getTasksForGroupWithGroupId:(NSNumber *)groupId
-  andCompletionBlock:(TaskNetworkCompletionHandler)completion;
+                andCompletionBlock:(TaskNetworkCompletionHandler)completion;
 
 + (void)createTaskForGroupWithGroupId:(NSNumber *)groupId
-  andText:(NSString *)text
-  andDate:(NSDate *)date
-  andCompletionBlock:(TaskNetworkCompletionHandler)completion;
-
-
+                              andText:(NSString *)text
+                              andDate:(NSDate *)date
+                   andCompletionBlock:(TaskNetworkCompletionHandler)completion;
 
 + (void)deleteTaskWithTaskId:(NSNumber *)taskId
-  andGroupId:(NSNumber *)groupId
-  andCompletionBlock:(TaskNetworkCompletionHandler)completion;
+                  andGroupId:(NSNumber *)groupId
+          andCompletionBlock:(TaskNetworkCompletionHandler)completion;
 
 + (void)editTaskWithTaskId:(NSNumber *)taskId
-  andBody:(NSString *)body
-  andDate:(NSDate *)date
-  andGroupId:(NSNumber *)groupId
-  andCompletionBlock:(TaskNetworkCompletionHandler)completion;
+                   andBody:(NSString *)body
+                   andDate:(NSDate *)date
+                andGroupId:(NSNumber *)groupId
+        andCompletionBlock:(TaskNetworkCompletionHandler)completion;
 
-
-+ (void)deleteTaskWithTaskId:taskId
-  andCompletionBlock:(TaskNetworkCompletionHandler)completion;
-
-
-
-+ (void)deleteTaskWithTaskId:(NSNumber *)taskId
-  andGroupId:(NSNumber *)groupId
-  andCompletionBlock:(TaskNetworkCompletionHandler)completion;
-
-+ (void)editTaskWithTaskId:(NSNumber *)taskId
-  andBody:(NSString *)body
-  andDate:(NSDate *)date
-  andGroupId:(NSNumber *)groupId
-  andCompletionBlock:(TaskNetworkCompletionHandler)completion;
-
-bool windows = false;
-#if WINDOWS
-windows = true;
-#endif
-if (windows || (Guide.IsTrialMode == true
-                && PlayerIndexExtensions.CanBuyGame(e.PlayerIndex)
-               ))
-  @end
+@end

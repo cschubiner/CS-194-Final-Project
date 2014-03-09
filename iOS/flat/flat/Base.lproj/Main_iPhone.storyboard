@@ -123,11 +123,103 @@
                     <navigationItem key="navigationItem" id="p2i-vq-Jgv"/>
                     <connections>
                         <segue destination="4Nf-yR-N3T" kind="push" identifier="SidebarToGroupTableView" id="HNg-g1-5Ul"/>
+                        <segue destination="8vR-3a-ugj" kind="push" identifier="SettingsToTasks" id="pCB-RB-ra8"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="D0U-hv-S1L" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="961" y="19"/>
+            <point key="canvasLocation" x="1357" y="-239"/>
+        </scene>
+        <!--Tasks View Controller-->
+        <scene sceneID="pTL-kV-xQ8">
+            <objects>
+                <viewController storyboardIdentifier="TasksViewController" id="8vR-3a-ugj" customClass="TasksViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="DDM-Ie-7y6"/>
+                        <viewControllerLayoutGuide type="bottom" id="Tog-zU-sCd"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="Ok9-Xh-kGv">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="bHR-P7-c4q">
+                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="EBe-oS-Mtp">
+                            <connections>
+                                <segue destination="5be-wY-dKh" kind="push" id="OsU-G4-45V"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <connections>
+                        <segue destination="kIV-Mh-A7H" kind="push" identifier="TasksToDetailView" id="wIo-ln-VdA"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="1sw-jE-gQH" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1981" y="-371"/>
+        </scene>
+        <!--Task Detail View Controller-->
+        <scene sceneID="Vqf-fY-mqE">
+            <objects>
+                <viewController id="kIV-Mh-A7H" customClass="TaskDetailViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="rCr-uk-PvR"/>
+                        <viewControllerLayoutGuide type="bottom" id="5SH-AJ-GOp"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="44r-FB-kYP">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="6lV-Jl-rdR">
+                        <barButtonItem key="rightBarButtonItem" systemItem="edit" id="PXQ-DP-TL6">
+                            <connections>
+                                <segue destination="ibP-fN-xgk" kind="push" identifier="DetailViewToEditTask" id="4f5-CF-y9c"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="S4F-GM-0A1" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2563" y="-132"/>
+        </scene>
+        <!--Edit Task View Controller-->
+        <scene sceneID="KCW-3y-sYQ">
+            <objects>
+                <viewController id="ibP-fN-xgk" customClass="EditTaskViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="Mj3-L4-qm2"/>
+                        <viewControllerLayoutGuide type="bottom" id="sgw-9R-BBW"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="1qU-Qq-Xpw">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="oIM-OW-X1M"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="tO6-3T-YUY" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3035" y="-123"/>
+        </scene>
+        <!--Create Tasks View Controller-->
+        <scene sceneID="8sf-Si-odF">
+            <objects>
+                <viewController id="5be-wY-dKh" customClass="CreateTasksViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="CQu-y3-uob"/>
+                        <viewControllerLayoutGuide type="bottom" id="SOf-ch-nWm"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="BIk-db-8rm">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="I3D-ff-G63"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="YRE-UT-a1L" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2737" y="-883"/>
         </scene>
         <!--Root Controller-->
         <scene sceneID="23k-k3-8EV">
@@ -226,7 +318,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="QE1-bK-8M2" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1991" y="-59"/>
+            <point key="canvasLocation" x="2523" y="595"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="AGk-ZA-fls">
@@ -282,6 +374,6 @@
         <simulatedScreenMetrics key="destination" type="retina4"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="KKH-3J-qvk"/>
+        <segue reference="HNg-g1-5Ul"/>
     </inferredMetricsTieBreakers>
 </document>
