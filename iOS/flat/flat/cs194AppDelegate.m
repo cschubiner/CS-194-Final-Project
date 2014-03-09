@@ -235,7 +235,7 @@
 }
 
 -(void)getNumUsersHome {
-        [[[FlatAPIClientManager sharedClient]rootController]refreshUsers];
+    [[[FlatAPIClientManager sharedClient]rootController]refreshUsers];
     int numUsersHome = 0;
     for (ProfileUser * user in [[FlatAPIClientManager sharedClient]users]) {
         if ([user.isNearDorm isEqualToNumber2:[NSNumber numberWithInt:IN_DORM_STATUS]])
@@ -250,7 +250,7 @@
 }
 
 -(void)checkForCalendarEvent {
-//    NSLog(@"calendar event checking");
+    //    NSLog(@"calendar event checking");
     NSCalendar* calendar = [[NSCalendar alloc] initWithCalendarIdentifier: NSGregorianCalendar];
     NSDateComponents* components = [[NSDateComponents alloc] init];
     components.minute = 5;
@@ -320,7 +320,7 @@
 - (void)applicationDidBecomeActive:(UIApplication *)application
 {
     // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
-    
+    [self refreshMessages];
     [GroupNetworkRequest getGroupFromGroupID:[FlatAPIClientManager sharedClient].profileUser.groupID withCompletionBlock:^(NSError * error, Group * group1) {
         if (group1 == nil)
             group1 = [GroupLocalRequest getGroup];
@@ -343,6 +343,10 @@
 
 - (void)application:(UIApplication*)application didReceiveRemoteNotification:(NSDictionary*)userInfo
 {
+    [self refreshMessages];
+}
+
+-(void)refreshMessages {
     RootController *mainViewController = self.mainViewController;
     HomeViewController *homeViewController = mainViewController.centerPanel;
     [MessageHelper getMessagesWithCompletionBlock:^(NSError *error, NSArray *messages) {
@@ -351,8 +355,6 @@
             [JSMessageSoundEffect playMessageReceivedAlert];
         }
         homeViewController.messages = [messages mutableCopy];
-        [homeViewController.tableView reloadData];
-        [homeViewController scrollToBottomAnimated:YES];
         NSLog(@"Getting messages 5");
     }];
 }
