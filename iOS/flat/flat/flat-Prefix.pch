@@ -21,3 +21,6 @@
 #import "CoreData+MagicalRecord.h"
 #import "NSValue+NSValueEqualTo.h"
 #import "Utils.h"
+const static int AWAY_DORM_STATUS = 0;
+const static int IN_DORM_STATUS = 1;
+const static int NOT_BROADCASTING_DORM_STATUS = 2;

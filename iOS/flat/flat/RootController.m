@@ -41,7 +41,7 @@
     self.rightFixedWidth = self.view.frame.size.width * .85;
     //    self.allowRightOverpan= YES;
     
-//    self.navigationController.navigationBar.hidden = NO;
+    //    self.navigationController.navigationBar.hidden = NO;
     //    self.navigationController.navigationBar.barTintColor = [UIColor whiteColor];
     self.navigationController.navigationBar.tintColor = [UIColor blackColor]; //sets text color
     self.navigationController.navigationBar.translucent = YES;
@@ -75,9 +75,11 @@
      blue:246.0/255.0
      alpha:1.0];
      */
-//    self.navigationController.toolbarHidden = TRUE;
-    
-    
+    //    self.navigationController.toolbarHidden = TRUE;
+    [self refreshUsers];
+}
+
+-(void)requestCalendarAccess {
     EKEventStore *store = [[EKEventStore alloc] init];
     [store requestAccessToEntityType:EKEntityTypeEvent completion:^(BOOL granted, NSError *error) {
         if (granted)
@@ -94,7 +96,29 @@
     }];
 }
 
+-(void)refreshUsers {
+    ProfileUser * currUser = [FlatAPIClientManager sharedClient].profileUser;
+    [ProfileUserHelper getUsersFromGroupID:currUser.groupID withCompletionBlock:^(NSError * error, NSMutableArray * users) {
+        [[FlatAPIClientManager sharedClient] setUsers:users];
+        [self.leftPanel.sideBarMenuTable reloadData];
+        
+        static dispatch_once_t onceToken;
+        dispatch_once(&onceToken, ^{
+            [self requestCalendarAccess];
+        });
+        
+    }];
+}
 
+-(void)viewWillAppear:(BOOL)animated {
+    
+    [self refreshUsers];
+    [NSTimer scheduledTimerWithTimeInterval:30.0
+                                     target:self
+                                   selector:@selector(refreshUsers)
+                                   userInfo:nil
+                                    repeats:YES];
+}
 
 - (IBAction)refreshMessages:(id)sender
 {
@@ -135,14 +159,11 @@
     [[FlatAPIClientManager sharedClient]setEvents:[NSMutableArray arrayWithArray:events]];
 }
 
+
 - (void)getCalendarEvents {
     [self getCalendarEventsForDays];
     NSArray *events = [FlatAPIClientManager sharedClient].events;
     NSNumber * userID = [[FlatAPIClientManager sharedClient]profileUser].userID;
-    
-    NSString * eventJSON = @"{\"events\":[";
-    if (events == nil || events.count == 0)
-        eventJSON = @"{\"events\":[]}";
     
     Firebase* fCal = [[Firebase alloc] initWithUrl:@"https://flatapp.firebaseio.com/calendars"];
     
@@ -158,11 +179,8 @@
         [ev setEndDate:[event endDate]];
         [ev setTitle:[event title]];
         [ev setUserID:userID];
-        if (event == events.lastObject)
-            eventJSON = [NSString stringWithFormat:@"%@%@]}", eventJSON, [ev toJSONString]]; //don't include comma
-        else
-            eventJSON = [NSString stringWithFormat:@"%@%@,", eventJSON, [ev toJSONString]];
         [allEventArray addObject:ev];
+
         Firebase* fEvent = [fCalUser childByAppendingPath:[NSString stringWithFormat:@"%@", event.startDate]];
         [[fEvent childByAppendingPath:@"startDate"] setValue:[NSString stringWithFormat:@"%@", event.startDate]];
         [[fEvent childByAppendingPath:@"endDate"] setValue:[NSString stringWithFormat:@"%@", event.endDate]];
@@ -171,9 +189,9 @@
         //        [fEvent setValue:@"hi" forKey:@"startDate"];
         //        [fEvent setValue:event.title forKey:@"title"];
     }
-//    [[FlatAPIClientManager sharedClient]setAllEvents:[NSArray arrayWithArray:allEventArray]];
-    [ProfileUserNetworkRequest sendCalendarEvents:eventJSON];
+    //    [[FlatAPIClientManager sharedClient]setAllEvents:[NSArray arrayWithArray:allEventArray]];
 }
+
 
 -(void)openSettings {
     [self performSegueWithIdentifier:@"RootToSettingsViewController" sender:self];

@@ -28,19 +28,8 @@
     pageControl.currentPageIndicatorTintColor = [UIColor blackColor];
     pageControl.backgroundColor = [UIColor whiteColor];
     
-    application.applicationIconBadgeNumber = 0;
     
-//    [NSTimeZone setDefaultTimeZone:[NSTimeZone localTimeZone]];
-    // code to let kyle log in cuz of his messed up privacy settings. don't delete or uncomment.
-    //        ProfileUser *kyleUser = [ProfileUser MR_createInContext:[NSManagedObjectContext MR_defaultContext]];
-    //        kyleUser.userID =  [NSNumber numberWithLong:100002378870303];
-    //        kyleUser.groupID = [NSNumber numberWithInt:1];
-    //       kyleUser.colorID =  [NSNumber numberWithInt:1];
-    //        kyleUser.firstName = @"Kyle";
-    //        kyleUser.lastName = @"Archie";
-    //        kyleUser.email = @"kyleaarchie@gmail.com";
-    //        kyleUser.isNearDorm = [NSNumber numberWithInt:1];
-    //        [[FlatAPIClientManager sharedClient] setProfileUser:kyleUser];
+    //    [NSTimeZone setDefaultTimeZone:[NSTimeZone localTimeZone]];
     
     // Check if user is logged in
     ProfileUser *profileUser = [ProfileUserHelper getProfileUser];
@@ -67,16 +56,6 @@
         [self showLoginView];
     }
     
-    [GroupNetworkRequest getGroupFromGroupID:[FlatAPIClientManager sharedClient].profileUser.groupID withCompletionBlock:^(NSError * error, Group * group1) {
-        if (group1 == nil)
-            group1 = [GroupLocalRequest getGroup];
-        [FlatAPIClientManager sharedClient].group = group1;
-        [[NSManagedObjectContext MR_defaultContext] MR_saveToPersistentStoreAndWait];
-        //kickstart location
-        [[LocationManager sharedClient] setShouldSetDormLocation:false];
-    }];
-    
-    
     [[UIApplication sharedApplication] registerForRemoteNotificationTypes:
      (UIRemoteNotificationTypeSound | UIRemoteNotificationTypeAlert)];
     
@@ -92,7 +71,7 @@
     [[FlatAPIClientManager sharedClient] setRootController:self.mainViewController];
     NSLog(@"after instantiating root controller");
     self.mainNavigationViewController = [[MainNavigationViewController alloc] initWithRootViewController:self.mainViewController];
-//    self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+    //    self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     self.window.rootViewController = self.mainNavigationViewController;
     [self.window makeKeyAndVisible];
 }
@@ -119,6 +98,9 @@
     [ProfileUserHelper deleteCurrentProfileFromStore];
     [ProfileUser MR_truncateAll];
     [[FlatAPIClientManager sharedClient] setProfileUser:nil];
+    
+    [Group deleteCurrentGroupFromStore];
+    [Group MR_truncateAll];
     [[FlatAPIClientManager sharedClient] setGroup:nil];
     
     // Clear Facebook Tokens
@@ -210,18 +192,6 @@
              
              [self showLoginView];*/
             
-            // Hacky code to let kyle log in -----------------------------------------
-            /* ProfileUser * kyle = [[ProfileUser alloc]init];
-             ProfileUser *profileUser;
-             profileUser = [ProfileUser getProfileUserObjectFromDictionary:userJSON
-             AndManagedObjectContext:[NSManagedObjectContext MR_defaultContext]];
-             
-             [kyle setFirstName:@"Kyle"];
-             kyle.lastName = @"Archie";
-             kyle.userID = [NSNumber numberWithInt:100002378870303];
-             kyle.groupID = [NSNumber numberWithInt:19];
-             kyle.isNearDorm = [NSNumber numberWithBool:true];*/
-            //  [FlatAPIClientManager sharedClient].profileUser = kyle;
             [self showInitialView];
             
             // delete the above section at some point --------------------------------
@@ -244,6 +214,7 @@
 
 - (void)applicationDidEnterBackground:(UIApplication *)application
 {
+    [self getNumUsersHome];
     UIApplication *app = [UIApplication sharedApplication];
     
     //create new uiBackgroundTask
@@ -256,15 +227,30 @@
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         //run function methodRunAfterBackground
         int checkEvery = 290; //almost every 5 minutes
-//        checkEvery = 10;
-        NSTimer* t = [NSTimer scheduledTimerWithTimeInterval:checkEvery target:self selector:@selector(checkForCalendarEvent) userInfo:nil repeats:YES];
+        //        checkEvery = 10;
+        NSTimer* t = [NSTimer scheduledTimerWithTimeInterval:checkEvery target:self selector:@selector(backgroundTask) userInfo:nil repeats:YES];
         [[NSRunLoop currentRunLoop] addTimer:t forMode:NSDefaultRunLoopMode];
         [[NSRunLoop currentRunLoop] run];
     });
 }
 
+-(void)getNumUsersHome {
+        [[[FlatAPIClientManager sharedClient]rootController]refreshUsers];
+    int numUsersHome = 0;
+    for (ProfileUser * user in [[FlatAPIClientManager sharedClient]users]) {
+        if ([user.isNearDorm isEqualToNumber2:[NSNumber numberWithInt:IN_DORM_STATUS]])
+            numUsersHome++;
+    }
+    [UIApplication sharedApplication].applicationIconBadgeNumber = numUsersHome;
+}
+
+-(void)backgroundTask {
+    [self checkForCalendarEvent];
+    [self getNumUsersHome];
+}
+
 -(void)checkForCalendarEvent {
-    NSLog(@"calendar event checking");
+//    NSLog(@"calendar event checking");
     NSCalendar* calendar = [[NSCalendar alloc] initWithCalendarIdentifier: NSGregorianCalendar];
     NSDateComponents* components = [[NSDateComponents alloc] init];
     components.minute = 5;
@@ -334,6 +320,20 @@
 - (void)applicationDidBecomeActive:(UIApplication *)application
 {
     // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
+    
+    [GroupNetworkRequest getGroupFromGroupID:[FlatAPIClientManager sharedClient].profileUser.groupID withCompletionBlock:^(NSError * error, Group * group1) {
+        if (group1 == nil)
+            group1 = [GroupLocalRequest getGroup];
+        [FlatAPIClientManager sharedClient].group = group1;
+        [[NSManagedObjectContext MR_defaultContext] MR_saveToPersistentStoreAndWait];
+        //kickstart location
+        CLLocationManager * manager = [[LocationManager sharedClient] locationManager];
+        [manager stopMonitoringForRegion:manager.monitoredRegions.anyObject];
+        [manager startMonitoringForRegion:[[LocationManager sharedClient] getGroupLocationRegion]];
+        [[LocationManager sharedClient] setShouldSetDormLocation:false];
+    }];
+    
+    
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application

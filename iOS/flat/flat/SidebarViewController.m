@@ -12,13 +12,8 @@
 
 @interface SidebarViewController ()
 
-@property NSMutableArray * users;
 
 @end
-
-const static int AWAY_DORM_STATUS = 0;
-const static int IN_DORM_STATUS = 1;
-const static int NOT_BROADCASTING_DORM_STATUS = 2;
 
 
 @implementation SidebarViewController
@@ -38,24 +33,6 @@ static const int NAV_BAR_HEIGHT = 56;//64;
     return self;
 }
 
--(void)refreshUsers {
-    ProfileUser * currUser = [FlatAPIClientManager sharedClient].profileUser;
-    [ProfileUserHelper getUsersFromGroupID:currUser.groupID withCompletionBlock:^(NSError * error, NSMutableArray * users) {
-        self.users = users;
-        [[FlatAPIClientManager sharedClient] setUsers:users];
-        [self.sideBarMenuTable reloadData];
-    }];
-}
-
--(void)viewWillAppear:(BOOL)animated {
-    
-    [self refreshUsers];
-    [NSTimer scheduledTimerWithTimeInterval:30.0
-                                     target:self
-                                   selector:@selector(refreshUsers)
-                                   userInfo:nil
-                                    repeats:YES];
-}
 
 - (void)viewDidLoad
 {
@@ -76,7 +53,8 @@ static const int NAV_BAR_HEIGHT = 56;//64;
 - (NSInteger)tableView:(UITableView *)tableView
  numberOfRowsInSection:(NSInteger)section
 {
-    return MAX(1,self.users.count);
+    NSMutableArray * users = [[FlatAPIClientManager sharedClient]users];
+    return MAX(1, users.count);
 }
 
 - (NSString *)tableView:(UITableView *)tableView
@@ -97,7 +75,8 @@ titleForHeaderInSection:(NSInteger)section
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (self.users.count == 0) return 520;
+    NSMutableArray * users = [[FlatAPIClientManager sharedClient]users];
+    if (users.count == 0) return 520;
     return 90;
 }
 
@@ -111,14 +90,15 @@ titleForHeaderInSection:(NSInteger)section
 //    }
     UITableViewCell*  cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault  reuseIdentifier:MyIdentifier];
     
-    if (self.users.count == 0) {
+    NSMutableArray * users = [[FlatAPIClientManager sharedClient]users];
+    if (users.count == 0) {
         [cell.textLabel setText:@"Loading..."];
         return cell;
     }
     [tableView setSeparatorStyle:UITableViewCellSeparatorStyleNone];
     tableView.backgroundColor = [UIColor whiteColor];
     
-    ProfileUser * user = [self.users objectAtIndex: indexPath.row];
+    ProfileUser * user = [users objectAtIndex: indexPath.row];
     
     UIView *circleView = [[UIView alloc] initWithFrame:CGRectMake(40,15,70,70)];
     circleView.alpha = 1.0;

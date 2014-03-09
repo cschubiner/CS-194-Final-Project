@@ -24,8 +24,7 @@
                                             NSMutableArray *usersArray = [JSON objectForKey:@"users"];
                                             NSMutableArray *usersArrayReturn = [[NSMutableArray alloc] init];
                                             for (NSMutableDictionary* userJSON in usersArray) {
-                                                ProfileUser *profileUser = [ProfileUser getProfileUserObjectFromDictionary:userJSON
-                                                                                                   AndManagedObjectContext:[NSManagedObjectContext MR_defaultContext]];
+                                                ProfileUser *profileUser = [ProfileUser getProfileUserObjectFromDictionary:userJSON AndManagedObjectContext:[NSManagedObjectContext MR_defaultContext]];
                                                 [usersArrayReturn addObject:profileUser];
                                             }
                                             completionBlock(error, usersArrayReturn);
@@ -92,22 +91,6 @@
     [ProfileUserNetworkRequest setGroupIDForUser:userID groupID:groupID withCompletionBlock:nil];
 }
 
-+ (void) sendCalendarEvents:(NSString*)eventJSONString {
-    return; //don't do this anymore
-    [[FlatAPIClientManager sharedClient] POST:@"user/update/calendar"
-                                   parameters:[NSDictionary dictionaryWithObject:eventJSONString forKey:@"events"]
-                                      success:^(NSURLSessionDataTask * task, id JSON) {
-                                          NSError *error = [ErrorHelper apiErrorFromDictionary:JSON];
-                                          if (!error) {
-                                              NSLog(@"successfully sent calendar");
-                                          } else {
-                                              NSLog(@"error when sending calendar");
-                                          }
-                                      }
-                                      failure: ^(NSURLSessionDataTask *__unused task, NSError *error) {
-                                          NSLog(@"error in sending calendar");
-                                      }];
-}
 
 + (void) getFriendsGroupsFromUserID:(NSNumber*)userID
          withCompletionBlock:(RequestProfileUsersCompletionHandler)completionBlock
