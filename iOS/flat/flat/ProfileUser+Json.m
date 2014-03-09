@@ -99,7 +99,7 @@
     else if ([user.colorID isEqualToNumber2:[NSNumber numberWithInt:3]])
         colorStr = @"5AC8FB";
     else if ([user.colorID isEqualToNumber2:[NSNumber numberWithInt:4]])
-        colorStr = @"1D62F0";
+        colorStr = @"5BCAFF";
     else if ([user.colorID isEqualToNumber2:[NSNumber numberWithInt:5]])
         colorStr = @"5856D6";
     else if ([user.colorID isEqualToNumber2:[NSNumber numberWithInt:6]])
