@@ -23,5 +23,6 @@
 @property NSString *deviceToken;
 @property (nonatomic, strong) RootController * rootController;
 
+-(int)getNumUsersHome;
 -(void)getAllCalendarEvents:(void(^)())callback;
 @end

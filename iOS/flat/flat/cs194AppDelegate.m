@@ -216,7 +216,7 @@
 
 - (void)applicationDidEnterBackground:(UIApplication *)application
 {
-    [self getNumUsersHome];
+    [[FlatAPIClientManager sharedClient] getNumUsersHome];
     UIApplication *app = [UIApplication sharedApplication];
     
     //create new uiBackgroundTask
@@ -236,20 +236,9 @@
     });
 }
 
--(void)getNumUsersHome {
-    [[[FlatAPIClientManager sharedClient]rootController]refreshUsers];
-    int numUsersHome = 0;
-    for (ProfileUser * user in [[FlatAPIClientManager sharedClient]users]) {
-        if ([user.isNearDorm isEqualToNumber2:[NSNumber numberWithInt:IN_DORM_STATUS]])
-            numUsersHome++;
-    }
-    [UIApplication sharedApplication].applicationIconBadgeNumber = numUsersHome;
-    NSLog(@"there are currently %d users home.", numUsersHome);
-}
-
 -(void)backgroundTask {
     [self checkForCalendarEvent];
-    [self getNumUsersHome];
+    [[FlatAPIClientManager sharedClient] getNumUsersHome];
 }
 
 -(void)checkForCalendarEvent {
@@ -347,7 +336,7 @@
 - (void)application:(UIApplication*)application didReceiveRemoteNotification:(NSDictionary*)userInfo
 {
     [self refreshMessages];
-    [self getNumUsersHome];
+    [[FlatAPIClientManager sharedClient] getNumUsersHome];
 }
 
 -(void)refreshMessages {

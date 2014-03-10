@@ -34,18 +34,6 @@ static const int NAV_BAR_HEIGHT = 64;
     return self;
 }
 
--(void)refreshEvents {
-    [[FlatAPIClientManager sharedClient]getAllCalendarEvents:^(){
-        [self.sideBarMenuTable reloadData];
-    }];
-}
-
--(void)viewWillAppear:(BOOL)animated {
-    [NSTimer scheduledTimerWithTimeInterval:4.0 target:self selector:@selector(refreshEvents) userInfo:nil repeats:NO];
-    [NSTimer scheduledTimerWithTimeInterval:15.0 target:self selector:@selector(refreshEvents) userInfo:nil repeats:NO];
-    [NSTimer scheduledTimerWithTimeInterval:30.0 target:self selector:@selector(refreshEvents) userInfo:nil repeats:YES];
-}
-
 - (void)viewDidLoad
 {
     [super viewDidLoad];

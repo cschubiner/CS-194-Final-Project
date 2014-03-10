@@ -30,6 +30,30 @@
     return self;
 }
 
+
+-(void)setNavBarButtons {
+    int numUsersHome = [[FlatAPIClientManager sharedClient] getNumUsersHome];
+    UIImage* image = [UIImage imageNamed:@"circleicon.png"];
+    CGRect frame = CGRectMake(0, 0, image.size.width + 5, image.size.height + 5);
+    UIButton* someButton = [[UIButton alloc] initWithFrame:frame];
+    [someButton setBackgroundImage:image forState:UIControlStateNormal];
+    [someButton setShowsTouchWhenHighlighted:YES];
+    
+    UIBarButtonItem* someBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:someButton];
+    
+    
+    UIImage* image2 = [UIImage imageNamed:@"listicon.png"];
+    CGRect frame2 = CGRectMake(0, 0, image2.size.width, image2.size.height);
+    UIButton* someButton2 = [[UIButton alloc] initWithFrame:frame2];
+    [someButton2 setBackgroundImage:image2 forState:UIControlStateNormal];
+    [someButton2 setShowsTouchWhenHighlighted:YES];
+    UIBarButtonItem* someBarButtonItem2 = [[UIBarButtonItem alloc] initWithCustomView:someButton2];
+    
+    //    self.navigationItem.leftBarButtonItem = leftBarButton;
+    self.navigationItem.leftBarButtonItem = someBarButtonItem;
+    self.navigationItem.rightBarButtonItem = someBarButtonItem2;
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -65,28 +89,8 @@
     //    UIBarButtonItem* lbb = [[UIBarButtonItem alloc]initWithTitle:@"Settings" style:UIBarButtonItemStyleBordered target:self action:@selector(openSettings)];
     //    [lbb setTintColor:[UIColor whiteColor]];
     
-    
-    UIImage* image = [UIImage imageNamed:@"circleicon.png"];
-    CGRect frame = CGRectMake(0, 0, image.size.width + 5, image.size.height + 5);
-    UIButton* someButton = [[UIButton alloc] initWithFrame:frame];
-    [someButton setBackgroundImage:image forState:UIControlStateNormal];
-    [someButton setShowsTouchWhenHighlighted:YES];
-    UIBarButtonItem* someBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:someButton];
-    [self.navigationItem setRightBarButtonItem:someBarButtonItem];
-    
-    UIImage* image2 = [UIImage imageNamed:@"listicon.png"];
-    CGRect frame2 = CGRectMake(0, 0, image2.size.width, image2.size.height);
-    UIButton* someButton2 = [[UIButton alloc] initWithFrame:frame2];
-    [someButton2 setBackgroundImage:image2 forState:UIControlStateNormal];
-    [someButton2 setShowsTouchWhenHighlighted:YES];
-    UIBarButtonItem* someBarButtonItem2 = [[UIBarButtonItem alloc] initWithCustomView:someButton2];
-    [self.navigationItem setRightBarButtonItem: someBarButtonItem2];
-    //[someBarButtonItem release];
-    //[someButton release];
-    
-    //    self.navigationItem.leftBarButtonItem = leftBarButton;
-    self.navigationItem.leftBarButtonItem = someBarButtonItem;
-    self.navigationItem.rightBarButtonItem = someBarButtonItem2;
+ 
+    [self setNavBarButtons];
 
     //    UIBarButtonItem *rightBarButton = [[UIBarButtonItem alloc]
     //                               initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh
@@ -134,10 +138,23 @@
     }];
 }
 
+-(void)refreshEvents {
+    [[FlatAPIClientManager sharedClient]getAllCalendarEvents:^(){
+        [self.rightPanel.sideBarMenuTable reloadData];
+    }];
+}
+
+-(void)refreshStuff {
+    [self refreshUsers];
+    [self refreshEvents];
+    [self setNavBarButtons];
+}
+
 -(void)viewWillAppear:(BOOL)animated {
     
-    [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(refreshUsers) userInfo:nil repeats:NO];
-    [NSTimer scheduledTimerWithTimeInterval:30.0 target:self selector:@selector(refreshUsers) userInfo:nil repeats:YES];
+    [NSTimer scheduledTimerWithTimeInterval:3.0 target:self selector:@selector(refreshStuff) userInfo:nil repeats:NO];
+    [NSTimer scheduledTimerWithTimeInterval:15.0 target:self selector:@selector(refreshStuff) userInfo:nil repeats:NO];
+    [NSTimer scheduledTimerWithTimeInterval:30.0 target:self selector:@selector(refreshStuff) userInfo:nil repeats:YES];
     
 }
 

@@ -105,4 +105,18 @@ static NSString * const SIGNATURE = @"";
     }];
 }
 
+-(int)getNumUsersHome {
+    [[[FlatAPIClientManager sharedClient]rootController]refreshUsers];
+    int numUsersHome = 0;
+    for (ProfileUser * user in [[FlatAPIClientManager sharedClient]users]) {
+        if ([user.isNearDorm isEqualToNumber2:[NSNumber numberWithInt:IN_DORM_STATUS]])
+            numUsersHome++;
+    }
+    [UIApplication sharedApplication].applicationIconBadgeNumber = numUsersHome;
+    NSLog(@"there are currently %d users home.", numUsersHome);
+    return numUsersHome;
+}
+
+
+
 @end
