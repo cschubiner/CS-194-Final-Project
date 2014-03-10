@@ -45,8 +45,10 @@
 -(void)setNavBarButtons {
     int numUsersHome = [[FlatAPIClientManager sharedClient] getNumUsersHome];
     UIImage* image = [UIImage imageNamed:@"circleicon.png"];
-    CGRect frame = CGRectMake(0, 0, image.size.width + 5, image.size.height + 5);
+    CGRect frame = CGRectMake(0, 0, image.size.width + 7, image.size.height + 7);
     UIButton* someButton = [[UIButton alloc] initWithFrame:frame];
+    NSString *numHomeText = [NSString stringWithFormat:@"%d", numUsersHome];
+    [someButton setTitle:numHomeText forState:UIControlStateNormal];
     [someButton setBackgroundImage:image forState:UIControlStateNormal];
     [someButton setShowsTouchWhenHighlighted:YES];
     [someButton addTarget:self
@@ -65,7 +67,6 @@
           forControlEvents:UIControlEventTouchUpInside];
     UIBarButtonItem* someBarButtonItem2 = [[UIBarButtonItem alloc] initWithCustomView:someButton2];
     
-    //    self.navigationItem.leftBarButtonItem = leftBarButton;
     self.navigationItem.leftBarButtonItem = someBarButtonItem;
     self.navigationItem.rightBarButtonItem = someBarButtonItem2;
 }
@@ -90,37 +91,8 @@
     [[self navigationItem] setTitle:@"Flat"];
     [self.navigationController.navigationBar setTitleTextAttributes:
      @{ NSFontAttributeName: [UIFont fontWithName:@"HelveticaNeue-Light" size:22.0f], NSForegroundColorAttributeName: [UIColor colorWithPatternImage:myGradient]}];
-    
-    
-    
-    //    UIBarButtonItem *leftBarButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"menubar"]
-    //                                                                      style:UIBarButtonItemStylePlain
-    //                                                                     target:self
-    //                                                                     action:@selector(toggleSidebarMenu:)];
-    
-    //    UIImage *faceImage = [UIImage imageNamed:@"facebook.png"];
-    //    UIButton *face = [UIButton buttonWithType:UIButtonTypeCustom];
-    //    face.bounds = CGRectMake( 0, 0, faceImage.size.width, faceImage.size.height );
-    //    [face setImage:faceImage forState:UIControlStateNormal];
-    //    UIBarButtonItem *faceBtn = [[UIBarButtonItem alloc] initWithCustomView:face];
-    
-    //    UIBarButtonItem* lbb = [[UIBarButtonItem alloc]initWithTitle:@"Settings" style:UIBarButtonItemStyleBordered target:self action:@selector(openSettings)];
-    //    [lbb setTintColor:[UIColor whiteColor]];
      
     [self setNavBarButtons];
-
-    //    UIBarButtonItem *rightBarButton = [[UIBarButtonItem alloc]
-    //                               initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh
-    //                                       target:self
-    //                                       action:@selector(refreshMessages:)];
-    //    self.navigationItem.rightBarButtonItem = rightBarButton;
-    /*
-     self.navigationItem.rightBarButtonItem.tintColor = [UIColor colorWithRed:109.0/255.0
-     green:207.0/255.0
-     blue:246.0/255.0
-     alpha:1.0];
-     */
-    //    self.navigationController.toolbarHidden = TRUE;
     [self refreshUsers];
 }
 
