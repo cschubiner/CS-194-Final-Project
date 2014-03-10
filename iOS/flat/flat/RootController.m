@@ -81,7 +81,7 @@
     self.allowRightSwipe = YES;
     self.rightFixedWidth = self.view.frame.size.width * .85;
     
-    self.navigationController.navigationBar.tintColor = [UIColor blackColor]; //sets text color
+    self.navigationController.navigationBar.tintColor = [UIColor whiteColor]; //sets text color
     self.navigationController.navigationBar.barTintColor = [UIColor blackColor];
     self.navigationController.navigationBar.translucent = YES;
     self.navigationController.navigationBar.alpha = .01;

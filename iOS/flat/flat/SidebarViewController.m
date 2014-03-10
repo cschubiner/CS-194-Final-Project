@@ -53,8 +53,8 @@ static const int NAV_BAR_HEIGHT = 56;//64;
 - (NSInteger)tableView:(UITableView *)tableView
  numberOfRowsInSection:(NSInteger)section
 {
-    NSMutableArray * users = [[FlatAPIClientManager sharedClient]users];
-    return MAX(1, users.count);
+    NSMutableArray *users = [[FlatAPIClientManager sharedClient]users];
+    return MAX(1, users.count) + 2;
 }
 
 - (NSString *)tableView:(UITableView *)tableView
@@ -69,13 +69,36 @@ titleForHeaderInSection:(NSInteger)section
     }
 }
 
--(BOOL)tableView:(UITableView *)tableView shouldHighlightRowAtIndexPath:(NSIndexPath *)indexPath {
-    return NO;
+- (BOOL)tableView:(UITableView *)tableView shouldHighlightRowAtIndexPath:(NSIndexPath *)indexPath {
+    if (indexPath.row == 0 || indexPath.row == 1) {
+        return YES;
+    } else {
+        return NO;
+    }
+}
+
+- (void)tableView:(UITableView *)tableView
+didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if (indexPath.row == 0) {   //settings
+        [self.sideBarMenuTable deselectRowAtIndexPath:indexPath
+                                             animated:YES];
+        [self performSegueWithIdentifier:@"LeftSidebarToSettings"
+                                  sender:self];
+    } else if (indexPath.row == 1) {    //tasks
+        [self.sideBarMenuTable deselectRowAtIndexPath:indexPath
+                                             animated:YES];
+        [self performSegueWithIdentifier:@"LeftSidebarToTasks"
+                                  sender:self];
+    }
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     NSMutableArray * users = [[FlatAPIClientManager sharedClient]users];
+    if (indexPath.row == 0 || indexPath.row == 1) {
+        return 70;
+    }
     if (users.count == 0) return 520;
     return 90;
 }
@@ -91,39 +114,45 @@ titleForHeaderInSection:(NSInteger)section
     UITableViewCell*  cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault  reuseIdentifier:MyIdentifier];
     
     NSMutableArray * users = [[FlatAPIClientManager sharedClient]users];
-    if (users.count == 0) {
-        [cell.textLabel setText:@"Loading..."];
-        return cell;
-    }
-    [tableView setSeparatorStyle:UITableViewCellSeparatorStyleNone];
-    tableView.backgroundColor = [UIColor whiteColor];
-    
-    ProfileUser * user = [users objectAtIndex: indexPath.row];
-    
-    UIView *circleView = [[UIView alloc] initWithFrame:CGRectMake(40,15,70,70)];
-    circleView.alpha = 1.0;
-    circleView.layer.cornerRadius = 35;
-    circleView.backgroundColor = [ProfileUser getColorFromUser:user];
-    
-    NSArray *geoImages = [NSArray arrayWithObjects:@"arrow-hollow-black.png", @"arrow-black.png", @"arrow-empty-small.png", nil];
-    UIImageView *locationImage = [[UIImageView alloc] initWithImage:[UIImage imageNamed:
-                                                                     geoImages[user.isNearDorm.intValue]]];
-    locationImage.frame = CGRectMake(4,40,20,20);
-    
-    UILabel *name = [[UILabel alloc]initWithFrame:CGRectMake(60, 16, 70, 70)];
-    name.textColor = [UIColor whiteColor];
-    name.font = [UIFont fontWithName:@"courier" size:25];
-    
     cell.backgroundColor = [UIColor whiteColor];
-    [cell.contentView addSubview:circleView];
-    [cell.contentView addSubview:name];
-    [cell.contentView addSubview:locationImage];
 
-    NSString *initials  = [NSString stringWithFormat:@"%@%@",
-                           [user.firstName substringWithRange:NSMakeRange(0, 1)],
-                           [user.lastName substringWithRange:NSMakeRange(0, 1)]];
-    name.text = initials;
-    
+    if (indexPath.row == 0) {
+        cell.textLabel.text = @"Settings";
+    } else if (indexPath.row == 1) {
+        cell.textLabel.text = @"Tasks";
+    } else {
+        if (users.count == 0) {
+            [cell.textLabel setText:@"Loading..."];
+            return cell;
+        }
+        [tableView setSeparatorStyle:UITableViewCellSeparatorStyleNone];
+        tableView.backgroundColor = [UIColor whiteColor];
+        
+        ProfileUser * user = [users objectAtIndex: indexPath.row];
+        
+        UIView *circleView = [[UIView alloc] initWithFrame:CGRectMake(40,15,70,70)];
+        circleView.alpha = 1.0;
+        circleView.layer.cornerRadius = 35;
+        circleView.backgroundColor = [ProfileUser getColorFromUser:user];
+        
+        NSArray *geoImages = [NSArray arrayWithObjects:@"arrow-hollow-black.png", @"arrow-black.png", @"arrow-empty-small.png", nil];
+        UIImageView *locationImage = [[UIImageView alloc] initWithImage:[UIImage imageNamed:
+                                                                         geoImages[user.isNearDorm.intValue]]];
+        locationImage.frame = CGRectMake(4,40,20,20);
+        
+        UILabel *name = [[UILabel alloc]initWithFrame:CGRectMake(60, 16, 70, 70)];
+        name.textColor = [UIColor whiteColor];
+        name.font = [UIFont fontWithName:@"courier" size:25];
+        
+        [cell.contentView addSubview:circleView];
+        [cell.contentView addSubview:name];
+        [cell.contentView addSubview:locationImage];
+
+        NSString *initials  = [NSString stringWithFormat:@"%@%@",
+                               [user.firstName substringWithRange:NSMakeRange(0, 1)],
+                               [user.lastName substringWithRange:NSMakeRange(0, 1)]];
+        name.text = initials;
+    }
     return cell;
 }
 
