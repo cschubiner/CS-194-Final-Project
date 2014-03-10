@@ -22,7 +22,7 @@
 
 /*
  * Clay: in this file the self.messages mutable array contains both
- * JSMessage objects and CalendarMessage objects. In order to tell 
+ * JSMessage objects and CalendarMessage objects. In order to tell
  * what a specific object is use the following logic:
  * if ([message isKindOfClass:[CalendarMessage class]]) {
  *      //make it look like a calendar event
@@ -47,12 +47,12 @@
     NSLog(@"Getting messages 0");
     [MessageHelper getMessagesWithCompletionBlock:^(NSError *error, NSArray *messages) {
         //        NSLog(@"MESSAGES ARE %@", messages);
-    NSLog(@"Getting messages 1");
+        NSLog(@"Getting messages 1");
         self.messages = [messages mutableCopy];
         [self.tableView reloadData];
         [self.refresh endRefreshing];
         [self scrollToBottomAnimated:YES];
-    NSLog(@"Getting messages 2");
+        NSLog(@"Getting messages 2");
     }];
 }
 
@@ -60,6 +60,13 @@
 {
     if ([[FlatAPIClientManager sharedClient].users count] == 1 && self.justLoggedIn) {
         //show groups
+        UIAlertView *alertView = [[UIAlertView alloc]
+                                  initWithTitle:@"Join a Flat"
+                                  message:@"Let's get you in a Flat. Join a group with your friends!"
+                                  delegate:nil
+                                  cancelButtonTitle:@"OK"
+                                  otherButtonTitles:nil];
+        [alertView show];
         [self performSegueWithIdentifier:@"HomeViewControllerToGroupTableViewController"
                                   sender:self];
     }
@@ -83,7 +90,7 @@
     self.messageInputView.textView.placeHolder = @"Message";
     
     self.tableView.frame = CGRectMake(0, 64, self.view.frame.size.width, self.view.frame.size.height - self.messageInputView.frame.size.height - 64);
-//    self.tableView.frame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height - self.messageInputView.frame.size.height);
+    //    self.tableView.frame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height - self.messageInputView.frame.size.height);
     
     //Pull to refresh
     self.refresh = [[UIRefreshControl alloc] init];
@@ -107,7 +114,7 @@
             [self.tableView reloadData];
             [self scrollToBottomAnimated:NO];
             
-    NSLog(@"Getting messages z");
+            NSLog(@"Getting messages z");
         }];
     }];
 }
@@ -142,10 +149,10 @@
     JSMessage *currMessage = [self.messages objectAtIndex:indexPath.row];
     ProfileUser *user = [FlatAPIClientManager sharedClient].profileUser;
     
-
+    
     if ([currMessage.senderID isEqualToNumber2: user.userID]) {
         
-
+        
         return JSBubbleMessageTypeOutgoing;
     }
     return JSBubbleMessageTypeIncoming;
@@ -159,11 +166,9 @@
     JSMessage *currMessage = [self.messages objectAtIndex:indexPath.row];
     UIColor * bubbleColor;
     
-
+    
     if ([currMessage.senderID isEqualToNumber2:[NSNumber numberWithInt:0]]) { //if current message is a calendar event
-        
-
-        bubbleColor = [UIColor grayColor];
+        bubbleColor = [UIColor js_bubbleLightGrayColor];
     }
     else {
         ProfileUser *user = [FlatAPIClientManager sharedClient].profileUser;
@@ -183,12 +188,12 @@
 - (void)configureCell:(JSBubbleMessageCell *)cell atIndexPath:(NSIndexPath *)indexPath
 {
     NSLog(@"Getting messages zzz");
-        if (cell.timestampLabel) {
-            cell.timestampLabel.textColor = [UIColor lightGrayColor];
-            cell.timestampLabel.shadowOffset = CGSizeZero;
-        }
+    if (cell.timestampLabel) {
+        cell.timestampLabel.textColor = [UIColor lightGrayColor];
+        cell.timestampLabel.shadowOffset = CGSizeZero;
+    }
     if ([cell messageType] == JSBubbleMessageTypeOutgoing) {
-            cell.bubbleView.textView.textColor = [UIColor whiteColor];
+        cell.bubbleView.textView.textColor = [UIColor whiteColor];
     }
     NSLog(@"Getting messages zzu");
 }
