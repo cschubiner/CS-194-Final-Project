@@ -128,7 +128,7 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
         [tableView setSeparatorStyle:UITableViewCellSeparatorStyleNone];
         tableView.backgroundColor = [UIColor whiteColor];
         
-        ProfileUser * user = [users objectAtIndex: indexPath.row];
+        ProfileUser * user = [users objectAtIndex: indexPath.row - 2];
         
         UIView *circleView = [[UIView alloc] initWithFrame:CGRectMake(40,15,70,70)];
         circleView.alpha = 1.0;

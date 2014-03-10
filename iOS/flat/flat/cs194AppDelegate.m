@@ -345,13 +345,13 @@
     homeViewController.messages = nil;
     [homeViewController.tableView reloadData];
     [MessageHelper getMessagesWithCompletionBlock:^(NSError *error, NSArray *messages) {
-        NSLog(@"Getting messages 4");
+//        NSLog(@"Getting messages 4");
         homeViewController.messages = [messages mutableCopy];
         [homeViewController.tableView reloadData];
         [homeViewController reloadInputViews];
         [homeViewController viewDidLoad];
         [homeViewController scrollToBottomAnimated:YES];
-        NSLog(@"Getting messages 5");
+//        NSLog(@"Getting messages 5");
     }];
 }
 

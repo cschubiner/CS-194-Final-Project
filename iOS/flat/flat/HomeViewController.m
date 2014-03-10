@@ -44,15 +44,15 @@
 
 - (void)getMessages
 {
-    NSLog(@"Getting messages 0");
+//    NSLog(@"Getting messages 0");
     [MessageHelper getMessagesWithCompletionBlock:^(NSError *error, NSArray *messages) {
         //        NSLog(@"MESSAGES ARE %@", messages);
-        NSLog(@"Getting messages 1");
+//        NSLog(@"Getting messages 1");
         self.messages = [messages mutableCopy];
         [self.tableView reloadData];
         [self.refresh endRefreshing];
         [self scrollToBottomAnimated:YES];
-        NSLog(@"Getting messages 2");
+//        NSLog(@"Getting messages 2");
     }];
 }
 
@@ -106,7 +106,7 @@
 
 - (void)loadInitialMessages
 {
-    NSLog(@"Getting messages y");
+//    NSLog(@"Getting messages y");
     [ProfileUserHelper getUsersFromGroupID:[[FlatAPIClientManager sharedClient]profileUser].groupID withCompletionBlock:^(NSError * error, NSMutableArray * users) {
         [[FlatAPIClientManager sharedClient] setUsers:users];
         [MessageHelper getMessagesWithCompletionBlock:^(NSError *error, NSArray *messages) {
@@ -114,7 +114,7 @@
             [self.tableView reloadData];
             [self scrollToBottomAnimated:NO];
             
-            NSLog(@"Getting messages z");
+//            NSLog(@"Getting messages z");
         }];
     }];
 }
@@ -145,7 +145,7 @@
 
 - (JSBubbleMessageType)messageTypeForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    NSLog(@"Getting messages znz");
+//    NSLog(@"Getting messages znz");
     JSMessage *currMessage = [self.messages objectAtIndex:indexPath.row];
     ProfileUser *user = [FlatAPIClientManager sharedClient].profileUser;
     
@@ -162,7 +162,7 @@
 - (UIImageView *)bubbleImageViewWithType:(JSBubbleMessageType)type
                        forRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    NSLog(@"Getting messages zzk");
+//    NSLog(@"Getting messages zzk");
     JSMessage *currMessage = [self.messages objectAtIndex:indexPath.row];
     UIColor * bubbleColor;
     
@@ -187,20 +187,20 @@
 
 - (void)configureCell:(JSBubbleMessageCell *)cell atIndexPath:(NSIndexPath *)indexPath
 {
-    NSLog(@"Getting messages zzz");
-    if (cell.timestampLabel) {
-        cell.timestampLabel.textColor = [UIColor lightGrayColor];
-        cell.timestampLabel.shadowOffset = CGSizeZero;
-    }
+//    NSLog(@"Getting messages zzz");
+//    if (cell.timestampLabel) {
+//        cell.timestampLabel.textColor = [UIColor lightGrayColor];
+//        cell.timestampLabel.shadowOffset = CGSizeZero;
+//    }
     if ([cell messageType] == JSBubbleMessageTypeOutgoing) {
         cell.bubbleView.textView.textColor = [UIColor whiteColor];
     }
-    NSLog(@"Getting messages zzu");
+//    NSLog(@"Getting messages zzu");
 }
 
 - (JSMessagesViewTimestampPolicy)timestampPolicy
 {
-    return JSMessagesViewTimestampPolicyAll;
+    return JSMessagesViewTimestampPolicyCustom;
 }
 
 - (JSMessagesViewAvatarPolicy)avatarPolicy
@@ -220,13 +220,13 @@
 
 - (NSString *)textForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    NSLog(@"Getting messages e");
+//    NSLog(@"Getting messages e");
     return [[self.messages objectAtIndex:indexPath.row] text];
 }
 
 - (NSDate *)timestampForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    NSLog(@"Getting messages r");
+//    NSLog(@"Getting messages r");
     return [[self.messages objectAtIndex:indexPath.row] date];
 }
 
@@ -234,7 +234,7 @@
 -(NSString *)subtitleForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     
-    NSLog(@"Getting messages t");
+//    NSLog(@"Getting messages t");
     JSMessage *currMessage = [self.messages objectAtIndex:indexPath.row];
     return currMessage.sender;
 }
@@ -243,7 +243,7 @@
  numberOfRowsInSection:(NSInteger)section
 {
     
-    NSLog(@"Getting messages o");
+//    NSLog(@"Getting messages o");
     return [self.messages count];
 }
 
@@ -297,7 +297,7 @@
 - (JSMessage *)messageForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     
-    NSLog(@"Getting messages h");
+//    NSLog(@"Getting messages h");
     return [self.messages objectAtIndex:indexPath.row];
 }
 

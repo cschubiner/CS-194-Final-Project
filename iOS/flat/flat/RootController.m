@@ -177,11 +177,11 @@
 - (IBAction)refreshMessages:(id)sender
 {
     [MessageHelper getMessagesWithCompletionBlock:^(NSError *error, NSArray *messages) {
-    NSLog(@"Getting messages j");
+//    NSLog(@"Getting messages j");
         NSLog(@"Messages: %@", messages);
         self.centerPanel.messages = [messages mutableCopy];
         [self.centerPanel.tableView reloadData];
-    NSLog(@"Getting messages k");
+//    NSLog(@"Getting messages k");
     }];
 }
 
