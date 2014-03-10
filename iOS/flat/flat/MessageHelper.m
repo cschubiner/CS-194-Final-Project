@@ -32,14 +32,14 @@
     NSNumber* userID = [FlatAPIClientManager sharedClient].profileUser.userID;
     [MessageNetworkRequest getMessagesForUserWithUserID:userID
                                      andCompletionBlock:^(NSError *error, NSArray *messages) {
-    NSLog(@"Getting messages 9");
+//    NSLog(@"Getting messages 9");
                                          if (error) {
                                              NSLog(@"Error in MessageHelper %@", error);
                                              completionBlock(error, nil);
                                          } else {
                                              completionBlock(nil, messages);
                                          }
-    NSLog(@"Getting messages a");
+//    NSLog(@"Getting messages a");
                                      }];
 }
 
