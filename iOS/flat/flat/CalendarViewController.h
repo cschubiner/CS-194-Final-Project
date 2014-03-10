@@ -26,8 +26,6 @@
     BOOL newNotification;
     BOOL inDetailed;
     int divider;
-    
-    
 }
 
 @property (nonatomic, strong) UITableView *sideBarMenuTable;

@@ -48,7 +48,10 @@
     CGRect frame = CGRectMake(0, 0, image.size.width + 7, image.size.height + 7);
     UIButton* someButton = [[UIButton alloc] initWithFrame:frame];
     NSString *numHomeText = [NSString stringWithFormat:@"%d", numUsersHome];
+    UIImage *myGradient = [UIImage imageNamed:@"grad-small.png"];
     [someButton setTitle:numHomeText forState:UIControlStateNormal];
+    [someButton.titleLabel setFont:[UIFont fontWithName:@"HelveticaNeue-Light" size:16.0f]];
+    [someButton setTitleColor:[UIColor colorWithPatternImage:myGradient] forState:UIControlStateNormal];
     [someButton setBackgroundImage:image forState:UIControlStateNormal];
     [someButton setShowsTouchWhenHighlighted:YES];
     [someButton addTarget:self
