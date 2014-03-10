@@ -14,7 +14,8 @@
 
 @interface RootController : JASidePanelController <SidebarViewDelegate>
 
--(IBAction)toggleSidebarMenu:(id)sender;
+- (void)toggleSidebarMenu:(id)sender;
+- (void)rightButtonPressed:(id)sender;
 
 @property (nonatomic, strong) SidebarViewController *leftPanel;
 @property (nonatomic, strong) CalendarViewController *rightPanel;

@@ -21,6 +21,17 @@
 
 @implementation RootController
 
+- (void)toggleSidebarMenu:(id)sender
+{
+    NSLog(@"left menu toggled");
+    [self toggleLeftPanel:sender];
+}
+
+- (void)rightButtonPressed:(id)sender
+{
+    [self toggleRightPanel:sender];
+}
+
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -38,7 +49,9 @@
     UIButton* someButton = [[UIButton alloc] initWithFrame:frame];
     [someButton setBackgroundImage:image forState:UIControlStateNormal];
     [someButton setShowsTouchWhenHighlighted:YES];
-    
+    [someButton addTarget:self
+                   action:@selector(toggleSidebarMenu:)
+         forControlEvents:UIControlEventTouchUpInside];
     UIBarButtonItem* someBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:someButton];
     
     
@@ -47,6 +60,9 @@
     UIButton* someButton2 = [[UIButton alloc] initWithFrame:frame2];
     [someButton2 setBackgroundImage:image2 forState:UIControlStateNormal];
     [someButton2 setShowsTouchWhenHighlighted:YES];
+    [someButton2 addTarget:self
+                    action:@selector(rightButtonPressed:)
+          forControlEvents:UIControlEventTouchUpInside];
     UIBarButtonItem* someBarButtonItem2 = [[UIBarButtonItem alloc] initWithCustomView:someButton2];
     
     //    self.navigationItem.leftBarButtonItem = leftBarButton;
@@ -88,8 +104,7 @@
     
     //    UIBarButtonItem* lbb = [[UIBarButtonItem alloc]initWithTitle:@"Settings" style:UIBarButtonItemStyleBordered target:self action:@selector(openSettings)];
     //    [lbb setTintColor:[UIColor whiteColor]];
-    
- 
+     
     [self setNavBarButtons];
 
     //    UIBarButtonItem *rightBarButton = [[UIBarButtonItem alloc]
@@ -155,7 +170,6 @@
     [NSTimer scheduledTimerWithTimeInterval:3.0 target:self selector:@selector(refreshStuff) userInfo:nil repeats:NO];
     [NSTimer scheduledTimerWithTimeInterval:15.0 target:self selector:@selector(refreshStuff) userInfo:nil repeats:NO];
     [NSTimer scheduledTimerWithTimeInterval:30.0 target:self selector:@selector(refreshStuff) userInfo:nil repeats:YES];
-    
 }
 
 - (IBAction)refreshMessages:(id)sender
@@ -259,12 +273,7 @@
     panel.clipsToBounds = YES;
 }
 
--(IBAction)toggleSidebarMenu:(id)sender
-{
-    [self toggleLeftPanel:sender];
-}
-
--(void) awakeFromNib
+-(void)awakeFromNib
 {
     self.leftPanel = [self.storyboard instantiateViewControllerWithIdentifier:@"SidebarViewController"];
     self.rightPanel = [self.storyboard instantiateViewControllerWithIdentifier:@"CalendarViewController"];
