@@ -52,6 +52,7 @@
 		35B9DC4818A881B300AA65DC /* arrow-empty-small.png in Resources */ = {isa = PBXBuildFile; fileRef = 35B9DC4718A881B300AA65DC /* arrow-empty-small.png */; };
 		35B9DC4B18A881C300AA65DC /* arrow-hollow-small.png in Resources */ = {isa = PBXBuildFile; fileRef = 35B9DC4918A881C300AA65DC /* arrow-hollow-small.png */; };
 		35B9DC4C18A881C300AA65DC /* arrow-small.png in Resources */ = {isa = PBXBuildFile; fileRef = 35B9DC4A18A881C300AA65DC /* arrow-small.png */; };
+		35C8DD9218CD468500A90111 /* grad-small.png in Resources */ = {isa = PBXBuildFile; fileRef = 35C8DD9118CD468500A90111 /* grad-small.png */; };
 		35EAB5C918BADC2A00C82117 /* PageContentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 35EAB5C818BADC2A00C82117 /* PageContentViewController.m */; };
 		35FC368018A9E166000E4286 /* arrow-black.png in Resources */ = {isa = PBXBuildFile; fileRef = 35FC367E18A9E166000E4286 /* arrow-black.png */; };
 		35FC368118A9E166000E4286 /* arrow-hollow-black.png in Resources */ = {isa = PBXBuildFile; fileRef = 35FC367F18A9E166000E4286 /* arrow-hollow-black.png */; };
@@ -173,6 +174,7 @@
 		35B9DC4718A881B300AA65DC /* arrow-empty-small.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "arrow-empty-small.png"; sourceTree = "<group>"; };
 		35B9DC4918A881C300AA65DC /* arrow-hollow-small.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "arrow-hollow-small.png"; sourceTree = "<group>"; };
 		35B9DC4A18A881C300AA65DC /* arrow-small.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "arrow-small.png"; sourceTree = "<group>"; };
+		35C8DD9118CD468500A90111 /* grad-small.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "grad-small.png"; sourceTree = "<group>"; };
 		35EAB5C718BADC2A00C82117 /* PageContentViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PageContentViewController.h; sourceTree = "<group>"; };
 		35EAB5C818BADC2A00C82117 /* PageContentViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PageContentViewController.m; sourceTree = "<group>"; };
 		35FC367E18A9E166000E4286 /* arrow-black.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "arrow-black.png"; sourceTree = "<group>"; };
@@ -550,6 +552,7 @@
 		F2C51DE3188C96EC00489989 /* SideBar Assets */ = {
 			isa = PBXGroup;
 			children = (
+				35C8DD9118CD468500A90111 /* grad-small.png */,
 				3552BCA318CD2BC2008D4ED5 /* listicon@2x.png */,
 				3552BCA418CD2BC2008D4ED5 /* listicon.png */,
 				3552BCA518CD2BC2008D4ED5 /* circleicon@2x.png */,
@@ -674,6 +677,7 @@
 				F2C51DA7188C887400489989 /* Main_iPhone.storyboard in Resources */,
 				35B9DC4818A881B300AA65DC /* arrow-empty-small.png in Resources */,
 				35B9DC4B18A881C300AA65DC /* arrow-hollow-small.png in Resources */,
+				35C8DD9218CD468500A90111 /* grad-small.png in Resources */,
 				358FC68018B4327100BBBADA /* AppIcon40x40@2x.png in Resources */,
 				35381FA218BD5D9A00250B97 /* page2.png in Resources */,
 				0C5014F918BB059F009E0677 /* calendar+icon.png in Resources */,
