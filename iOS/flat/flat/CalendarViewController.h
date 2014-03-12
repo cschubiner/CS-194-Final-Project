@@ -19,9 +19,6 @@
 
 @interface CalendarViewController : UIViewController <UISearchBarDelegate, UISearchDisplayDelegate, UITableViewDataSource, UITableViewDelegate, UIAlertViewDelegate>
 {
-    UIButton *listener;
-    UIButton *notificationCount;
-    
     BOOL isVisible;
     BOOL newNotification;
     BOOL inDetailed;
@@ -29,9 +26,6 @@
 }
 
 @property (nonatomic, strong) UITableView *sideBarMenuTable;
-
-@property (nonatomic, retain) UIButton *listener;
-@property (nonatomic, retain) UIButton *notificationCount;
 
 
 @property (nonatomic, strong) NSMutableIndexSet *expandedSections;

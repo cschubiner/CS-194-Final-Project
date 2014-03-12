@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-typedef void (^MessageNetworkCompletionHandler)(NSError *, NSArray *messages);
+typedef void (^MessageNetworkCompletionHandler)(NSError *, NSMutableArray *messages);
 
 @interface MessageNetworkRequest : NSObject
 

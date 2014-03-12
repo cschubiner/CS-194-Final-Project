@@ -19,8 +19,6 @@
 
 @interface SidebarViewController : UIViewController <UISearchBarDelegate, UISearchDisplayDelegate, UITableViewDataSource, UITableViewDelegate, UIAlertViewDelegate>
 {
-    UIButton *listener;
-    UIButton *notificationCount;
     
     BOOL isVisible;
     BOOL newNotification;

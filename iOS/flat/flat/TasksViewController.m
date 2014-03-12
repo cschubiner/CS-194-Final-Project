@@ -34,7 +34,7 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     [self.tasksTable deselectRowAtIndexPath:indexPath
                                    animated:YES];
-    NSLog(@"Cell clicked at index: %lu", indexPath.row);
+    NSLog(@"Cell clicked at index: %lu", (long)indexPath.row);
     [self performSegueWithIdentifier:@"TasksToDetailView"
                               sender:[tableView cellForRowAtIndexPath:indexPath]];
 }

@@ -131,12 +131,12 @@
     HomeViewController *homeViewController = [self getHomeViewController];
     homeViewController.messages = nil;
     [homeViewController.tableView reloadData];
-    [MessageHelper getMessagesWithCompletionBlock:^(NSError *error, NSArray *messages) {
+    [MessageHelper getMessagesWithCompletionBlock:^(NSError *error, NSMutableArray *messages) {
 //    NSLog(@"Getting messages 7");
         if ([messages count] != [homeViewController.messages count] && [messages count] != 0) {
             [JSMessageSoundEffect playMessageReceivedAlert];
         }
-        homeViewController.messages = [messages mutableCopy];
+        homeViewController.messages = messages;
         [homeViewController.tableView reloadData];
         [homeViewController reloadInputViews];
         [homeViewController viewDidLoad];

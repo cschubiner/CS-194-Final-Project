@@ -17,7 +17,7 @@
     NSNumber * userID = [FlatAPIClientManager sharedClient].profileUser.userID;
     [MessageNetworkRequest sendMessageWithText:text
                             fromUserWithUserID:userID
-                            andCompletionBlock:^(NSError *error, NSArray *messages) {
+                            andCompletionBlock:^(NSError *error, NSMutableArray *messages) {
                                 if (error) {
                                     NSLog(@"Error in MessageHelper %@", error);
                                     completionBlock(error, nil);
@@ -31,7 +31,7 @@
 {
     NSNumber* userID = [FlatAPIClientManager sharedClient].profileUser.userID;
     [MessageNetworkRequest getMessagesForUserWithUserID:userID
-                                     andCompletionBlock:^(NSError *error, NSArray *messages) {
+                                     andCompletionBlock:^(NSError *error, NSMutableArray *messages) {
 //    NSLog(@"Getting messages 9");
                                          if (error) {
                                              NSLog(@"Error in MessageHelper %@", error);
@@ -55,7 +55,7 @@
     [MessageNetworkRequest sendMessageWithText:messageText
                             fromUserWithUserID:userID
                             postURL:@"calendar/message/new"
-                            andCompletionBlock:^(NSError *error, NSArray *messages) {
+                            andCompletionBlock:^(NSError *error, NSMutableArray *messages) {
                                 if (error) {
                                     NSLog(@"Error in sending calendar message %@", error);
                                 } else {

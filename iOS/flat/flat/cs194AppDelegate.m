@@ -344,9 +344,9 @@
     HomeViewController *homeViewController = mainViewController.centerPanel;
     homeViewController.messages = nil;
     [homeViewController.tableView reloadData];
-    [MessageHelper getMessagesWithCompletionBlock:^(NSError *error, NSArray *messages) {
+    [MessageHelper getMessagesWithCompletionBlock:^(NSError *error, NSMutableArray *messages) {
 //        NSLog(@"Getting messages 4");
-        homeViewController.messages = [messages mutableCopy];
+        homeViewController.messages = messages;
         [homeViewController.tableView reloadData];
         [homeViewController reloadInputViews];
         [homeViewController viewDidLoad];

@@ -45,10 +45,10 @@
 - (void)getMessages
 {
 //    NSLog(@"Getting messages 0");
-    [MessageHelper getMessagesWithCompletionBlock:^(NSError *error, NSArray *messages) {
+    [MessageHelper getMessagesWithCompletionBlock:^(NSError *error, NSMutableArray *messages) {
         //        NSLog(@"MESSAGES ARE %@", messages);
 //        NSLog(@"Getting messages 1");
-        self.messages = [messages mutableCopy];
+        self.messages = messages;
         [self.tableView reloadData];
         [self.refresh endRefreshing];
         [self scrollToBottomAnimated:YES];
@@ -109,8 +109,8 @@
 //    NSLog(@"Getting messages y");
     [ProfileUserHelper getUsersFromGroupID:[[FlatAPIClientManager sharedClient]profileUser].groupID withCompletionBlock:^(NSError * error, NSMutableArray * users) {
         [[FlatAPIClientManager sharedClient] setUsers:users];
-        [MessageHelper getMessagesWithCompletionBlock:^(NSError *error, NSArray *messages) {
-            self.messages = [messages mutableCopy];
+        [MessageHelper getMessagesWithCompletionBlock:^(NSError *error, NSMutableArray *messages) {
+            self.messages = messages;
             [self.tableView reloadData];
             [self scrollToBottomAnimated:NO];
             
@@ -126,13 +126,13 @@
     if (text.length == 0)
         return;
     [MessageHelper sendMessageWithText:text
-                    andCompletionBlock:^(NSError *error, NSArray *messages) {
+                    andCompletionBlock:^(NSError *error, NSMutableArray *messages) {
                         if (error) {
                             //Diplay message did not send error
                             self.messageInputView.textView.text = text;
                         } else {
                             //    NSLog(@"MESSAGES: %@", messages);
-                            self.messages = [messages mutableCopy];
+                            self.messages = messages;
                             [JSMessageSoundEffect playMessageSentSound];
                             NSLog(@"About to reload data");
                             [self.tableView reloadData];
