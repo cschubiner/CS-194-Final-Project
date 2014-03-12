@@ -261,6 +261,12 @@
     JSMessage *currMessage = [self.messages objectAtIndex:indexPath.row];
     
     if (![currMessage.senderID isEqualToNumber2:[NSNumber numberWithInt:0]]) {
+        static NSMutableDictionary * avatarDict = nil;
+        if (!avatarDict) avatarDict = [[NSMutableDictionary alloc]init];
+        UIView* ret = [avatarDict objectForKey:currMessage.senderID];
+        if (ret)
+             return [[UIImageView alloc]initWithImage: [HomeViewController imageWithView:ret]];
+ 
         UIColor * bubbleColor = [ProfileUser getColorFromUserID:currMessage.senderID];
         UIView * backView = [[UIView alloc] initWithFrame:CGRectMake(40,15,70,70)];
         backView.backgroundColor = [UIColor whiteColor];
@@ -277,7 +283,10 @@
         [backView addSubview:name];
         
         name.text = [ProfileUser getInitialsFromUserID:currMessage.senderID];
+        [avatarDict setObject:backView forKey:currMessage.senderID];
+        
         return [[UIImageView alloc]initWithImage: [HomeViewController imageWithView:backView]];
+        
     }
     UIImage * image = [JSAvatarImageFactory avatarImageNamed:@"calendar+icon" croppedToCircle:NO];
     return [[UIImageView alloc] initWithImage:image];
