@@ -29,7 +29,7 @@ static const int NAV_BAR_HEIGHT = 56;//64;
     if (self) {
         // Custom initialization
     }
-
+    
     return self;
 }
 
@@ -37,7 +37,7 @@ static const int NAV_BAR_HEIGHT = 56;//64;
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-
+    
     locationArray = [NSArray arrayWithObjects: [NSNumber numberWithInt:1], [NSNumber numberWithInt:0], [NSNumber numberWithInt:1], [NSNumber numberWithInt:2], nil];
     
     self.sideBarMenuTable = [[UITableView alloc] initWithFrame:CGRectMake(0, NAV_BAR_HEIGHT, self.view.frame.size.width, self.view.frame.size.height - NAV_BAR_HEIGHT)];
@@ -70,11 +70,7 @@ titleForHeaderInSection:(NSInteger)section
 }
 
 - (BOOL)tableView:(UITableView *)tableView shouldHighlightRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (indexPath.row == 0 || indexPath.row == 1) {
-        return YES;
-    } else {
-        return NO;
-    }
+    return YES;
 }
 
 - (void)tableView:(UITableView *)tableView
@@ -90,6 +86,28 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
                                              animated:YES];
         [self performSegueWithIdentifier:@"LeftSidebarToTasks"
                                   sender:self];
+    }
+    else {
+        // show a popup for the selected user
+        ProfileUser * user = [[[FlatAPIClientManager sharedClient]users] objectAtIndex:indexPath.row -2];
+        NSString * dormStatus = @"has not broadcasted his location recently";
+        if ([user.isNearDorm isEqualToNumber2:[NSNumber numberWithInt:IN_DORM_STATUS]]) {
+            dormStatus = @"is currently in the dorm";
+        }
+        else if ([user.isNearDorm isEqualToNumber2:[NSNumber numberWithInt:AWAY_DORM_STATUS]]) {
+            dormStatus = @"is away from the dorm right now";
+        }
+        NSString * text = [NSString stringWithFormat:@"%@ %@.\nEmail: %@", user.firstName, dormStatus, user.email];
+        NSString * title = [NSString stringWithFormat:@"%@ %@", user.firstName, user.lastName];
+        UIAlertView *alertView = [[UIAlertView alloc]
+                                  initWithTitle:title
+                                  message:text
+                                  delegate:nil
+                                  cancelButtonTitle:@"Dismiss"
+                                  otherButtonTitles:nil];
+        [alertView show];
+        [tableView deselectRowAtIndexPath:indexPath animated:YES];
+        
     }
 }
 
@@ -107,15 +125,15 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
          cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     static NSString *MyIdentifier = @"MyReuseIdentifier";
-//    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:MyIdentifier];
-//    if (cell == nil) {
-//        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault  reuseIdentifier:MyIdentifier];
-//    }
+    //    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:MyIdentifier];
+    //    if (cell == nil) {
+    //        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault  reuseIdentifier:MyIdentifier];
+    //    }
     UITableViewCell*  cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault  reuseIdentifier:MyIdentifier];
     
     NSMutableArray * users = [[FlatAPIClientManager sharedClient]users];
     cell.backgroundColor = [UIColor whiteColor];
-
+    
     if (indexPath.row == 0) {
         cell.textLabel.text = @"Settings";
     } else if (indexPath.row == 1) {
@@ -147,7 +165,7 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
         [cell.contentView addSubview:circleView];
         [cell.contentView addSubview:name];
         [cell.contentView addSubview:locationImage];
-
+        
         NSString *initials  = [NSString stringWithFormat:@"%@%@",
                                [user.firstName substringWithRange:NSMakeRange(0, 1)],
                                [user.lastName substringWithRange:NSMakeRange(0, 1)]];
