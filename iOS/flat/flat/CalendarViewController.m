@@ -86,16 +86,24 @@ static const int NAV_BAR_HEIGHT = 64;
     }
     EventModel* event = [events objectAtIndex:indexPath.row];
     
-    
     UIColor * color = [ProfileUser getColorFromUserID:event.userID];
     cell.backgroundColor = color;
-    
-    NSString * text = [NSString stringWithFormat:@"%@: %@\n%@ from %@ to %@",
+    NSString * text;
+    if ([[NSNumber numberWithBool:true] isEqualToNumber2:event.isAllDay]) {
+        text = [NSString stringWithFormat:@"%@: %@\n%@ (All day)",
+                [ProfileUser getFirstNameFromUserID:event.userID],
+                event.title,
+                [Utils formatDateDayOfWeek:event.startDate]
+                ];
+    }
+    else {
+    text = [NSString stringWithFormat:@"%@: %@\n%@ from %@ to %@",
                               [ProfileUser getFirstNameFromUserID:event.userID],
                               event.title,
                               [Utils formatDateDayOfWeek:event.startDate],
                               [Utils formatDate:event.startDate], [Utils formatDate:event.endDate]
                               ];
+    }
     [cell.textLabel setText:text];
     cell.textLabel.numberOfLines = 0;
     [cell sizeToFit];

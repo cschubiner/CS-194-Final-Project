@@ -127,24 +127,6 @@
     return [self getRootViewController].centerPanel;
 }
 
--(void)refreshMessages {
-    HomeViewController *homeViewController = [self getHomeViewController];
-    homeViewController.messages = nil;
-    [homeViewController.tableView reloadData];
-    [MessageHelper getMessagesWithCompletionBlock:^(NSError *error, NSMutableArray *messages) {
-//    NSLog(@"Getting messages 7");
-        if ([messages count] != [homeViewController.messages count] && [messages count] != 0) {
-            [JSMessageSoundEffect playMessageReceivedAlert];
-        }
-        homeViewController.messages = messages;
-        [homeViewController.tableView reloadData];
-        [homeViewController reloadInputViews];
-        [homeViewController viewDidLoad];
-        [homeViewController scrollToBottomAnimated:YES];
-//    NSLog(@"Getting messages 8");
-    }];
-}
-
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     //    [self dismissViewControllerAnimated:YES completion:nil];
@@ -161,8 +143,9 @@
         newGroupID = firstUser.groupID;
     }
     [ProfileUserNetworkRequest setGroupIDForUser:user.userID groupID:newGroupID withCompletionBlock:^(NSError* error) {
-        [self refreshMessages];
-        [self.navigationController popToViewController:[self getRootViewController] animated:YES]; // what a convenient method
+        RootController * rc = [self getRootViewController];
+        [rc refreshMessages];
+        [self.navigationController popToViewController:rc animated:YES]; // what a convenient method
     }];
 }
 

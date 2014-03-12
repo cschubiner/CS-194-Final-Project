@@ -22,6 +22,7 @@
 @property (nonatomic, strong) HomeViewController *centerPanel;
 
 
+-(void)refreshMessages;
 -(void)refreshUsers;
 -(void)getCalendarEventsForDays;
 

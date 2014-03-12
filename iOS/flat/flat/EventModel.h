@@ -16,5 +16,6 @@
 @property (strong, nonatomic) NSString* title;
 @property (strong, nonatomic) NSDate* startDate;
 @property (strong, nonatomic) NSDate* endDate;
+@property (strong, nonatomic) NSNumber* isAllDay;
 
 @end

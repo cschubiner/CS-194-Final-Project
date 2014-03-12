@@ -242,7 +242,7 @@
 }
 
 -(void)checkForCalendarEvent {
-    //    NSLog(@"calendar event checking");
+    NSLog(@"start of calendar event checking");
     NSCalendar* calendar = [[NSCalendar alloc] initWithCalendarIdentifier: NSGregorianCalendar];
     NSDateComponents* components = [[NSDateComponents alloc] init];
     components.minute = 5;
@@ -265,6 +265,8 @@
     }
     
     [events removeObjectsAtIndexes:discardedItems];
+    NSLog(@"end calendar event checking");
+    
 }
 
 -(void)showFBLogin
@@ -312,7 +314,7 @@
 - (void)applicationDidBecomeActive:(UIApplication *)application
 {
     // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
-    [self refreshMessages];
+    [self.mainViewController refreshMessages];
     [GroupNetworkRequest getGroupFromGroupID:[FlatAPIClientManager sharedClient].profileUser.groupID withCompletionBlock:^(NSError * error, Group * group1) {
         if (group1 == nil)
             group1 = [GroupLocalRequest getGroup];
@@ -335,25 +337,10 @@
 
 - (void)application:(UIApplication*)application didReceiveRemoteNotification:(NSDictionary*)userInfo
 {
-    [self refreshMessages];
+    [self.mainViewController refreshMessages];
     [[FlatAPIClientManager sharedClient] getNumUsersHome];
 }
 
--(void)refreshMessages {
-    RootController *mainViewController = self.mainViewController;
-    HomeViewController *homeViewController = mainViewController.centerPanel;
-    homeViewController.messages = nil;
-    [homeViewController.tableView reloadData];
-    [MessageHelper getMessagesWithCompletionBlock:^(NSError *error, NSMutableArray *messages) {
-//        NSLog(@"Getting messages 4");
-        homeViewController.messages = messages;
-        [homeViewController.tableView reloadData];
-        [homeViewController reloadInputViews];
-        [homeViewController viewDidLoad];
-        [homeViewController scrollToBottomAnimated:YES];
-//        NSLog(@"Getting messages 5");
-    }];
-}
 
 - (void)application:(UIApplication*)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData*)deviceToken
 {

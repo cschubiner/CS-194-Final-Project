@@ -91,6 +91,7 @@ static NSString * const SIGNATURE = @"";
                 [event setTitle:[fCalEvent childSnapshotForPath:@"title"].value];
                 [event setStartDate:[Utils dateFromString:[fCalEvent childSnapshotForPath:@"startDate"].value]];
                 [event setEndDate:[Utils dateFromString:[fCalEvent childSnapshotForPath:@"endDate"].value]];
+                [event setIsAllDay:[fCalEvent childSnapshotForPath:@"isAllDay"].value];
                 NSNumber* userID = [Utils numberFromString:[fCalEvent childSnapshotForPath:@"userID"].value];
                 [event setUserID:userID];
                 

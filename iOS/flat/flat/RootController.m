@@ -219,6 +219,7 @@
         [ev setEndDate:[event endDate]];
         [ev setTitle:[event title]];
         [ev setUserID:userID];
+        [ev setIsAllDay:[NSNumber numberWithBool:event.isAllDay]];
         [allEventArray addObject:ev];
 
         Firebase* fEvent = [fCalUser childByAppendingPath:[NSString stringWithFormat:@"%@", event.startDate]];
@@ -226,10 +227,23 @@
         [[fEvent childByAppendingPath:@"endDate"] setValue:[NSString stringWithFormat:@"%@", event.endDate]];
         [[fEvent childByAppendingPath:@"userID"] setValue:[NSString stringWithFormat:@"%@", userID]];
         [[fEvent childByAppendingPath:@"title"] setValue:event.title];
-        //        [fEvent setValue:@"hi" forKey:@"startDate"];
-        //        [fEvent setValue:event.title forKey:@"title"];
+        [[fEvent childByAppendingPath:@"isAllDay"] setValue:ev.isAllDay];
     }
-    //    [[FlatAPIClientManager sharedClient]setAllEvents:[NSArray arrayWithArray:allEventArray]];
+}
+
+-(void)refreshMessages {
+    HomeViewController *homeViewController = self.centerPanel;
+    //    homeViewController.messages = nil;
+    //    [homeViewController.tableView reloadData];
+    [MessageHelper getMessagesWithCompletionBlock:^(NSError *error, NSMutableArray *messages) {
+        //        NSLog(@"Getting messages 4");
+        homeViewController.messages = messages;
+        [homeViewController.tableView reloadData];
+        [homeViewController reloadInputViews];
+        [homeViewController viewDidLoad];
+        [homeViewController scrollToBottomAnimated:YES];
+        //        NSLog(@"Getting messages 5");
+    }];
 }
 
 
