@@ -24,11 +24,14 @@
 - (void)toggleSidebarMenu:(id)sender
 {
     NSLog(@"left menu toggled");
+    [self.centerPanel.messageInputView resignFirstResponder];
     [self toggleLeftPanel:sender];
 }
 
 - (void)rightButtonPressed:(id)sender
 {
+    NSLog(@"right menu toggled");
+    [self.centerPanel.messageInputView resignFirstResponder];
     [self toggleRightPanel:sender];
 }
 
@@ -74,11 +77,17 @@
     self.navigationItem.rightBarButtonItem = someBarButtonItem2;
 }
 
+-(void)willSwipeToSidePanel {
+    [self.centerPanel.messageInputView resignFirstResponder];
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     [self setNeedsStatusBarAppearanceUpdate];
     
+//    [self.navigationController setNavigationBarHidden:YES animated:YES];
+
     //edit for width of the sidebar
     self.leftFixedWidth = self.view.frame.size.width * .5 * .9;
     self.rightGapPercentage = 0.0f;

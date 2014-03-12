@@ -149,10 +149,7 @@
     JSMessage *currMessage = [self.messages objectAtIndex:indexPath.row];
     ProfileUser *user = [FlatAPIClientManager sharedClient].profileUser;
     
-    
     if ([currMessage.senderID isEqualToNumber2: user.userID]) {
-        
-        
         return JSBubbleMessageTypeOutgoing;
     }
     return JSBubbleMessageTypeIncoming;
@@ -166,7 +163,6 @@
     JSMessage *currMessage = [self.messages objectAtIndex:indexPath.row];
     UIColor * bubbleColor;
     
-    
     if ([currMessage.senderID isEqualToNumber2:[NSNumber numberWithInt:0]]) { //if current message is a calendar event
         bubbleColor = [UIColor js_bubbleLightGrayColor];
     }
@@ -175,7 +171,6 @@
         bubbleColor = [ProfileUser getColorFromUserID:currMessage.senderID];
         
         if ([currMessage.senderID isEqualToNumber2:user.userID] ) {
-            
             return [JSBubbleImageViewFactory bubbleImageViewForType:type
                                                               color:[UIColor js_bubbleBlueColor]];
         }
@@ -233,8 +228,7 @@
 
 -(NSString *)subtitleForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    
-//    NSLog(@"Getting messages t");
+    //    NSLog(@"Getting messages t");
     JSMessage *currMessage = [self.messages objectAtIndex:indexPath.row];
     return currMessage.sender;
 }
@@ -257,11 +251,8 @@
 {
     UIGraphicsBeginImageContextWithOptions(view.bounds.size, view.opaque, 0.0);
     [view.layer renderInContext:UIGraphicsGetCurrentContext()];
-    
     UIImage * img = UIGraphicsGetImageFromCurrentImageContext();
-    
     UIGraphicsEndImageContext();
-    
     return img;
 }
 
@@ -296,8 +287,7 @@
 #pragma mark - Messages view data source: REQUIRED
 - (JSMessage *)messageForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    
-//    NSLog(@"Getting messages h");
+    //    NSLog(@"Getting messages h");
     return [self.messages objectAtIndex:indexPath.row];
 }
 

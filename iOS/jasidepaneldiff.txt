@@ -1,0 +1,21 @@
+        if(sender.state == UIGestureRecognizerStateChanged) {
+					            [self willSwipeToSidePanel];
+											        }
+        else if (sender.state == UIGestureRecognizerStateEnded) {
+					            CGFloat deltaX =  frame.origin.x - _locationBeforePan.x;
+											            if ([self _validateThreshold:deltaX]) {
+																		                [self _completePan:deltaX];
+																										            } else {
+																																	                [self _undoPan];
+																																									            }
+																	        } else if (sender.state == UIGestureRecognizerStateCancelled) {
+																						            [self _undoPan];
+																												        }
+    }
+}
+
+-(void)willSwipeToSidePanel {
+	    
+}
+
+-(void)willSwipeToSidePanel;
