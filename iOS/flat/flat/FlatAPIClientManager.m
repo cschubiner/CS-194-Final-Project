@@ -112,9 +112,14 @@ static NSString * const SIGNATURE = @"";
                     [events addObject:event];
             }
         }
-        
-//        NSLog(@"events: %@",events);
-        [[FlatAPIClientManager sharedClient]setAllEvents:events];
+                
+        NSArray *sortedArray;
+        sortedArray = [events sortedArrayUsingComparator:^NSComparisonResult(id a, id b) {
+            NSDate *first = [(EventModel*)a startDate];
+            NSDate *second = [(EventModel*)b startDate];
+            return [first compare:second];
+        }];
+        [[FlatAPIClientManager sharedClient]setAllEvents:sortedArray];
         callback();
     }];
 }

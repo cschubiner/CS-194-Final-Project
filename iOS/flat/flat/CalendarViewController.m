@@ -37,7 +37,6 @@ static const int NAV_BAR_HEIGHT = 64;
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
     int startingWidth = 47;
     self.sideBarMenuTable = [[UITableView alloc] initWithFrame:CGRectMake(startingWidth, NAV_BAR_HEIGHT, self.view.frame.size.width-startingWidth, self.view.frame.size.height - NAV_BAR_HEIGHT)];
     self.sideBarMenuTable.delegate = self;
@@ -46,7 +45,7 @@ static const int NAV_BAR_HEIGHT = 64;
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-//    [tableView setSeparatorStyle:UITableViewCellSeparatorStyleNone];
+    //    [tableView setSeparatorStyle:UITableViewCellSeparatorStyleNone];
     tableView.backgroundColor = [UIColor whiteColor];
     return 1;
 }
@@ -97,12 +96,12 @@ static const int NAV_BAR_HEIGHT = 64;
                 ];
     }
     else {
-    text = [NSString stringWithFormat:@"%@: %@\n%@ from %@ to %@",
-                              [ProfileUser getFirstNameFromUserID:event.userID],
-                              event.title,
-                              [Utils formatDateDayOfWeek:event.startDate],
-                              [Utils formatDate:event.startDate], [Utils formatDate:event.endDate]
-                              ];
+        text = [NSString stringWithFormat:@"%@: %@\n%@ from %@ to %@",
+                [ProfileUser getFirstNameFromUserID:event.userID],
+                event.title,
+                [Utils formatDateDayOfWeek:event.startDate],
+                [Utils formatDate:event.startDate], [Utils formatDate:event.endDate]
+                ];
     }
     [cell.textLabel setText:text];
     cell.textLabel.numberOfLines = 0;
