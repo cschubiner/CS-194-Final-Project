@@ -47,18 +47,58 @@ static const int NAV_BAR_HEIGHT = 64;
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     //    [tableView setSeparatorStyle:UITableViewCellSeparatorStyleNone];
     tableView.backgroundColor = [UIColor whiteColor];
-    return 1;
+    NSArray * events = [FlatAPIClientManager sharedClient].allEvents;
+    int days = 0;
+    NSDate* lastDate = nil;
+    
+    for (EventModel * ev in events) {
+        if (![ev.startDate isEqualToDateIgnoringTime:lastDate])
+            days++;
+        lastDate = ev.startDate;
+    }
+    return days;
 }
 
 -(NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
-    return @"Upcoming Events";
+    NSArray * events = [FlatAPIClientManager sharedClient].allEvents;
+    int days = 0;
+    NSDate* lastDate = nil;
+    
+    for (EventModel * ev in events) {
+        if (![ev.startDate isEqualToDateIgnoringTime:lastDate])
+            days++;
+        
+        if (days - 1 == section) {
+            return [NSString stringWithFormat:@"%@'s Events",[ev.startDate nameOfDay]];
+        }
+        lastDate = ev.startDate;
+    }
+    
+    return @"Other Events";
 }
 
 - (NSInteger)tableView:(UITableView *)tableView
  numberOfRowsInSection:(NSInteger)section
 {
     NSArray * events = [FlatAPIClientManager sharedClient].allEvents;
-    return MAX(1, events.count);
+    if (events.count == 0) return 1;
+    
+    int days = 0;
+    NSDate* lastDate = nil;
+    int count = 0;
+    
+    for (EventModel * ev in events) {
+        if (![ev.startDate isEqualToDateIgnoringTime:lastDate])
+            days++;
+        
+        if (days - 1 == section) {
+            count++;
+        }
+        else if (days - 1 > section)
+            return count;
+        lastDate = ev.startDate;
+    }
+    return count;
 }
 
 -(BOOL)tableView:(UITableView *)tableView shouldHighlightRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -78,12 +118,33 @@ static const int NAV_BAR_HEIGHT = 64;
     static NSString *MyIdentifier = @"MyReuseIdentifier5";
     UITableViewCell*  cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault  reuseIdentifier:MyIdentifier];
     NSArray * events = [FlatAPIClientManager sharedClient].allEvents;
+    int days = 0;
+    NSDate* lastDate = nil;
+    int count = 0;
+    int allCount = 0;
+    EventModel* event = nil;
+    
+    for (EventModel * ev in events) {
+        if (![ev.startDate isEqualToDateIgnoringTime:lastDate])
+            days++;
+        
+        if (days - 1 == indexPath.section) {
+            if (count == indexPath.row)
+                break;
+            count++;
+        }
+        else if (days - 1 > indexPath.section)
+            break;
+        lastDate = ev.startDate;
+        allCount ++;
+    }
+    
     
     if (events.count == 0) {
         [cell.textLabel setText:@"Loading..."];
         return cell;
     }
-    EventModel* event = [events objectAtIndex:indexPath.row];
+     event = [events objectAtIndex:allCount];
     
     UIColor * color = [ProfileUser getColorFromUserID:event.userID];
     cell.backgroundColor = color;

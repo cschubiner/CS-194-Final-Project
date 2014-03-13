@@ -9,7 +9,6 @@
 #import "ProfileUser+Json.h"
 #import "cs194AppDelegate.h"
 #import "ProfileUser.h"
-#import "NSValue+NSValueEqualTo.h"
 @implementation ProfileUser (Json)
 
 
@@ -78,7 +77,6 @@
     if (ret) return ret;
     
     for (ProfileUser * user in [[FlatAPIClientManager sharedClient]users]){
-        NSLog(@"6: %@, %@ %@", user, user.userID, userID);
         if ([user.userID isEqualToNumber2:userID]) {
             ret = [self getColorFromUser:user];
             [colorDict setObject:ret forKey:userID];

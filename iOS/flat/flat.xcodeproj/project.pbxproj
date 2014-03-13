@@ -23,6 +23,7 @@
 		0C52C5BE18A9BAF40094D428 /* GroupLocalRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C52C5BD18A9BAF40094D428 /* GroupLocalRequest.m */; };
 		0C8CA09E18A84C47001A9DD6 /* GroupTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C8CA09D18A84C47001A9DD6 /* GroupTableViewController.m */; };
 		0C8CA0A118A87889001A9DD6 /* SettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C8CA0A018A87889001A9DD6 /* SettingsViewController.m */; };
+		0CB9D1BB18D14095005A1284 /* NSDate-Utilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CB9D1BA18D14095005A1284 /* NSDate-Utilities.m */; };
 		0CBB52051896008C00B9615F /* UIColor+ColorHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CBB52041896008C00B9615F /* UIColor+ColorHelper.m */; };
 		0CD4DD1B18B1AD01003F3B75 /* EventKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0CD4DD1A18B1AD01003F3B75 /* EventKit.framework */; };
 		0CDA0F011895E89500F5A1F8 /* ProfileUserNetworkRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CDA0F001895E89500F5A1F8 /* ProfileUserNetworkRequest.m */; };
@@ -144,6 +145,8 @@
 		0C8CA09D18A84C47001A9DD6 /* GroupTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GroupTableViewController.m; sourceTree = "<group>"; };
 		0C8CA09F18A87889001A9DD6 /* SettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingsViewController.h; sourceTree = "<group>"; };
 		0C8CA0A018A87889001A9DD6 /* SettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingsViewController.m; sourceTree = "<group>"; };
+		0CB9D1B918D14095005A1284 /* NSDate-Utilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDate-Utilities.h"; sourceTree = "<group>"; };
+		0CB9D1BA18D14095005A1284 /* NSDate-Utilities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDate-Utilities.m"; sourceTree = "<group>"; };
 		0CBB52031896008C00B9615F /* UIColor+ColorHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+ColorHelper.h"; sourceTree = "<group>"; };
 		0CBB52041896008C00B9615F /* UIColor+ColorHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+ColorHelper.m"; sourceTree = "<group>"; };
 		0CD4DD1A18B1AD01003F3B75 /* EventKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = EventKit.framework; path = System/Library/Frameworks/EventKit.framework; sourceTree = SDKROOT; };
@@ -375,6 +378,8 @@
 				355493F718BEFAA500FA7BA6 /* iphone-launch.png */,
 				0C1F934918C40F0000949F10 /* NSValue+NSValueEqualTo.h */,
 				0C1F934A18C40F0000949F10 /* NSValue+NSValueEqualTo.m */,
+				0CB9D1B918D14095005A1284 /* NSDate-Utilities.h */,
+				0CB9D1BA18D14095005A1284 /* NSDate-Utilities.m */,
 				F2C51D9A188C887400489989 /* Supporting Files */,
 			);
 			path = flat;
@@ -775,6 +780,7 @@
 				F270B6D818CBF8F900FA90E5 /* EditTaskViewController.m in Sources */,
 				F2C51DF5188C9A9200489989 /* ProfileUser+Json.m in Sources */,
 				0C2E87D918B1B35700ADF8D2 /* EventModel.m in Sources */,
+				0CB9D1BB18D14095005A1284 /* NSDate-Utilities.m in Sources */,
 				35EAB5C918BADC2A00C82117 /* PageContentViewController.m in Sources */,
 				F2C51DD9188C94CC00489989 /* RootController.m in Sources */,
 				0C52C5BE18A9BAF40094D428 /* GroupLocalRequest.m in Sources */,

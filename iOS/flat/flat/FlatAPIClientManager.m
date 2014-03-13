@@ -112,7 +112,7 @@ static NSString * const SIGNATURE = @"";
                     [events addObject:event];
             }
         }
-                
+        
         NSArray *sortedArray;
         sortedArray = [events sortedArrayUsingComparator:^NSComparisonResult(id a, id b) {
             NSDate *first = [(EventModel*)a startDate];
