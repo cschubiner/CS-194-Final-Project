@@ -18,14 +18,17 @@
 }
 
 +(NSDate*)dateFromString:(NSString*)str {
+    NSLog(@"about to crash2?");
     if ((NSNull*)str == nil || [[NSNull null] isEqual:str]) return nil;
-    [NSDateFormatter setDefaultFormatterBehavior:NSDateFormatterBehavior10_4];
+    if (!(str.length > 0)) return nil;
+//    [NSDateFormatter setDefaultFormatterBehavior:NSDateFormatterBehavior10_4];
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-    [dateFormatter setTimeZone:[NSTimeZone localTimeZone]];
+    [dateFormatter setTimeZone:[NSTimeZone systemTimeZone]];
     //[NSDateFormatter setDefaultFormatterBehavior:NSDateFormatterBehaviorDefault];
     [dateFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ssZZZZZZ"];
     NSDate* ret= [dateFormatter dateFromString:str];
     //    NSLog(@"ret: %@", ret);
+    NSLog(@"did not crash2?");
     return ret;
 }
 

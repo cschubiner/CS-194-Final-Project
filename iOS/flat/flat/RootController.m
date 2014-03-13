@@ -51,6 +51,7 @@
     CGRect frame = CGRectMake(0, 0, image.size.width + 7, image.size.height + 7);
     UIButton* someButton = [[UIButton alloc] initWithFrame:frame];
     NSString *numHomeText = [NSString stringWithFormat:@"%d", numUsersHome];
+    NSLog(@"about to crash3?");
     UIImage *myGradient = [UIImage imageNamed:@"grad-small.png"];
     [someButton setTitle:numHomeText forState:UIControlStateNormal];
     [someButton.titleLabel setFont:[UIFont fontWithName:@"HelveticaNeue-Light" size:16.0f]];
@@ -75,6 +76,9 @@
     
     self.navigationItem.leftBarButtonItem = someBarButtonItem;
     self.navigationItem.rightBarButtonItem = someBarButtonItem2;
+    NSLog(@"did not crash3");
+
+    
 }
 
 -(void)willSwipeToSidePanel {
@@ -98,12 +102,13 @@
     self.navigationController.navigationBar.barTintColor = [UIColor blackColor];
     self.navigationController.navigationBar.translucent = YES;
     self.navigationController.navigationBar.alpha = .01;
+    NSLog(@"about to crash4?");
     [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName : [UIColor whiteColor]}];
     UIImage *myGradient = [UIImage imageNamed:@"grad-small.png"];
     [[self navigationItem] setTitle:@"Flat"];
     [self.navigationController.navigationBar setTitleTextAttributes:
      @{ NSFontAttributeName: [UIFont fontWithName:@"HelveticaNeue-Light" size:22.0f], NSForegroundColorAttributeName: [UIColor colorWithPatternImage:myGradient]}];
-     
+    NSLog(@"did not crash4");
     [self setNavBarButtons];
     [self refreshUsers];
 }
@@ -160,14 +165,9 @@
 
 - (IBAction)refreshMessages:(id)sender
 {
-    [MessageHelper getMessagesWithCompletionBlock:^(NSError *error, NSMutableArray *messages) {
-//    NSLog(@"Getting messages j");
-        NSLog(@"Messages: %@", messages);
-        self.centerPanel.messages = messages;
-        [self.centerPanel.tableView reloadData];
-//    NSLog(@"Getting messages k");
-    }];
+    [self refreshMessagesWithAnimation:YES];
 }
+
 
 -(void)getCalendarEventsForDays {
     EKEventStore *store = [[EKEventStore alloc] init];
@@ -231,7 +231,7 @@
     }
 }
 
--(void)refreshMessages {
+-(void) refreshMessagesWithAnimation:(BOOL)animated {
     HomeViewController *homeViewController = self.centerPanel;
     //    homeViewController.messages = nil;
     //    [homeViewController.tableView reloadData];
@@ -241,7 +241,7 @@
         [homeViewController.tableView reloadData];
         [homeViewController reloadInputViews];
         [homeViewController viewDidLoad];
-        [homeViewController scrollToBottomAnimated:YES];
+        [homeViewController scrollToBottomAnimated:animated];
         //        NSLog(@"Getting messages 5");
     }];
 }

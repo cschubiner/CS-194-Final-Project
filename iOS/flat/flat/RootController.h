@@ -21,8 +21,7 @@
 @property (nonatomic, strong) CalendarViewController *rightPanel;
 @property (nonatomic, strong) HomeViewController *centerPanel;
 
-
--(void)refreshMessages;
+-(void) refreshMessagesWithAnimation:(BOOL)animated;
 -(void)refreshUsers;
 -(void)getCalendarEventsForDays;
 

@@ -16,6 +16,7 @@
 + (ProfileUser *)getProfileUserObjectFromDictionary:(NSDictionary *)dictionary
                             AndManagedObjectContext:(NSManagedObjectContext *)context
 {
+    NSLog(@"about to crash?");
     ProfileUser *profileUser = [ProfileUser MR_createInContext:context];
     profileUser.userID = [dictionary objectForKey:@"fb_id"];
     profileUser.groupID = [dictionary objectForKey:@"group_id"];
@@ -28,6 +29,7 @@
     //    profileUser.apiToken = [dictionary objectForKey:@"api_token"];
     
     [[NSManagedObjectContext MR_defaultContext] MR_saveToPersistentStoreAndWait];
+     NSLog(@"did not crash");
     return profileUser;
 }
 

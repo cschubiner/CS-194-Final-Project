@@ -73,8 +73,7 @@ titleForHeaderInSection:(NSInteger)section
     return YES;
 }
 
-- (void)tableView:(UITableView *)tableView
-didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (indexPath.row == 0) {   //settings
         [self.sideBarMenuTable deselectRowAtIndexPath:indexPath
@@ -87,7 +86,7 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
         [self performSegueWithIdentifier:@"LeftSidebarToTasks"
                                   sender:self];
     }
-    else {
+    else if (indexPath.row - 2 < [[FlatAPIClientManager sharedClient]users].count){
         // show a popup for the selected user
         ProfileUser * user = [[[FlatAPIClientManager sharedClient]users] objectAtIndex:indexPath.row -2];
         NSString * dormStatus = @"has not broadcasted his location recently";
@@ -107,7 +106,9 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
                                   otherButtonTitles:nil];
         [alertView show];
         [tableView deselectRowAtIndexPath:indexPath animated:YES];
-        
+    }
+    else {
+        [NSException raise:@"Accessed incorrect indexpath" format:@"indexpath.row: %ld", (long)indexPath.row];
     }
 }
 
