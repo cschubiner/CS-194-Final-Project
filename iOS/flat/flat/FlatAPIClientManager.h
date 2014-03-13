@@ -10,6 +10,7 @@
 #import "ProfileUser.h"
 #import "Group.h"
 #import "RootController.h"
+#import "SAMLoadingView.h"
 
 @interface FlatAPIClientManager : AFHTTPSessionManager
 
@@ -22,7 +23,11 @@
 @property (nonatomic, strong) NSArray *allEvents;
 @property NSString *deviceToken;
 @property (nonatomic, strong) RootController * rootController;
-
+@property (nonatomic, strong) SAMLoadingView *loadingView;
 -(int)getNumUsersHome;
 -(void)getAllCalendarEvents:(void(^)())callback;
+
+-(void)turnOnLoadingView:(UIView*)view;
+-(void)turnOffLoadingView;
+
 @end

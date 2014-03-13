@@ -144,7 +144,7 @@
     }
     [ProfileUserNetworkRequest setGroupIDForUser:user.userID groupID:newGroupID withCompletionBlock:^(NSError* error) {
         RootController * rc = [self getRootViewController];
-        [rc refreshMessagesWithAnimation:NO];
+        [rc refreshMessagesWithAnimation:NO scrollToBottom:NO];
         [self.navigationController popToViewController:rc animated:YES]; // what a convenient method
     }];
 }

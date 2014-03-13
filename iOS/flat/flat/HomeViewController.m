@@ -11,6 +11,7 @@
 #import "CalendarMessage.h"
 #import "MessageHelper.h"
 #import <QuartzCore/QuartzCore.h>
+#import "SAMLoadingView.h"
 
 
 @interface HomeViewController ()
@@ -44,16 +45,7 @@
 
 - (void)getMessages
 {
-    //    NSLog(@"Getting messages 0");
-    [MessageHelper getMessagesWithCompletionBlock:^(NSError *error, NSMutableArray *messages) {
-        //        NSLog(@"MESSAGES ARE %@", messages);
-        //        NSLog(@"Getting messages 1");
-        self.messages = messages;
-        [self.tableView reloadData];
-        [self.refresh endRefreshing];
-        [self scrollToBottomAnimated:YES];
-        //        NSLog(@"Getting messages 2");
-    }];
+    [[FlatAPIClientManager sharedClient].rootController refreshMessagesWithAnimation:YES scrollToBottom:YES];
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -73,16 +65,7 @@
     self.justLoggedIn = NO;
 }
 
-- (void)viewDidLoad
-{
-    
-    self.delegate = self;
-    self.dataSource = self;
-    self.justLoggedIn = YES;
-    [super viewDidLoad];
-    
-    [[JSBubbleView appearance] setFont:[UIFont systemFontOfSize:16.0f]];
-    
+-(void) resetTable {
     self.title = @"Flat";
     [self.tableView setBackgroundColor:[UIColor whiteColor]];
     [self.tableView setSeparatorColor:[UIColor whiteColor]];
@@ -100,31 +83,42 @@
                      action:@selector(getMessages)
            forControlEvents:UIControlEventValueChanged];
     [self.tableView addSubview:self.refresh];
+}
+
+- (void)viewDidLoad
+{
     
+    self.delegate = self;
+    self.dataSource = self;
+    self.justLoggedIn = YES;
+    [super viewDidLoad];
+    
+    [[JSBubbleView appearance] setFont:[UIFont systemFontOfSize:16.0f]];
+    
+    [self resetTable];
+    
+
     [self loadInitialMessages];
 }
 
 - (void)loadInitialMessages
 {
     //    NSLog(@"Getting messages y");
+    [[FlatAPIClientManager sharedClient]turnOnLoadingView:self.view];
     [ProfileUserHelper getUsersFromGroupID:[[FlatAPIClientManager sharedClient]profileUser].groupID withCompletionBlock:^(NSError * error, NSMutableArray * users) {
         [[FlatAPIClientManager sharedClient] setUsers:users];
-        [MessageHelper getMessagesWithCompletionBlock:^(NSError *error, NSMutableArray *messages) {
-            self.messages = messages;
-            [self.tableView reloadData];
-            [self scrollToBottomAnimated:NO];
-            
-            //            NSLog(@"Getting messages z");
-        }];
+        [[FlatAPIClientManager sharedClient].rootController refreshMessagesWithAnimation:NO scrollToBottom:YES];
     }];
 }
 
 - (void)didSendText:(NSString *)text
 {
-    [self.messageInputView.textView setText:nil];
-    [self textViewDidChange:self.messageInputView.textView];
     if (text.length == 0)
         return;
+    
+    self.messageInputView.textView.dataDetectorTypes = UIDataDetectorTypeNone;
+    [self.messageInputView.textView setText:nil];
+    [self textViewDidChange:self.messageInputView.textView];
     [MessageHelper sendMessageWithText:text
                     andCompletionBlock:^(NSError *error, NSMutableArray *messages) {
                         if (error) {
@@ -137,7 +131,6 @@
                             NSLog(@"About to reload data");
                             [self.tableView reloadData];
                             NSLog(@"Just reloaded data");
-                            [self scrollToBottomAnimated:YES];
                         }
                         [self finishSend];
                     }];
@@ -179,6 +172,8 @@
     //        cell.timestampLabel.textColor = [UIColor lightGrayColor];
     //        cell.timestampLabel.shadowOffset = CGSizeZero;
     //    }
+    
+    cell.bubbleView.textView.dataDetectorTypes = UIDataDetectorTypeNone;
     if ([cell messageType] == JSBubbleMessageTypeOutgoing) {
         cell.bubbleView.textView.textColor = [UIColor whiteColor];
     }

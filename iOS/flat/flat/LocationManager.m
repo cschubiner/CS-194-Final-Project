@@ -62,7 +62,7 @@
     static BOOL firstTime = true;
     if (firstTime) {
         firstTime = false;
-        NSLog(@"state: %d", state);
+        NSLog(@"state: %ld", state);
         NSLog(@"determined initial state");
         int dormState = AWAY_DORM_STATUS;
         if (state == CLRegionStateInside)

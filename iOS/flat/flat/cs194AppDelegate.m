@@ -314,7 +314,7 @@
 - (void)applicationDidBecomeActive:(UIApplication *)application
 {
     // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
-    [self.mainViewController refreshMessagesWithAnimation:NO];
+    [self.mainViewController refreshMessagesWithAnimation:NO scrollToBottom:YES];
     [GroupNetworkRequest getGroupFromGroupID:[FlatAPIClientManager sharedClient].profileUser.groupID withCompletionBlock:^(NSError * error, Group * group1) {
         if (group1 == nil)
             group1 = [GroupLocalRequest getGroup];
@@ -337,7 +337,7 @@
 
 - (void)application:(UIApplication*)application didReceiveRemoteNotification:(NSDictionary*)userInfo
 {
-    [self.mainViewController refreshMessagesWithAnimation:NO];
+    [self.mainViewController refreshMessagesWithAnimation:NO scrollToBottom:NO];
     [[FlatAPIClientManager sharedClient] getNumUsersHome];
 }
 

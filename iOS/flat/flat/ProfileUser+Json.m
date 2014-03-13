@@ -43,10 +43,12 @@
         
 
         if ([user.userID isEqualToNumber2:userID]) {
+            NSLog(@"about to crash5?");
             NSString *initials  = [NSString stringWithFormat:@"%@%@",
                                                                  [user.firstName substringWithRange:NSMakeRange(0, 1)],
                                                                  [user.lastName substringWithRange:NSMakeRange(0, 1)]];
             [colorDict setObject:initials forKey:userID];
+            NSLog(@"did not crash5?");
             return initials;
         }
     }

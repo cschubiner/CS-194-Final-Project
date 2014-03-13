@@ -28,6 +28,7 @@ PODS:
     - MagicalRecord/Core
   - MagicalRecord/Core (2.2)
   - MBProgressHUD (0.8)
+  - SAMLoadingView (0.1.0)
   - SDWebImage (3.5.2):
     - SDWebImage/Core
   - SDWebImage/Core (3.5.2)
@@ -54,6 +55,7 @@ DEPENDENCIES:
   - JSQSystemSoundPlayer
   - MagicalRecord
   - MBProgressHUD
+  - SAMLoadingView
   - SDWebImage
   - ShareKit/Facebook
 
@@ -67,6 +69,7 @@ SPEC CHECKSUMS:
   JSQSystemSoundPlayer: 28ccd01a92a0cebc6de6361e8499011b4cb6dab7
   MagicalRecord: 95d49d74ef752cd52f6ad87bcb474817fc3978cf
   MBProgressHUD: 2bbc6f470111daf7f3eaa4eb12b8cbf01c4c0622
+  SAMLoadingView: aaab718284bfe0e28c2303ba765329f068d173e9
   SDWebImage: fe7ce01ae4e0a884d168f59c9dd82d35baf8429e
   ShareKit: 4804fd5d03994bb5ae0f0cb654aafc27641daa43
   SSKeychain: ffa1a79eb716d9ed1ca184fb0cf218087ca28486

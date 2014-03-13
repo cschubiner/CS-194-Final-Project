@@ -77,7 +77,7 @@
     self.navigationItem.leftBarButtonItem = someBarButtonItem;
     self.navigationItem.rightBarButtonItem = someBarButtonItem2;
     NSLog(@"did not crash3");
-
+    
     
 }
 
@@ -90,8 +90,8 @@
     [super viewDidLoad];
     [self setNeedsStatusBarAppearanceUpdate];
     
-//    [self.navigationController setNavigationBarHidden:YES animated:YES];
-
+    //    [self.navigationController setNavigationBarHidden:YES animated:YES];
+    
     //edit for width of the sidebar
     self.leftFixedWidth = self.view.frame.size.width * .5 * .9;
     self.rightGapPercentage = 0.0f;
@@ -110,7 +110,6 @@
      @{ NSFontAttributeName: [UIFont fontWithName:@"HelveticaNeue-Light" size:22.0f], NSForegroundColorAttributeName: [UIColor colorWithPatternImage:myGradient]}];
     NSLog(@"did not crash4");
     [self setNavBarButtons];
-    [self refreshUsers];
 }
 
 -(void)requestCalendarAccess {
@@ -165,7 +164,7 @@
 
 - (IBAction)refreshMessages:(id)sender
 {
-    [self refreshMessagesWithAnimation:YES];
+    [self refreshMessagesWithAnimation:YES scrollToBottom:YES];
 }
 
 
@@ -221,7 +220,7 @@
         [ev setUserID:userID];
         [ev setIsAllDay:[NSNumber numberWithBool:event.isAllDay]];
         [allEventArray addObject:ev];
-
+        
         Firebase* fEvent = [fCalUser childByAppendingPath:[NSString stringWithFormat:@"%@", event.startDate]];
         [[fEvent childByAppendingPath:@"startDate"] setValue:[NSString stringWithFormat:@"%@", event.startDate]];
         [[fEvent childByAppendingPath:@"endDate"] setValue:[NSString stringWithFormat:@"%@", event.endDate]];
@@ -231,19 +230,38 @@
     }
 }
 
--(void) refreshMessagesWithAnimation:(BOOL)animated {
+static bool justRefreshed = false;
+
+-(void) allowMessageRefresh {
+    justRefreshed = false;
+}
+
+-(void) refreshMessagesWithAnimation:(BOOL)animated scrollToBottom:(BOOL)scrollToBottom{
+    if (justRefreshed) return;
+    
     HomeViewController *homeViewController = self.centerPanel;
     //    homeViewController.messages = nil;
     //    [homeViewController.tableView reloadData];
     [MessageHelper getMessagesWithCompletionBlock:^(NSError *error, NSMutableArray *messages) {
         //        NSLog(@"Getting messages 4");
         homeViewController.messages = messages;
+//                [homeViewController viewDidLoad];
+        [homeViewController resetTable];
+
         [homeViewController.tableView reloadData];
         [homeViewController reloadInputViews];
-        [homeViewController viewDidLoad];
-        [homeViewController scrollToBottomAnimated:animated];
+        if (scrollToBottom)
+            [homeViewController scrollToBottomAnimated:animated];
+        [[FlatAPIClientManager sharedClient]turnOffLoadingView];
         //        NSLog(@"Getting messages 5");
     }];
+    
+    justRefreshed = true;
+    [NSTimer scheduledTimerWithTimeInterval:5.0
+                                     target:self
+                                   selector:@selector(allowMessageRefresh)
+                                   userInfo:nil
+                                    repeats:NO];
 }
 
 

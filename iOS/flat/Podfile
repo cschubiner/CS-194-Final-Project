@@ -8,6 +8,7 @@ pod 'ShareKit/Facebook'
 
 pod 'SDWebImage'                                                                 
 pod 'JASidePanels'                                                               
+pod 'SAMLoadingView'
 pod 'MBProgressHUD'
 pod 'JSMessagesViewController'
 pod 'JSQSystemSoundPlayer'

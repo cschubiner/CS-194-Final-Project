@@ -27,6 +27,19 @@ static NSString * const SIGNATURE = @"";
     return _sharedClient;
 }
 
+-(void)turnOnLoadingView:(UIView*)view {
+    if (self.loadingView != nil) return;
+    self.loadingView = [[SAMLoadingView alloc] initWithFrame:view.bounds];
+    self.loadingView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+    [view addSubview:self.loadingView];
+}
+
+-(void)turnOffLoadingView {
+    if (self.loadingView)
+        [self.loadingView removeFromSuperview];
+    self.loadingView = nil;
+}
+
 - (NSURLSessionDataTask *)GET:(NSString *)URLString
                    parameters:(NSDictionary *)parameters
                       success:(void ( ^ ) ( NSURLSessionDataTask *task , id responseObject ))success
