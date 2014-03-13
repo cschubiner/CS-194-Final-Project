@@ -8,7 +8,7 @@
  #import <humor.h> : Not planning to implement: dateByAskingBoyOut and dateByGettingBabysitter
  ----
  General Thanks: sstreza, Scott Lawrence, Kevin Ballard, NoOneButMe, Avi`, August Joki. Emanuele Vulcano, jcromartiej, Blagovest Dachev, Matthias Plappert,  Slava Bushtruk, Ali Servet Donmez, Ricardo1980, pip8786, Danny Thuerin, Dennis Madsen
-*/
+ */
 
 #import "NSDate-Utilities.h"
 
@@ -45,28 +45,28 @@
 {
 	NSTimeInterval aTimeInterval = [[NSDate date] timeIntervalSinceReferenceDate] + D_HOUR * dHours;
 	NSDate *newDate = [NSDate dateWithTimeIntervalSinceReferenceDate:aTimeInterval];
-	return newDate;	
+	return newDate;
 }
 
 + (NSDate *) dateWithHoursBeforeNow: (NSInteger) dHours
 {
 	NSTimeInterval aTimeInterval = [[NSDate date] timeIntervalSinceReferenceDate] - D_HOUR * dHours;
 	NSDate *newDate = [NSDate dateWithTimeIntervalSinceReferenceDate:aTimeInterval];
-	return newDate;	
+	return newDate;
 }
 
 + (NSDate *) dateWithMinutesFromNow: (NSInteger) dMinutes
 {
 	NSTimeInterval aTimeInterval = [[NSDate date] timeIntervalSinceReferenceDate] + D_MINUTE * dMinutes;
 	NSDate *newDate = [NSDate dateWithTimeIntervalSinceReferenceDate:aTimeInterval];
-	return newDate;		
+	return newDate;
 }
 
 + (NSDate *) dateWithMinutesBeforeNow: (NSInteger) dMinutes
 {
 	NSTimeInterval aTimeInterval = [[NSDate date] timeIntervalSinceReferenceDate] - D_MINUTE * dMinutes;
 	NSDate *newDate = [NSDate dateWithTimeIntervalSinceReferenceDate:aTimeInterval];
-	return newDate;		
+	return newDate;
 }
 
 #pragma mark Comparing Dates
@@ -76,7 +76,7 @@
 	NSDateComponents *components1 = [CURRENT_CALENDAR components:DATE_COMPONENTS fromDate:self];
 	NSDateComponents *components2 = [CURRENT_CALENDAR components:DATE_COMPONENTS fromDate:aDate];
 	return ((components1.year == components2.year) &&
-			(components1.month == components2.month) && 
+			(components1.month == components2.month) &&
 			(components1.day == components2.day));
 }
 
@@ -214,7 +214,7 @@
 {
 	NSTimeInterval aTimeInterval = [self timeIntervalSinceReferenceDate] + D_DAY * dDays;
 	NSDate *newDate = [NSDate dateWithTimeIntervalSinceReferenceDate:aTimeInterval];
-	return newDate;		
+	return newDate;
 }
 
 - (NSDate *) dateBySubtractingDays: (NSInteger) dDays
@@ -226,7 +226,7 @@
 {
 	NSTimeInterval aTimeInterval = [self timeIntervalSinceReferenceDate] + D_HOUR * dHours;
 	NSDate *newDate = [NSDate dateWithTimeIntervalSinceReferenceDate:aTimeInterval];
-	return newDate;		
+	return newDate;
 }
 
 - (NSDate *) dateBySubtractingHours: (NSInteger) dHours
@@ -238,7 +238,7 @@
 {
 	NSTimeInterval aTimeInterval = [self timeIntervalSinceReferenceDate] + D_MINUTE * dMinutes;
 	NSDate *newDate = [NSDate dateWithTimeIntervalSinceReferenceDate:aTimeInterval];
-	return newDate;			
+	return newDate;
 }
 
 - (NSDate *) dateBySubtractingMinutes: (NSInteger) dMinutes
@@ -368,6 +368,8 @@
 
 -(NSString *)nameOfDay {
     if (self == nil) return nil;
+    if ([self isToday]) return @"Today";
+    if ([self isTomorrow]) return @"Tomorrow";
     NSInteger day = [self weekday] - 1;
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
     NSArray *weekdays = [dateFormatter weekdaySymbols];

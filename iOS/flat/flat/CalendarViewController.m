@@ -150,17 +150,15 @@ static const int NAV_BAR_HEIGHT = 64;
     cell.backgroundColor = color;
     NSString * text;
     if ([[NSNumber numberWithBool:true] isEqualToNumber2:event.isAllDay]) {
-        text = [NSString stringWithFormat:@"%@: %@\n%@ (All day)",
+        text = [NSString stringWithFormat:@"%@: %@\nAll day",
                 [ProfileUser getFirstNameFromUserID:event.userID],
-                event.title,
-                [Utils formatDateDayOfWeek:event.startDate]
+                event.title
                 ];
     }
     else {
-        text = [NSString stringWithFormat:@"%@: %@\n%@ from %@ to %@",
+        text = [NSString stringWithFormat:@"%@: %@\n%@ to %@",
                 [ProfileUser getFirstNameFromUserID:event.userID],
                 event.title,
-                [Utils formatDateDayOfWeek:event.startDate],
                 [Utils formatDate:event.startDate], [Utils formatDate:event.endDate]
                 ];
     }
