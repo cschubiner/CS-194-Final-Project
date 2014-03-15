@@ -16,8 +16,12 @@
 #import "HomeViewController.h"
 #import <EventKit/EventKit.h>
 #import "MessageHelper.h"
+#import "Reachability.h"
 
 @implementation cs194AppDelegate
+
+Reachability *internetReachableFoo;
+
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
@@ -59,10 +63,41 @@
     [[UIApplication sharedApplication] registerForRemoteNotificationTypes:
      (UIRemoteNotificationTypeSound | UIRemoteNotificationTypeAlert)];
     
-    [NSTimer scheduledTimerWithTimeInterval:280.0 target:self selector:@selector(checkForCalendarEvent) userInfo:nil repeats:YES];
+//    [NSTimer scheduledTimerWithTimeInterval:280.0 target:self selector:@selector(checkForCalendarEvent) userInfo:nil repeats:YES];
+
+    [self testInternetConnection];
     
     return YES;
 }
+
+- (void)testInternetConnection
+{
+    internetReachableFoo = [Reachability reachabilityWithHostname:@"www.google.com"];
+    
+    // Internet is reachable
+    internetReachableFoo.reachableBlock = ^(Reachability*reach)
+    {
+        // Update the UI on the main thread
+        dispatch_async(dispatch_get_main_queue(), ^{
+            NSLog(@"Yayyy, we have the internet!");
+        });
+    };
+    
+    // Internet is not reachable
+    internetReachableFoo.unreachableBlock = ^(Reachability*reach)
+    {
+        // Update the UI on the main thread
+        dispatch_async(dispatch_get_main_queue(), ^{
+            NSLog(@"Someone broke the internet :(");
+            UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"No internet access" message:@"You need internet access to enjoy Flat. Please check your internet connection." delegate:self cancelButtonTitle:@"Dismiss" otherButtonTitles:nil];
+            [alertView show];
+        });
+    };
+    
+    [internetReachableFoo startNotifier];
+}
+
+
 
 - (void)showInitialView
 {

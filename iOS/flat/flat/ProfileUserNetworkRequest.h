@@ -19,12 +19,7 @@ typedef void (^ErrorCompletionHandler)(NSError *);
 + (void) setUserLocationWithUserID:(NSNumber*)userID
                        andIsInDorm:(NSNumber*) isInDormStatus;
 
-+ (void) setGroupIDForUser:(NSNumber*)userID
-                           groupID:(NSNumber*)groupID
-       withCompletionBlock: (ErrorCompletionHandler)completionBlock;
-
-+ (void) setGroupIDForUser:(NSNumber*)userID
-                           groupID:(NSNumber*)groupID;
++(void)setGroupIDForUser:(NSNumber *)userID groupID:(NSNumber *)groupID withPassword:(NSString*)password withCompletionBlock:(ErrorCompletionHandler)completionBlock;
 
 + (void) getFriendsGroupsFromUserID:(NSNumber*)userID
                 withCompletionBlock:(RequestProfileUsersCompletionHandler)completionBlock;

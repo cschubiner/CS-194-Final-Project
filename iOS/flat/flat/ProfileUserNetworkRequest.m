@@ -35,8 +35,7 @@
                                     failure: ^(NSURLSessionDataTask *__unused task, NSError *error) {
                                         NSLog(@"error");
                                         completionBlock(error, nil);
-                                    }];
-    
+                                    }]; 
 }
 
 
@@ -63,8 +62,8 @@
                                     }];
 }
 
-+(void)setGroupIDForUser:(NSNumber *)userID groupID:(NSNumber *)groupID withCompletionBlock:(ErrorCompletionHandler)completionBlock {
-    NSString * url = [NSString stringWithFormat:@"user/%@/changegroupid/%@", userID, groupID];
++(void)setGroupIDForUser:(NSNumber *)userID groupID:(NSNumber *)groupID withPassword:(NSString*)password withCompletionBlock:(ErrorCompletionHandler)completionBlock {
+    NSString * url = [NSString stringWithFormat:@"user/%@/changegroupid/%@/token/%@", userID, groupID, password];
     [[FlatAPIClientManager sharedClient]GET:url
                                  parameters:Nil
                                     success:^(NSURLSessionDataTask * task, id JSON) {
@@ -90,12 +89,6 @@
                                     }];
 }
 
-+ (void) setGroupIDForUser:(NSNumber*)userID
-                   groupID:(NSNumber*)groupID {
-    [ProfileUserNetworkRequest setGroupIDForUser:userID groupID:groupID withCompletionBlock:nil];
-}
-
-
 + (void) getFriendsGroupsFromUserID:(NSNumber*)userID
          withCompletionBlock:(RequestProfileUsersCompletionHandler)completionBlock
 {
@@ -116,7 +109,6 @@
                                                     ProfileUser *profileUser = [ProfileUser getProfileUserObjectFromDictionary:userJSON
                                                                                                        AndManagedObjectContext:[NSManagedObjectContext MR_defaultContext]];
                                                     
-
                                                     if ([profileUser.userID isEqualToNumber2:userID] && [profileUser.groupID isEqualToNumber2:[[FlatAPIClientManager sharedClient]profileUser].groupID])
                                                         shouldAddThisUsersGroup = false; //do not add the group that belongs to current user
                                                     [usersArrayReturn addObject:profileUser];
