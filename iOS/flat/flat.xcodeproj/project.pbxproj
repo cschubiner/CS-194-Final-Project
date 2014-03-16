@@ -27,7 +27,6 @@
 		0C8CA09E18A84C47001A9DD6 /* GroupTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C8CA09D18A84C47001A9DD6 /* GroupTableViewController.m */; };
 		0C8CA0A118A87889001A9DD6 /* SettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C8CA0A018A87889001A9DD6 /* SettingsViewController.m */; };
 		0CB9D1BB18D14095005A1284 /* NSDate-Utilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CB9D1BA18D14095005A1284 /* NSDate-Utilities.m */; };
-		0CBB52051896008C00B9615F /* UIColor+ColorHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CBB52041896008C00B9615F /* UIColor+ColorHelper.m */; };
 		0CD4DD1B18B1AD01003F3B75 /* EventKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0CD4DD1A18B1AD01003F3B75 /* EventKit.framework */; };
 		0CDA0F011895E89500F5A1F8 /* ProfileUserNetworkRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CDA0F001895E89500F5A1F8 /* ProfileUserNetworkRequest.m */; };
 		35381FA018BD5D9A00250B97 /* page4.png in Resources */ = {isa = PBXBuildFile; fileRef = 35381F9C18BD5D9A00250B97 /* page4.png */; };
@@ -60,8 +59,6 @@
 		F270B6E418CBFA5600FA90E5 /* TasksHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = F270B6E318CBFA5600FA90E5 /* TasksHelper.m */; };
 		F270B6E718CBFAB100FA90E5 /* TasksNetworkRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = F270B6E618CBFAB100FA90E5 /* TasksNetworkRequest.m */; };
 		F270B6EA18CBFB2300FA90E5 /* TasksViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F270B6E918CBFB2300FA90E5 /* TasksViewController.m */; };
-		F279A6A418BD3B9E007A2A9E /* CalendarMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = F279A6A318BD3B9E007A2A9E /* CalendarMessage.m */; };
-		F279A6A718BD3DA7007A2A9E /* CalendarMessage+Json.m in Sources */ = {isa = PBXBuildFile; fileRef = F279A6A618BD3DA7007A2A9E /* CalendarMessage+Json.m */; };
 		F2C51D94188C887400489989 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F2C51D93188C887400489989 /* Foundation.framework */; };
 		F2C51D96188C887400489989 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F2C51D95188C887400489989 /* CoreGraphics.framework */; };
 		F2C51D98188C887400489989 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F2C51D97188C887400489989 /* UIKit.framework */; };
@@ -140,8 +137,6 @@
 		0C8CA0A018A87889001A9DD6 /* SettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingsViewController.m; sourceTree = "<group>"; };
 		0CB9D1B918D14095005A1284 /* NSDate-Utilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDate-Utilities.h"; sourceTree = "<group>"; };
 		0CB9D1BA18D14095005A1284 /* NSDate-Utilities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDate-Utilities.m"; sourceTree = "<group>"; };
-		0CBB52031896008C00B9615F /* UIColor+ColorHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+ColorHelper.h"; sourceTree = "<group>"; };
-		0CBB52041896008C00B9615F /* UIColor+ColorHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+ColorHelper.m"; sourceTree = "<group>"; };
 		0CD4DD1A18B1AD01003F3B75 /* EventKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = EventKit.framework; path = System/Library/Frameworks/EventKit.framework; sourceTree = SDKROOT; };
 		0CDA0EFF1895E89500F5A1F8 /* ProfileUserNetworkRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProfileUserNetworkRequest.h; sourceTree = "<group>"; };
 		0CDA0F001895E89500F5A1F8 /* ProfileUserNetworkRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProfileUserNetworkRequest.m; sourceTree = "<group>"; };
@@ -188,10 +183,6 @@
 		F270B6E618CBFAB100FA90E5 /* TasksNetworkRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TasksNetworkRequest.m; sourceTree = "<group>"; };
 		F270B6E818CBFB2300FA90E5 /* TasksViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TasksViewController.h; sourceTree = "<group>"; };
 		F270B6E918CBFB2300FA90E5 /* TasksViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TasksViewController.m; sourceTree = "<group>"; };
-		F279A6A218BD3B9E007A2A9E /* CalendarMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CalendarMessage.h; sourceTree = "<group>"; };
-		F279A6A318BD3B9E007A2A9E /* CalendarMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CalendarMessage.m; sourceTree = "<group>"; };
-		F279A6A518BD3DA7007A2A9E /* CalendarMessage+Json.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "CalendarMessage+Json.h"; sourceTree = "<group>"; };
-		F279A6A618BD3DA7007A2A9E /* CalendarMessage+Json.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "CalendarMessage+Json.m"; sourceTree = "<group>"; };
 		F2C51D90188C887400489989 /* Flat.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Flat.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F2C51D93188C887400489989 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		F2C51D95188C887400489989 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -421,8 +412,6 @@
 				F2C51DFD188C9BAB00489989 /* AuthenticationHelper.m */,
 				F2C51DFF188C9C1100489989 /* ErrorHelper.h */,
 				F2C51E00188C9C1100489989 /* ErrorHelper.m */,
-				0CBB52031896008C00B9615F /* UIColor+ColorHelper.h */,
-				0CBB52041896008C00B9615F /* UIColor+ColorHelper.m */,
 				F25DCF1A18A84E9600710B03 /* MessageHelper.h */,
 				F25DCF1B18A84E9600710B03 /* MessageHelper.m */,
 				0C1F934C18C417AD00949F10 /* Utils.h */,
@@ -552,10 +541,6 @@
 				F2C51E651895E38100489989 /* JSMessageData.h */,
 				F25DCF2018A8564700710B03 /* JSMessage+Json.h */,
 				F25DCF2118A8564700710B03 /* JSMessage+Json.m */,
-				F279A6A218BD3B9E007A2A9E /* CalendarMessage.h */,
-				F279A6A318BD3B9E007A2A9E /* CalendarMessage.m */,
-				F279A6A518BD3DA7007A2A9E /* CalendarMessage+Json.h */,
-				F279A6A618BD3DA7007A2A9E /* CalendarMessage+Json.m */,
 			);
 			name = Messages;
 			sourceTree = "<group>";
@@ -733,7 +718,6 @@
 				F2C51DDC188C960B00489989 /* OpeningViewController.m in Sources */,
 				F2C51DDF188C963D00489989 /* OpeningNavigationController.m in Sources */,
 				F270B6D218CBF47100FA90E5 /* CreateTasksViewController.m in Sources */,
-				F279A6A718BD3DA7007A2A9E /* CalendarMessage+Json.m in Sources */,
 				F270B6D818CBF8F900FA90E5 /* EditTaskViewController.m in Sources */,
 				F2C51DF5188C9A9200489989 /* ProfileUser+Json.m in Sources */,
 				0C2E87D918B1B35700ADF8D2 /* EventModel.m in Sources */,
@@ -751,12 +735,10 @@
 				F270B6DB18CBF99F00FA90E5 /* Task.m in Sources */,
 				F2C51E01188C9C1100489989 /* ErrorHelper.m in Sources */,
 				F25DCF2218A8564700710B03 /* JSMessage+Json.m in Sources */,
-				0CBB52051896008C00B9615F /* UIColor+ColorHelper.m in Sources */,
 				F270B6EA18CBFB2300FA90E5 /* TasksViewController.m in Sources */,
 				F2C51DE9188C97E300489989 /* FlatAPIClientManager.m in Sources */,
 				0C1F934B18C40F0000949F10 /* NSValue+NSValueEqualTo.m in Sources */,
 				F2C51DEF188C9A1600489989 /* Model.xcdatamodeld in Sources */,
-				F279A6A418BD3B9E007A2A9E /* CalendarMessage.m in Sources */,
 				F2C51E661895E38100489989 /* JSMessage.m in Sources */,
 				F2C51DFB188C9B9200489989 /* ProfileUserHelper.m in Sources */,
 				F25DCF1C18A84E9600710B03 /* MessageHelper.m in Sources */,

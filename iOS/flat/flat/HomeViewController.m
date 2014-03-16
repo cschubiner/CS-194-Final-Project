@@ -8,7 +8,6 @@
 
 #import "HomeViewController.h"
 #import "JSMessage.h"
-#import "CalendarMessage.h"
 #import "MessageHelper.h"
 #import <QuartzCore/QuartzCore.h>
 #import "SAMLoadingView.h"
@@ -21,17 +20,6 @@
 
 @implementation HomeViewController
 
-/*
- * Clay: in this file the self.messages mutable array contains both
- * JSMessage objects and CalendarMessage objects. In order to tell
- * what a specific object is use the following logic:
- * if ([message isKindOfClass:[CalendarMessage class]]) {
- *      //make it look like a calendar event
- * } else if ([message isKindOfClass:[JSMessage class]]) {
- *      //make it look like a message
- * }
- *
- */
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {

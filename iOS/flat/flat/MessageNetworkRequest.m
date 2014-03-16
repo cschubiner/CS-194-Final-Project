@@ -8,7 +8,6 @@
 
 #import "MessageNetworkRequest.h"
 #import "JSMessage+Json.h"
-#import "CalendarMessage+Json.h"
 
 @implementation MessageNetworkRequest
 

@@ -130,7 +130,6 @@
 
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    //    [self dismissViewControllerAnimated:YES completion:nil];
     self.joiningGroup = indexPath.row;
     if (self.joiningGroup != [self.groups count]) {
         [self askForGroupPassword];
