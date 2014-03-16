@@ -108,7 +108,7 @@ titleForHeaderInSection:(NSInteger)section
         [tableView deselectRowAtIndexPath:indexPath animated:YES];
     }
     else {
-        [NSException raise:@"Accessed incorrect indexpath" format:@"indexpath.row: %ld", (long)indexPath.row];
+        NSLog(@"Accessed invalid indexpath. indexpath.row: %ld", (long)indexPath.row);
     }
 }
 
@@ -126,11 +126,11 @@ titleForHeaderInSection:(NSInteger)section
          cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     static NSString *MyIdentifier = @"MyReuseIdentifier";
-    //    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:MyIdentifier];
-    //    if (cell == nil) {
-    //        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault  reuseIdentifier:MyIdentifier];
-    //    }
-    UITableViewCell*  cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault  reuseIdentifier:MyIdentifier];
+        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:MyIdentifier];
+        if (cell == nil) {
+            cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault  reuseIdentifier:MyIdentifier];
+        }
+//    UITableViewCell*  cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault  reuseIdentifier:MyIdentifier];
     
     NSMutableArray * users = [[FlatAPIClientManager sharedClient]users];
     cell.backgroundColor = [UIColor whiteColor];

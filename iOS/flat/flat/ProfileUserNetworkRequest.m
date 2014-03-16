@@ -84,7 +84,7 @@
                                         if (completionBlock) completionBlock(error);
                                     }
                                     failure: ^(NSURLSessionDataTask *__unused task, NSError *error) {
-                                        NSLog(@"error in setting group id");
+                                        NSLog(@"error in setting group id %@", error);
                                         if (completionBlock) completionBlock(error);
                                     }];
 }
@@ -108,7 +108,6 @@
                                                 for (NSMutableDictionary* userJSON in usersArray) {
                                                     ProfileUser *profileUser = [ProfileUser getProfileUserObjectFromDictionary:userJSON
                                                                                                        AndManagedObjectContext:[NSManagedObjectContext MR_defaultContext]];
-                                                    
                                                     if ([profileUser.userID isEqualToNumber2:userID] && [profileUser.groupID isEqualToNumber2:[[FlatAPIClientManager sharedClient]profileUser].groupID])
                                                         shouldAddThisUsersGroup = false; //do not add the group that belongs to current user
                                                     [usersArrayReturn addObject:profileUser];
@@ -122,7 +121,7 @@
                                         }
                                     }
                                     failure: ^(NSURLSessionDataTask *__unused task, NSError *error) {
-                                        NSLog(@"error in getting friend groups");
+                                        NSLog(@"error in getting friend groups: %@", error);
                                         completionBlock(error, nil);
                                     }];
     
