@@ -140,9 +140,9 @@ def add_user_by_fbid():
 
 # Get request to change user's group
 # Get instead of post because lazy
-@app.route('/user/<fb_id>/changegroupid/<new_group_id>')
-def change_group_id(fb_id, new_group_id):
-    return groups.change_group_id(fb_id, new_group_id)
+@app.route('/user/<fb_id>/changegroupid/<new_group_id>/token/<passcode>')
+def change_group_id(fb_id, new_group_id, passcode):
+    return groups.change_group_id(fb_id, new_group_id, passcode)
 
 @app.route('/message/new', methods=['GET', 'POST'])
 def add_new_message():

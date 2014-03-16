@@ -27,13 +27,15 @@ USERS = "users"
 GROUP = "group"
 MESSAGES = "messages"
 
-engine = create_engine('mysql+gaerdbms:///add19?instance=flatappapi:db0')
+engine = create_engine('mysql+gaerdbms:///add20?instance=flatappapi:db0')
 db_session = scoped_session(sessionmaker(autocommit=False,
                                          autoflush=False,
                                          bind=engine))
 # Gateway into sending push notifications
 apns = APNs(use_sandbox=True,cert_file='ck.pem', key_file='FlatKeyD.pem')
 Base = declarative_base()
+
+import groups
 
 
 import models
@@ -58,7 +60,8 @@ def add_user(access_token, device_id):
     request_picture_url = "http://graph.facebook.com/" + profile['id'] + "/picture"
     picture_url = urllib2.urlopen(request_picture_url).geturl()
 
-    new_group = models.Group(curr_color=0, latitude=0.0, longitude=0.0)
+    new_group = models.Group(passcode=0, latitude=0.0, longitude=0.0)
+
     new_user = models.User(
             fb_id = profile["id"],
             color_id = 0,
@@ -83,9 +86,11 @@ def add_user(access_token, device_id):
     db_session.add(new_group)
     db_session.commit()
 
+    groups.assign_passcode(profile['id'])
+
     # Updates the friends table in case the newly register user
     # was previously in the friends table
-    update_friend_table(profile['id'])
+    # update_friend_table(profile['id'])
 
     # query = db_session.query(models.User).all()
     print device_id
@@ -275,14 +280,13 @@ def get_name_from_fbid(fb_id):
     # Check for the event message
     if fb_id == '0':
         return 'Event'
+    elif fb_id == '1':
+        return 'Flat'
 
     user = db_session.query(models.User).filter(models.User.fb_id == fb_id).first()
     if user is not None:
         return user.first_name
     return utils.error_json_message('nooo')
-
-def update_calendar():
-    return utils.error_json_message("Dummy endpoint")
 
 '''
     Method: db_get_group
