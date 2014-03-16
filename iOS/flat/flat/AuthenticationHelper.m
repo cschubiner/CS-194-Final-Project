@@ -17,14 +17,14 @@
                andLastName:(NSString *)lastName
        withCompletionBlock:(HelperProfileUserCompletionHandler)completionBlock
 {
-    NSLog(@"in Authentication helper before signing up user");
+    DLog(@"in Authentication helper before signing up user");
     [AuthenticationNetworkRequest signUpWithFacebook:fbToken
                                             andEmail:email
                                         andFirstName:firstName
                                          andLastName:lastName
                                   andCompletionBlock:^(NSError *error, ProfileUser *user)
      {
-         NSLog(@"in completion block in Authentication Helper");
+         DLog(@"in completion block in Authentication Helper");
          completionBlock(error, user);
      }];
     

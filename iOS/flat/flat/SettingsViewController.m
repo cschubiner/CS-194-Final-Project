@@ -92,7 +92,7 @@
 
 - (void)handleLogout
 {
-    NSLog(@"handleLogout");
+    DLog(@"handleLogout");
     
     [self.delegate toggleSidebarMenu:nil];
     
@@ -143,7 +143,7 @@
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
     if (alertView.tag == 0) { //set dorm location as current location
         if (buttonIndex == 1) {
-            NSLog(@"user pressed OK");
+            DLog(@"user pressed OK");
 //            CLLocation * location =
             
             [[LocationManager sharedClient] setShouldSetDormLocation:true];
@@ -151,7 +151,7 @@
 //            NSLog(@"curr lat: %f", [[LocationManager sharedClient] currentLatitude]); //doesn't work. good.
         }
         else {
-            NSLog(@"user pressed Cancel");
+            DLog(@"user pressed Cancel");
         }
     }
 }

@@ -33,7 +33,7 @@
                                         }
                                     }
                                     failure: ^(NSURLSessionDataTask *__unused task, NSError *error) {
-                                        NSLog(@"error");
+                                        DLog(@"error");
                                         completionBlock(error, nil);
                                     }]; 
 }
@@ -51,14 +51,14 @@
                                     success:^(NSURLSessionDataTask * task, id JSON) {
                                         NSError *error = [ErrorHelper apiErrorFromDictionary:JSON];
                                         if (!error) {
-                                            NSLog(@"successfully set user location");
+                                            DLog(@"successfully set user location");
                                             [[[FlatAPIClientManager sharedClient]rootController]refreshUsers];
                                         } else {
-                                            NSLog(@"error when setting user location");
+                                            DLog(@"error when setting user location");
                                         }
                                     }
                                     failure: ^(NSURLSessionDataTask *__unused task, NSError *error) {
-                                        NSLog(@"error");
+                                        DLog(@"error");
                                     }];
 }
 
@@ -69,7 +69,7 @@
                                     success:^(NSURLSessionDataTask * task, id JSON) {
                                         NSError *error = [ErrorHelper apiErrorFromDictionary:JSON];
                                         if (!error) {
-                                            NSLog(@"successfully set user group id");
+                                            DLog(@"successfully set user group id");
                                             [[[FlatAPIClientManager sharedClient]profileUser] setGroupID:groupID];
                                             
                                             [[NSManagedObjectContext MR_defaultContext] MR_saveToPersistentStoreAndWait];
@@ -79,7 +79,7 @@
                                             }];
                                             
                                         } else {
-                                            NSLog(@"error when setting user group id");
+                                            DLog(@"error when setting user group id");
                                         }
                                         if (completionBlock) completionBlock(error);
                                     }

@@ -23,14 +23,14 @@
 
 - (void)toggleSidebarMenu:(id)sender
 {
-    NSLog(@"left menu toggled");
+    DLog(@"left menu toggled");
     [self.centerPanel.messageInputView resignFirstResponder];
     [self toggleLeftPanel:sender];
 }
 
 - (void)rightButtonPressed:(id)sender
 {
-    NSLog(@"right menu toggled");
+    DLog(@"right menu toggled");
     [self.centerPanel.messageInputView resignFirstResponder];
     [self toggleRightPanel:sender];
 }
@@ -51,7 +51,7 @@
     CGRect frame = CGRectMake(0, 0, image.size.width + 7, image.size.height + 7);
     UIButton* someButton = [[UIButton alloc] initWithFrame:frame];
     NSString *numHomeText = [NSString stringWithFormat:@"%d", numUsersHome];
-//NSLog(@"about to crash3?");
+//DLog(@"about to crash3?");
     UIImage *myGradient = [UIImage imageNamed:@"grad-small.png"];
     [someButton setTitle:numHomeText forState:UIControlStateNormal];
     [someButton.titleLabel setFont:[UIFont fontWithName:@"HelveticaNeue-Light" size:16.0f]];
@@ -76,7 +76,7 @@
     
     self.navigationItem.leftBarButtonItem = someBarButtonItem;
     self.navigationItem.rightBarButtonItem = someBarButtonItem2;
-//NSLog(@"did not crash3");
+//DLog(@"did not crash3");
     
     
 }
@@ -102,13 +102,13 @@
     self.navigationController.navigationBar.barTintColor = [UIColor blackColor];
     self.navigationController.navigationBar.translucent = YES;
     self.navigationController.navigationBar.alpha = .01;
-//NSLog(@"about to crash4?");
+//DLog(@"about to crash4?");
     [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName : [UIColor whiteColor]}];
     UIImage *myGradient = [UIImage imageNamed:@"grad-small.png"];
     [[self navigationItem] setTitle:@"Flat"];
     [self.navigationController.navigationBar setTitleTextAttributes:
      @{ NSFontAttributeName: [UIFont fontWithName:@"HelveticaNeue-Light" size:22.0f], NSForegroundColorAttributeName: [UIColor colorWithPatternImage:myGradient]}];
-//NSLog(@"did not crash4");
+//DLog(@"did not crash4");
     [self setNavBarButtons];
 }
 
@@ -243,7 +243,7 @@ static bool justRefreshed = false;
     //    homeViewController.messages = nil;
     //    [homeViewController.tableView reloadData];
     [MessageHelper getMessagesWithCompletionBlock:^(NSError *error, NSMutableArray *messages) {
-        //        NSLog(@"Getting messages 4");
+        //        DLog(@"Getting messages 4");
         homeViewController.messages = messages;
 //                [homeViewController viewDidLoad];
         [homeViewController resetTable];
@@ -253,7 +253,7 @@ static bool justRefreshed = false;
         if (scrollToBottom)
             [homeViewController scrollToBottomAnimated:animated];
         [[FlatAPIClientManager sharedClient]turnOffLoadingView];
-        //        NSLog(@"Getting messages 5");
+        //        DLog(@"Getting messages 5");
     }];
     
     justRefreshed = true;

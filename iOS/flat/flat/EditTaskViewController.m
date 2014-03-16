@@ -106,7 +106,7 @@ static const int SIDE_SPACING = 5;
          if (error) {
              NSLog(@"Error creating a task: %@", error);
          } else {
-             NSLog(@"Created Task");
+             DLog(@"Created Task");
              TaskDetailViewController *prev = [self.navigationController.viewControllers objectAtIndex:self.navigationController.viewControllers.count - 2];
              prev.tasks = [tasks mutableCopy];
              for (int i = 0; i < [tasks count]; i++) {

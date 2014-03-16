@@ -67,7 +67,7 @@ static NSString * const SIGNATURE = @"";
                        success:(void ( ^ ) ( NSURLSessionDataTask *task , id responseObject ))success
                        failure:(void ( ^ ) ( NSURLSessionDataTask *task , NSError *error ))failure
 {
-    NSLog(@"top of post request");
+    DLog(@"top of post request");
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     NSMutableDictionary *authentication = [NSMutableDictionary dictionaryWithDictionary:@{@"key":KEY,@"signature":SIGNATURE}];
     if  (self.profileUser != nil)
@@ -79,7 +79,7 @@ static NSString * const SIGNATURE = @"";
     for(NSString *key in [parameters allKeys]) {
         [params setObject:[parameters objectForKey:key] forKey:key];
     }
-    NSLog(@"about to return post request");
+    DLog(@"about to return post request");
     return [super POST:(NSString *)URLString parameters:(NSDictionary *)params
                success:(void ( ^ ) ( NSURLSessionDataTask *task , id responseObject ))success
                failure:(void ( ^ ) ( NSURLSessionDataTask *task , NSError *error ))failure];

@@ -32,14 +32,14 @@
     NSNumber* userID = [FlatAPIClientManager sharedClient].profileUser.userID;
     [MessageNetworkRequest getMessagesForUserWithUserID:userID
                                      andCompletionBlock:^(NSError *error, NSMutableArray *messages) {
-//    NSLog(@"Getting messages 9");
+//    DLog(@"Getting messages 9");
                                          if (error) {
                                              NSLog(@"Error in MessageHelper %@", error);
                                              completionBlock(error, nil);
                                          } else {
                                              completionBlock(nil, messages);
                                          }
-//    NSLog(@"Getting messages a");
+//    DLog(@"Getting messages a");
                                      }];
 }
 
@@ -59,7 +59,7 @@
                                 if (error) {
                                     NSLog(@"Error in sending calendar message %@", error);
                                 } else {
-                                    NSLog(@"calendar message sent successfully");
+                                    DLog(@"calendar message sent successfully");
                                 }
                             }];
 }

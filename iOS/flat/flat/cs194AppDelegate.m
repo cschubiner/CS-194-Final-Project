@@ -54,9 +54,9 @@ Reachability *internetReachableFoo;
         [self showInitialView];
     } else {
         // Not Logged In, show Login
-        NSLog(@"Not Logged in, show Login screen");
+        DLog(@"Not Logged in, show Login screen");
         [self showInitialView];
-        NSLog(@"Show initial view already called");
+        DLog(@"Show initial view already called");
         [self showLoginView];
     }
     
@@ -79,7 +79,7 @@ Reachability *internetReachableFoo;
     {
         // Update the UI on the main thread
         dispatch_async(dispatch_get_main_queue(), ^{
-            NSLog(@"We are connected to the internet.");
+            DLog(@"We are connected to the internet.");
         });
     };
     
@@ -88,7 +88,7 @@ Reachability *internetReachableFoo;
     {
         // Update the UI on the main thread
         dispatch_async(dispatch_get_main_queue(), ^{
-            NSLog(@"Uh oh, we are not connected to the internet.");
+            DLog(@"Uh oh, we are not connected to the internet.");
             UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"No internet access" message:@"You need internet access to enjoy Flat. Please check your internet connection." delegate:self cancelButtonTitle:@"Dismiss" otherButtonTitles:nil];
             [alertView show];
         });
@@ -103,10 +103,10 @@ Reachability *internetReachableFoo;
 {
     UIStoryboard *storyBoard = [UIStoryboard storyboardWithName:@"Main_iPhone"
                                                          bundle:nil];
-    NSLog(@"before instantiating root controller");
+    DLog(@"before instantiating root controller");
     self.mainViewController = [storyBoard instantiateViewControllerWithIdentifier:@"RootController"];
     [[FlatAPIClientManager sharedClient] setRootController:self.mainViewController];
-    NSLog(@"after instantiating root controller");
+    DLog(@"after instantiating root controller");
     self.mainNavigationViewController = [[MainNavigationViewController alloc] initWithRootViewController:self.mainViewController];
     //    self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     self.window.rootViewController = self.mainNavigationViewController;
@@ -115,7 +115,7 @@ Reachability *internetReachableFoo;
 
 - (void)showLoginView
 {
-    NSLog(@"showLoginView");
+    DLog(@"showLoginView");
     UIStoryboard *sb = [UIStoryboard storyboardWithName:@"Main_iPhone"
                                                  bundle:nil];
     self.loginViewController = [sb instantiateViewControllerWithIdentifier:@"OpeningNavigationController"];
@@ -165,7 +165,7 @@ Reachability *internetReachableFoo;
     switch (state) {
         case FBSessionStateOpen: {
             if (!error) {
-                NSLog(@"FBSessionStateOpen, No Error");
+                DLog(@"FBSessionStateOpen, No Error");
                 self.fbToken = session.accessTokenData.accessToken;
                 
                 if (self.loggedIn == NO) {
@@ -206,18 +206,18 @@ Reachability *internetReachableFoo;
                 }
                 
             } else {
-                NSLog(@"Error: FBSessionStateOpen");
+                DLog(@"Error: FBSessionStateOpen");
             }
             
             break;
         }
         case FBSessionStateClosed:
-            NSLog(@"FBSessionStateClosed");
+            DLog(@"FBSessionStateClosed");
             
             break;
         case FBSessionStateClosedLoginFailed:
         {
-            NSLog(@"FBSessionStateClosedLoginFailed");
+            DLog(@"FBSessionStateClosedLoginFailed");
             
             // Once the user has logged in, we want them to
             // be looking at the root view.
@@ -277,7 +277,7 @@ Reachability *internetReachableFoo;
 }
 
 -(void)checkForCalendarEvent {
-    NSLog(@"start of calendar event checking");
+    DLog(@"start of calendar event checking");
     NSCalendar* calendar = [[NSCalendar alloc] initWithCalendarIdentifier: NSGregorianCalendar];
     NSDateComponents* components = [[NSDateComponents alloc] init];
     components.minute = 5;
@@ -300,7 +300,7 @@ Reachability *internetReachableFoo;
     }
     
     [events removeObjectsAtIndexes:discardedItems];
-    NSLog(@"end calendar event checking");
+    DLog(@"end calendar event checking");
     
 }
 
