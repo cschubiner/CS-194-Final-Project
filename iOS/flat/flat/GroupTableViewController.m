@@ -13,6 +13,7 @@
 
 @interface GroupTableViewController ()
 @property (nonatomic, strong) NSArray * groups;
+@property (nonatomic) NSUInteger joiningGroup;
 @end
 
 @implementation GroupTableViewController
@@ -129,38 +130,57 @@
 
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    //    [self dismissViewControllerAnimated:YES completion:nil];
-    NSNumber * newGroupID;
+    self.joiningGroup = indexPath.row;
+    if (self.joiningGroup != [self.groups count]) {
+        [self askForGroupPassword];
+        return;
+    }
+    //else, the user is creating a new group
     ProfileUser * user = [[FlatAPIClientManager sharedClient]profileUser];
-    if (indexPath.row == [self.groups count]) {
-        NSTimeInterval secondsElapsed = [[NSDate date] timeIntervalSinceDate:[NSDate dateWithTimeIntervalSince1970:1000000]];
-        newGroupID = [NSNumber numberWithInt:(int)secondsElapsed];
-        NSLog(@"new group ID: %@", newGroupID);
-    }
-    else {
-        NSMutableArray* users = [self.groups objectAtIndex:indexPath.row];
-        ProfileUser * firstUser = [users objectAtIndex:0];
-        newGroupID = firstUser.groupID;
-    }
-    [ProfileUserNetworkRequest setGroupIDForUser:user.userID groupID:newGroupID withCompletionBlock:^(NSError* error) {
-        RootController * rc = [self getRootViewController];
-        [rc refreshMessagesWithAnimation:NO scrollToBottom:NO];
-        [self.navigationController popToViewController:rc animated:YES]; // what a convenient method
+    NSTimeInterval secondsElapsed = [[NSDate date] timeIntervalSinceDate:[NSDate dateWithTimeIntervalSince1970:1394929600]]; //this gets us a low group ID. This should work for the next 136 years or so :)
+    NSNumber * newGroupID = [NSNumber numberWithInt:(int)secondsElapsed];
+    NSLog(@"new group ID: %@", newGroupID);
+    [ProfileUserNetworkRequest setGroupIDForUser:user.userID groupID:newGroupID withPassword:@"newgroup" withCompletionBlock:^(NSError* error) {
+        if (error) {
+            UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Unable to create group" message:@"We were unable to create your group. Please try again later." delegate:self cancelButtonTitle:@"Dismiss" otherButtonTitles:nil];
+            [alertView show];
+        }
+        else {
+            RootController * rc = [self getRootViewController];
+            [rc refreshMessagesWithAnimation:YES scrollToBottom:YES];
+            [self.navigationController popToViewController:rc animated:YES];
+        }
     }];
 }
 
+-(void)askForGroupPassword {
+    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Enter Access Code" message:@"Enter the access code of the group you wish to join" delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"Join Group", nil];
+    alertView.alertViewStyle = UIAlertViewStylePlainTextInput;
+    [alertView show];
+    [[alertView textFieldAtIndex:0] resignFirstResponder];
+    [[alertView textFieldAtIndex:0] setKeyboardType:UIKeyboardTypePhonePad]; //change the keyboard type to numpad
+    [[alertView textFieldAtIndex:0] becomeFirstResponder];
+}
 
-
-/*
- #pragma mark - Navigation
- 
- // In a story board-based application, you will often want to do a little preparation before navigation
- - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
- {
- // Get the new view controller using [segue destinationViewController].
- // Pass the selected object to the new view controller.
- }
- 
- */
+-(void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex {
+    if (buttonIndex == 0) return;
+    UITextField *passwordTextField = [alertView textFieldAtIndex:0];
+    NSLog(@"pw: %@",passwordTextField.text);
+    
+    ProfileUser * user = [[FlatAPIClientManager sharedClient]profileUser];
+    NSMutableArray* users = [self.groups objectAtIndex:self.joiningGroup];
+    ProfileUser * firstUser = [users objectAtIndex:0];
+    [ProfileUserNetworkRequest setGroupIDForUser:user.userID groupID:firstUser.groupID withPassword:passwordTextField.text withCompletionBlock:^(NSError* error) {
+        if (error) {
+            UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Incorrect password" message:@"The group's access code can be found at the top of the message feed of anyone in the group." delegate:self cancelButtonTitle:@"Dismiss" otherButtonTitles:nil];
+            [alertView show];
+        }
+        else {
+            RootController * rc = [self getRootViewController];
+            [rc refreshMessagesWithAnimation:YES scrollToBottom:YES];
+            [self.navigationController popToViewController:rc animated:YES];
+        }
+    }];
+}
 
 @end

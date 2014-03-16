@@ -13,7 +13,7 @@
 
 - (BOOL)isEqualToNumber2:(NSNumber *)number {
     if (number == nil || (NSNull*)number == [NSNull null]) {
-        NSLog(@"inputted number is null. Returning false");
+        DLog(@"inputted number is null. Returning false");
         return false;
     }
     return [(NSNumber*)self isEqualToNumber:number];

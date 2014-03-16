@@ -48,7 +48,7 @@
     NSDictionary *params = @{@"group_id":groupId,
                              @"due_date":[NSString stringWithFormat:@"%@", date],
                              @"body":text};
-    NSLog(@"after making dictionary");
+    DLog(@"after making dictionary");
     [[FlatAPIClientManager sharedClient] POST:@"/tasks/add"
                                    parameters:params
                                       success:^(NSURLSessionDataTask *task, id JSON) {
@@ -115,7 +115,7 @@
                              @"due_date":[NSString stringWithFormat:@"%@", date],
                              @"task_id":taskId,
                              @"body":body};
-    NSLog(@"after making dictionary");
+    DLog(@"after making dictionary");
     [[FlatAPIClientManager sharedClient] POST:@"/tasks/edit"
                                    parameters:params
                                       success:^(NSURLSessionDataTask *task, id JSON) {

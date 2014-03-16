@@ -39,7 +39,7 @@
 
 - (void)viewDidLoad
 {
-    NSLog(@"Opening View Controller");
+    DLog(@"Opening View Controller");
     [super viewDidLoad];
     [self setNeedsStatusBarAppearanceUpdate];
     
@@ -166,7 +166,7 @@
                                  andLastName:lastName
                          withCompletionBlock:^(NSError *error, ProfileUser *profileUser)
      {
-         NSLog(@"signing up with facebook");
+         DLog(@"signing up with facebook");
          if (!error) {
              NSLog(@"openingViewController completion block %@", profileUser);
              [FlatAPIClientManager sharedClient].profileUser = profileUser;

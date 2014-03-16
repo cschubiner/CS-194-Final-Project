@@ -106,7 +106,7 @@ static const int SIDE_SPACING = 5;
          if (error) {
              NSLog(@"Error creating a task: %@", error);
          } else {
-             NSLog(@"Created Task");
+             DLog(@"Created Task");
              TasksViewController *tasksVC = [self.navigationController.viewControllers objectAtIndex:self.navigationController.viewControllers.count - 2];
              tasksVC.tasks = [tasks mutableCopy];
              [tasksVC.tasksTable reloadData];

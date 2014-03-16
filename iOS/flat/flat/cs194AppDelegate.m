@@ -16,8 +16,12 @@
 #import "HomeViewController.h"
 #import <EventKit/EventKit.h>
 #import "MessageHelper.h"
+#import "Reachability.h"
 
 @implementation cs194AppDelegate
+
+Reachability * internetReachable;
+
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
@@ -29,7 +33,6 @@
     pageControl.backgroundColor = [UIColor whiteColor];
     
     
-    //    [NSTimeZone setDefaultTimeZone:[NSTimeZone localTimeZone]];
     
     // Check if user is logged in
     ProfileUser *profileUser = [ProfileUserHelper getProfileUser];
@@ -50,28 +53,54 @@
         [self showInitialView];
     } else {
         // Not Logged In, show Login
-        NSLog(@"Not Logged in, show Login screen");
+        DLog(@"Not Logged in, show Login screen");
         [self showInitialView];
-        NSLog(@"Show initial view already called");
+        DLog(@"Show initial view already called");
         [self showLoginView];
     }
     
     [[UIApplication sharedApplication] registerForRemoteNotificationTypes:
      (UIRemoteNotificationTypeSound | UIRemoteNotificationTypeAlert)];
     
-    [NSTimer scheduledTimerWithTimeInterval:280.0 target:self selector:@selector(checkForCalendarEvent) userInfo:nil repeats:YES];
+//    [NSTimer scheduledTimerWithTimeInterval:280.0 target:self selector:@selector(checkForCalendarEvent) userInfo:nil repeats:YES];
+
+    [self testInternetConnection];
     
     return YES;
 }
+
+- (void)testInternetConnection
+{
+     internetReachable = [Reachability reachabilityWithHostname:@"www.google.com"];
+    // Internet is reachable
+     internetReachable.reachableBlock = ^(Reachability*reach)
+    {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            DLog(@"We are connected to the internet.");
+        });
+    };
+    // Internet is not reachable
+     internetReachable.unreachableBlock = ^(Reachability*reach)
+    {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            DLog(@"Uh oh, we are not connected to the internet.");
+            UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"No internet access" message:@"You need internet access to enjoy Flat. Please check your internet connection." delegate:self cancelButtonTitle:@"Dismiss" otherButtonTitles:nil];
+            [alertView show];
+        });
+    };
+    [ internetReachable startNotifier];
+}
+
+
 
 - (void)showInitialView
 {
     UIStoryboard *storyBoard = [UIStoryboard storyboardWithName:@"Main_iPhone"
                                                          bundle:nil];
-    NSLog(@"before instantiating root controller");
+    DLog(@"before instantiating root controller");
     self.mainViewController = [storyBoard instantiateViewControllerWithIdentifier:@"RootController"];
     [[FlatAPIClientManager sharedClient] setRootController:self.mainViewController];
-    NSLog(@"after instantiating root controller");
+    DLog(@"after instantiating root controller");
     self.mainNavigationViewController = [[MainNavigationViewController alloc] initWithRootViewController:self.mainViewController];
     //    self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     self.window.rootViewController = self.mainNavigationViewController;
@@ -80,7 +109,7 @@
 
 - (void)showLoginView
 {
-    NSLog(@"showLoginView");
+    DLog(@"showLoginView");
     UIStoryboard *sb = [UIStoryboard storyboardWithName:@"Main_iPhone"
                                                  bundle:nil];
     self.loginViewController = [sb instantiateViewControllerWithIdentifier:@"OpeningNavigationController"];
@@ -130,7 +159,7 @@
     switch (state) {
         case FBSessionStateOpen: {
             if (!error) {
-                NSLog(@"FBSessionStateOpen, No Error");
+                DLog(@"FBSessionStateOpen, No Error");
                 self.fbToken = session.accessTokenData.accessToken;
                 
                 if (self.loggedIn == NO) {
@@ -171,18 +200,18 @@
                 }
                 
             } else {
-                NSLog(@"Error: FBSessionStateOpen");
+                DLog(@"Error: FBSessionStateOpen");
             }
             
             break;
         }
         case FBSessionStateClosed:
-            NSLog(@"FBSessionStateClosed");
+            DLog(@"FBSessionStateClosed");
             
             break;
         case FBSessionStateClosedLoginFailed:
         {
-            NSLog(@"FBSessionStateClosedLoginFailed");
+            DLog(@"FBSessionStateClosedLoginFailed");
             
             // Once the user has logged in, we want them to
             // be looking at the root view.
@@ -229,7 +258,6 @@
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         //run function methodRunAfterBackground
         int checkEvery = 290; //almost every 5 minutes
-        //                checkEvery = 10;
         NSTimer* t = [NSTimer scheduledTimerWithTimeInterval:checkEvery target:self selector:@selector(backgroundTask) userInfo:nil repeats:YES];
         [[NSRunLoop currentRunLoop] addTimer:t forMode:NSDefaultRunLoopMode];
         [[NSRunLoop currentRunLoop] run];
@@ -238,11 +266,12 @@
 
 -(void)backgroundTask {
     [self checkForCalendarEvent];
+    [self refreshGroupAndLocation];
     [[FlatAPIClientManager sharedClient] getNumUsersHome];
 }
 
 -(void)checkForCalendarEvent {
-    NSLog(@"start of calendar event checking");
+    DLog(@"start of calendar event checking");
     NSCalendar* calendar = [[NSCalendar alloc] initWithCalendarIdentifier: NSGregorianCalendar];
     NSDateComponents* components = [[NSDateComponents alloc] init];
     components.minute = 5;
@@ -265,7 +294,7 @@
     }
     
     [events removeObjectsAtIndexes:discardedItems];
-    NSLog(@"end calendar event checking");
+    DLog(@"end calendar event checking");
     
 }
 
@@ -311,11 +340,8 @@
     // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
 }
 
-- (void)applicationDidBecomeActive:(UIApplication *)application
-{
-    // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
-    [self.mainViewController refreshMessagesWithAnimation:NO scrollToBottom:YES];
-    [GroupNetworkRequest getGroupFromGroupID:[FlatAPIClientManager sharedClient].profileUser.groupID withCompletionBlock:^(NSError * error, Group * group1) {
+-(void) refreshGroupAndLocation {
+ [GroupNetworkRequest getGroupFromGroupID:[FlatAPIClientManager sharedClient].profileUser.groupID withCompletionBlock:^(NSError * error, Group * group1) {
         if (group1 == nil)
             group1 = [GroupLocalRequest getGroup];
         [FlatAPIClientManager sharedClient].group = group1;
@@ -326,8 +352,13 @@
         [manager startMonitoringForRegion:[[LocationManager sharedClient] getGroupLocationRegion]];
         [[LocationManager sharedClient] setShouldSetDormLocation:false];
     }];
-    
-    
+}
+
+- (void)applicationDidBecomeActive:(UIApplication *)application
+{
+    // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
+    [self.mainViewController refreshMessagesWithAnimation:NO scrollToBottom:YES];
+    [self refreshGroupAndLocation];
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application

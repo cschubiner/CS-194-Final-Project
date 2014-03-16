@@ -36,18 +36,18 @@
 
 - (void)locationManager:(CLLocationManager *)manager didEnterRegion:(CLRegion *)region
 {
-    NSLog(@"in region");
+    DLog(@"in region");
     [self handleUserDormState:[NSNumber numberWithInt:IN_DORM_STATUS]];
 }
 
 - (void)locationManager:(CLLocationManager *)manager didExitRegion:(CLRegion *)region
 {
-    NSLog(@"not in region");
+    DLog(@"not in region");
     [self handleUserDormState:[NSNumber numberWithInt:AWAY_DORM_STATUS]];
 }
 - (void)locationManager:(CLLocationManager *)manager didStartMonitoringForRegion:(CLRegion *)region
 {
-    NSLog(@"monitoring region");
+    DLog(@"monitoring region");
 }
 
 - (void)handleUserDormState:(NSNumber*)isInDormStatus {
@@ -63,7 +63,7 @@
     if (firstTime) {
         firstTime = false;
         NSLog(@"state: %ld", state);
-        NSLog(@"determined initial state");
+        DLog(@"determined initial state");
         int dormState = AWAY_DORM_STATUS;
         if (state == CLRegionStateInside)
             dormState = IN_DORM_STATUS;
@@ -83,7 +83,7 @@
     if (self.shouldSetDormLocation) {
         [self setShouldSetDormLocation:false];
         
-        NSLog(@"setting dorm location to: ");
+        DLog(@"setting dorm location to: ");
         NSLog(@"latitude %+.6f, longitude %+.6f\n",
               newLocation.coordinate.latitude,
               newLocation.coordinate.longitude);

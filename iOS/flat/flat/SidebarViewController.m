@@ -108,7 +108,7 @@ titleForHeaderInSection:(NSInteger)section
         [tableView deselectRowAtIndexPath:indexPath animated:YES];
     }
     else {
-        [NSException raise:@"Accessed incorrect indexpath" format:@"indexpath.row: %ld", (long)indexPath.row];
+        NSLog(@"Accessed invalid indexpath. indexpath.row: %ld", (long)indexPath.row);
     }
 }
 
@@ -126,10 +126,6 @@ titleForHeaderInSection:(NSInteger)section
          cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     static NSString *MyIdentifier = @"MyReuseIdentifier";
-    //    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:MyIdentifier];
-    //    if (cell == nil) {
-    //        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault  reuseIdentifier:MyIdentifier];
-    //    }
     UITableViewCell*  cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault  reuseIdentifier:MyIdentifier];
     
     NSMutableArray * users = [[FlatAPIClientManager sharedClient]users];
@@ -166,12 +162,12 @@ titleForHeaderInSection:(NSInteger)section
         [cell.contentView addSubview:circleView];
         [cell.contentView addSubview:name];
         [cell.contentView addSubview:locationImage];
-        NSLog(@"about to crash6?");
+        
         NSString *initials  = [NSString stringWithFormat:@"%@%@",
                                [user.firstName substringWithRange:NSMakeRange(0, 1)],
                                [user.lastName substringWithRange:NSMakeRange(0, 1)]];
         name.text = initials;
-        NSLog(@"did not crash6");
+        
     }
     return cell;
 }

@@ -33,16 +33,11 @@
                                         }
                                     }
                                     failure: ^(NSURLSessionDataTask *__unused task, NSError *error) {
-                                        NSLog(@"error");
+                                        DLog(@"error");
                                         completionBlock(error, nil);
                                     }];
-    
 }
 
-
-//const static int AWAY_DORM_STATUS = 0;
-//const static int IN_DORM_STATUS = 1;
-//const static int NOT_BROADCASTING_DORM_STATUS = 2;
 + (void) setUserLocationWithUserID:(NSNumber*)userID
                        andIsInDorm:(NSNumber*) isInDormStatus {
     NSLog(@"telling colby our indorm status is: %@", isInDormStatus);
@@ -52,52 +47,50 @@
                                     success:^(NSURLSessionDataTask * task, id JSON) {
                                         NSError *error = [ErrorHelper apiErrorFromDictionary:JSON];
                                         if (!error) {
-                                            NSLog(@"successfully set user location");
+                                            DLog(@"successfully set user location");
                                             [[[FlatAPIClientManager sharedClient]rootController]refreshUsers];
                                         } else {
-                                            NSLog(@"error when setting user location");
+                                            DLog(@"error when setting user location");
                                         }
                                     }
                                     failure: ^(NSURLSessionDataTask *__unused task, NSError *error) {
-                                        NSLog(@"error");
+                                        DLog(@"error");
                                     }];
 }
 
-+(void)setGroupIDForUser:(NSNumber *)userID groupID:(NSNumber *)groupID withCompletionBlock:(ErrorCompletionHandler)completionBlock {
-    NSString * url = [NSString stringWithFormat:@"user/%@/changegroupid/%@", userID, groupID];
++(void)setGroupIDForUser:(NSNumber *)userID groupID:(NSNumber *)groupID withPassword:(NSString*)password withCompletionBlock:(ErrorCompletionHandler)completionBlock {
+    NSString * url = [NSString stringWithFormat:@"user/%@/changegroupid/%@/token/%@", userID, groupID, password];
     [[FlatAPIClientManager sharedClient]GET:url
                                  parameters:Nil
                                     success:^(NSURLSessionDataTask * task, id JSON) {
                                         NSError *error = [ErrorHelper apiErrorFromDictionary:JSON];
                                         if (!error) {
-                                            NSLog(@"successfully set user group id");
+                                            DLog(@"successfully set user group id");
                                             [[[FlatAPIClientManager sharedClient]profileUser] setGroupID:groupID];
                                             
                                             [[NSManagedObjectContext MR_defaultContext] MR_saveToPersistentStoreAndWait];
                                             [GroupNetworkRequest getGroupFromGroupID:groupID withCompletionBlock:^(NSError * error, Group* group) {
                                                 [[FlatAPIClientManager sharedClient] setGroup:group];
+                                                CLLocationManager * manager = [[LocationManager sharedClient] locationManager];
+                                                [manager stopMonitoringForRegion:manager.monitoredRegions.anyObject];
+                                                [manager startMonitoringForRegion:[[LocationManager sharedClient] getGroupLocationRegion]];
+                                                [[LocationManager sharedClient] setShouldSetDormLocation:false];
                                                 [[NSManagedObjectContext MR_defaultContext] MR_saveToPersistentStoreAndWait];
                                             }];
                                             
                                         } else {
-                                            NSLog(@"error when setting user group id");
+                                            DLog(@"error when setting user group id");
                                         }
                                         if (completionBlock) completionBlock(error);
                                     }
                                     failure: ^(NSURLSessionDataTask *__unused task, NSError *error) {
-                                        NSLog(@"error in setting group id");
+                                        NSLog(@"error in setting group id %@", error);
                                         if (completionBlock) completionBlock(error);
                                     }];
 }
 
-+ (void) setGroupIDForUser:(NSNumber*)userID
-                   groupID:(NSNumber*)groupID {
-    [ProfileUserNetworkRequest setGroupIDForUser:userID groupID:groupID withCompletionBlock:nil];
-}
-
-
 + (void) getFriendsGroupsFromUserID:(NSNumber*)userID
-         withCompletionBlock:(RequestProfileUsersCompletionHandler)completionBlock
+                withCompletionBlock:(RequestProfileUsersCompletionHandler)completionBlock
 {
     NSString * url = [NSString stringWithFormat:@"http://flatappapi.appspot.com/facebook/user/%@/friendgroups", userID];
     [[FlatAPIClientManager sharedClient]GET:url
@@ -115,8 +108,6 @@
                                                 for (NSMutableDictionary* userJSON in usersArray) {
                                                     ProfileUser *profileUser = [ProfileUser getProfileUserObjectFromDictionary:userJSON
                                                                                                        AndManagedObjectContext:[NSManagedObjectContext MR_defaultContext]];
-                                                    
-
                                                     if ([profileUser.userID isEqualToNumber2:userID] && [profileUser.groupID isEqualToNumber2:[[FlatAPIClientManager sharedClient]profileUser].groupID])
                                                         shouldAddThisUsersGroup = false; //do not add the group that belongs to current user
                                                     [usersArrayReturn addObject:profileUser];
@@ -130,10 +121,9 @@
                                         }
                                     }
                                     failure: ^(NSURLSessionDataTask *__unused task, NSError *error) {
-                                        NSLog(@"error in getting friend groups");
+                                        NSLog(@"error in getting friend groups: %@", error);
                                         completionBlock(error, nil);
-                                    }];
-    
+                                    }]; 
 }
 
 @end

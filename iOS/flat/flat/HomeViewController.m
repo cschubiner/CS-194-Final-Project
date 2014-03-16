@@ -8,7 +8,6 @@
 
 #import "HomeViewController.h"
 #import "JSMessage.h"
-#import "CalendarMessage.h"
 #import "MessageHelper.h"
 #import <QuartzCore/QuartzCore.h>
 #import "SAMLoadingView.h"
@@ -21,17 +20,6 @@
 
 @implementation HomeViewController
 
-/*
- * Clay: in this file the self.messages mutable array contains both
- * JSMessage objects and CalendarMessage objects. In order to tell
- * what a specific object is use the following logic:
- * if ([message isKindOfClass:[CalendarMessage class]]) {
- *      //make it look like a calendar event
- * } else if ([message isKindOfClass:[JSMessage class]]) {
- *      //make it look like a message
- * }
- *
- */
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -97,13 +85,13 @@
     
     [self resetTable];
     
-
+    
     [self loadInitialMessages];
 }
 
 - (void)loadInitialMessages
 {
-    //    NSLog(@"Getting messages y");
+    //    
     [[FlatAPIClientManager sharedClient]turnOnLoadingView:self.view];
     [ProfileUserHelper getUsersFromGroupID:[[FlatAPIClientManager sharedClient]profileUser].groupID withCompletionBlock:^(NSError * error, NSMutableArray * users) {
         [[FlatAPIClientManager sharedClient] setUsers:users];
@@ -128,9 +116,9 @@
                             //    NSLog(@"MESSAGES: %@", messages);
                             self.messages = messages;
                             [JSMessageSoundEffect playMessageSentSound];
-                            NSLog(@"About to reload data");
+                            DLog(@"About to reload data");
                             [self.tableView reloadData];
-                            NSLog(@"Just reloaded data");
+                            DLog(@"Just reloaded data");
                         }
                         [self finishSend];
                     }];
@@ -138,7 +126,7 @@
 
 - (JSBubbleMessageType)messageTypeForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    //    NSLog(@"Getting messages znz");
+    //    
     JSMessage *currMessage = [self.messages objectAtIndex:indexPath.row];
     ProfileUser *user = [FlatAPIClientManager sharedClient].profileUser;
     
@@ -152,7 +140,7 @@
 - (UIImageView *)bubbleImageViewWithType:(JSBubbleMessageType)type
                        forRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    //    NSLog(@"Getting messages zzk");
+    //    
     JSMessage *currMessage = [self.messages objectAtIndex:indexPath.row];
     ProfileUser *user = [FlatAPIClientManager sharedClient].profileUser;
     if ([currMessage.senderID isEqualToNumber2:user.userID] ) {
@@ -167,7 +155,7 @@
 
 - (void)configureCell:(JSBubbleMessageCell *)cell atIndexPath:(NSIndexPath *)indexPath
 {
-    //    NSLog(@"Getting messages zzz");
+    //    
     //    if (cell.timestampLabel) {
     //        cell.timestampLabel.textColor = [UIColor lightGrayColor];
     //        cell.timestampLabel.shadowOffset = CGSizeZero;
@@ -177,7 +165,7 @@
     if ([cell messageType] == JSBubbleMessageTypeOutgoing) {
         cell.bubbleView.textView.textColor = [UIColor whiteColor];
     }
-    //    NSLog(@"Getting messages zzu");
+    //    
 }
 
 - (JSMessagesViewTimestampPolicy)timestampPolicy
@@ -202,20 +190,20 @@
 
 - (NSString *)textForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    //    NSLog(@"Getting messages e");
+    //    
     return [[self.messages objectAtIndex:indexPath.row] text];
 }
 
 - (NSDate *)timestampForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    //    NSLog(@"Getting messages r");
+    //    
     return [[self.messages objectAtIndex:indexPath.row] date];
 }
 
 
 -(NSString *)subtitleForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    //    NSLog(@"Getting messages t");
+    //    
     JSMessage *currMessage = [self.messages objectAtIndex:indexPath.row];
     return currMessage.sender;
 }
@@ -224,7 +212,7 @@
  numberOfRowsInSection:(NSInteger)section
 {
     
-    //    NSLog(@"Getting messages o");
+    //    
     return [self.messages count];
 }
 
@@ -246,8 +234,12 @@
 
 -(UIImageView *)avatarImageViewForRowAtIndexPath:(NSIndexPath *)indexPath {
     JSMessage *currMessage = [self.messages objectAtIndex:indexPath.row];
-    
-    if (![currMessage.senderID isEqualToNumber2:[NSNumber numberWithInt:0]]) {
+    UIImage * image;
+    if ([currMessage.senderID isEqualToNumber2:[NSNumber numberWithInt:1]]) {
+        //if it's the initial greeting message
+        image = [JSAvatarImageFactory avatarImageNamed:@"infoicon3" croppedToCircle:YES];
+    }
+    else if (![currMessage.senderID isEqualToNumber2:[NSNumber numberWithInt:0]]) {
         static NSMutableDictionary * avatarDict = nil;
         if (!avatarDict) avatarDict = [[NSMutableDictionary alloc]init];
         UIView* ret = [avatarDict objectForKey:currMessage.senderID];
@@ -268,14 +260,16 @@
         
         [backView addSubview:circleView];
         [backView addSubview:name];
-        
         name.text = [ProfileUser getInitialsFromUserID:currMessage.senderID];
         [avatarDict setObject:backView forKey:currMessage.senderID];
         
         return [[UIImageView alloc]initWithImage: [HomeViewController imageWithView:backView]];
         
     }
-    UIImage * image = [JSAvatarImageFactory avatarImageNamed:@"calendar+icon" croppedToCircle:NO];
+    else {
+        //if it's a calendar event message
+        image = [JSAvatarImageFactory avatarImageNamed:@"calendar+icon" croppedToCircle:NO];
+    }
     return [[UIImageView alloc] initWithImage:image];
 }
 
@@ -283,10 +277,8 @@
 #pragma mark - Messages view data source: REQUIRED
 - (JSMessage *)messageForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    //    NSLog(@"Getting messages h");
+    //    
     return [self.messages objectAtIndex:indexPath.row];
 }
-
-
 
 @end

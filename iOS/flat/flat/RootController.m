@@ -23,14 +23,14 @@
 
 - (void)toggleSidebarMenu:(id)sender
 {
-    NSLog(@"left menu toggled");
+    DLog(@"left menu toggled");
     [self.centerPanel.messageInputView resignFirstResponder];
     [self toggleLeftPanel:sender];
 }
 
 - (void)rightButtonPressed:(id)sender
 {
-    NSLog(@"right menu toggled");
+    DLog(@"right menu toggled");
     [self.centerPanel.messageInputView resignFirstResponder];
     [self toggleRightPanel:sender];
 }
@@ -47,15 +47,16 @@
 
 -(void)setNavBarButtons {
     int numUsersHome = [[FlatAPIClientManager sharedClient] getNumUsersHome];
-    UIImage* image = [UIImage imageNamed:@"circleicon.png"];
-    CGRect frame = CGRectMake(0, 0, image.size.width + 7, image.size.height + 7);
+    UIImage* image = [UIImage imageNamed:@"circle-icon.png"];
+    CGRect frame = CGRectMake(0, -2, image.size.width + 3 , image.size.height + 3);
     UIButton* someButton = [[UIButton alloc] initWithFrame:frame];
     NSString *numHomeText = [NSString stringWithFormat:@"%d", numUsersHome];
-    NSLog(@"about to crash3?");
-    UIImage *myGradient = [UIImage imageNamed:@"grad-small.png"];
+    CGRect labelFrame = CGRectMake(2, 3, image.size.width, image.size.height);
+    //UIImage *myGradient = [UIImage imageNamed:@"grad-small.png"];
     [someButton setTitle:numHomeText forState:UIControlStateNormal];
-    [someButton.titleLabel setFont:[UIFont fontWithName:@"HelveticaNeue-Light" size:16.0f]];
-    [someButton setTitleColor:[UIColor colorWithPatternImage:myGradient] forState:UIControlStateNormal];
+    [someButton.titleLabel setFont:[UIFont fontWithName:@"Courier" size:18.0f]];
+    someButton.titleLabel.frame = labelFrame;
+    [someButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [someButton setBackgroundImage:image forState:UIControlStateNormal];
     [someButton setShowsTouchWhenHighlighted:YES];
     [someButton addTarget:self
@@ -64,7 +65,7 @@
     UIBarButtonItem* someBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:someButton];
     
     
-    UIImage* image2 = [UIImage imageNamed:@"listicon.png"];
+    UIImage* image2 = [UIImage imageNamed:@"calendar-icon.png"];
     CGRect frame2 = CGRectMake(0, 0, image2.size.width, image2.size.height);
     UIButton* someButton2 = [[UIButton alloc] initWithFrame:frame2];
     [someButton2 setBackgroundImage:image2 forState:UIControlStateNormal];
@@ -76,9 +77,6 @@
     
     self.navigationItem.leftBarButtonItem = someBarButtonItem;
     self.navigationItem.rightBarButtonItem = someBarButtonItem2;
-    NSLog(@"did not crash3");
-    
-    
 }
 
 -(void)willSwipeToSidePanel {
@@ -102,13 +100,13 @@
     self.navigationController.navigationBar.barTintColor = [UIColor blackColor];
     self.navigationController.navigationBar.translucent = YES;
     self.navigationController.navigationBar.alpha = .01;
-    NSLog(@"about to crash4?");
+ 
     [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName : [UIColor whiteColor]}];
     UIImage *myGradient = [UIImage imageNamed:@"grad-small.png"];
     [[self navigationItem] setTitle:@"Flat"];
     [self.navigationController.navigationBar setTitleTextAttributes:
      @{ NSFontAttributeName: [UIFont fontWithName:@"HelveticaNeue-Light" size:22.0f], NSForegroundColorAttributeName: [UIColor colorWithPatternImage:myGradient]}];
-    NSLog(@"did not crash4");
+
     [self setNavBarButtons];
 }
 
@@ -243,7 +241,7 @@ static bool justRefreshed = false;
     //    homeViewController.messages = nil;
     //    [homeViewController.tableView reloadData];
     [MessageHelper getMessagesWithCompletionBlock:^(NSError *error, NSMutableArray *messages) {
-        //        NSLog(@"Getting messages 4");
+        //        
         homeViewController.messages = messages;
 //                [homeViewController viewDidLoad];
         [homeViewController resetTable];
@@ -253,7 +251,7 @@ static bool justRefreshed = false;
         if (scrollToBottom)
             [homeViewController scrollToBottomAnimated:animated];
         [[FlatAPIClientManager sharedClient]turnOffLoadingView];
-        //        NSLog(@"Getting messages 5");
+        //        
     }];
     
     justRefreshed = true;

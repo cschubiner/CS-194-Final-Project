@@ -15,7 +15,7 @@
 + (ProfileUser *)getProfileUserObjectFromDictionary:(NSDictionary *)dictionary
                             AndManagedObjectContext:(NSManagedObjectContext *)context
 {
-    NSLog(@"about to crash?");
+ 
     ProfileUser *profileUser = [ProfileUser MR_createInContext:context];
     profileUser.userID = [dictionary objectForKey:@"fb_id"];
     profileUser.groupID = [dictionary objectForKey:@"group_id"];
@@ -23,12 +23,10 @@
     profileUser.firstName = [dictionary objectForKey:@"first_name"];
     profileUser.lastName = [dictionary objectForKey:@"last_name"];
     profileUser.email = [dictionary objectForKey:@"email"];
-    //    profileUser.imageUrl = [dictionary objectForKey:@"image_url"];
     profileUser.isNearDorm = [dictionary objectForKey:@"is_near_dorm"];
-    //    profileUser.apiToken = [dictionary objectForKey:@"api_token"];
     
     [[NSManagedObjectContext MR_defaultContext] MR_saveToPersistentStoreAndWait];
-     NSLog(@"did not crash");
+
     return profileUser;
 }
 
@@ -42,12 +40,12 @@
         
 
         if ([user.userID isEqualToNumber2:userID]) {
-            NSLog(@"about to crash5?");
+ 
             NSString *initials  = [NSString stringWithFormat:@"%@%@",
                                                                  [user.firstName substringWithRange:NSMakeRange(0, 1)],
                                                                  [user.lastName substringWithRange:NSMakeRange(0, 1)]];
             [colorDict setObject:initials forKey:userID];
-            NSLog(@"did not crash5?");
+
             return initials;
         }
     }

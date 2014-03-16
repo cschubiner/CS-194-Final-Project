@@ -28,7 +28,7 @@
                                         }
                                     }
                                     failure: ^(NSURLSessionDataTask *__unused task, NSError *error) {
-                                        NSLog(@"error");
+                                        DLog(@"error");
                                         completionBlock(error, nil);
                                     }];
 }
