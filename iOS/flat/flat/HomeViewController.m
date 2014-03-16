@@ -282,6 +282,4 @@
     return [self.messages objectAtIndex:indexPath.row];
 }
 
-
-
 @end
