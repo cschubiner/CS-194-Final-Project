@@ -243,7 +243,7 @@ static bool justRefreshed = false;
     //    homeViewController.messages = nil;
     //    [homeViewController.tableView reloadData];
     [MessageHelper getMessagesWithCompletionBlock:^(NSError *error, NSMutableArray *messages) {
-        //        DLog(@"Getting messages 4");
+        //        
         homeViewController.messages = messages;
 //                [homeViewController viewDidLoad];
         [homeViewController resetTable];
@@ -253,7 +253,7 @@ static bool justRefreshed = false;
         if (scrollToBottom)
             [homeViewController scrollToBottomAnimated:animated];
         [[FlatAPIClientManager sharedClient]turnOffLoadingView];
-        //        DLog(@"Getting messages 5");
+        //        
     }];
     
     justRefreshed = true;

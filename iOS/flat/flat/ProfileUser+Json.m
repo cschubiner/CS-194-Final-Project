@@ -23,9 +23,7 @@
     profileUser.firstName = [dictionary objectForKey:@"first_name"];
     profileUser.lastName = [dictionary objectForKey:@"last_name"];
     profileUser.email = [dictionary objectForKey:@"email"];
-    //    profileUser.imageUrl = [dictionary objectForKey:@"image_url"];
     profileUser.isNearDorm = [dictionary objectForKey:@"is_near_dorm"];
-    //    profileUser.apiToken = [dictionary objectForKey:@"api_token"];
     
     [[NSManagedObjectContext MR_defaultContext] MR_saveToPersistentStoreAndWait];
 

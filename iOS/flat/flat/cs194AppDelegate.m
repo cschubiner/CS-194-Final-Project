@@ -33,7 +33,6 @@ Reachability * internetReachable;
     pageControl.backgroundColor = [UIColor whiteColor];
     
     
-    //    [NSTimeZone setDefaultTimeZone:[NSTimeZone localTimeZone]];
     
     // Check if user is logged in
     ProfileUser *profileUser = [ProfileUserHelper getProfileUser];
@@ -73,27 +72,22 @@ Reachability * internetReachable;
 - (void)testInternetConnection
 {
      internetReachable = [Reachability reachabilityWithHostname:@"www.google.com"];
-    
     // Internet is reachable
      internetReachable.reachableBlock = ^(Reachability*reach)
     {
-        // Update the UI on the main thread
         dispatch_async(dispatch_get_main_queue(), ^{
             DLog(@"We are connected to the internet.");
         });
     };
-    
     // Internet is not reachable
      internetReachable.unreachableBlock = ^(Reachability*reach)
     {
-        // Update the UI on the main thread
         dispatch_async(dispatch_get_main_queue(), ^{
             DLog(@"Uh oh, we are not connected to the internet.");
             UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"No internet access" message:@"You need internet access to enjoy Flat. Please check your internet connection." delegate:self cancelButtonTitle:@"Dismiss" otherButtonTitles:nil];
             [alertView show];
         });
     };
-    
     [ internetReachable startNotifier];
 }
 
@@ -264,7 +258,6 @@ Reachability * internetReachable;
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         //run function methodRunAfterBackground
         int checkEvery = 290; //almost every 5 minutes
-        //                checkEvery = 10;
         NSTimer* t = [NSTimer scheduledTimerWithTimeInterval:checkEvery target:self selector:@selector(backgroundTask) userInfo:nil repeats:YES];
         [[NSRunLoop currentRunLoop] addTimer:t forMode:NSDefaultRunLoopMode];
         [[NSRunLoop currentRunLoop] run];
@@ -273,6 +266,7 @@ Reachability * internetReachable;
 
 -(void)backgroundTask {
     [self checkForCalendarEvent];
+    [self refreshGroupAndLocation];
     [[FlatAPIClientManager sharedClient] getNumUsersHome];
 }
 
@@ -346,11 +340,8 @@ Reachability * internetReachable;
     // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
 }
 
-- (void)applicationDidBecomeActive:(UIApplication *)application
-{
-    // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
-    [self.mainViewController refreshMessagesWithAnimation:NO scrollToBottom:YES];
-    [GroupNetworkRequest getGroupFromGroupID:[FlatAPIClientManager sharedClient].profileUser.groupID withCompletionBlock:^(NSError * error, Group * group1) {
+-(void) refreshGroupAndLocation {
+ [GroupNetworkRequest getGroupFromGroupID:[FlatAPIClientManager sharedClient].profileUser.groupID withCompletionBlock:^(NSError * error, Group * group1) {
         if (group1 == nil)
             group1 = [GroupLocalRequest getGroup];
         [FlatAPIClientManager sharedClient].group = group1;
@@ -361,8 +352,13 @@ Reachability * internetReachable;
         [manager startMonitoringForRegion:[[LocationManager sharedClient] getGroupLocationRegion]];
         [[LocationManager sharedClient] setShouldSetDormLocation:false];
     }];
-    
-    
+}
+
+- (void)applicationDidBecomeActive:(UIApplication *)application
+{
+    // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
+    [self.mainViewController refreshMessagesWithAnimation:NO scrollToBottom:YES];
+    [self refreshGroupAndLocation];
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application

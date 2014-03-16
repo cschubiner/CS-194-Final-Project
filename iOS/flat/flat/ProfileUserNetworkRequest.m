@@ -35,13 +35,9 @@
                                     failure: ^(NSURLSessionDataTask *__unused task, NSError *error) {
                                         DLog(@"error");
                                         completionBlock(error, nil);
-                                    }]; 
+                                    }];
 }
 
-
-//const static int AWAY_DORM_STATUS = 0;
-//const static int IN_DORM_STATUS = 1;
-//const static int NOT_BROADCASTING_DORM_STATUS = 2;
 + (void) setUserLocationWithUserID:(NSNumber*)userID
                        andIsInDorm:(NSNumber*) isInDormStatus {
     NSLog(@"telling colby our indorm status is: %@", isInDormStatus);
@@ -75,6 +71,10 @@
                                             [[NSManagedObjectContext MR_defaultContext] MR_saveToPersistentStoreAndWait];
                                             [GroupNetworkRequest getGroupFromGroupID:groupID withCompletionBlock:^(NSError * error, Group* group) {
                                                 [[FlatAPIClientManager sharedClient] setGroup:group];
+                                                CLLocationManager * manager = [[LocationManager sharedClient] locationManager];
+                                                [manager stopMonitoringForRegion:manager.monitoredRegions.anyObject];
+                                                [manager startMonitoringForRegion:[[LocationManager sharedClient] getGroupLocationRegion]];
+                                                [[LocationManager sharedClient] setShouldSetDormLocation:false];
                                                 [[NSManagedObjectContext MR_defaultContext] MR_saveToPersistentStoreAndWait];
                                             }];
                                             
@@ -90,7 +90,7 @@
 }
 
 + (void) getFriendsGroupsFromUserID:(NSNumber*)userID
-         withCompletionBlock:(RequestProfileUsersCompletionHandler)completionBlock
+                withCompletionBlock:(RequestProfileUsersCompletionHandler)completionBlock
 {
     NSString * url = [NSString stringWithFormat:@"http://flatappapi.appspot.com/facebook/user/%@/friendgroups", userID];
     [[FlatAPIClientManager sharedClient]GET:url
@@ -123,8 +123,7 @@
                                     failure: ^(NSURLSessionDataTask *__unused task, NSError *error) {
                                         NSLog(@"error in getting friend groups: %@", error);
                                         completionBlock(error, nil);
-                                    }];
-    
+                                    }]; 
 }
 
 @end
