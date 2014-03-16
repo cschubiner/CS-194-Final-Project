@@ -18,6 +18,7 @@ import utils
 import tasks
 import push_notification
 import location_timer
+import messages
 
 app = Flask(__name__.split('.')[0])
 
@@ -153,12 +154,12 @@ def add_new_message():
         fb_id = request.form['userID']
         print body
         print fb_id
-        return db.add_new_message(body, fb_id)
+        return messages.add_new_message(body, fb_id)
     return "Hello"
 
 @app.route('/messages/all/<userID>')
 def get_messages(userID):
-    return db.get_messages(userID)
+    return messages.get_messages(userID)
 
 @app.route('/tasks/add_friends', methods=['GET', 'POST'])
 def task_add_friends():
@@ -173,13 +174,14 @@ def task_add_friends():
 @app.route('/tasks/message/push', methods=['GET', 'POST'])
 def task_send_message_notification():
     if request.method == 'POST':
+
         # for debugging purposes
         print request.data
         if request.data:
             data = request.data.split()
-            return db.send_push_notification(data[0], data[1], data[2], data[3])
+            return push_notification.send_push_notification(data[0], data[1], data[2], data[3])
         else:
-            return db.send_push_notification(request.form['group_id'], request.form['fb_id'], request.form['name'], request.form['msg'])
+            return push_notification.send_push_notification(request.form['group_id'], request.form['fb_id'], request.form['name'], request.form['msg'])
 
 '''
     params: group_id, body
