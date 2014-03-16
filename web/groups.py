@@ -187,7 +187,7 @@ def update_location(group, lat, lon):
             print "updating none"
             # Update none of them
             # Updating each user to not broadcasting
-            update_broadcasting_status(group)
+        update_broadcasting_status(group)
         temp = result
         db_session.commit()
         return utils.obj_to_json('group', temp, True)
