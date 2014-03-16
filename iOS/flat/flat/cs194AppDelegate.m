@@ -79,7 +79,7 @@ Reachability *internetReachableFoo;
     {
         // Update the UI on the main thread
         dispatch_async(dispatch_get_main_queue(), ^{
-            NSLog(@"Yayyy, we have the internet!");
+            NSLog(@"We are connected to the internet.");
         });
     };
     
@@ -88,7 +88,7 @@ Reachability *internetReachableFoo;
     {
         // Update the UI on the main thread
         dispatch_async(dispatch_get_main_queue(), ^{
-            NSLog(@"Someone broke the internet :(");
+            NSLog(@"Uh oh, we are not connected to the internet.");
             UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"No internet access" message:@"You need internet access to enjoy Flat. Please check your internet connection." delegate:self cancelButtonTitle:@"Dismiss" otherButtonTitles:nil];
             [alertView show];
         });

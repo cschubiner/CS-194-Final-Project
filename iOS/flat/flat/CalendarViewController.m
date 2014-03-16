@@ -69,6 +69,8 @@ static const int NAV_BAR_HEIGHT = 64;
             days++;
         
         if (days - 1 == section) {
+            if ([ev.startDate isToday]) return @"Today's events";
+            if ([ev.startDate isTomorrow]) return @"Tomorrow's events";
             return [NSString stringWithFormat:@"%@'s Events",[ev.startDate nameOfDay]];
         }
         lastDate = ev.startDate;
