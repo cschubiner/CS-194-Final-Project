@@ -97,7 +97,7 @@
     
     [self resetTable];
     
-
+    
     [self loadInitialMessages];
 }
 
@@ -246,8 +246,12 @@
 
 -(UIImageView *)avatarImageViewForRowAtIndexPath:(NSIndexPath *)indexPath {
     JSMessage *currMessage = [self.messages objectAtIndex:indexPath.row];
-    
-    if (![currMessage.senderID isEqualToNumber2:[NSNumber numberWithInt:0]]) {
+    UIImage * image;
+    if ([currMessage.senderID isEqualToNumber2:[NSNumber numberWithInt:1]]) {
+        //if it's the initial greeting message
+        image = [JSAvatarImageFactory avatarImageNamed:@"infoicon3" croppedToCircle:YES];
+    }
+    else if (![currMessage.senderID isEqualToNumber2:[NSNumber numberWithInt:0]]) {
         static NSMutableDictionary * avatarDict = nil;
         if (!avatarDict) avatarDict = [[NSMutableDictionary alloc]init];
         UIView* ret = [avatarDict objectForKey:currMessage.senderID];
@@ -275,7 +279,10 @@
         return [[UIImageView alloc]initWithImage: [HomeViewController imageWithView:backView]];
         
     }
-    UIImage * image = [JSAvatarImageFactory avatarImageNamed:@"calendar+icon" croppedToCircle:NO];
+    else {
+        //if it's a calendar event message
+        image = [JSAvatarImageFactory avatarImageNamed:@"calendar+icon" croppedToCircle:NO];
+    }
     return [[UIImageView alloc] initWithImage:image];
 }
 

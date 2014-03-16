@@ -159,7 +159,7 @@
     alertView.alertViewStyle = UIAlertViewStylePlainTextInput;
     [alertView show];
     [[alertView textFieldAtIndex:0] resignFirstResponder];
-    [[alertView textFieldAtIndex:0] setKeyboardType:UIKeyboardTypePhonePad];
+    [[alertView textFieldAtIndex:0] setKeyboardType:UIKeyboardTypePhonePad]; //change the keyboard type to numpad
     [[alertView textFieldAtIndex:0] becomeFirstResponder];
 }
 
