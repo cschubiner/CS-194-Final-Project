@@ -73,6 +73,42 @@
     [self.tableView addSubview:self.refresh];
 }
 
+/*
+-(void)setNavBarButtons {
+    int numUsersHome = [[FlatAPIClientManager sharedClient] getNumUsersHome];
+    UIImage* image = [UIImage imageNamed:@"circle-icon.png"];
+    CGRect frame = CGRectMake(0, -2, image.size.width + 3 , image.size.height + 3);
+    UIButton* someButton = [[UIButton alloc] initWithFrame:frame];
+    NSString *numHomeText = [NSString stringWithFormat:@"%d", numUsersHome];
+    CGRect labelFrame = CGRectMake(2, 3, image.size.width, image.size.height);
+    //UIImage *myGradient = [UIImage imageNamed:@"grad-small.png"];
+    [someButton setTitle:numHomeText forState:UIControlStateNormal];
+    [someButton.titleLabel setFont:[UIFont fontWithName:@"Courier" size:18.0f]];
+    someButton.titleLabel.frame = labelFrame;
+    [someButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    [someButton setBackgroundImage:image forState:UIControlStateNormal];
+    [someButton setShowsTouchWhenHighlighted:YES];
+    [someButton addTarget:self
+                   action:@selector(toggleSidebarMenu:)
+         forControlEvents:UIControlEventTouchUpInside];
+    UIBarButtonItem* someBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:someButton];
+    
+    
+    UIImage* image2 = [UIImage imageNamed:@"calendar-icon.png"];
+    CGRect frame2 = CGRectMake(0, 0, image2.size.width, image2.size.height);
+    UIButton* someButton2 = [[UIButton alloc] initWithFrame:frame2];
+    [someButton2 setBackgroundImage:image2 forState:UIControlStateNormal];
+    [someButton2 setShowsTouchWhenHighlighted:YES];
+    [someButton2 addTarget:self
+                    action:@selector(rightButtonPressed:)
+          forControlEvents:UIControlEventTouchUpInside];
+    UIBarButtonItem* someBarButtonItem2 = [[UIBarButtonItem alloc] initWithCustomView:someButton2];
+    
+    self.navigationItem.leftBarButtonItem = someBarButtonItem;
+    self.navigationItem.rightBarButtonItem = someBarButtonItem2;
+}
+*/
+
 - (void)viewDidLoad
 {
     
@@ -80,6 +116,23 @@
     self.dataSource = self;
     self.justLoggedIn = YES;
     [super viewDidLoad];
+    
+    /*
+    [self.navigationController setNavigationBarHidden:NO];
+    
+    self.navigationController.navigationBar.tintColor = [UIColor whiteColor]; //sets text color
+    self.navigationController.navigationBar.barTintColor = [UIColor blackColor];
+    self.navigationController.navigationBar.translucent = YES;
+    self.navigationController.navigationBar.alpha = .01;
+    
+    [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName : [UIColor whiteColor]}];
+    UIImage *myGradient = [UIImage imageNamed:@"grad-small.png"];
+    [[self navigationItem] setTitle:@"Flat"];
+    [self.navigationController.navigationBar setTitleTextAttributes:
+     @{ NSFontAttributeName: [UIFont fontWithName:@"HelveticaNeue-Light" size:22.0f], NSForegroundColorAttributeName: [UIColor colorWithPatternImage:myGradient]}];
+    
+    [self setNavBarButtons];
+    */
     
     [[JSBubbleView appearance] setFont:[UIFont systemFontOfSize:16.0f]];
     

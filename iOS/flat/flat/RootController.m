@@ -96,8 +96,8 @@
     self.allowRightSwipe = YES;
     self.rightFixedWidth = self.view.frame.size.width * .85;
     
-    [self.navigationController setNavigationBarHidden:YES];
-    /*
+    //[self.navigationController setNavigationBarHidden:YES];
+    
     self.navigationController.navigationBar.tintColor = [UIColor whiteColor]; //sets text color
     self.navigationController.navigationBar.barTintColor = [UIColor blackColor];
     self.navigationController.navigationBar.translucent = YES;
@@ -110,7 +110,6 @@
      @{ NSFontAttributeName: [UIFont fontWithName:@"HelveticaNeue-Light" size:22.0f], NSForegroundColorAttributeName: [UIColor colorWithPatternImage:myGradient]}];
 
     [self setNavBarButtons];
-     */
 }
 
 -(void)requestCalendarAccess {
