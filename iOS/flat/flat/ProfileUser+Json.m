@@ -15,7 +15,7 @@
 + (ProfileUser *)getProfileUserObjectFromDictionary:(NSDictionary *)dictionary
                             AndManagedObjectContext:(NSManagedObjectContext *)context
 {
-//DLog(@"about to crash?");
+ 
     ProfileUser *profileUser = [ProfileUser MR_createInContext:context];
     profileUser.userID = [dictionary objectForKey:@"fb_id"];
     profileUser.groupID = [dictionary objectForKey:@"group_id"];
@@ -28,7 +28,7 @@
     //    profileUser.apiToken = [dictionary objectForKey:@"api_token"];
     
     [[NSManagedObjectContext MR_defaultContext] MR_saveToPersistentStoreAndWait];
-//DLog(@"did not crash");
+
     return profileUser;
 }
 
@@ -42,12 +42,12 @@
         
 
         if ([user.userID isEqualToNumber2:userID]) {
-//DLog(@"about to crash5?");
+ 
             NSString *initials  = [NSString stringWithFormat:@"%@%@",
                                                                  [user.firstName substringWithRange:NSMakeRange(0, 1)],
                                                                  [user.lastName substringWithRange:NSMakeRange(0, 1)]];
             [colorDict setObject:initials forKey:userID];
-//DLog(@"did not crash5?");
+
             return initials;
         }
     }

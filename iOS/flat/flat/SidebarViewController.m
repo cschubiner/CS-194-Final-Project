@@ -166,12 +166,12 @@ titleForHeaderInSection:(NSInteger)section
         [cell.contentView addSubview:circleView];
         [cell.contentView addSubview:name];
         [cell.contentView addSubview:locationImage];
-//DLog(@"about to crash6?");
+ 
         NSString *initials  = [NSString stringWithFormat:@"%@%@",
                                [user.firstName substringWithRange:NSMakeRange(0, 1)],
                                [user.lastName substringWithRange:NSMakeRange(0, 1)]];
         name.text = initials;
-//DLog(@"did not crash6");
+
     }
     return cell;
 }

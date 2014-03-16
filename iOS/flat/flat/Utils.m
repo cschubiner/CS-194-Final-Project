@@ -18,7 +18,7 @@
 }
 
 +(NSDate*)dateFromString:(NSString*)str {
-//DLog(@"about to crash2?");
+ 
     if ((NSNull*)str == nil || [[NSNull null] isEqual:str]) return nil;
     if (!(str.length > 0)) return nil;
 //    [NSDateFormatter setDefaultFormatterBehavior:NSDateFormatterBehavior10_4];
@@ -28,7 +28,7 @@
     [dateFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ssZZZZZZ"];
     NSDate* ret= [dateFormatter dateFromString:str];
     //    NSLog(@"ret: %@", ret);
-//DLog(@"did not crash2?");
+
     return ret;
 }
 

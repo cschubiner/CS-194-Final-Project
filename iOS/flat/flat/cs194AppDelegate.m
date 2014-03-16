@@ -20,7 +20,7 @@
 
 @implementation cs194AppDelegate
 
-Reachability *internetReachableFoo;
+Reachability * internetReachable;
 
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
@@ -72,10 +72,10 @@ Reachability *internetReachableFoo;
 
 - (void)testInternetConnection
 {
-    internetReachableFoo = [Reachability reachabilityWithHostname:@"www.google.com"];
+     internetReachable = [Reachability reachabilityWithHostname:@"www.google.com"];
     
     // Internet is reachable
-    internetReachableFoo.reachableBlock = ^(Reachability*reach)
+     internetReachable.reachableBlock = ^(Reachability*reach)
     {
         // Update the UI on the main thread
         dispatch_async(dispatch_get_main_queue(), ^{
@@ -84,7 +84,7 @@ Reachability *internetReachableFoo;
     };
     
     // Internet is not reachable
-    internetReachableFoo.unreachableBlock = ^(Reachability*reach)
+     internetReachable.unreachableBlock = ^(Reachability*reach)
     {
         // Update the UI on the main thread
         dispatch_async(dispatch_get_main_queue(), ^{
@@ -94,7 +94,7 @@ Reachability *internetReachableFoo;
         });
     };
     
-    [internetReachableFoo startNotifier];
+    [ internetReachable startNotifier];
 }
 
 

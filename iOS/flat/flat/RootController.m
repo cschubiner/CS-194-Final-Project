@@ -51,7 +51,7 @@
     CGRect frame = CGRectMake(0, 0, image.size.width + 7, image.size.height + 7);
     UIButton* someButton = [[UIButton alloc] initWithFrame:frame];
     NSString *numHomeText = [NSString stringWithFormat:@"%d", numUsersHome];
-//DLog(@"about to crash3?");
+ 
     UIImage *myGradient = [UIImage imageNamed:@"grad-small.png"];
     [someButton setTitle:numHomeText forState:UIControlStateNormal];
     [someButton.titleLabel setFont:[UIFont fontWithName:@"HelveticaNeue-Light" size:16.0f]];
@@ -76,7 +76,7 @@
     
     self.navigationItem.leftBarButtonItem = someBarButtonItem;
     self.navigationItem.rightBarButtonItem = someBarButtonItem2;
-//DLog(@"did not crash3");
+
     
     
 }
@@ -102,13 +102,13 @@
     self.navigationController.navigationBar.barTintColor = [UIColor blackColor];
     self.navigationController.navigationBar.translucent = YES;
     self.navigationController.navigationBar.alpha = .01;
-//DLog(@"about to crash4?");
+ 
     [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName : [UIColor whiteColor]}];
     UIImage *myGradient = [UIImage imageNamed:@"grad-small.png"];
     [[self navigationItem] setTitle:@"Flat"];
     [self.navigationController.navigationBar setTitleTextAttributes:
      @{ NSFontAttributeName: [UIFont fontWithName:@"HelveticaNeue-Light" size:22.0f], NSForegroundColorAttributeName: [UIColor colorWithPatternImage:myGradient]}];
-//DLog(@"did not crash4");
+
     [self setNavBarButtons];
 }
 
