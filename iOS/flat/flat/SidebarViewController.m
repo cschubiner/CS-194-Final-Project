@@ -126,11 +126,7 @@ titleForHeaderInSection:(NSInteger)section
          cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     static NSString *MyIdentifier = @"MyReuseIdentifier";
-        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:MyIdentifier];
-        if (cell == nil) {
-            cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault  reuseIdentifier:MyIdentifier];
-        }
-//    UITableViewCell*  cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault  reuseIdentifier:MyIdentifier];
+    UITableViewCell*  cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault  reuseIdentifier:MyIdentifier];
     
     NSMutableArray * users = [[FlatAPIClientManager sharedClient]users];
     cell.backgroundColor = [UIColor whiteColor];
@@ -166,12 +162,12 @@ titleForHeaderInSection:(NSInteger)section
         [cell.contentView addSubview:circleView];
         [cell.contentView addSubview:name];
         [cell.contentView addSubview:locationImage];
- 
+        
         NSString *initials  = [NSString stringWithFormat:@"%@%@",
                                [user.firstName substringWithRange:NSMakeRange(0, 1)],
                                [user.lastName substringWithRange:NSMakeRange(0, 1)]];
         name.text = initials;
-
+        
     }
     return cell;
 }
