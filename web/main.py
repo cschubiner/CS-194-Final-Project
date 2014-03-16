@@ -5,34 +5,16 @@
     Handles all routing endpoints for the API
 """
 
-import os
-import sys
-import json
+import os, sys, json
 from flask import Flask, Response, request, render_template
 from db import db_init, db_session
-import db
-import groups
-import models
-import flat_calendar
-import utils
-import tasks
-import push_notification
-import location_timer
-import messages
+import db, groups, models, flat_calendar, utils, tasks, push_notification
+import location_timer, messages
 
 app = Flask(__name__.split('.')[0])
 
 db_init()
 
-# https://github.com/djacobs/PyAPNs
-# use this api for push notifications
-
-@app.route('/')
-@app.route('/<name>')
-def hello(name=None):
-    """ Return hello template at application root URL."""
-    # return str(engine)
-    return render_template('hello.html', name=name)
 
 '''
     Function: facebook_login()

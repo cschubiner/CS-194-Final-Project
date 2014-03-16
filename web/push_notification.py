@@ -3,7 +3,9 @@
     Author: Colby Ing
     -----------------
     This file takes care of all operations that have to
-    do with push notifications.
+    do with push notifications. This module makes heavy use
+    of the PyAPNs library. Here's a link to the documentation:
+    https://github.com/djacobs/PyAPNs
 '''
 from google.appengine.api import taskqueue
 from db import db_session
@@ -17,7 +19,7 @@ from sqlalchemy import and_
            fb_id, the user who sent the message
            name, name of the user who sent the message
            msg, the text body/content of the message
-    return: Misc JSON #TODO: fix this
+    return: Misc JSON
 '''
 def send_push_notification(group_id, fb_id, name, msg):
     apns = APNs(use_sandbox=True,cert_file='ck.pem', key_file='FlatKeyD.pem')
@@ -56,7 +58,6 @@ def task_send_to_group(group_id, body):
     apns = APNs(use_sandbox=True,cert_file='ck.pem', key_file='FlatKeyD.pem')
 
     group = db.db_get_group(group_id)
-    print group
 
     # PyAPNs code
     payload = Payload(alert=body, sound="default", badge=1)
@@ -74,8 +75,3 @@ def task_send_to_group(group_id, body):
 
 def push_notify_group(group_id, body):
     send_to_group(group_id, body)
-
-
-def doesthiswork():
-    return "This works"
-

@@ -7,21 +7,16 @@
     data for users table in the database
 """
 
-import os
-import sqlalchemy
+import os, sqlalchemy
 from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker, scoped_session
 from google.appengine.api import taskqueue
 from apns import APNs, Payload
 
-import time
+import time, utils, facebook, urllib2, datetime
 
 from sqlalchemy import Column, Integer, String, and_
-import utils
-import facebook
-import urllib2
-import datetime
 
 MAX_LENGTH = 50
 USER = "user"
@@ -44,7 +39,6 @@ apns = APNs(use_sandbox=True,cert_file='ck.pem', key_file='FlatKeyD.pem')
 Base = declarative_base()
 
 import groups
-
 
 import models
 """
