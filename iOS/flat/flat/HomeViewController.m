@@ -235,8 +235,7 @@
 -(UIImageView *)avatarImageViewForRowAtIndexPath:(NSIndexPath *)indexPath {
     JSMessage *currMessage = [self.messages objectAtIndex:indexPath.row];
     UIImage * image;
-//    if ([currMessage.senderID isEqualToNumber2:[NSNumber numberWithInt:1]]) {
-    if (false) {
+    if ([currMessage.senderID isEqualToNumber2:[NSNumber numberWithInt:1]]) {
         //if it's the initial greeting message
         image = [JSAvatarImageFactory avatarImageNamed:@"infoicon3" croppedToCircle:YES];
     }
@@ -261,13 +260,7 @@
         
         [backView addSubview:circleView];
         [backView addSubview:name];
-        if ([currMessage.senderID isEqualToNumber2:[NSNumber numberWithInt:1]]) {
-            [name setFrame:CGRectMake(28,1,70,70)];
-            name.text = @"F";
-        }
-        else {
         name.text = [ProfileUser getInitialsFromUserID:currMessage.senderID];
-        }
         [avatarDict setObject:backView forKey:currMessage.senderID];
         
         return [[UIImageView alloc]initWithImage: [HomeViewController imageWithView:backView]];
