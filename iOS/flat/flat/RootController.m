@@ -43,15 +43,11 @@
     [super viewDidLoad];
     [self setNeedsStatusBarAppearanceUpdate];
     
-    //    [self.navigationController setNavigationBarHidden:YES animated:YES];
-    
     //edit for width of the sidebar
-    self.leftFixedWidth = self.view.frame.size.width * .5 * .9;
+    self.leftFixedWidth = self.view.frame.size.width * .43;
     self.rightGapPercentage = 0.0f;
     self.allowRightSwipe = YES;
-    self.rightFixedWidth = self.view.frame.size.width * .85;
-    
-    
+    self.rightFixedWidth = self.view.frame.size.width * .851;
 }
 
 -(void)requestCalendarAccess {

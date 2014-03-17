@@ -55,6 +55,7 @@ static const int STATUS_BAR_HEIGHT = 18;
     NSDate* lastDate = nil;
     
     for (EventModel * ev in events) {
+        if ([[NSNull null]isEqual:ev]) continue;
         if (![ev.startDate isEqualToDateIgnoringTime:lastDate])
             days++;
         lastDate = ev.startDate;
@@ -68,6 +69,7 @@ static const int STATUS_BAR_HEIGHT = 18;
     NSDate* lastDate = nil;
     
     for (EventModel * ev in events) {
+        if ([[NSNull null]isEqual:ev]) continue;
         if (![ev.startDate isEqualToDateIgnoringTime:lastDate])
             days++;
         
@@ -93,6 +95,7 @@ static const int STATUS_BAR_HEIGHT = 18;
     int count = 0;
     
     for (EventModel * ev in events) {
+        if ([[NSNull null]isEqual:ev]) continue;
         if (![ev.startDate isEqualToDateIgnoringTime:lastDate])
             days++;
         
@@ -128,6 +131,7 @@ static const int STATUS_BAR_HEIGHT = 18;
     NSArray * events = [FlatAPIClientManager sharedClient].allEvents;
     int count = 0;
     for (EventModel * ev in events) {
+        if ([[NSNull null]isEqual:ev]) continue;
         if ([self eventIsOccuringNow:ev])
             count++;
     }
@@ -148,6 +152,7 @@ static const int STATUS_BAR_HEIGHT = 18;
     EventModel* event = nil;
     
     for (EventModel * ev in events) {
+        if ([[NSNull null]isEqual:ev]) continue;
         if (![ev.startDate isEqualToDateIgnoringTime:lastDate])
             days++;
         
