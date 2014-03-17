@@ -11,8 +11,7 @@
 #import "GroupTableViewController.h"
 
 @interface SidebarViewController ()
-
-
+@property NSString *emailClicked;
 @end
 
 
@@ -31,6 +30,53 @@ static const int STATUS_BAR_HEIGHT = 18;
     }
     
     return self;
+}
+
+- (IBAction)showEmail {
+    // Email Subject
+    NSString *emailTitle = @"";
+    // Email Content
+    NSString *messageBody = @"";
+    // To address
+    NSArray *toRecipients = [NSArray arrayWithObject:@""];
+    if (self.emailClicked) {
+        toRecipients = [NSArray arrayWithObject:self.emailClicked];
+    }
+    MFMailComposeViewController *mc = [[MFMailComposeViewController alloc] init];
+    mc.mailComposeDelegate = self;
+    [mc setSubject:emailTitle];
+    [mc setMessageBody:messageBody
+                isHTML:NO];
+    [mc setToRecipients:toRecipients];
+    
+    // Present mail view controller on screen
+    [self presentViewController:mc animated:YES
+                     completion:nil];
+    
+}
+
+- (void) mailComposeController:(MFMailComposeViewController *)controller
+           didFinishWithResult:(MFMailComposeResult)result error:(NSError *)error
+{
+    switch (result)
+    {
+        case MFMailComposeResultCancelled:
+            NSLog(@"Mail cancelled");
+            break;
+        case MFMailComposeResultSaved:
+            NSLog(@"Mail saved");
+            break;
+        case MFMailComposeResultSent:
+            NSLog(@"Mail sent");
+            break;
+        case MFMailComposeResultFailed:
+            NSLog(@"Mail sent failure: %@", [error localizedDescription]);
+            break;
+        default:
+            break;
+    }
+    // Close the Mail Interface
+    [self dismissViewControllerAnimated:YES completion:NULL];
 }
 
 
@@ -75,6 +121,17 @@ titleForHeaderInSection:(NSInteger)section
     return YES;
 }
 
+
+- (void)alertView:(UIAlertView *)alertView
+clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    NSLog(@"BUTTON INDEX: %lu", buttonIndex);
+    if(buttonIndex == 1) {
+        [self showEmail];
+    }
+}
+
+
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     HomeViewController * hvc = [[FlatAPIClientManager sharedClient]rootController].centerPanelHome;
@@ -95,6 +152,7 @@ titleForHeaderInSection:(NSInteger)section
     else if (indexPath.row - 2 < [[FlatAPIClientManager sharedClient]users].count){
         // show a popup for the selected user
         ProfileUser * user = [[[FlatAPIClientManager sharedClient]users] objectAtIndex:indexPath.row -2];
+        self.emailClicked = user.email;
         NSString * dormStatus = @"has not broadcasted his location recently";
         if ([user.isNearDorm isEqualToNumber2:[NSNumber numberWithInt:IN_DORM_STATUS]]) {
             dormStatus = @"is currently in the dorm";
@@ -107,9 +165,9 @@ titleForHeaderInSection:(NSInteger)section
         UIAlertView *alertView = [[UIAlertView alloc]
                                   initWithTitle:title
                                   message:text
-                                  delegate:nil
+                                  delegate:self
                                   cancelButtonTitle:@"Dismiss"
-                                  otherButtonTitles:nil];
+                                  otherButtonTitles:@"Send Email", nil];
         [alertView show];
         [tableView deselectRowAtIndexPath:indexPath animated:YES];
     }

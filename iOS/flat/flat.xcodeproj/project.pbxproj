@@ -90,6 +90,7 @@
 		F2C51E04188C9C9A00489989 /* ProfileUserLocalRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = F2C51E03188C9C9A00489989 /* ProfileUserLocalRequest.m */; };
 		F2C51E5A1895D17C00489989 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F2C51E591895D17C00489989 /* QuartzCore.framework */; };
 		F2C51E661895E38100489989 /* JSMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = F2C51E641895E38100489989 /* JSMessage.m */; };
+		F2E089F818D690C500CED87E /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F2E089F718D690C500CED87E /* MessageUI.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -234,6 +235,7 @@
 		F2C51E631895E38100489989 /* JSMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSMessage.h; sourceTree = "<group>"; };
 		F2C51E641895E38100489989 /* JSMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JSMessage.m; sourceTree = "<group>"; };
 		F2C51E651895E38100489989 /* JSMessageData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSMessageData.h; sourceTree = "<group>"; };
+		F2E089F718D690C500CED87E /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -241,6 +243,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F2E089F818D690C500CED87E /* MessageUI.framework in Frameworks */,
 				0C5D5F7E18D518EB0019C43F /* SystemConfiguration.framework in Frameworks */,
 				0CD4DD1B18B1AD01003F3B75 /* EventKit.framework in Frameworks */,
 				0C498F43189F1AFF003B87F6 /* CoreLocation.framework in Frameworks */,
@@ -303,6 +306,7 @@
 		F2C51D92188C887400489989 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				F2E089F718D690C500CED87E /* MessageUI.framework */,
 				0C5D5F7D18D518EB0019C43F /* SystemConfiguration.framework */,
 				0C5014F118BACC29009E0677 /* libz.dylib */,
 				0CD4DD1A18B1AD01003F3B75 /* EventKit.framework */,

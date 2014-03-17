@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "LocationManager.h"
 #import "ProfileUserHelper.h"
-
+#import <MessageUI/MessageUI.h>
 
 @protocol SidebarViewDelegate <NSObject>
 
@@ -17,7 +17,7 @@
 
 @end
 
-@interface SidebarViewController : UIViewController <UISearchBarDelegate, UISearchDisplayDelegate, UITableViewDataSource, UITableViewDelegate, UIAlertViewDelegate>
+@interface SidebarViewController : UIViewController <UISearchBarDelegate, UISearchDisplayDelegate, UITableViewDataSource, UITableViewDelegate, UIAlertViewDelegate, MFMailComposeViewControllerDelegate>
 {
     
     BOOL isVisible;
