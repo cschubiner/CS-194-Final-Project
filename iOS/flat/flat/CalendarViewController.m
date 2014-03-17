@@ -182,6 +182,8 @@
     
     NSString *hex = @"394247";
     UIColor *backgroundColor = [ProfileUser colorWithHexString:hex];
+    NSString *otherHex = @"272e31";
+    UIColor *highlightColor = [ProfileUser colorWithHexString:otherHex];
     
     cell.textLabel.textColor = lightTextColor;
     
@@ -195,7 +197,6 @@
     
     UILabel *titleText = [[UILabel alloc]initWithFrame:CGRectMake(20, -5, cell.frame.size.width, cell.frame.size.height)];
     titleText.textColor = lightTextColor;
-    if (eventIsOccurringNow) titleText.textColor = [ProfileUser colorWithHexString:@"72F0F2"];
     titleText.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:17];
     titleText.text = event.title;
     
@@ -210,13 +211,18 @@
     
     UILabel *userText = [[UILabel alloc]initWithFrame:CGRectMake(20, 35, cell.frame.size.width, cell.frame.size.height)];
     userText.textColor = color;
-    userText.alpha = .6;
+    userText.alpha = .8;
     userText.font = [UIFont fontWithName:@"HelveticaNeue" size:14];
     userText.text = [ProfileUser getFirstNameFromUserID:event.userID];
     
     UIView *barView = [[UIView alloc] initWithFrame:CGRectMake(0, 10, 6, cell.frame.size.height + 15)];
     barView.alpha = 1.0;
     barView.backgroundColor = color;
+    
+    if (eventIsOccurringNow)
+    {
+        cell.backgroundColor = highlightColor;
+    }
     
     [cell.contentView addSubview:titleText];
     [cell.contentView addSubview:timeText];

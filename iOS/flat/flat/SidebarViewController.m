@@ -176,9 +176,9 @@ clickedButtonAtIndex:(NSInteger)buttonIndex
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     NSMutableArray * users = [[FlatAPIClientManager sharedClient]users];
-    if (indexPath.row == 0 || indexPath.row == 1) {
-        return 70;
-    }
+//    if (indexPath.row == 0 || indexPath.row == 1) {
+//        return 70;
+//    }
     if (users.count == 0) return 520;
     return 90;
 }
@@ -199,11 +199,33 @@ clickedButtonAtIndex:(NSInteger)buttonIndex
     
     if (indexPath.row == 0)
     {
-        cell.textLabel.text = @"Settings";
+        // cell.textLabel.text = @"Settings";
+        
+        UIView *circleView = [[UIView alloc] initWithFrame:CGRectMake(40,15,70,70)];
+        circleView.alpha = 1.0;
+        circleView.layer.cornerRadius = 35;
+        circleView.backgroundColor = [UIColor whiteColor];
+        
+        UIImageView *locationImage = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"settings.png"]];
+        locationImage.frame = CGRectMake(55,31,40,40);
+        
+        [cell.contentView addSubview:circleView];
+        [cell.contentView addSubview:locationImage];
     }
     else if (indexPath.row == 1)
     {
-        cell.textLabel.text = @"Tasks";
+        //cell.textLabel.text = @"Tasks";
+        
+        UIView *circleView = [[UIView alloc] initWithFrame:CGRectMake(40,15,70,70)];
+        circleView.alpha = 1.0;
+        circleView.layer.cornerRadius = 35;
+        circleView.backgroundColor = [UIColor blackColor];
+        
+        UIImageView *locationImage = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"checks-white.png"]];
+        locationImage.frame = CGRectMake(55,31,40,40);
+        
+        [cell.contentView addSubview:circleView];
+        [cell.contentView addSubview:locationImage];
     }
     else
     {
