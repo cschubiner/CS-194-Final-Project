@@ -20,8 +20,6 @@
     NSArray *locationArray;
 }
 
-static const int STATUS_BAR_HEIGHT = 18;
-
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];

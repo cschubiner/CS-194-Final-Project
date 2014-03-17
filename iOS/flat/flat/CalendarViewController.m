@@ -22,7 +22,6 @@
 {
 }
 
-static const int STATUS_BAR_HEIGHT = 18;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -120,7 +119,7 @@ static const int STATUS_BAR_HEIGHT = 18;
 
 
 -(bool)eventIsOccuringNow:(EventModel*)event {
-DLog(@"NullCheck:[NSNumber numberWithBool:true]]) return false;");
+    DLog(@"NullCheck:[NSNumber numberWithBool:true]]) return false;");
     if (event == nil || [[NSNull null]isEqual:event]) return false;
     if ([event.isAllDay isEqualToNumberWithNullCheck:[NSNumber numberWithBool:true]]) return false;
     return [event.startDate isInPast] && [event.endDate isInFuture];
@@ -193,23 +192,11 @@ DLog(@"NullCheck:[NSNumber numberWithBool:true]]) return false;");
     
     UIColor * color = [ProfileUser getColorFromUserID:event.userID];
     
-    NSString * text;
-DLog(@"NullCheck:event.isAllDay]) {");    if ([[NSNumber numberWithBool:true] isEqualToNumberWithNullCheck:event.isAllDay]) {
-        text = [NSString stringWithFormat:@"%@: %@\nAll day",
-                [ProfileUser getFirstNameFromUserID:event.userID],
-                event.title
-                ];
-    }
-    else {
-        text = [NSString stringWithFormat:@"%@: %@\n%@ to %@",
-                [ProfileUser getFirstNameFromUserID:event.userID],
-                event.title,
-                [Utils formatDate:event.startDate], [Utils formatDate:event.endDate]
-                ];
-    }
+
     
     UILabel *titleText = [[UILabel alloc]initWithFrame:CGRectMake(20, -5, cell.frame.size.width, cell.frame.size.height)];
     titleText.textColor = lightTextColor;
+    if (eventIsOccurringNow) titleText.textColor = [ProfileUser colorWithHexString:@"72F0F2"];
     titleText.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:17];
     titleText.text = event.title;
     
@@ -217,6 +204,10 @@ DLog(@"NullCheck:event.isAllDay]) {");    if ([[NSNumber numberWithBool:true] is
     timeText.textColor = darkTextColor;
     timeText.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:14];
     timeText.text = [NSString stringWithFormat:@"%@ - %@", [Utils formatDate:event.startDate], [Utils formatDate:event.endDate]];
+    DLog(@"NullCheck:event.isAllDay]) {");
+    if ([[NSNumber numberWithBool:true] isEqualToNumberWithNullCheck:event.isAllDay]) {
+        timeText.text = @"All day";
+    }
     
     UILabel *userText = [[UILabel alloc]initWithFrame:CGRectMake(20, 35, cell.frame.size.width, cell.frame.size.height)];
     userText.textColor = color;
