@@ -14,7 +14,6 @@
 
 
 @interface HomeViewController ()
-@property UIRefreshControl *refresh;
 @property BOOL justLoggedIn;
 @end
 
@@ -47,6 +46,7 @@
 
 -(void)setNavBarButtons {
     int numUsersHome = [[FlatAPIClientManager sharedClient] getNumUsersHome];
+    int numUsersBusy = [[[FlatAPIClientManager sharedClient] rootController].rightPanel numberOfEventsOccurringNow];
     UIImage* image = [UIImage imageNamed:@"circle-icon.png"];
     CGRect frame = CGRectMake(0, -2, image.size.width + 3 , image.size.height + 3);
     UIButton* someButton = [[UIButton alloc] initWithFrame:frame];
@@ -128,13 +128,17 @@
     self.tableView.frame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height - self.messageInputView.frame.size.height);
     
     //Pull to refresh
+    self.tableViewController = [[UITableViewController alloc] init];
+    self.tableViewController.tableView = self.tableView;
+    
     self.refresh = [[UIRefreshControl alloc] init];
-    self.refresh.tintColor = [UIColor grayColor]; //THIS THING
-    self.refresh.attributedTitle = [[NSAttributedString alloc] initWithString:@"Pull to Refresh"];
     [self.refresh addTarget:self
                      action:@selector(getMessages)
            forControlEvents:UIControlEventValueChanged];
-    [self.tableView addSubview:self.refresh];
+    self.refresh.tintColor = [UIColor grayColor];
+    self.refresh.attributedTitle = [[NSAttributedString alloc] initWithString:@"Pull to Refresh"];
+    self.tableViewController.refreshControl = self.refresh;
+
 }
 
 - (void)viewDidLoad
@@ -193,7 +197,7 @@
     JSMessage *currMessage = [self.messages objectAtIndex:indexPath.row];
     ProfileUser *user = [FlatAPIClientManager sharedClient].profileUser;
     
-    if ([currMessage.senderID isEqualToNumber2: user.userID]) {
+DLog(@"NullCheck: user.userID]) {");    if ([currMessage.senderID isEqualToNumberWithNullCheck: user.userID]) {
         return JSBubbleMessageTypeOutgoing;
     }
     return JSBubbleMessageTypeIncoming;
@@ -206,7 +210,8 @@
     //    
     JSMessage *currMessage = [self.messages objectAtIndex:indexPath.row];
     ProfileUser *user = [FlatAPIClientManager sharedClient].profileUser;
-    if ([currMessage.senderID isEqualToNumber2:user.userID] ) {
+DLog(@"NullCheck:user.userID] ) {22222");
+    if ([currMessage.senderID isEqualToNumberWithNullCheck:user.userID] ) {
         return [JSBubbleImageViewFactory bubbleImageViewForType:type
                                                           color:[UIColor js_bubbleBlueColor]];
     }
@@ -290,11 +295,11 @@
 -(UIImageView *)avatarImageViewForRowAtIndexPath:(NSIndexPath *)indexPath {
     JSMessage *currMessage = [self.messages objectAtIndex:indexPath.row];
     UIImage * image;
-    if ([currMessage.senderID isEqualToNumber2:[NSNumber numberWithInt:1]]) {
+DLog(@"NullCheck:[NSNumber numberWithInt:1]]) {");    if ([currMessage.senderID isEqualToNumberWithNullCheck:[NSNumber numberWithInt:1]]) {
         //if it's the initial greeting message
         image = [JSAvatarImageFactory avatarImageNamed:@"infoicon3" croppedToCircle:YES];
     }
-    else if (![currMessage.senderID isEqualToNumber2:[NSNumber numberWithInt:0]]) {
+    else if (![currMessage.senderID isEqualToNumberWithNullCheck:[NSNumber numberWithInt:0]]) {
         static NSMutableDictionary * avatarDict = nil;
         if (!avatarDict) avatarDict = [[NSMutableDictionary alloc]init];
         UIView* ret = [avatarDict objectForKey:currMessage.senderID];

@@ -17,7 +17,7 @@
     task.taskId = [dictionary objectForKey:@"id"];
     task.body = [dictionary objectForKey:@"body"];
     task.dueDate = [Utils dateFromString:[dictionary objectForKey:@"due_date"]];
-    [[NSManagedObjectContext MR_defaultContext] MR_saveToPersistentStoreAndWait];
+    [[NSManagedObjectContext MR_defaultContext] MR_saveToPersistentStoreWithCompletion:nil];
     return task;
 }
 

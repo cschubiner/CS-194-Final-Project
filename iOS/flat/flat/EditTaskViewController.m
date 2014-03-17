@@ -111,7 +111,7 @@ static const int SIDE_SPACING = 5;
              prev.tasks = [tasks mutableCopy];
              for (int i = 0; i < [tasks count]; i++) {
                  Task *currTask = [tasks objectAtIndex:i];
-                 if([currTask.taskId isEqualToNumber2:prev.task.taskId]) {
+DLog(@"NullCheck:prev.task.taskId]) {");                 if([currTask.taskId isEqualToNumberWithNullCheck:prev.task.taskId]) {
                      prev.task = currTask;
                      break;
                  }

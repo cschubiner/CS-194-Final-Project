@@ -13,8 +13,6 @@
 
 @protocol CalendarViewDelegate <NSObject>
 
--(void)toggleSidebarMenu:(id)sender;
-
 @end
 
 @interface CalendarViewController : UIViewController <UISearchBarDelegate, UISearchDisplayDelegate, UITableViewDataSource, UITableViewDelegate, UIAlertViewDelegate>
@@ -27,6 +25,8 @@
 
 @property (nonatomic, strong) UITableView *sideBarMenuTable;
 
+
+-(int)numberOfEventsOccurringNow;
 
 @property (nonatomic, strong) NSMutableIndexSet *expandedSections;
 

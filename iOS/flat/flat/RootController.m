@@ -43,15 +43,11 @@
     [super viewDidLoad];
     [self setNeedsStatusBarAppearanceUpdate];
     
-    //    [self.navigationController setNavigationBarHidden:YES animated:YES];
-    
     //edit for width of the sidebar
-    self.leftFixedWidth = self.view.frame.size.width * .5 * .9;
+    self.leftFixedWidth = self.view.frame.size.width * .43;
     self.rightGapPercentage = 0.0f;
     self.allowRightSwipe = YES;
-    self.rightFixedWidth = self.view.frame.size.width * .85;
-    
-
+    self.rightFixedWidth = self.view.frame.size.width * .851;
 }
 
 -(void)requestCalendarAccess {
@@ -116,7 +112,7 @@
     
     // Create the start date components
     NSDateComponents *firstDateCom = [[NSDateComponents alloc] init];
-    firstDateCom.hour = -1;
+    firstDateCom.hour = -24;
     NSDate *firstDate = [calendar dateByAddingComponents:firstDateCom
                                                   toDate:[NSDate date]
                                                  options:0];
@@ -178,24 +174,32 @@ static bool justRefreshed = false;
     justRefreshed = false;
 }
 
+-(void)resetRefreshController {
+    HomeViewController *homeViewController = self.centerPanelHome;
+    if ([homeViewController.tableViewController.refreshControl isRefreshing]) {
+        [homeViewController.tableViewController.refreshControl endRefreshing];
+        [homeViewController.tableView setContentInset:UIEdgeInsetsMake(0, 0, 0, 0)];
+    }
+}
+
 -(void) refreshMessagesWithAnimation:(BOOL)animated scrollToBottom:(BOOL)scrollToBottom{
-    if (justRefreshed) return;
+    if (justRefreshed) {
+        [self resetRefreshController];
+        return;
+    }
     
     HomeViewController *homeViewController = self.centerPanelHome;
-    //    homeViewController.messages = nil;
-    //    [homeViewController.tableView reloadData];
     [MessageHelper getMessagesWithCompletionBlock:^(NSError *error, NSMutableArray *messages) {
-        //        
+        NSLog(@"Messages received");
         homeViewController.messages = messages;
-//                [homeViewController viewDidLoad];
         [homeViewController resetTable];
-
+        [self resetRefreshController];
         [homeViewController.tableView reloadData];
         [homeViewController reloadInputViews];
-        if (scrollToBottom)
+        if (scrollToBottom) {
             [homeViewController scrollToBottomAnimated:animated];
-        [[FlatAPIClientManager sharedClient]turnOffLoadingView];
-        //        
+        }
+        [[FlatAPIClientManager sharedClient] turnOffLoadingView];
     }];
     
     justRefreshed = true;
@@ -209,11 +213,6 @@ static bool justRefreshed = false;
 
 -(void)openSettings {
     [self performSegueWithIdentifier:@"RootToSettingsViewController" sender:self];
-}
-
-- (void)viewDidAppear:(BOOL)animated
-{
-    
 }
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
@@ -241,10 +240,8 @@ static bool justRefreshed = false;
 	UINavigationController *nc = [[UINavigationController alloc] initWithRootViewController:self.centerPanelHome];
     self.leftPanel.delegate = self;
     self.rightPanel.delegate = self;
-    self.centerPanel.delegate = self;
-    
     [self setCenterPanel:nc];
-    
+    self.centerPanel.delegate = self;
 }
 
 @end

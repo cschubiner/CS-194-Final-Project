@@ -124,10 +124,6 @@
     return ((RootController*)((NSArray*)((UINavigationController*)self.navigationController).childViewControllers)[0]); //madness!!
 }
 
--(HomeViewController*) getHomeViewController {
-    return [self getRootViewController].centerPanel;
-}
-
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     self.joiningGroup = indexPath.row;

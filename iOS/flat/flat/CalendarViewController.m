@@ -117,6 +117,27 @@ static const int STATUS_BAR_HEIGHT = 18;
     return 75;
 }
 
+
+
+-(bool)eventIsOccuringNow:(EventModel*)event {
+DLog(@"NullCheck:[NSNumber numberWithBool:true]]) return false;");
+    if (event == nil || [[NSNull null]isEqual:event]) return false;
+    if ([event.isAllDay isEqualToNumberWithNullCheck:[NSNumber numberWithBool:true]]) return false;
+    return [event.startDate isInPast] && [event.endDate isInFuture];
+}
+
+-(int)numberOfEventsOccurringNow {
+    NSArray * events = [FlatAPIClientManager sharedClient].allEvents;
+    int count = 0;
+    for (EventModel * ev in events) {
+        if ([[NSNull null]isEqual:ev]) continue;
+        if ([self eventIsOccuringNow:ev])
+            count++;
+    }
+    NSLog(@"there are currently %d users busy.", count);
+    return count;
+}
+
 - (UITableViewCell *)tableView:(UITableView *)tableView
          cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -156,21 +177,24 @@ static const int STATUS_BAR_HEIGHT = 18;
         return cell;
     }
     event = [events objectAtIndex:allCount];
+    if ([[NSNull null]isEqual:event]) {
+        DLog(@"event is null :(");
+    }
+    BOOL eventIsOccurringNow = [self eventIsOccuringNow:event];
+    
     NSString *hex = @"394247";
     UIColor *backgroundColor = [ProfileUser colorWithHexString:hex];
     
     cell.textLabel.textColor = lightTextColor;
     
     [tableView setSeparatorStyle:UITableViewCellSeparatorStyleNone];
-    //[tableView setSeparatorColor:darkTextColor];
-    //[tableView setSectionIndexColor:lightTextColor];
     tableView.backgroundColor = backgroundColor;
     cell.backgroundColor = backgroundColor;
     
     UIColor * color = [ProfileUser getColorFromUserID:event.userID];
     
     NSString * text;
-    if ([[NSNumber numberWithBool:true] isEqualToNumber2:event.isAllDay]) {
+DLog(@"NullCheck:event.isAllDay]) {");    if ([[NSNumber numberWithBool:true] isEqualToNumberWithNullCheck:event.isAllDay]) {
         text = [NSString stringWithFormat:@"%@: %@\nAll day",
                 [ProfileUser getFirstNameFromUserID:event.userID],
                 event.title

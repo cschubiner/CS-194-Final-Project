@@ -73,6 +73,7 @@
 
 - (BOOL) isEqualToDateIgnoringTime: (NSDate *) aDate
 {
+    if (aDate == nil) return false;
 	NSDateComponents *components1 = [CURRENT_CALENDAR components:DATE_COMPONENTS fromDate:self];
 	NSDateComponents *components2 = [CURRENT_CALENDAR components:DATE_COMPONENTS fromDate:aDate];
 	return ((components1.year == components2.year) &&

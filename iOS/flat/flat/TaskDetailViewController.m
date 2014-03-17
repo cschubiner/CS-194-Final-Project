@@ -9,6 +9,7 @@
 #import "TaskDetailViewController.h"
 #import "EditTaskViewController.h"
 #import "TasksViewController.h"
+#import <QuartzCore/QuartzCore.h>
 
 @interface TaskDetailViewController ()
 @property UITextView *textView;
@@ -18,7 +19,7 @@
 @implementation TaskDetailViewController
 
 static const int NAV_BAR_HEIGHT = 64;
-static const int TEXT_VIEW_HEIGHT = 200;
+static const int TEXT_VIEW_HEIGHT = 300;
 static const int TOP_SPACING = 5;
 static const int TASK_LABEL_HEIGHT = 20;
 static const int SIDE_SPACING = 5;
@@ -56,7 +57,11 @@ static const int SIDE_SPACING = 5;
     self.textView = [[UITextView alloc] initWithFrame:CGRectMake(SIDE_SPACING, NAV_BAR_HEIGHT + TOP_SPACING + TASK_LABEL_HEIGHT + 5, width - (2 * SIDE_SPACING), TEXT_VIEW_HEIGHT)];
     self.textView.text = self.task.body;
     self.textView.font = [UIFont systemFontOfSize:24];
+    [[self.textView layer] setBorderColor:[[UIColor grayColor] CGColor]];
+    [[self.textView layer] setBorderWidth:2.3];
+    [[self.textView layer] setCornerRadius:15];
     [self.textView setEditable:NO];
+    [self.textView setScrollEnabled:YES];
     [self.view addSubview:self.textView];
     
     self.dueDateLabel = [[UILabel alloc] initWithFrame:CGRectMake(SIDE_SPACING, NAV_BAR_HEIGHT + TOP_SPACING + TASK_LABEL_HEIGHT + 5 + TEXT_VIEW_HEIGHT + 50, width, TASK_LABEL_HEIGHT)];
