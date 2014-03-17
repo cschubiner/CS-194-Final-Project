@@ -50,11 +50,12 @@
     self.rightFixedWidth = self.view.frame.size.width * .851;
 }
 
+bool allowCalendarAccess = false;
 -(void)requestCalendarAccess {
     EKEventStore *store = [[EKEventStore alloc] init];
     [store requestAccessToEntityType:EKEntityTypeEvent completion:^(BOOL granted, NSError *error) {
         if (granted)
-            [self getCalendarEvents];
+            allowCalendarAccess = true;
         else {
             UIAlertView *alertView = [[UIAlertView alloc]
                                       initWithTitle:@"Error accessing calendar"
@@ -67,30 +68,27 @@
     }];
 }
 
+-(void)getPersonalCalendarEvents {
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        [self requestCalendarAccess];
+    });
+    if (allowCalendarAccess)
+        [self getCalendarEvents];
+}
+
 -(void)refreshUsers {
     ProfileUser * currUser = [FlatAPIClientManager sharedClient].profileUser;
     [ProfileUserHelper getUsersFromGroupID:currUser.groupID withCompletionBlock:^(NSError * error, NSMutableArray * users) {
         [[FlatAPIClientManager sharedClient] setUsers:users];
+        [[FlatAPIClientManager sharedClient]getEveryonesCalendarEvents];
         [self.leftPanel.sideBarMenuTable reloadData];
-        
-        static dispatch_once_t onceToken;
-        dispatch_once(&onceToken, ^{
-            [self requestCalendarAccess];
-        });
-        
-    }];
-}
-
--(void)refreshEvents {
-    [[FlatAPIClientManager sharedClient]getAllCalendarEvents:^(){
-        [self.rightPanel.sideBarMenuTable reloadData];
+        [self.centerPanelHome setNavBarButtons];
     }];
 }
 
 -(void)refreshStuff {
     [self refreshUsers];
-    [self refreshEvents];
-    [self.centerPanelHome setNavBarButtons];
 }
 
 -(void)viewWillAppear:(BOOL)animated {
@@ -143,7 +141,6 @@
     NSNumber * userID = [[FlatAPIClientManager sharedClient]profileUser].userID;
     
     Firebase* fCal = [[Firebase alloc] initWithUrl:@"https://flatapp.firebaseio.com/calendars"];
-    
     
     Firebase* fCalUser = [fCal childByAppendingPath:[NSString stringWithFormat:@"%@",userID]];
     [fCalUser setValue:nil]; //delete all calendar events for this user

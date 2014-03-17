@@ -22,9 +22,9 @@
 @property (nonatomic, strong) UINavigationController *centerPanel;
 @property (nonatomic, strong) HomeViewController *centerPanelHome;
 
--(void)requestCalendarAccess;
 -(void) refreshMessagesWithAnimation:(BOOL)animated scrollToBottom:(BOOL)scrollToBottom;
 -(void)refreshUsers;
 -(void)getCalendarEventsForDays;
+-(void)getPersonalCalendarEvents;
 
 @end

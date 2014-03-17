@@ -25,7 +25,7 @@
 @property (nonatomic, strong) RootController * rootController;
 @property (nonatomic, strong) SAMLoadingView *loadingView;
 -(int)getNumUsersHome;
--(void)getAllCalendarEvents:(void(^)())callback;
+-(void)getEveryonesCalendarEvents;
 
 -(void)turnOnLoadingView:(UIView*)view;
 -(void)turnOffLoadingView;

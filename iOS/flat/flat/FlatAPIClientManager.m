@@ -86,7 +86,9 @@ static NSString * const SIGNATURE = @"";
 }
 
 -(BOOL)userIDIsInMyGroup:(NSNumber*)userID {
-    NSLog(@"inf loop");
+    static int lc = 0;
+    NSLog(@"inf loop %d,", lc);
+    lc++;
     for (ProfileUser* user in [[FlatAPIClientManager sharedClient]users]) {
         if ([userID isEqualToNumberWithNullCheck:user.userID])
             return true;
@@ -94,14 +96,10 @@ static NSString * const SIGNATURE = @"";
     return false;
 }
 
-bool justRefreshed = false;
--(void)allowCalendarRefresh {
-    justRefreshed = false;
-}
--(void)getAllCalendarEvents:(void(^)())callback{
-    if (justRefreshed) return;
+-(void)getEveryonesCalendarEvents{
+    PRINTCALLER();
     Firebase* fCal = [[Firebase alloc] initWithUrl:@"https://flatapp.firebaseio.com/calendars"];
-    [fCal observeEventType:FEventTypeValue withBlock:^(FDataSnapshot *snapshot) {
+    [fCal observeSingleEventOfType:FEventTypeValue withBlock:^(FDataSnapshot *snapshot) {
         NSMutableArray*events = [[NSMutableArray alloc]init];
         for (FDataSnapshot * fCalUser in snapshot.children) {
             if (fCalUser == nil || [[NSNull null]isEqual:fCalUser])
@@ -129,16 +127,8 @@ bool justRefreshed = false;
             return [first compare:second];
         }];
         [[FlatAPIClientManager sharedClient]setAllEvents:[NSMutableArray arrayWithArray:sortedArray]];
-        callback();
+        [self.rootController.rightPanel.sideBarMenuTable reloadData];
     }];
-    
-    justRefreshed = true;
-    [NSTimer scheduledTimerWithTimeInterval:5.0
-                                     target:self
-                                   selector:@selector(allowCalendarRefresh)
-                                   userInfo:nil
-                                    repeats:NO];
-
 }
 
 -(int)getNumUsersHome {
@@ -152,7 +142,5 @@ bool justRefreshed = false;
     NSLog(@"there are currently %d users home.", numUsersHome);
     return numUsersHome;
 }
-
-
 
 @end
