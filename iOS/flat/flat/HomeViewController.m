@@ -197,7 +197,7 @@
     JSMessage *currMessage = [self.messages objectAtIndex:indexPath.row];
     ProfileUser *user = [FlatAPIClientManager sharedClient].profileUser;
     
-    if ([currMessage.senderID isEqualToNumber2: user.userID]) {
+DLog(@"NullCheck: user.userID]) {");    if ([currMessage.senderID isEqualToNumberWithNullCheck: user.userID]) {
         return JSBubbleMessageTypeOutgoing;
     }
     return JSBubbleMessageTypeIncoming;
@@ -210,7 +210,8 @@
     //    
     JSMessage *currMessage = [self.messages objectAtIndex:indexPath.row];
     ProfileUser *user = [FlatAPIClientManager sharedClient].profileUser;
-    if ([currMessage.senderID isEqualToNumber2:user.userID] ) {
+DLog(@"NullCheck:user.userID] ) {22222");
+    if ([currMessage.senderID isEqualToNumberWithNullCheck:user.userID] ) {
         return [JSBubbleImageViewFactory bubbleImageViewForType:type
                                                           color:[UIColor js_bubbleBlueColor]];
     }
@@ -294,11 +295,11 @@
 -(UIImageView *)avatarImageViewForRowAtIndexPath:(NSIndexPath *)indexPath {
     JSMessage *currMessage = [self.messages objectAtIndex:indexPath.row];
     UIImage * image;
-    if ([currMessage.senderID isEqualToNumber2:[NSNumber numberWithInt:1]]) {
+DLog(@"NullCheck:[NSNumber numberWithInt:1]]) {");    if ([currMessage.senderID isEqualToNumberWithNullCheck:[NSNumber numberWithInt:1]]) {
         //if it's the initial greeting message
         image = [JSAvatarImageFactory avatarImageNamed:@"infoicon3" croppedToCircle:YES];
     }
-    else if (![currMessage.senderID isEqualToNumber2:[NSNumber numberWithInt:0]]) {
+    else if (![currMessage.senderID isEqualToNumberWithNullCheck:[NSNumber numberWithInt:0]]) {
         static NSMutableDictionary * avatarDict = nil;
         if (!avatarDict) avatarDict = [[NSMutableDictionary alloc]init];
         UIView* ret = [avatarDict objectForKey:currMessage.senderID];

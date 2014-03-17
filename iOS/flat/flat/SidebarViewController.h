@@ -13,8 +13,6 @@
 
 @protocol SidebarViewDelegate <NSObject>
 
--(void)toggleSidebarMenu:(id)sender;
-
 @end
 
 @interface SidebarViewController : UIViewController <UISearchBarDelegate, UISearchDisplayDelegate, UITableViewDataSource, UITableViewDelegate, UIAlertViewDelegate, MFMailComposeViewControllerDelegate>

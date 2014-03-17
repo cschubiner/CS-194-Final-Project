@@ -18,7 +18,7 @@
     group.latLocation = [dictionary objectForKey:@"latLocation"];
     group.longLocation = [dictionary objectForKey:@"longLocation"];
     
-    [[NSManagedObjectContext MR_defaultContext] MR_saveToPersistentStoreAndWait];
+    [[NSManagedObjectContext MR_defaultContext] MR_saveToPersistentStoreWithCompletion:nil];
     return group;
 }
 

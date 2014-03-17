@@ -255,7 +255,6 @@ Reachability * internetReachable;
     
     //and create new timer with async call:
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        //run function methodRunAfterBackground
         int checkEvery = 290; //almost every 5 minutes
         NSTimer* t = [NSTimer scheduledTimerWithTimeInterval:checkEvery target:self selector:@selector(backgroundTask) userInfo:nil repeats:YES];
         [[NSRunLoop currentRunLoop] addTimer:t forMode:NSDefaultRunLoopMode];
@@ -359,7 +358,7 @@ Reachability * internetReachable;
     if (self.mainViewController != nil && [[FlatAPIClientManager sharedClient]profileUser] != nil) {
         [self.mainViewController refreshMessagesWithAnimation:NO scrollToBottom:YES];
         [self refreshGroupAndLocation];
-        [self.mainViewController requestCalendarAccess];
+//        [self.mainViewController requestCalendarAccess]; //causes a freeze
     }
 }
 

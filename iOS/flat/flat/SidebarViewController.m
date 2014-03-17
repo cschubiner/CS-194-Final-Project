@@ -153,10 +153,10 @@ clickedButtonAtIndex:(NSInteger)buttonIndex
         ProfileUser * user = [[[FlatAPIClientManager sharedClient]users] objectAtIndex:indexPath.row -2];
         self.emailClicked = user.email;
         NSString * dormStatus = @"'s location has not been broadcasted recently";
-        if ([user.isNearDorm isEqualToNumber2:[NSNumber numberWithInt:IN_DORM_STATUS]]) {
+DLog(@"NullCheck:[NSNumber numberWithInt:IN_DORM_STATUS]]) {");        if ([user.isNearDorm isEqualToNumberWithNullCheck:[NSNumber numberWithInt:IN_DORM_STATUS]]) {
             dormStatus = @"is currently in the dorm";
         }
-        else if ([user.isNearDorm isEqualToNumber2:[NSNumber numberWithInt:AWAY_DORM_STATUS]]) {
+       else if ([user.isNearDorm isEqualToNumberWithNullCheck:[NSNumber numberWithInt:AWAY_DORM_STATUS]]) {
             dormStatus = @"is away from the dorm right now";
         }
         NSString * text = [NSString stringWithFormat:@"%@ %@.\nEmail: %@", user.firstName, dormStatus, user.email];

@@ -10,7 +10,6 @@
 
 @interface NSValue (NSValueEqualTo)
 
-- (BOOL)isEqualToNumber2:(NSNumber *)number;
-- (BOOL)isSameDay:(NSDate*)date2;
+- (BOOL)isEqualToNumberWithNullCheck:(NSNumber *)number;
 
 @end

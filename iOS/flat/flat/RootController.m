@@ -177,8 +177,8 @@ static bool justRefreshed = false;
 -(void)resetRefreshController {
     HomeViewController *homeViewController = self.centerPanelHome;
     if ([homeViewController.tableViewController.refreshControl isRefreshing]) {
-    [homeViewController.tableViewController.refreshControl endRefreshing];
-    [homeViewController.tableView setContentInset:UIEdgeInsetsMake(0, 0, 0, 0)];
+        [homeViewController.tableViewController.refreshControl endRefreshing];
+        [homeViewController.tableView setContentInset:UIEdgeInsetsMake(0, 0, 0, 0)];
     }
 }
 
@@ -213,11 +213,6 @@ static bool justRefreshed = false;
 
 -(void)openSettings {
     [self performSegueWithIdentifier:@"RootToSettingsViewController" sender:self];
-}
-
-- (void)viewDidAppear:(BOOL)animated
-{
-    
 }
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions

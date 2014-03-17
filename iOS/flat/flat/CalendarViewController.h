@@ -13,8 +13,6 @@
 
 @protocol CalendarViewDelegate <NSObject>
 
--(void)toggleSidebarMenu:(id)sender;
-
 @end
 
 @interface CalendarViewController : UIViewController <UISearchBarDelegate, UISearchDisplayDelegate, UITableViewDataSource, UITableViewDelegate, UIAlertViewDelegate>
