@@ -86,9 +86,6 @@ static NSString * const SIGNATURE = @"";
 }
 
 -(BOOL)userIDIsInMyGroup:(NSNumber*)userID {
-    static int lc = 0;
-    NSLog(@"inf loop %d,", lc);
-    lc++;
     for (ProfileUser* user in [[FlatAPIClientManager sharedClient]users]) {
         if ([userID isEqualToNumberWithNullCheck:user.userID])
             return true;
@@ -97,7 +94,6 @@ static NSString * const SIGNATURE = @"";
 }
 
 -(void)getEveryonesCalendarEvents{
-    PRINTCALLER();
     Firebase* fCal = [[Firebase alloc] initWithUrl:@"https://flatapp.firebaseio.com/calendars"];
     [fCal observeSingleEventOfType:FEventTypeValue withBlock:^(FDataSnapshot *snapshot) {
         NSMutableArray*events = [[NSMutableArray alloc]init];
@@ -132,14 +128,12 @@ static NSString * const SIGNATURE = @"";
 }
 
 -(int)getNumUsersHome {
-    [[[FlatAPIClientManager sharedClient]rootController]refreshUsers];
     int numUsersHome = 0;
     for (ProfileUser * user in [[FlatAPIClientManager sharedClient]users]) {
-        DLog(@"NullCheck:[NSNumber numberWithInt:IN_DORM_STATUS]])");        if ([user.isNearDorm isEqualToNumberWithNullCheck:[NSNumber numberWithInt:IN_DORM_STATUS]])
+                if ([user.isNearDorm isEqualToNumberWithNullCheck:[NSNumber numberWithInt:IN_DORM_STATUS]])
             numUsersHome++;
     }
-    [UIApplication sharedApplication].applicationIconBadgeNumber = numUsersHome;
-    NSLog(@"there are currently %d users home.", numUsersHome);
+    NSLog(@"there are currently %d user(s) home.", numUsersHome);
     return numUsersHome;
 }
 

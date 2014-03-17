@@ -14,9 +14,6 @@
 
 @interface RootController : JASidePanelController <SidebarViewDelegate, UINavigationControllerDelegate>
 
-- (void)toggleSidebarMenu:(id)sender;
-- (void)rightButtonPressed:(id)sender;
-
 @property (nonatomic, strong) SidebarViewController *leftPanel;
 @property (nonatomic, strong) CalendarViewController *rightPanel;
 @property (nonatomic, strong) UINavigationController *centerPanel;

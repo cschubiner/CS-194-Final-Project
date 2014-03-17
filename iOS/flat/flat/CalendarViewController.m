@@ -119,7 +119,6 @@
 
 
 -(bool)eventIsOccuringNow:(EventModel*)event {
-    DLog(@"NullCheck:[NSNumber numberWithBool:true]]) return false;");
     if (event == nil || [[NSNull null]isEqual:event]) return false;
     if ([event.isAllDay isEqualToNumberWithNullCheck:[NSNumber numberWithBool:true]]) return false;
     return [event.startDate isInPast] && [event.endDate isInFuture];
@@ -133,7 +132,7 @@
         if ([self eventIsOccuringNow:ev])
             count++;
     }
-    NSLog(@"there are currently %d users busy.", count);
+    NSLog(@"there are currently %d user(s) busy.", count);
     return count;
 }
 
@@ -204,7 +203,7 @@
     timeText.textColor = darkTextColor;
     timeText.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:14];
     timeText.text = [NSString stringWithFormat:@"%@ - %@", [Utils formatDate:event.startDate], [Utils formatDate:event.endDate]];
-    DLog(@"NullCheck:event.isAllDay]) {");
+    
     if ([[NSNumber numberWithBool:true] isEqualToNumberWithNullCheck:event.isAllDay]) {
         timeText.text = @"All day";
     }

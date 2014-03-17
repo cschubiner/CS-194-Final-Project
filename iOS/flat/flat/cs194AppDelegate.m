@@ -244,7 +244,6 @@ Reachability * internetReachable;
 
 - (void)applicationDidEnterBackground:(UIApplication *)application
 {
-    [[FlatAPIClientManager sharedClient] getNumUsersHome];
     UIApplication *app = [UIApplication sharedApplication];
     
     //create new uiBackgroundTask
@@ -265,7 +264,6 @@ Reachability * internetReachable;
 -(void)backgroundTask {
     [self checkForCalendarEvent];
     [self refreshGroupAndLocation];
-    [[FlatAPIClientManager sharedClient] getNumUsersHome];
 }
 
 -(void)checkForCalendarEvent {
@@ -355,12 +353,17 @@ Reachability * internetReachable;
 - (void)applicationDidBecomeActive:(UIApplication *)application
 {
     // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
+    static bool firstTime = true;
+    [UIApplication sharedApplication].applicationIconBadgeNumber = 0;
+    if (firstTime) {
+        firstTime = false;
+        return;
+    }
     if (self.mainViewController != nil && [[FlatAPIClientManager sharedClient]profileUser] != nil) {
-        [self.mainViewController refreshMessagesWithAnimation:NO scrollToBottom:YES];
         [self refreshGroupAndLocation];
+        [self.mainViewController refreshMessagesWithAnimation:NO scrollToBottom:YES];
         [self.mainViewController getPersonalCalendarEvents];
-    [[FlatAPIClientManager sharedClient]getEveryonesCalendarEvents];
-//        [self.mainViewController requestCalendarAccess]; //causes a freeze
+        [[FlatAPIClientManager sharedClient]getEveryonesCalendarEvents];
     }
 }
 
@@ -372,7 +375,7 @@ Reachability * internetReachable;
 - (void)application:(UIApplication*)application didReceiveRemoteNotification:(NSDictionary*)userInfo
 {
     [self.mainViewController refreshMessagesWithAnimation:NO scrollToBottom:NO];
-    [[FlatAPIClientManager sharedClient] getNumUsersHome];
+    [UIApplication sharedApplication].applicationIconBadgeNumber++;
 }
 
 

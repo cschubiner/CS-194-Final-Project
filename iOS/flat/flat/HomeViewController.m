@@ -197,7 +197,7 @@
     JSMessage *currMessage = [self.messages objectAtIndex:indexPath.row];
     ProfileUser *user = [FlatAPIClientManager sharedClient].profileUser;
     
-DLog(@"NullCheck: user.userID]) {");    if ([currMessage.senderID isEqualToNumberWithNullCheck: user.userID]) {
+    if ([currMessage.senderID isEqualToNumberWithNullCheck: user.userID]) {
         return JSBubbleMessageTypeOutgoing;
     }
     return JSBubbleMessageTypeIncoming;
@@ -210,7 +210,7 @@ DLog(@"NullCheck: user.userID]) {");    if ([currMessage.senderID isEqualToNumbe
     //    
     JSMessage *currMessage = [self.messages objectAtIndex:indexPath.row];
     ProfileUser *user = [FlatAPIClientManager sharedClient].profileUser;
-DLog(@"NullCheck:user.userID] ) {22222");
+
     if ([currMessage.senderID isEqualToNumberWithNullCheck:user.userID] ) {
         return [JSBubbleImageViewFactory bubbleImageViewForType:type
                                                           color:[UIColor js_bubbleBlueColor]];
@@ -295,7 +295,7 @@ DLog(@"NullCheck:user.userID] ) {22222");
 -(UIImageView *)avatarImageViewForRowAtIndexPath:(NSIndexPath *)indexPath {
     JSMessage *currMessage = [self.messages objectAtIndex:indexPath.row];
     UIImage * image;
-DLog(@"NullCheck:[NSNumber numberWithInt:1]]) {");    if ([currMessage.senderID isEqualToNumberWithNullCheck:[NSNumber numberWithInt:1]]) {
+    if ([currMessage.senderID isEqualToNumberWithNullCheck:[NSNumber numberWithInt:1]]) {
         //if it's the initial greeting message
         image = [JSAvatarImageFactory avatarImageNamed:@"infoicon3" croppedToCircle:YES];
     }

@@ -48,14 +48,19 @@
     self.rightGapPercentage = 0.0f;
     self.allowRightSwipe = YES;
     self.rightFixedWidth = self.view.frame.size.width * .851;
+    
+    [self getPersonalCalendarEvents];
+    [[FlatAPIClientManager sharedClient]getEveryonesCalendarEvents];
 }
 
 bool allowCalendarAccess = false;
 -(void)requestCalendarAccess {
     EKEventStore *store = [[EKEventStore alloc] init];
     [store requestAccessToEntityType:EKEntityTypeEvent completion:^(BOOL granted, NSError *error) {
-        if (granted)
+        if (granted) {
             allowCalendarAccess = true;
+            [self getCalendarEvents];
+        }
         else {
             UIAlertView *alertView = [[UIAlertView alloc]
                                       initWithTitle:@"Error accessing calendar"
@@ -69,12 +74,12 @@ bool allowCalendarAccess = false;
 }
 
 -(void)getPersonalCalendarEvents {
+    if (allowCalendarAccess)
+        [self getCalendarEvents];
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         [self requestCalendarAccess];
     });
-    if (allowCalendarAccess)
-        [self getCalendarEvents];
 }
 
 -(void)refreshUsers {
@@ -143,10 +148,8 @@ bool allowCalendarAccess = false;
     Firebase* fCal = [[Firebase alloc] initWithUrl:@"https://flatapp.firebaseio.com/calendars"];
     
     Firebase* fCalUser = [fCal childByAppendingPath:[NSString stringWithFormat:@"%@",userID]];
-    [fCalUser setValue:nil]; //delete all calendar events for this user
+    [fCalUser removeValue]; //delete all calendar events for this user
     
-    
-    NSMutableArray * allEventArray = [[NSMutableArray alloc]init];
     for (EKEvent* event in events) {
         EventModel* ev = [[EventModel alloc]init];
         [ev setStartDate:[event startDate]];
@@ -154,9 +157,8 @@ bool allowCalendarAccess = false;
         [ev setTitle:[event title]];
         [ev setUserID:userID];
         [ev setIsAllDay:[NSNumber numberWithBool:event.isAllDay]];
-        [allEventArray addObject:ev];
         
-        Firebase* fEvent = [fCalUser childByAppendingPath:[NSString stringWithFormat:@"%@", event.startDate]];
+        Firebase* fEvent = [fCalUser childByAutoId];
         [[fEvent childByAppendingPath:@"startDate"] setValue:[NSString stringWithFormat:@"%@", event.startDate]];
         [[fEvent childByAppendingPath:@"endDate"] setValue:[NSString stringWithFormat:@"%@", event.endDate]];
         [[fEvent childByAppendingPath:@"userID"] setValue:[NSString stringWithFormat:@"%@", userID]];
