@@ -91,28 +91,28 @@
 {
     NSString * colorStr = @"FF2A68";
     if ([user.colorID isEqualToNumberWithNullCheck:[NSNumber numberWithInt:0]])
-        colorStr = @"FF5E3A";
+        colorStr = @"FF1300";
     else if ([user.colorID isEqualToNumberWithNullCheck:[NSNumber numberWithInt:1]])
-        colorStr = @"FFCD02";
+        colorStr = @"FF5E3A";
     else if ([user.colorID isEqualToNumberWithNullCheck:[NSNumber numberWithInt:2]])
-        colorStr = @"0BD318";
+        colorStr = @"FFCD02";
     else if ([user.colorID isEqualToNumberWithNullCheck:[NSNumber numberWithInt:3]])
-        colorStr = @"5AC8FB";
-    else if ([user.colorID isEqualToNumberWithNullCheck:[NSNumber numberWithInt:4]])
-        colorStr = @"007AFF";
-    else if ([user.colorID isEqualToNumberWithNullCheck:[NSNumber numberWithInt:5]])
-        colorStr = @"5856D6";
-    else if ([user.colorID isEqualToNumberWithNullCheck:[NSNumber numberWithInt:6]])
-        colorStr = @"C643FC";
-    else if ([user.colorID isEqualToNumberWithNullCheck:[NSNumber numberWithInt:7]])
         colorStr = @"A4E786";
+    else if ([user.colorID isEqualToNumberWithNullCheck:[NSNumber numberWithInt:4]])
+        colorStr = @"0BD318";
+    else if ([user.colorID isEqualToNumberWithNullCheck:[NSNumber numberWithInt:5]])
+        colorStr = @"5AC8FB";
+    else if ([user.colorID isEqualToNumberWithNullCheck:[NSNumber numberWithInt:6]])
+        colorStr = @"007AFF";
+    else if ([user.colorID isEqualToNumberWithNullCheck:[NSNumber numberWithInt:7]])
+        colorStr = @"5856D6";
     else if ([user.colorID isEqualToNumberWithNullCheck:[NSNumber numberWithInt:8]])
         colorStr = @"E4B7F0";
     else if ([user.colorID isEqualToNumberWithNullCheck:[NSNumber numberWithInt:9]])
-        colorStr = @"FF1300";
-    else if ([user.colorID isEqualToNumberWithNullCheck:[NSNumber numberWithInt:10]])
         colorStr = @"FF2A68";
-    
+    else if ([user.colorID isEqualToNumberWithNullCheck:[NSNumber numberWithInt:10]])
+        colorStr = @"C643FC";
+  
     return [self colorWithHexString:colorStr];
 }
 
