@@ -11,6 +11,8 @@
 
 @implementation MessageHelper
 
+NSString* lastMessage;
+
 +(void)sendMessageWithText:(NSString *)text
         andCompletionBlock:(MessageHelperCompletionHandler)completionBlock
 {
@@ -32,29 +34,31 @@
     NSNumber* userID = [FlatAPIClientManager sharedClient].profileUser.userID;
     [MessageNetworkRequest getMessagesForUserWithUserID:userID
                                      andCompletionBlock:^(NSError *error, NSMutableArray *messages) {
-//    
+                                         //
                                          if (error) {
                                              NSLog(@"Error in MessageHelper %@", error);
                                              completionBlock(error, nil);
                                          } else {
                                              completionBlock(nil, messages);
                                          }
-//    
+                                         //
                                      }];
 }
 
 
 +(void)sendCalendarMessageForEvent:(EKEvent*)event {
-    NSNumber * userID = [FlatAPIClientManager sharedClient].profileUser.userID;
     NSString * messageText = [NSString stringWithFormat:@"%@'s event, %@, starts at %@.",
                               [FlatAPIClientManager sharedClient].profileUser.firstName,
                               event.title,
-                       [Utils formatDate:event.startDate]
-//                              , [Utils formatDate:event.endDate]
+                              [Utils formatDate:event.startDate]
                               ];
+    if (lastMessage == nil || [messageText isEqualToString:lastMessage]) return;
+    lastMessage = messageText;
+    
+    NSNumber * userID = [FlatAPIClientManager sharedClient].profileUser.userID;
     [MessageNetworkRequest sendMessageWithText:messageText
                             fromUserWithUserID:userID
-                            postURL:@"calendar/message/new"
+                                       postURL:@"calendar/message/new"
                             andCompletionBlock:^(NSError *error, NSMutableArray *messages) {
                                 if (error) {
                                     NSLog(@"Error in sending calendar message %@", error);

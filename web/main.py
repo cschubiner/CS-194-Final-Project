@@ -5,33 +5,16 @@
     Handles all routing endpoints for the API
 """
 
-import os
-import sys
-import json
+import os, sys, json
 from flask import Flask, Response, request, render_template
 from db import db_init, db_session
-import db
-import groups
-import models
-import flat_calendar
-import utils
-import tasks
-import push_notification
-import location_timer
+import db, groups, models, flat_calendar, utils, tasks, push_notification
+import location_timer, messages
 
 app = Flask(__name__.split('.')[0])
 
 db_init()
 
-# https://github.com/djacobs/PyAPNs
-# use this api for push notifications
-
-@app.route('/')
-@app.route('/<name>')
-def hello(name=None):
-    """ Return hello template at application root URL."""
-    # return str(engine)
-    return render_template('hello.html', name=name)
 
 '''
     Function: facebook_login()
@@ -140,9 +123,9 @@ def add_user_by_fbid():
 
 # Get request to change user's group
 # Get instead of post because lazy
-@app.route('/user/<fb_id>/changegroupid/<new_group_id>')
-def change_group_id(fb_id, new_group_id):
-    return groups.change_group_id(fb_id, new_group_id)
+@app.route('/user/<fb_id>/changegroupid/<new_group_id>/token/<passcode>')
+def change_group_id(fb_id, new_group_id, passcode):
+    return groups.change_group_id(fb_id, new_group_id, passcode)
 
 @app.route('/message/new', methods=['GET', 'POST'])
 def add_new_message():
@@ -153,12 +136,12 @@ def add_new_message():
         fb_id = request.form['userID']
         print body
         print fb_id
-        return db.add_new_message(body, fb_id)
+        return messages.add_new_message(body, fb_id)
     return "Hello"
 
 @app.route('/messages/all/<userID>')
 def get_messages(userID):
-    return db.get_messages(userID)
+    return messages.get_messages(userID)
 
 @app.route('/tasks/add_friends', methods=['GET', 'POST'])
 def task_add_friends():
@@ -173,13 +156,14 @@ def task_add_friends():
 @app.route('/tasks/message/push', methods=['GET', 'POST'])
 def task_send_message_notification():
     if request.method == 'POST':
+
         # for debugging purposes
         print request.data
         if request.data:
             data = request.data.split()
-            return db.send_push_notification(data[0], data[1], data[2], data[3])
+            return push_notification.send_push_notification(data[0], data[1], data[2], data[3])
         else:
-            return db.send_push_notification(request.form['group_id'], request.form['fb_id'], request.form['name'], request.form['msg'])
+            return push_notification.send_push_notification(request.form['group_id'], request.form['fb_id'], request.form['name'], request.form['msg'])
 
 '''
     params: group_id, body

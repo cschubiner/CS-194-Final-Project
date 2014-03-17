@@ -3,23 +3,20 @@
     Author: Colby Ing
     ------------------
     Handles all database bitch work.
+    Also handles most endpoints for anything that manipulates
+    data for users table in the database
 """
 
-import os
-import sqlalchemy
+import os, sqlalchemy
 from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker, scoped_session
 from google.appengine.api import taskqueue
 from apns import APNs, Payload
 
-import time
+import time, utils, facebook, urllib2, datetime
 
 from sqlalchemy import Column, Integer, String, and_
-import utils
-import facebook
-import urllib2
-import datetime
 
 MAX_LENGTH = 50
 USER = "user"
@@ -27,7 +24,13 @@ USERS = "users"
 GROUP = "group"
 MESSAGES = "messages"
 
-engine = create_engine('mysql+gaerdbms:///add19?instance=flatappapi:db0')
+# Maximum number of messages to return
+MESSAGE_LIMIT = 500
+# Number of greeting message
+# "Welcome to your flat!" + "Access code = xxxxxx"
+NUM_GREETING_MESSAGES = 2
+
+engine = create_engine('mysql+gaerdbms:///add20?instance=flatappapi:db0')
 db_session = scoped_session(sessionmaker(autocommit=False,
                                          autoflush=False,
                                          bind=engine))
@@ -35,6 +38,7 @@ db_session = scoped_session(sessionmaker(autocommit=False,
 apns = APNs(use_sandbox=True,cert_file='ck.pem', key_file='FlatKeyD.pem')
 Base = declarative_base()
 
+import groups
 
 import models
 """
@@ -58,7 +62,8 @@ def add_user(access_token, device_id):
     request_picture_url = "http://graph.facebook.com/" + profile['id'] + "/picture"
     picture_url = urllib2.urlopen(request_picture_url).geturl()
 
-    new_group = models.Group(curr_color=0, latitude=0.0, longitude=0.0)
+    new_group = models.Group(passcode=0, latitude=0.0, longitude=0.0)
+
     new_user = models.User(
             fb_id = profile["id"],
             color_id = 0,
@@ -83,12 +88,8 @@ def add_user(access_token, device_id):
     db_session.add(new_group)
     db_session.commit()
 
-    # Updates the friends table in case the newly register user
-    # was previously in the friends table
-    update_friend_table(profile['id'])
+    groups.assign_passcode(profile['id'])
 
-    # query = db_session.query(models.User).all()
-    print device_id
     return utils.obj_to_json('user', new_group.users[0], True)
 
 '''
@@ -194,95 +195,17 @@ def get_fbid(access_token):
     profile = graph.get_object("me")
     return profile['id']
 
-'''
-    Function: get_messages
-    param: fb_id
-    return: all messages in JSON format
-    -----------------------------------
-    Given a fb_id, retrives all the messages in that
-    user's group.
-'''
-def get_messages(fb_id):
-    user = db_session.query(models.User).filter(models.User.fb_id == fb_id).first()
-    if user:
-        group_id = user.group_id
-        all_messages = db_session.query(models.Message).filter(models.Message.group_id == group_id).order_by(models.Message.time_stamp).all()
-        return utils.list_to_json('messages', all_messages)
-    return utils.error_json_message("invalid fb_id")
-
-'''
-    Function: send_push_notification
-    param: group_id, the id of the group
-           fb_id, the user who sent the message
-           name, name of the user who sent the message
-           msg, the text body/content of the message
-    return: Misc JSON #TODO: fix this
-'''
-def send_push_notification(group_id, fb_id, name, msg):
-    apns = APNs(use_sandbox=True,cert_file='ck.pem', key_file='FlatKeyD.pem')
-
-    recipients = db_session.query(models.User).filter(and_(models.User.group_id == group_id, models.User.fb_id != fb_id)).all()
-
-    # PyAPNs code
-    message = name + ': ' + msg + ''
-    payload = Payload(alert=message, sound="default", badge=1)
-
-    # for loop through the users that aren't the sender
-    for recipient in recipients:
-        if recipient.device_id != None and len(recipient.device_id) == 64:
-            apns.gateway_server.send_notification(recipient.device_id, payload)
-
-    # DUnno what this does, but the sample code had it
-    for (token_hex, fail_time) in apns.feedback_server.items():
-        print (token_hex, fail_time)
-    return utils.error_json_message("Yo")
-
-'''
-    function: add_new_message
-    params: body, the text content of the message
-            fb_id, the facebook_id of the sender
-    return: all messages of that user's group in JSON
-'''
-def add_new_message(body, fb_id):
-    user = db_session.query(models.User).filter(models.User.fb_id == fb_id).first()
-
-    if user is not None:
-        group_id = user.group_id
-        new_msg = models.Message(
-            body = body,
-            time_stamp = datetime.datetime.utcnow(),
-            user_id = fb_id,
-            group_id = user.group_id,
-            color_id = user.color_id
-        )
-
-        db_session.add(new_msg)
-        db_session.commit()
-
-        # Setting the parameters to the task callback
-        push_params = dict()
-        push_params['group_id'] = user.group_id
-        push_params['fb_id'] = fb_id
-        push_params['name'] = user.first_name
-        push_params['msg'] = body
-        taskqueue.add(url='/tasks/message/push', method='POST', params=push_params)
-        # TODO: this query is probably buggy
-        all_messages = db_session.query(models.Message).filter(models.Message.group_id == group_id).order_by(models.Message.time_stamp).all()
-        return utils.list_to_json('messages', all_messages)
-    return utils.error_json_message("hello")
-
 def get_name_from_fbid(fb_id):
     # Check for the event message
     if fb_id == '0':
         return 'Event'
+    elif fb_id == '1':
+        return 'Flat'
 
     user = db_session.query(models.User).filter(models.User.fb_id == fb_id).first()
     if user is not None:
         return user.first_name
     return utils.error_json_message('nooo')
-
-def update_calendar():
-    return utils.error_json_message("Dummy endpoint")
 
 '''
     Method: db_get_group

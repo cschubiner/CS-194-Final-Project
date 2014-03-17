@@ -260,7 +260,6 @@
         
         [backView addSubview:circleView];
         [backView addSubview:name];
-        
         name.text = [ProfileUser getInitialsFromUserID:currMessage.senderID];
         [avatarDict setObject:backView forKey:currMessage.senderID];
         

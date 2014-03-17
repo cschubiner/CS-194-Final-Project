@@ -130,7 +130,6 @@ titleForHeaderInSection:(NSInteger)section
         if (cell == nil) {
             cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault  reuseIdentifier:MyIdentifier];
         }
-    //  UITableViewCell*  cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault  reuseIdentifier:MyIdentifier];
     
     NSMutableArray * users = [[FlatAPIClientManager sharedClient]users];
     NSString *hex = @"394247";
@@ -138,7 +137,7 @@ titleForHeaderInSection:(NSInteger)section
     NSString *lighterText = @"f2f2f2";
     UIColor *lightTextColor = [ProfileUser colorWithHexString:lighterText];
     NSString *darkerText = @"9a9fa1";
-    UIColor *darkTextColor = [ProfileUser colorWithHexString:darkerText];
+    //UIColor *darkTextColor = [ProfileUser colorWithHexString:darkerText];
     cell.backgroundColor = backgroundColor;
     cell.textLabel.textColor = lightTextColor;
     
@@ -179,12 +178,12 @@ titleForHeaderInSection:(NSInteger)section
         [cell.contentView addSubview:circleView];
         [cell.contentView addSubview:name];
         [cell.contentView addSubview:locationImage];
- 
+        
         NSString *initials  = [NSString stringWithFormat:@"%@%@",
                                [user.firstName substringWithRange:NSMakeRange(0, 1)],
                                [user.lastName substringWithRange:NSMakeRange(0, 1)]];
         name.text = initials;
-
+        
     }
     return cell;
 }
