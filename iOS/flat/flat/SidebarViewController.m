@@ -132,18 +132,13 @@ titleForHeaderInSection:(NSInteger)section
          cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     static NSString *MyIdentifier = @"MyReuseIdentifier";
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:MyIdentifier];
-    if (cell == nil) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault  reuseIdentifier:MyIdentifier];
-    }
+    UITableViewCell*  cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault  reuseIdentifier:MyIdentifier];
     
     NSMutableArray * users = [[FlatAPIClientManager sharedClient]users];
     NSString *hex = @"394247";
     UIColor *backgroundColor = [ProfileUser colorWithHexString:hex];
     NSString *lighterText = @"f2f2f2";
     UIColor *lightTextColor = [ProfileUser colorWithHexString:lighterText];
-    NSString *darkerText = @"9a9fa1";
-    //UIColor *darkTextColor = [ProfileUser colorWithHexString:darkerText];
     cell.backgroundColor = backgroundColor;
     cell.textLabel.textColor = lightTextColor;
     

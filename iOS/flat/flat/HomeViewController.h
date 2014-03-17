@@ -12,6 +12,8 @@
 @interface HomeViewController : JSMessagesViewController <JSMessagesViewDelegate, JSMessagesViewDataSource>
 
 @property (strong, nonatomic) NSMutableArray *messages;
+@property (strong, nonatomic) UIRefreshControl *refresh;
+@property (strong, nonatomic) UITableViewController *tableViewController;
 
 + (UIImage *) imageWithView:(UIView *)view;
 -(void) resetTable;

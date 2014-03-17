@@ -51,7 +51,7 @@
     self.allowRightSwipe = YES;
     self.rightFixedWidth = self.view.frame.size.width * .85;
     
-
+    
 }
 
 -(void)requestCalendarAccess {
@@ -178,24 +178,32 @@ static bool justRefreshed = false;
     justRefreshed = false;
 }
 
+-(void)resetRefreshController {
+    HomeViewController *homeViewController = self.centerPanelHome;
+    if ([homeViewController.tableViewController.refreshControl isRefreshing]) {
+    [homeViewController.tableViewController.refreshControl endRefreshing];
+    [homeViewController.tableView setContentInset:UIEdgeInsetsMake(0, 0, 0, 0)];
+    }
+}
+
 -(void) refreshMessagesWithAnimation:(BOOL)animated scrollToBottom:(BOOL)scrollToBottom{
-    if (justRefreshed) return;
+    if (justRefreshed) {
+        [self resetRefreshController];
+        return;
+    }
     
     HomeViewController *homeViewController = self.centerPanelHome;
-    //    homeViewController.messages = nil;
-    //    [homeViewController.tableView reloadData];
     [MessageHelper getMessagesWithCompletionBlock:^(NSError *error, NSMutableArray *messages) {
-        //        
+        NSLog(@"Messages received");
         homeViewController.messages = messages;
-//                [homeViewController viewDidLoad];
         [homeViewController resetTable];
-
+        [self resetRefreshController];
         [homeViewController.tableView reloadData];
         [homeViewController reloadInputViews];
-        if (scrollToBottom)
+        if (scrollToBottom) {
             [homeViewController scrollToBottomAnimated:animated];
-        [[FlatAPIClientManager sharedClient]turnOffLoadingView];
-        //        
+        }
+        [[FlatAPIClientManager sharedClient] turnOffLoadingView];
     }];
     
     justRefreshed = true;
@@ -241,10 +249,8 @@ static bool justRefreshed = false;
 	UINavigationController *nc = [[UINavigationController alloc] initWithRootViewController:self.centerPanelHome];
     self.leftPanel.delegate = self;
     self.rightPanel.delegate = self;
-    self.centerPanel.delegate = self;
-    
     [self setCenterPanel:nc];
-    
+    self.centerPanel.delegate = self;
 }
 
 @end

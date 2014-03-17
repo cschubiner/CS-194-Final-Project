@@ -14,7 +14,6 @@
 
 
 @interface HomeViewController ()
-@property UIRefreshControl *refresh;
 @property BOOL justLoggedIn;
 @end
 
@@ -128,13 +127,17 @@
     self.tableView.frame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height - self.messageInputView.frame.size.height);
     
     //Pull to refresh
+    self.tableViewController = [[UITableViewController alloc] init];
+    self.tableViewController.tableView = self.tableView;
+    
     self.refresh = [[UIRefreshControl alloc] init];
-    self.refresh.tintColor = [UIColor grayColor]; //THIS THING
-    self.refresh.attributedTitle = [[NSAttributedString alloc] initWithString:@"Pull to Refresh"];
     [self.refresh addTarget:self
                      action:@selector(getMessages)
            forControlEvents:UIControlEventValueChanged];
-    [self.tableView addSubview:self.refresh];
+    self.refresh.tintColor = [UIColor grayColor];
+    self.refresh.attributedTitle = [[NSAttributedString alloc] initWithString:@"Pull to Refresh"];
+    self.tableViewController.refreshControl = self.refresh;
+
 }
 
 - (void)viewDidLoad
