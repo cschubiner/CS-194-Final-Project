@@ -125,12 +125,11 @@ titleForHeaderInSection:(NSInteger)section
 - (void)alertView:(UIAlertView *)alertView
 clickedButtonAtIndex:(NSInteger)buttonIndex
 {
-    NSLog(@"BUTTON INDEX: %lu", buttonIndex);
+    NSLog(@"BUTTON INDEX: %lu", (long)buttonIndex);
     if(buttonIndex == 1) {
         [self showEmail];
     }
 }
-
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -153,7 +152,7 @@ clickedButtonAtIndex:(NSInteger)buttonIndex
         // show a popup for the selected user
         ProfileUser * user = [[[FlatAPIClientManager sharedClient]users] objectAtIndex:indexPath.row -2];
         self.emailClicked = user.email;
-        NSString * dormStatus = @"has not broadcasted his location recently";
+        NSString * dormStatus = @"'s location has not been broadcasted recently";
         if ([user.isNearDorm isEqualToNumber2:[NSNumber numberWithInt:IN_DORM_STATUS]]) {
             dormStatus = @"is currently in the dorm";
         }
@@ -251,7 +250,6 @@ clickedButtonAtIndex:(NSInteger)buttonIndex
 {
     [self.sideBarMenuTable reloadData];
 }
-
 
 
 - (void)didReceiveMemoryWarning
