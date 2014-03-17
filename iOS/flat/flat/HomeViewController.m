@@ -46,6 +46,7 @@
 
 -(void)setNavBarButtons {
     int numUsersHome = [[FlatAPIClientManager sharedClient] getNumUsersHome];
+    int numUsersBusy = [[[FlatAPIClientManager sharedClient] rootController].rightPanel numberOfEventsOccurringNow];
     UIImage* image = [UIImage imageNamed:@"circle-icon.png"];
     CGRect frame = CGRectMake(0, -2, image.size.width + 3 , image.size.height + 3);
     UIButton* someButton = [[UIButton alloc] initWithFrame:frame];

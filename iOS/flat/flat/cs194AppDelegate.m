@@ -62,8 +62,8 @@ Reachability * internetReachable;
     [[UIApplication sharedApplication] registerForRemoteNotificationTypes:
      (UIRemoteNotificationTypeSound | UIRemoteNotificationTypeAlert)];
     
-//    [NSTimer scheduledTimerWithTimeInterval:280.0 target:self selector:@selector(checkForCalendarEvent) userInfo:nil repeats:YES];
-
+    //    [NSTimer scheduledTimerWithTimeInterval:280.0 target:self selector:@selector(checkForCalendarEvent) userInfo:nil repeats:YES];
+    
     [self testInternetConnection];
     
     return YES;
@@ -71,16 +71,16 @@ Reachability * internetReachable;
 
 - (void)testInternetConnection
 {
-     internetReachable = [Reachability reachabilityWithHostname:@"www.google.com"];
+    internetReachable = [Reachability reachabilityWithHostname:@"www.google.com"];
     // Internet is reachable
-     internetReachable.reachableBlock = ^(Reachability*reach)
+    internetReachable.reachableBlock = ^(Reachability*reach)
     {
         dispatch_async(dispatch_get_main_queue(), ^{
             DLog(@"We are connected to the internet.");
         });
     };
     // Internet is not reachable
-     internetReachable.unreachableBlock = ^(Reachability*reach)
+    internetReachable.unreachableBlock = ^(Reachability*reach)
     {
         dispatch_async(dispatch_get_main_queue(), ^{
             DLog(@"Uh oh, we are not connected to the internet.");
@@ -340,7 +340,7 @@ Reachability * internetReachable;
 }
 
 -(void) refreshGroupAndLocation {
- [GroupNetworkRequest getGroupFromGroupID:[FlatAPIClientManager sharedClient].profileUser.groupID withCompletionBlock:^(NSError * error, Group * group1) {
+    [GroupNetworkRequest getGroupFromGroupID:[FlatAPIClientManager sharedClient].profileUser.groupID withCompletionBlock:^(NSError * error, Group * group1) {
         if (group1 == nil)
             group1 = [GroupLocalRequest getGroup];
         [FlatAPIClientManager sharedClient].group = group1;
@@ -356,8 +356,11 @@ Reachability * internetReachable;
 - (void)applicationDidBecomeActive:(UIApplication *)application
 {
     // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
-    [self.mainViewController refreshMessagesWithAnimation:NO scrollToBottom:YES];
-    [self refreshGroupAndLocation];
+    if (self.mainViewController != nil && [[FlatAPIClientManager sharedClient]profileUser] != nil) {
+        [self.mainViewController refreshMessagesWithAnimation:NO scrollToBottom:YES];
+        [self refreshGroupAndLocation];
+        [self.mainViewController requestCalendarAccess];
+    }
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application

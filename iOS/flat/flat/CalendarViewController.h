@@ -28,6 +28,8 @@
 @property (nonatomic, strong) UITableView *sideBarMenuTable;
 
 
+-(int)numberOfEventsOccurringNow;
+
 @property (nonatomic, strong) NSMutableIndexSet *expandedSections;
 
 @property (nonatomic, assign) id delegate;

@@ -116,7 +116,7 @@
     
     // Create the start date components
     NSDateComponents *firstDateCom = [[NSDateComponents alloc] init];
-    firstDateCom.hour = -1;
+    firstDateCom.hour = -24;
     NSDate *firstDate = [calendar dateByAddingComponents:firstDateCom
                                                   toDate:[NSDate date]
                                                  options:0];

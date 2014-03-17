@@ -12,6 +12,10 @@
 
 
 - (BOOL)isEqualToNumber2:(NSNumber *)number {
+    if (self == nil || [[NSNull null] isEqual:self]) {
+        DLog(@"self is null. Returning false");
+        return false;
+    }
     if (number == nil || (NSNull*)number == [NSNull null]) {
         DLog(@"inputted number is null. Returning false");
         return false;

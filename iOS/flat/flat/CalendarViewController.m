@@ -117,6 +117,24 @@ static const int STATUS_BAR_HEIGHT = 18;
     return 75;
 }
 
+
+
+-(bool)eventIsOccuringNow:(EventModel*)event {
+    if ([event.isAllDay isEqualToNumber2:[NSNumber numberWithBool:true]]) return false;
+    return [event.startDate isInPast] && [event.endDate isInFuture];
+}
+
+-(int)numberOfEventsOccurringNow {
+    NSArray * events = [FlatAPIClientManager sharedClient].allEvents;
+    int count = 0;
+    for (EventModel * ev in events) {
+        if ([self eventIsOccuringNow:ev])
+            count++;
+    }
+    NSLog(@"there are currently %d users busy.", count);
+    return count;
+}
+
 - (UITableViewCell *)tableView:(UITableView *)tableView
          cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -156,6 +174,9 @@ static const int STATUS_BAR_HEIGHT = 18;
         return cell;
     }
     event = [events objectAtIndex:allCount];
+    BOOL eventIsOccurringNow = [self eventIsOccuringNow:event];
+    
+    
     NSString *hex = @"394247";
     UIColor *backgroundColor = [ProfileUser colorWithHexString:hex];
     

@@ -108,7 +108,7 @@ static NSString * const SIGNATURE = @"";
                 NSNumber* userID = [Utils numberFromString:[fCalEvent childSnapshotForPath:@"userID"].value];
                 [event setUserID:userID];
                 
-                if ([self userIDIsInMyGroup:userID] && [event.startDate isInPast] == false)
+                if ([self userIDIsInMyGroup:userID] && [event.endDate isInFuture] )
                     [events addObject:event];
             }
         }
