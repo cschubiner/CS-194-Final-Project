@@ -130,17 +130,30 @@ titleForHeaderInSection:(NSInteger)section
         if (cell == nil) {
             cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault  reuseIdentifier:MyIdentifier];
         }
-//    UITableViewCell*  cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault  reuseIdentifier:MyIdentifier];
+    //  UITableViewCell*  cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault  reuseIdentifier:MyIdentifier];
     
     NSMutableArray * users = [[FlatAPIClientManager sharedClient]users];
-    cell.backgroundColor = [UIColor whiteColor];
+    NSString *hex = @"394247";
+    UIColor *backgroundColor = [ProfileUser colorWithHexString:hex];
+    NSString *lighterText = @"f2f2f2";
+    UIColor *lightTextColor = [ProfileUser colorWithHexString:lighterText];
+    NSString *darkerText = @"9a9fa1";
+    UIColor *darkTextColor = [ProfileUser colorWithHexString:darkerText];
+    cell.backgroundColor = backgroundColor;
+    cell.textLabel.textColor = lightTextColor;
     
-    if (indexPath.row == 0) {
+    if (indexPath.row == 0)
+    {
         cell.textLabel.text = @"Settings";
-    } else if (indexPath.row == 1) {
+    }
+    else if (indexPath.row == 1)
+    {
         cell.textLabel.text = @"Tasks";
-    } else {
-        if (users.count == 0) {
+    }
+    else
+    {
+        if (users.count == 0)
+        {
             [cell.textLabel setText:@"Loading..."];
             return cell;
         }

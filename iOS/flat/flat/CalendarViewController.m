@@ -111,7 +111,7 @@ static const int NAV_BAR_HEIGHT = 64;
 {
     NSArray * events = [FlatAPIClientManager sharedClient].allEvents;
     if (events.count == 0) return 520;
-    return 70;
+    return 75;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView
@@ -141,15 +141,31 @@ static const int NAV_BAR_HEIGHT = 64;
         allCount ++;
     }
     
+    NSString *lighterText = @"f2f2f2";
+    UIColor *lightTextColor = [ProfileUser colorWithHexString:lighterText];
+    NSString *darkerText = @"9a9fa1";
+    UIColor *darkTextColor = [ProfileUser colorWithHexString:darkerText];
+    
+    tableView.separatorColor = darkTextColor;
     
     if (events.count == 0) {
         [cell.textLabel setText:@"Loading..."];
         return cell;
     }
-     event = [events objectAtIndex:allCount];
+    event = [events objectAtIndex:allCount];
+    NSString *hex = @"394247";
+    UIColor *backgroundColor = [ProfileUser colorWithHexString:hex];
+    
+    cell.textLabel.textColor = lightTextColor;
+    
+    [tableView setSeparatorStyle:UITableViewCellSeparatorStyleNone];
+    //[tableView setSeparatorColor:darkTextColor];
+    //[tableView setSectionIndexColor:lightTextColor];
+    tableView.backgroundColor = backgroundColor;
+    cell.backgroundColor = backgroundColor;
     
     UIColor * color = [ProfileUser getColorFromUserID:event.userID];
-    cell.backgroundColor = color;
+    
     NSString * text;
     if ([[NSNumber numberWithBool:true] isEqualToNumber2:event.isAllDay]) {
         text = [NSString stringWithFormat:@"%@: %@\nAll day",
@@ -164,7 +180,31 @@ static const int NAV_BAR_HEIGHT = 64;
                 [Utils formatDate:event.startDate], [Utils formatDate:event.endDate]
                 ];
     }
-    [cell.textLabel setText:text];
+    
+    UILabel *titleText = [[UILabel alloc]initWithFrame:CGRectMake(20, -5, cell.frame.size.width, cell.frame.size.height)];
+    titleText.textColor = lightTextColor;
+    titleText.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:17];
+    titleText.text = event.title;
+    
+    UILabel *timeText = [[UILabel alloc]initWithFrame:CGRectMake(20, 15, cell.frame.size.width, cell.frame.size.height)];
+    timeText.textColor = darkTextColor;
+    timeText.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:14];
+    timeText.text = [NSString stringWithFormat:@"%@ - %@", [Utils formatDate:event.startDate], [Utils formatDate:event.endDate]];
+    
+    UILabel *userText = [[UILabel alloc]initWithFrame:CGRectMake(20, 35, cell.frame.size.width, cell.frame.size.height)];
+    userText.textColor = color;
+    userText.alpha = .6;
+    userText.font = [UIFont fontWithName:@"HelveticaNeue" size:14];
+    userText.text = [ProfileUser getFirstNameFromUserID:event.userID];
+    
+    UIView *barView = [[UIView alloc] initWithFrame:CGRectMake(0, 10, 6, cell.frame.size.height + 15)];
+    barView.alpha = 1.0;
+    barView.backgroundColor = color;
+    
+    [cell.contentView addSubview:titleText];
+    [cell.contentView addSubview:timeText];
+    [cell.contentView addSubview:userText];
+    [cell.contentView addSubview:barView];
     cell.textLabel.numberOfLines = 0;
     [cell sizeToFit];
     return cell;
