@@ -74,17 +74,21 @@ titleForHeaderInSection:(NSInteger)section
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    HomeViewController * hvc = [[FlatAPIClientManager sharedClient]rootController].centerPanelHome;
     if (indexPath.row == 0) {   //settings
         [self.sideBarMenuTable deselectRowAtIndexPath:indexPath
                                              animated:YES];
-        [self performSegueWithIdentifier:@"LeftSidebarToSettings"
-                                  sender:self];
+        [hvc toggleSidebarMenu:nil];
+        [hvc performSegueWithIdentifier:@"HomeToSettings"
+                                 sender:self];
     } else if (indexPath.row == 1) {    //tasks
         [self.sideBarMenuTable deselectRowAtIndexPath:indexPath
                                              animated:YES];
-        [self performSegueWithIdentifier:@"LeftSidebarToTasks"
-                                  sender:self];
+        [hvc toggleSidebarMenu:nil];
+        [hvc performSegueWithIdentifier:@"HomeToTasks"
+                                 sender:self];
     }
+    
     else if (indexPath.row - 2 < [[FlatAPIClientManager sharedClient]users].count){
         // show a popup for the selected user
         ProfileUser * user = [[[FlatAPIClientManager sharedClient]users] objectAtIndex:indexPath.row -2];
@@ -125,10 +129,10 @@ titleForHeaderInSection:(NSInteger)section
          cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     static NSString *MyIdentifier = @"MyReuseIdentifier";
-        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:MyIdentifier];
-        if (cell == nil) {
-            cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault  reuseIdentifier:MyIdentifier];
-        }
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:MyIdentifier];
+    if (cell == nil) {
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault  reuseIdentifier:MyIdentifier];
+    }
     
     NSMutableArray * users = [[FlatAPIClientManager sharedClient]users];
     NSString *hex = @"394247";

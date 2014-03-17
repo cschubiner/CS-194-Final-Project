@@ -90,7 +90,7 @@
     [self setNavBarButtons];
     
     self.navigationController.navigationBar.tintColor = [UIColor whiteColor]; //sets text color
-    self.navigationController.navigationBar.barTintColor = [UIColor greenColor];
+    self.navigationController.navigationBar.barTintColor = [UIColor blackColor];
     self.navigationController.navigationBar.translucent = YES;
     self.navigationController.navigationBar.alpha = .2;
 }
