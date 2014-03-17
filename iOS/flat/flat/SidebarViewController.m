@@ -21,6 +21,7 @@
     NSArray *locationArray;
 }
 
+static const int STATUS_BAR_HEIGHT = 18;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -39,9 +40,11 @@
     
     locationArray = [NSArray arrayWithObjects: [NSNumber numberWithInt:1], [NSNumber numberWithInt:0], [NSNumber numberWithInt:1], [NSNumber numberWithInt:2], nil];
     
-    self.sideBarMenuTable = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)];
+    self.sideBarMenuTable = [[UITableView alloc] initWithFrame:CGRectMake(0, STATUS_BAR_HEIGHT, self.view.frame.size.width, self.view.frame.size.height - STATUS_BAR_HEIGHT)];
     self.sideBarMenuTable.delegate = self;
     self.sideBarMenuTable.dataSource = self;
+    UIColor *backgroundColor = [ProfileUser colorWithHexString: @"394247"];
+    [self.view setBackgroundColor:backgroundColor];
     [self.view addSubview:self.sideBarMenuTable];
 }
 
