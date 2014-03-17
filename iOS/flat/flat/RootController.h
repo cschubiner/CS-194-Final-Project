@@ -12,16 +12,17 @@
 #import "CalendarViewController.h"
 #import "HomeViewController.h"
 
-@interface RootController : JASidePanelController <SidebarViewDelegate>
+@interface RootController : JASidePanelController <SidebarViewDelegate, UINavigationControllerDelegate>
 
 - (void)toggleSidebarMenu:(id)sender;
 - (void)rightButtonPressed:(id)sender;
 
 @property (nonatomic, strong) SidebarViewController *leftPanel;
 @property (nonatomic, strong) CalendarViewController *rightPanel;
-@property (nonatomic, strong) HomeViewController *centerPanel;
+@property (nonatomic, strong) UINavigationController *centerPanel;
+@property (nonatomic, strong) HomeViewController *centerPanelHome;
 
--(void)refreshMessagesWithAnimation:(BOOL)animated scrollToBottom:(BOOL)scrollToBottom;
+-(void) refreshMessagesWithAnimation:(BOOL)animated scrollToBottom:(BOOL)scrollToBottom;
 -(void)refreshUsers;
 -(void)getCalendarEventsForDays;
 

@@ -14,6 +14,7 @@
 
 
 @interface HomeViewController ()
+@property UIRefreshControl *refresh;
 @property BOOL justLoggedIn;
 @end
 
@@ -30,62 +31,20 @@
 }
 
 
-- (void)getMessages
+- (void)toggleSidebarMenu:(id)sender
 {
-    [[FlatAPIClientManager sharedClient].rootController refreshMessagesWithAnimation:YES
-                                                                      scrollToBottom:YES];
+    DLog(@"left menu toggled");
+    [self.messageInputView resignFirstResponder];
+    [[FlatAPIClientManager sharedClient].rootController toggleLeftPanel:sender];
 }
 
-- (void)viewDidAppear:(BOOL)animated
+- (void)rightButtonPressed:(id)sender
 {
-    if ([[FlatAPIClientManager sharedClient].users count] == 1 && self.justLoggedIn) {
-        //show groups
-        UIAlertView *alertView = [[UIAlertView alloc]
-                                  initWithTitle:@"Join a Flat"
-                                  message:@"Let's get you in a Flat. Join a group with your friends!"
-                                  delegate:nil
-                                  cancelButtonTitle:@"OK"
-                                  otherButtonTitles:nil];
-        [alertView show];
-        [self performSegueWithIdentifier:@"HomeViewControllerToGroupTableViewController"
-                                  sender:self];
-    }
-    self.justLoggedIn = NO;
+    DLog(@"right menu toggled");
+    [self.messageInputView resignFirstResponder];
+    [[FlatAPIClientManager sharedClient].rootController toggleRightPanel:sender];
 }
 
--(void) resetTable {
-    self.title = @"Flat";
-    [self.tableView setBackgroundColor:[UIColor whiteColor]];
-    [self.tableView setSeparatorColor:[UIColor whiteColor]];
-    
-    self.messageInputView.textView.placeHolder = @"Message";
-    
-    self.tableView.frame = CGRectMake(0, 64, self.view.frame.size.width, self.view.frame.size.height - self.messageInputView.frame.size.height - 64);
-    //    self.tableView.frame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height - self.messageInputView.frame.size.height);
-    
-    self.tableViewController = [[UITableViewController alloc] init];
-    self.tableViewController.tableView = self.tableView;
-    
-    self.refresh = [[UIRefreshControl alloc] init];
-    [self.refresh addTarget:self
-                     action:@selector(getMessages)
-           forControlEvents:UIControlEventValueChanged];
-    self.refresh.tintColor = [UIColor grayColor];
-    self.refresh.attributedTitle = [[NSAttributedString alloc] initWithString:@"Pull to Refresh"];
-    self.tableViewController.refreshControl = self.refresh;
-    //Pull to refresh
-    /*
-    self.refresh = [[UIRefreshControl alloc] init];
-    self.refresh.tintColor = [UIColor grayColor]; //THIS THING
-    self.refresh.attributedTitle = [[NSAttributedString alloc] initWithString:@"Pull to Refresh"];
-    [self.refresh addTarget:self
-                     action:@selector(getMessages)
-           forControlEvents:UIControlEventValueChanged];
-    [self.tableView addSubview:self.refresh];
-     */
-}
-
-/*
 -(void)setNavBarButtons {
     int numUsersHome = [[FlatAPIClientManager sharedClient] getNumUsersHome];
     UIImage* image = [UIImage imageNamed:@"circle-icon.png"];
@@ -119,23 +78,8 @@
     self.navigationItem.leftBarButtonItem = someBarButtonItem;
     self.navigationItem.rightBarButtonItem = someBarButtonItem2;
 }
-*/
 
-- (void)viewDidLoad
-{
-    
-    self.delegate = self;
-    self.dataSource = self;
-    self.justLoggedIn = YES;
-    [super viewDidLoad];
-    
-    /*
-    [self.navigationController setNavigationBarHidden:NO];
-    
-    self.navigationController.navigationBar.tintColor = [UIColor whiteColor]; //sets text color
-    self.navigationController.navigationBar.barTintColor = [UIColor blackColor];
-    self.navigationController.navigationBar.translucent = YES;
-    self.navigationController.navigationBar.alpha = .01;
+-(void)setupNavBar {
     
     [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName : [UIColor whiteColor]}];
     UIImage *myGradient = [UIImage imageNamed:@"grad-small.png"];
@@ -144,12 +88,66 @@
      @{ NSFontAttributeName: [UIFont fontWithName:@"HelveticaNeue-Light" size:22.0f], NSForegroundColorAttributeName: [UIColor colorWithPatternImage:myGradient]}];
     
     [self setNavBarButtons];
-    */
     
+    self.navigationController.navigationBar.tintColor = [UIColor whiteColor]; //sets text color
+    self.navigationController.navigationBar.barTintColor = [UIColor greenColor];
+    self.navigationController.navigationBar.translucent = YES;
+    self.navigationController.navigationBar.alpha = .2;
+}
+
+
+- (void)getMessages
+{
+    [[FlatAPIClientManager sharedClient].rootController refreshMessagesWithAnimation:YES scrollToBottom:YES];
+}
+
+- (void)viewDidAppear:(BOOL)animated
+{
+    if ([[FlatAPIClientManager sharedClient].users count] == 1 && self.justLoggedIn) {
+        //show groups
+        UIAlertView *alertView = [[UIAlertView alloc]
+                                  initWithTitle:@"Join a Flat"
+                                  message:@"Let's get you in a Flat. Join a group with your friends!"
+                                  delegate:nil
+                                  cancelButtonTitle:@"OK"
+                                  otherButtonTitles:nil];
+        [alertView show];
+        [self performSegueWithIdentifier:@"HomeViewControllerToGroupTableViewController"
+                                  sender:self];
+    }
+    self.justLoggedIn = NO;
+}
+
+-(void) resetTable {
+    self.title = @"Flat";
+    [self.tableView setBackgroundColor:[UIColor whiteColor]];
+    [self.tableView setSeparatorColor:[UIColor whiteColor]];
+    
+    self.messageInputView.textView.placeHolder = @"Message";
+    
+    self.tableView.frame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height - self.messageInputView.frame.size.height);
+    
+    //Pull to refresh
+    self.refresh = [[UIRefreshControl alloc] init];
+    self.refresh.tintColor = [UIColor grayColor]; //THIS THING
+    self.refresh.attributedTitle = [[NSAttributedString alloc] initWithString:@"Pull to Refresh"];
+    [self.refresh addTarget:self
+                     action:@selector(getMessages)
+           forControlEvents:UIControlEventValueChanged];
+    [self.tableView addSubview:self.refresh];
+}
+
+- (void)viewDidLoad
+{
+    
+    self.delegate = self;
+    self.dataSource = self;
+    self.justLoggedIn = YES;
+    [super viewDidLoad];
     [[JSBubbleView appearance] setFont:[UIFont systemFontOfSize:16.0f]];
     
     [self resetTable];
-    
+    [self setupNavBar];
     
     [self loadInitialMessages];
 }
@@ -220,17 +218,9 @@
 
 - (void)configureCell:(JSBubbleMessageCell *)cell atIndexPath:(NSIndexPath *)indexPath
 {
-    //    
-    //    if (cell.timestampLabel) {
-    //        cell.timestampLabel.textColor = [UIColor lightGrayColor];
-    //        cell.timestampLabel.shadowOffset = CGSizeZero;
-    //    }
-    
     cell.bubbleView.textView.dataDetectorTypes = UIDataDetectorTypeNone;
-    if ([cell messageType] == JSBubbleMessageTypeOutgoing) {
+    if ([cell messageType] == JSBubbleMessageTypeOutgoing)
         cell.bubbleView.textView.textColor = [UIColor whiteColor];
-    }
-    //    
 }
 
 - (JSMessagesViewTimestampPolicy)timestampPolicy

@@ -101,9 +101,8 @@ Reachability * internetReachable;
     self.mainViewController = [storyBoard instantiateViewControllerWithIdentifier:@"RootController"];
     [[FlatAPIClientManager sharedClient] setRootController:self.mainViewController];
     DLog(@"after instantiating root controller");
-    self.mainNavigationViewController = [[MainNavigationViewController alloc] initWithRootViewController:self.mainViewController];
     //    self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-    self.window.rootViewController = self.mainNavigationViewController;
+    self.window.rootViewController = self.mainViewController;
     [self.window makeKeyAndVisible];
 }
 
@@ -120,7 +119,7 @@ Reachability * internetReachable;
 
 - (void)refreshInitialView
 {
-    [self.mainViewController.centerPanel viewDidLoad];
+    [self.mainViewController.centerPanelHome viewDidLoad];
 }
 
 - (void)handleLogout
@@ -217,7 +216,7 @@ Reachability * internetReachable;
             // be looking at the root view.
             
             /*
-             [self.mainNavigationViewController popToRootViewControllerAnimated:NO];
+             ///////[self.mainNavigationViewController popToRootViewControllerAnimated:NO];
              
              [FBSession.activeSession closeAndClearTokenInformation];
              

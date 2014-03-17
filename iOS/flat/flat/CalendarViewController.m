@@ -22,7 +22,7 @@
 {
 }
 
-static const int NAV_BAR_HEIGHT = 64;
+static const int STATUS_BAR_HEIGHT = 18;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -38,9 +38,13 @@ static const int NAV_BAR_HEIGHT = 64;
 {
     [super viewDidLoad];
     int startingWidth = 47;
-    self.sideBarMenuTable = [[UITableView alloc] initWithFrame:CGRectMake(startingWidth, NAV_BAR_HEIGHT, self.view.frame.size.width-startingWidth, self.view.frame.size.height - NAV_BAR_HEIGHT)];
+    self.sideBarMenuTable = [[UITableView alloc] initWithFrame:CGRectMake(startingWidth, STATUS_BAR_HEIGHT, self.view.frame.size.width-startingWidth, self.view.frame.size.height - STATUS_BAR_HEIGHT)];
     self.sideBarMenuTable.delegate = self;
     self.sideBarMenuTable.dataSource = self;
+    NSString *hex = @"394247";
+    UIColor *backgroundColor = [ProfileUser colorWithHexString:hex];
+    [self.view setBackgroundColor:backgroundColor];
+    self.sideBarMenuTable.backgroundColor = backgroundColor;
     [self.view addSubview:self.sideBarMenuTable];
 }
 

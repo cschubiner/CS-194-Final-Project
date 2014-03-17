@@ -74,7 +74,6 @@
 		F2C51DB8188C887400489989 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F2C51D97188C887400489989 /* UIKit.framework */; };
 		F2C51DC0188C887400489989 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = F2C51DBE188C887400489989 /* InfoPlist.strings */; };
 		F2C51DC2188C887400489989 /* flatTests.m in Sources */ = {isa = PBXBuildFile; fileRef = F2C51DC1188C887400489989 /* flatTests.m */; };
-		F2C51DD6188C948A00489989 /* MainNavigationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F2C51DD5188C948A00489989 /* MainNavigationViewController.m */; };
 		F2C51DD9188C94CC00489989 /* RootController.m in Sources */ = {isa = PBXBuildFile; fileRef = F2C51DD8188C94CC00489989 /* RootController.m */; };
 		F2C51DDC188C960B00489989 /* OpeningViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F2C51DDB188C960B00489989 /* OpeningViewController.m */; };
 		F2C51DDF188C963D00489989 /* OpeningNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = F2C51DDE188C963D00489989 /* OpeningNavigationController.m */; };
@@ -204,8 +203,6 @@
 		F2C51DBD188C887400489989 /* flatTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "flatTests-Info.plist"; sourceTree = "<group>"; };
 		F2C51DBF188C887400489989 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		F2C51DC1188C887400489989 /* flatTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = flatTests.m; sourceTree = "<group>"; };
-		F2C51DD4188C948A00489989 /* MainNavigationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainNavigationViewController.h; sourceTree = "<group>"; };
-		F2C51DD5188C948A00489989 /* MainNavigationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainNavigationViewController.m; sourceTree = "<group>"; };
 		F2C51DD7188C94CC00489989 /* RootController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RootController.h; sourceTree = "<group>"; };
 		F2C51DD8188C94CC00489989 /* RootController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = RootController.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		F2C51DDA188C960B00489989 /* OpeningViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OpeningViewController.h; sourceTree = "<group>"; };
@@ -488,8 +485,6 @@
 			isa = PBXGroup;
 			children = (
 				F2C51DE3188C96EC00489989 /* SideBar Assets */,
-				F2C51DD4188C948A00489989 /* MainNavigationViewController.h */,
-				F2C51DD5188C948A00489989 /* MainNavigationViewController.m */,
 				F2C51DD7188C94CC00489989 /* RootController.h */,
 				F2C51DD8188C94CC00489989 /* RootController.m */,
 				F2C51DE0188C96C500489989 /* SidebarViewController.h */,
@@ -719,7 +714,6 @@
 				F2C51DA4188C887400489989 /* cs194AppDelegate.m in Sources */,
 				0C46A9BA18C2A8CC000E30E2 /* CalendarViewController.m in Sources */,
 				0C498F32189F153C003B87F6 /* GroupModel.xcdatamodeld in Sources */,
-				F2C51DD6188C948A00489989 /* MainNavigationViewController.m in Sources */,
 				F270B6E718CBFAB100FA90E5 /* TasksNetworkRequest.m in Sources */,
 				F2C51DE2188C96C500489989 /* SidebarViewController.m in Sources */,
 				F2C51DEC188C992E00489989 /* OpeningButton.m in Sources */,

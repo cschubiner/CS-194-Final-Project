@@ -21,19 +21,6 @@
 
 @implementation RootController
 
-- (void)toggleSidebarMenu:(id)sender
-{
-    DLog(@"left menu toggled");
-    [self.centerPanel.messageInputView resignFirstResponder];
-    [self toggleLeftPanel:sender];
-}
-
-- (void)rightButtonPressed:(id)sender
-{
-    DLog(@"right menu toggled");
-    [self.centerPanel.messageInputView resignFirstResponder];
-    [self toggleRightPanel:sender];
-}
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -45,43 +32,11 @@
 }
 
 
--(void)setNavBarButtons {
-    int numUsersHome = [[FlatAPIClientManager sharedClient] getNumUsersHome];
-    UIImage* image = [UIImage imageNamed:@"circle-icon.png"];
-    CGRect frame = CGRectMake(0, -2, image.size.width + 3 , image.size.height + 3);
-    UIButton* someButton = [[UIButton alloc] initWithFrame:frame];
-    NSString *numHomeText = [NSString stringWithFormat:@"%d", numUsersHome];
-    CGRect labelFrame = CGRectMake(2, 3, image.size.width, image.size.height);
-    //UIImage *myGradient = [UIImage imageNamed:@"grad-small.png"];
-    [someButton setTitle:numHomeText forState:UIControlStateNormal];
-    [someButton.titleLabel setFont:[UIFont fontWithName:@"Courier" size:18.0f]];
-    someButton.titleLabel.frame = labelFrame;
-    [someButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    [someButton setBackgroundImage:image forState:UIControlStateNormal];
-    [someButton setShowsTouchWhenHighlighted:YES];
-    [someButton addTarget:self
-                   action:@selector(toggleSidebarMenu:)
-         forControlEvents:UIControlEventTouchUpInside];
-    UIBarButtonItem* someBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:someButton];
-    
-    
-    UIImage* image2 = [UIImage imageNamed:@"calendar-icon.png"];
-    CGRect frame2 = CGRectMake(0, 0, image2.size.width, image2.size.height);
-    UIButton* someButton2 = [[UIButton alloc] initWithFrame:frame2];
-    [someButton2 setBackgroundImage:image2 forState:UIControlStateNormal];
-    [someButton2 setShowsTouchWhenHighlighted:YES];
-    [someButton2 addTarget:self
-                    action:@selector(rightButtonPressed:)
-          forControlEvents:UIControlEventTouchUpInside];
-    UIBarButtonItem* someBarButtonItem2 = [[UIBarButtonItem alloc] initWithCustomView:someButton2];
-    
-    self.navigationItem.leftBarButtonItem = someBarButtonItem;
-    self.navigationItem.rightBarButtonItem = someBarButtonItem2;
+-(void)willSwipeToSidePanel {
+    [self.centerPanelHome.messageInputView resignFirstResponder];
 }
 
--(void)willSwipeToSidePanel {
-    [self.centerPanel.messageInputView resignFirstResponder];
-}
+
 
 - (void)viewDidLoad
 {
@@ -96,20 +51,7 @@
     self.allowRightSwipe = YES;
     self.rightFixedWidth = self.view.frame.size.width * .85;
     
-    //[self.navigationController setNavigationBarHidden:YES];
-    
-    self.navigationController.navigationBar.tintColor = [UIColor whiteColor]; //sets text color
-    self.navigationController.navigationBar.barTintColor = [UIColor blackColor];
-    self.navigationController.navigationBar.translucent = YES;
-    self.navigationController.navigationBar.alpha = .01;
- 
-    [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName : [UIColor whiteColor]}];
-    UIImage *myGradient = [UIImage imageNamed:@"grad-small.png"];
-    [[self navigationItem] setTitle:@"Flat"];
-    [self.navigationController.navigationBar setTitleTextAttributes:
-     @{ NSFontAttributeName: [UIFont fontWithName:@"HelveticaNeue-Light" size:22.0f], NSForegroundColorAttributeName: [UIColor colorWithPatternImage:myGradient]}];
 
-    [self setNavBarButtons];
 }
 
 -(void)requestCalendarAccess {
@@ -152,7 +94,7 @@
 -(void)refreshStuff {
     [self refreshUsers];
     [self refreshEvents];
-    [self setNavBarButtons];
+    [self.centerPanelHome setNavBarButtons];
 }
 
 -(void)viewWillAppear:(BOOL)animated {
@@ -239,25 +181,20 @@ static bool justRefreshed = false;
 -(void) refreshMessagesWithAnimation:(BOOL)animated scrollToBottom:(BOOL)scrollToBottom{
     if (justRefreshed) return;
     
-    HomeViewController *homeViewController = self.centerPanel;
+    HomeViewController *homeViewController = self.centerPanelHome;
     //    homeViewController.messages = nil;
     //    [homeViewController.tableView reloadData];
     [MessageHelper getMessagesWithCompletionBlock:^(NSError *error, NSMutableArray *messages) {
-        //
-        NSLog(@"GOT MESSAGES");
+        //        
         homeViewController.messages = messages;
 //                [homeViewController viewDidLoad];
         [homeViewController resetTable];
 
         [homeViewController.tableView reloadData];
         [homeViewController reloadInputViews];
-        //[homeViewController.refresh endRefreshing];
-        [homeViewController.tableViewController.refreshControl endRefreshing];
-        [homeViewController.tableView setContentInset:UIEdgeInsetsMake(0, 0, 0, 0)];
-        if (scrollToBottom) {
+        if (scrollToBottom)
             [homeViewController scrollToBottomAnimated:animated];
-        }
-        [[FlatAPIClientManager sharedClient] turnOffLoadingView];
+        [[FlatAPIClientManager sharedClient]turnOffLoadingView];
         //        
     }];
     
@@ -300,13 +237,13 @@ static bool justRefreshed = false;
 {
     self.leftPanel = [self.storyboard instantiateViewControllerWithIdentifier:@"SidebarViewController"];
     self.rightPanel = [self.storyboard instantiateViewControllerWithIdentifier:@"CalendarViewController"];
-    self.centerPanel = [self.storyboard instantiateViewControllerWithIdentifier:@"HomeViewController"];
+    self.centerPanelHome = [self.storyboard instantiateViewControllerWithIdentifier:@"HomeViewController"];
+	UINavigationController *nc = [[UINavigationController alloc] initWithRootViewController:self.centerPanelHome];
     self.leftPanel.delegate = self;
     self.rightPanel.delegate = self;
+    self.centerPanel.delegate = self;
     
-    [self setLeftPanel:self.leftPanel];
-    [self setRightPanel:self.rightPanel];
-    [self setCenterPanel:self.centerPanel];
+    [self setCenterPanel:nc];
     
 }
 
