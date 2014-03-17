@@ -172,7 +172,7 @@ titleForHeaderInSection:(NSInteger)section
         circleView.layer.cornerRadius = 35;
         circleView.backgroundColor = [ProfileUser getColorFromUser:user];
         
-        NSArray *geoImages = [NSArray arrayWithObjects:@"arrow-hollow-black.png", @"arrow-black.png", @"arrow-empty-small.png", nil];
+        NSArray *geoImages = [NSArray arrayWithObjects:@"new-arrow-hollow.png", @"new-arrow-full.png", @"arrow-empty-small.png", nil];
         UIImageView *locationImage = [[UIImageView alloc] initWithImage:[UIImage imageNamed:
                                                                          geoImages[user.isNearDorm.intValue]]];
         locationImage.frame = CGRectMake(4,40,20,20);
