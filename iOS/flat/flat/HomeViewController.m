@@ -14,7 +14,6 @@
 
 
 @interface HomeViewController ()
-@property UIRefreshControl *refresh;
 @property BOOL justLoggedIn;
 @end
 
@@ -33,7 +32,8 @@
 
 - (void)getMessages
 {
-    [[FlatAPIClientManager sharedClient].rootController refreshMessagesWithAnimation:YES scrollToBottom:YES];
+    [[FlatAPIClientManager sharedClient].rootController refreshMessagesWithAnimation:YES
+                                                                      scrollToBottom:YES];
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -63,7 +63,18 @@
     self.tableView.frame = CGRectMake(0, 64, self.view.frame.size.width, self.view.frame.size.height - self.messageInputView.frame.size.height - 64);
     //    self.tableView.frame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height - self.messageInputView.frame.size.height);
     
+    self.tableViewController = [[UITableViewController alloc] init];
+    self.tableViewController.tableView = self.tableView;
+    
+    self.refresh = [[UIRefreshControl alloc] init];
+    [self.refresh addTarget:self
+                     action:@selector(getMessages)
+           forControlEvents:UIControlEventValueChanged];
+    self.refresh.tintColor = [UIColor grayColor];
+    self.refresh.attributedTitle = [[NSAttributedString alloc] initWithString:@"Pull to Refresh"];
+    self.tableViewController.refreshControl = self.refresh;
     //Pull to refresh
+    /*
     self.refresh = [[UIRefreshControl alloc] init];
     self.refresh.tintColor = [UIColor grayColor]; //THIS THING
     self.refresh.attributedTitle = [[NSAttributedString alloc] initWithString:@"Pull to Refresh"];
@@ -71,6 +82,7 @@
                      action:@selector(getMessages)
            forControlEvents:UIControlEventValueChanged];
     [self.tableView addSubview:self.refresh];
+     */
 }
 
 /*

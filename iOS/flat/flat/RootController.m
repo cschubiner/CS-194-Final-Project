@@ -243,16 +243,21 @@ static bool justRefreshed = false;
     //    homeViewController.messages = nil;
     //    [homeViewController.tableView reloadData];
     [MessageHelper getMessagesWithCompletionBlock:^(NSError *error, NSMutableArray *messages) {
-        //        
+        //
+        NSLog(@"GOT MESSAGES");
         homeViewController.messages = messages;
 //                [homeViewController viewDidLoad];
         [homeViewController resetTable];
 
         [homeViewController.tableView reloadData];
         [homeViewController reloadInputViews];
-        if (scrollToBottom)
+        //[homeViewController.refresh endRefreshing];
+        [homeViewController.tableViewController.refreshControl endRefreshing];
+        [homeViewController.tableView setContentInset:UIEdgeInsetsMake(0, 0, 0, 0)];
+        if (scrollToBottom) {
             [homeViewController scrollToBottomAnimated:animated];
-        [[FlatAPIClientManager sharedClient]turnOffLoadingView];
+        }
+        [[FlatAPIClientManager sharedClient] turnOffLoadingView];
         //        
     }];
     
