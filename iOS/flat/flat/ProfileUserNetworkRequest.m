@@ -20,9 +20,8 @@
          NSError *error = [ErrorHelper apiErrorFromDictionary:JSON];
          if (!error) {
              NSMutableDictionary *userJSON = [JSON objectForKey:@"user"];
-             ProfileUser *profileUser;
-             profileUser = [ProfileUser getProfileUserObjectFromDictionary:userJSON
-                                                   AndManagedObjectContext:[NSManagedObjectContext MR_defaultContext]];
+             ProfileUser * profileUser = [ProfileUser getProfileUserObjectFromDictionary:userJSON
+                                                                 AndManagedObjectContext:[NSManagedObjectContext MR_defaultContext]];
              completionBlock(error, profileUser);
          } else {
              completionBlock(error, nil);
@@ -85,6 +84,24 @@
                                     }];
 }
 
++(void)handleGroupSwitch:(NSNumber*)groupID {
+    [[FlatAPIClientManager sharedClient]setUsers:[NSMutableArray arrayWithObject:[[FlatAPIClientManager sharedClient]profileUser]]];
+    [[[FlatAPIClientManager sharedClient]rootController].leftPanel reloadTable];
+    
+    [[NSManagedObjectContext MR_defaultContext] MR_saveToPersistentStoreWithCompletion:nil];
+    [GroupNetworkRequest getGroupFromGroupID:groupID withCompletionBlock:^(NSError * error, Group* group) {
+        [[FlatAPIClientManager sharedClient] setGroup:group];
+        CLLocationManager * manager = [[LocationManager sharedClient] locationManager];
+        [manager stopMonitoringForRegion:manager.monitoredRegions.anyObject];
+        [manager startMonitoringForRegion:[[LocationManager sharedClient] getGroupLocationRegion]];
+        [[LocationManager sharedClient] setShouldSetDormLocation:false];
+        [[NSManagedObjectContext MR_defaultContext] MR_saveToPersistentStoreWithCompletion:nil];
+        
+        [[[FlatAPIClientManager sharedClient]rootController]refreshUsers];
+        
+    }];
+}
+
 +(void)setGroupIDForUser:(NSNumber *)userID groupID:(NSNumber *)groupID withPassword:(NSString*)password withCompletionBlock:(ErrorCompletionHandler)completionBlock {
     NSString * url = [NSString stringWithFormat:@"user/%@/changegroupid/%@/token/%@", userID, groupID, password];
     [[FlatAPIClientManager sharedClient]GET:url
@@ -93,17 +110,10 @@
                                         NSError *error = [ErrorHelper apiErrorFromDictionary:JSON];
                                         if (!error) {
                                             DLog(@"successfully set user group id");
-                                            [[[FlatAPIClientManager sharedClient]profileUser] setGroupID:groupID];
-                                            
-                                            [[NSManagedObjectContext MR_defaultContext] MR_saveToPersistentStoreWithCompletion:nil];
-                                            [GroupNetworkRequest getGroupFromGroupID:groupID withCompletionBlock:^(NSError * error, Group* group) {
-                                                [[FlatAPIClientManager sharedClient] setGroup:group];
-                                                CLLocationManager * manager = [[LocationManager sharedClient] locationManager];
-                                                [manager stopMonitoringForRegion:manager.monitoredRegions.anyObject];
-                                                [manager startMonitoringForRegion:[[LocationManager sharedClient] getGroupLocationRegion]];
-                                                [[LocationManager sharedClient] setShouldSetDormLocation:false];
-                                                [[NSManagedObjectContext MR_defaultContext] MR_saveToPersistentStoreWithCompletion:nil];
-                                            }];
+                                            NSMutableDictionary *userJSON = [JSON objectForKey:@"user"];
+                                            ProfileUser * profileUser = [ProfileUser getProfileUserObjectFromDictionary:userJSON AndManagedObjectContext:[NSManagedObjectContext MR_defaultContext]];
+                                            [[FlatAPIClientManager sharedClient] setProfileUser:profileUser];
+                                            [self handleGroupSwitch:profileUser.groupID];
                                             
                                         } else {
                                             DLog(@"error when setting user group id");

@@ -53,6 +53,10 @@
     
 }
 
+-(void)reloadTable {
+    [self.sideBarMenuTable reloadData];
+}
+
 - (void) mailComposeController:(MFMailComposeViewController *)controller
            didFinishWithResult:(MFMailComposeResult)result error:(NSError *)error
 {
@@ -76,7 +80,6 @@
     // Close the Mail Interface
     [self dismissViewControllerAnimated:YES completion:NULL];
 }
-
 
 - (void)viewDidLoad
 {
@@ -116,6 +119,11 @@ titleForHeaderInSection:(NSInteger)section
 }
 
 - (BOOL)tableView:(UITableView *)tableView shouldHighlightRowAtIndexPath:(NSIndexPath *)indexPath {
+    if (indexPath.row > 1) {
+        NSMutableArray *users = [[FlatAPIClientManager sharedClient]users];
+        if (users.count == 0)
+            return NO;
+    }
     return YES;
 }
 
@@ -176,9 +184,9 @@ clickedButtonAtIndex:(NSInteger)buttonIndex
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     NSMutableArray * users = [[FlatAPIClientManager sharedClient]users];
-//    if (indexPath.row == 0 || indexPath.row == 1) {
-//        return 70;
-//    }
+    if (indexPath.row == 0 || indexPath.row == 1) {
+        return 90;
+    }
     if (users.count == 0) return 520;
     return 90;
 }

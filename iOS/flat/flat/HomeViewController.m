@@ -242,7 +242,7 @@
         cell.timestampLabel.shadowOffset = CGSizeZero;
     }
     
-//    cell.bubbleView.textView.dataDetectorTypes = UIDataDetectorTypeNone;
+    //    cell.bubbleView.textView.dataDetectorTypes = UIDataDetectorTypeNone;
     if ([cell messageType] == JSBubbleMessageTypeOutgoing)
         cell.bubbleView.textView.textColor = [UIColor whiteColor];
 }
@@ -284,6 +284,13 @@
     }
     else if (![currMessage.senderID isEqualToNumberWithNullCheck:[NSNumber numberWithInt:0]]) {
         static NSMutableDictionary * avatarDict = nil;
+        static NSNumber * oldGroupID = nil;
+        NSNumber * currGroupID = [FlatAPIClientManager sharedClient].profileUser.groupID;
+        if (![currGroupID isEqualToNumberWithNullCheck:oldGroupID]) {
+            avatarDict = nil;
+            oldGroupID = currGroupID;
+        }
+        
         if (!avatarDict) avatarDict = [[NSMutableDictionary alloc]init];
         UIView* ret = [avatarDict objectForKey:currMessage.senderID];
         if (ret)
@@ -304,12 +311,13 @@
         [backView addSubview:circleView];
         [backView addSubview:name];
         name.text = [ProfileUser getInitialsFromUserID:currMessage.senderID];
-        [avatarDict setObject:backView forKey:currMessage.senderID];
+        if (![name.text isEqualToString:@"--"])
+            [avatarDict setObject:backView forKey:currMessage.senderID];
         
         return [[UIImageView alloc]initWithImage: [HomeViewController imageWithView:backView]];
     }
     else {
-        //if it's a calendar event message
+        //it's a calendar event message
         image = [JSAvatarImageFactory avatarImageNamed:@"calendar+icon" croppedToCircle:NO];
     }
     return [[UIImageView alloc] initWithImage:image];

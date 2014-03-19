@@ -30,15 +30,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    //    [self.navigationItem.leftBarButtonItem setTintColor:[UIColor blackColor]];
-    //    [[UIBarButtonItem appearance] setTintColor: [UIColor colorWithRed:102.0/255.0 green:153.0/255.0 blue:153.0/255.0 alpha:1.0]];
-    //    [self.navigationItem.leftBarButtonItem setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:
-    //                                              [UIColor redColor], UITextAttributeTextColor,
-    //                                              nil] forState:UIControlStateNormal];
-    
     [[self navigationItem] setTitle:@"Join a Group"];
-    
-    // Uncomment the following line to preserve selection between presentations.
     self.clearsSelectionOnViewWillAppear = NO;
 }
 
@@ -51,12 +43,6 @@
                                           [self.tableView reloadData];
                                       }];
     
-}
-
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
 
 #pragma mark - Table view data source
@@ -120,11 +106,6 @@
     return 95.0;
 }
 
--(RootController*)getRootViewController {
-    return ((RootController*)((NSArray*)((UINavigationController*)self.navigationController).childViewControllers)[0]); //madness!!
-}
-
-
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     self.joiningGroup = indexPath.row;
     if (self.joiningGroup != [self.groups count]) {
@@ -133,18 +114,15 @@
     }
     //else, the user is creating a new group
     ProfileUser * user = [[FlatAPIClientManager sharedClient]profileUser];
-    NSTimeInterval secondsElapsed = [[NSDate date] timeIntervalSinceDate:[NSDate dateWithTimeIntervalSince1970:1394929600]]; //this gets us a low group ID. This should work for the next 136 years or so :)
-    NSNumber * newGroupID = [NSNumber numberWithInt:(int)secondsElapsed];
-    NSLog(@"new group ID: %@", newGroupID);
-    [ProfileUserNetworkRequest setGroupIDForUser:user.userID groupID:newGroupID withPassword:@"newgroup" withCompletionBlock:^(NSError* error) {
+    [ProfileUserNetworkRequest setGroupIDForUser:user.userID groupID:[NSNumber numberWithInt:0] withPassword:@"newgroup" withCompletionBlock:^(NSError* error) {
         if (error) {
             UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Unable to create group" message:@"We were unable to create your group. Please try again later." delegate:self cancelButtonTitle:@"Dismiss" otherButtonTitles:nil];
             [alertView show];
         }
         else {
-            RootController * rc = [self getRootViewController];
+            RootController * rc = [[FlatAPIClientManager sharedClient]rootController];
             [rc refreshMessagesWithAnimation:YES scrollToBottom:YES];
-            [self.navigationController popToViewController:rc animated:YES];
+            [self.navigationController popViewControllerAnimated:YES];
         }
     }];
 }
@@ -172,9 +150,9 @@
             [alertView show];
         }
         else {
-            RootController * rc = [self getRootViewController];
+            RootController * rc = [[FlatAPIClientManager sharedClient]rootController];
             [rc refreshMessagesWithAnimation:YES scrollToBottom:YES];
-            [self.navigationController popToViewController:rc animated:YES];
+            [self.navigationController popViewControllerAnimated:YES];
         }
     }];
 }

@@ -37,5 +37,6 @@
 
 @property (nonatomic, assign) id delegate;
 
+-(void)reloadTable;
 
 @end

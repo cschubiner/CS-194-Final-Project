@@ -82,25 +82,28 @@ bool allowCalendarAccess = false;
     });
 }
 
+-(void)allowUserRefresh{
+    allowUserRefresh = true;
+}
+bool allowUserRefresh = true;
 -(void)refreshUsers {
+    if (allowUserRefresh == false) return;
+    allowUserRefresh = false;
     ProfileUser * currUser = [FlatAPIClientManager sharedClient].profileUser;
     [ProfileUserHelper getUsersFromGroupID:currUser.groupID withCompletionBlock:^(NSError * error, NSMutableArray * users) {
         [[FlatAPIClientManager sharedClient] setUsers:users];
-        [[FlatAPIClientManager sharedClient]getEveryonesCalendarEvents];
         [self.leftPanel.sideBarMenuTable reloadData];
+        [[FlatAPIClientManager sharedClient]getEveryonesCalendarEvents];
         [self.centerPanelHome setNavBarButtons];
     }];
-}
-
--(void)refreshStuff {
-    [self refreshUsers];
+    [NSTimer scheduledTimerWithTimeInterval:5.0 target:self selector:@selector(allowUserRefresh) userInfo:nil repeats:NO];
 }
 
 -(void)viewWillAppear:(BOOL)animated {
     
-    [NSTimer scheduledTimerWithTimeInterval:3.0 target:self selector:@selector(refreshStuff) userInfo:nil repeats:NO];
-    [NSTimer scheduledTimerWithTimeInterval:15.0 target:self selector:@selector(refreshStuff) userInfo:nil repeats:NO];
-    [NSTimer scheduledTimerWithTimeInterval:30.0 target:self selector:@selector(refreshStuff) userInfo:nil repeats:YES];
+    [NSTimer scheduledTimerWithTimeInterval:3.0 target:self selector:@selector(refreshUsers) userInfo:nil repeats:NO];
+    [NSTimer scheduledTimerWithTimeInterval:15.0 target:self selector:@selector(refreshUsers) userInfo:nil repeats:NO];
+    [NSTimer scheduledTimerWithTimeInterval:30.0 target:self selector:@selector(refreshUsers) userInfo:nil repeats:YES];
 }
 
 - (IBAction)refreshMessages:(id)sender
@@ -123,22 +126,18 @@ bool allowCalendarAccess = false;
     // Create the end date components
     NSDateComponents *secondDateCom = [[NSDateComponents alloc] init];
     secondDateCom.day = 5;  //get all events five days from now
-    //    secondDateCom.hour = 24;
     NSDate *secondDate = [calendar dateByAddingComponents:secondDateCom
                                                    toDate:[NSDate date]
                                                   options:0];
     
     // Create the predicate from the event store's instance method
     NSArray * calSearchArray = [NSArray arrayWithObject:store.defaultCalendarForNewEvents]; //search only the default calendar (don't want birthdays appearing)
-    NSPredicate *predicate = [store predicateForEventsWithStartDate:firstDate
-                                                            endDate:secondDate
-                                                          calendars:calSearchArray];
+    NSPredicate *predicate = [store predicateForEventsWithStartDate:firstDate endDate:secondDate calendars:calSearchArray];
     
     // Fetch all events that match the predicate
     NSArray *events = [store eventsMatchingPredicate:predicate];
     [[FlatAPIClientManager sharedClient]setEvents:[NSMutableArray arrayWithArray:events]];
 }
-
 
 - (void)getCalendarEvents {
     [self getCalendarEventsForDays];
@@ -202,11 +201,7 @@ static bool justRefreshed = false;
     }];
     
     justRefreshed = true;
-    [NSTimer scheduledTimerWithTimeInterval:5.0
-                                     target:self
-                                   selector:@selector(allowMessageRefresh)
-                                   userInfo:nil
-                                    repeats:NO];
+    [NSTimer scheduledTimerWithTimeInterval:5.0 target:self selector:@selector(allowMessageRefresh) userInfo:nil repeats:NO];
 }
 
 
