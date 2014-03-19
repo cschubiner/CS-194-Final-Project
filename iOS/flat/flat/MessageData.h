@@ -1,5 +1,5 @@
 //
-//  JSMessageData.h
+//  MessageData.h
 //  Pods
 //
 //  Created by Zachary Palacios on 1/26/14.
@@ -9,10 +9,10 @@
 #import <Foundation/Foundation.h>
 
 /**
- *  The `JSMessageData` protocol defines the common interface through which `JSMessagesViewController` interacts with message model objects.
+ *  The `MessageData` protocol defines the common interface through which `MessagesViewController` interacts with message model objects.
  *  It declares the methods that a class must implement so that instances of that class can be displayed properly by a `JSMessagesViewController`.
  */
-@protocol JSMessageData <NSObject>
+@protocol MessageData <NSObject>
 
 @required
 

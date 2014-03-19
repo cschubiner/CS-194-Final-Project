@@ -7,10 +7,11 @@
 //
 
 #import "HomeViewController.h"
-#import "JSMessage.h"
+#import "Message.h"
 #import "MessageHelper.h"
 #import <QuartzCore/QuartzCore.h>
 #import "SAMLoadingView.h"
+#import "ISO8601DateFormatter.h"
 
 
 @interface HomeViewController ()
@@ -35,6 +36,7 @@
     DLog(@"left menu toggled");
     [self.messageInputView resignFirstResponder];
     [[FlatAPIClientManager sharedClient].rootController toggleLeftPanel:sender];
+    [self setNavBarButtons];
 }
 
 - (void)rightButtonPressed:(id)sender
@@ -42,6 +44,15 @@
     DLog(@"right menu toggled");
     [self.messageInputView resignFirstResponder];
     [[FlatAPIClientManager sharedClient].rootController toggleRightPanel:sender];
+    [self setNavBarButtons];
+}
+
+- (BOOL)shouldDisplayTimestampForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if (indexPath.row % 3 == 0) {
+        return YES;
+    }
+    return NO;
 }
 
 -(void)setNavBarButtons
@@ -58,8 +69,8 @@
     [someButton setBackgroundImage:image forState:UIControlStateNormal];
     [someButton setShowsTouchWhenHighlighted:YES];
     [someButton addTarget:self
-                    action:@selector(toggleSidebarMenu:)
-          forControlEvents:UIControlEventTouchUpInside];
+                   action:@selector(toggleSidebarMenu:)
+         forControlEvents:UIControlEventTouchUpInside];
     CGRect fr = [someButton.titleLabel frame];
 	fr.origin.x = 7;
 	fr.origin.y = 4;
@@ -98,7 +109,8 @@
     [self setNavBarButtons];
     
     self.navigationController.navigationBar.tintColor = [UIColor whiteColor]; //sets text color
-    self.navigationController.navigationBar.barTintColor = [UIColor blackColor];
+    self.navigationController.navigationBar.barTintColor =  [ProfileUser getColorFromUser:[[FlatAPIClientManager sharedClient]profileUser]];
+    
     self.navigationController.navigationBar.translucent = YES;
     self.navigationController.navigationBar.alpha = .2;
 }
@@ -120,8 +132,8 @@
                                   cancelButtonTitle:@"OK"
                                   otherButtonTitles:nil];
         [alertView show];
-        [self performSegueWithIdentifier:@"HomeViewControllerToGroupTableViewController"
-                                  sender:self];
+        
+        [self performSegueWithIdentifier:@"HomeViewControllerToGroupTableViewController" sender:self];
     }
     self.justLoggedIn = NO;
 }
@@ -131,7 +143,7 @@
     [self.tableView setBackgroundColor:[UIColor whiteColor]];
     [self.tableView setSeparatorColor:[UIColor whiteColor]];
     
-    self.messageInputView.textView.placeHolder = @"Message";
+    self.messageInputView.textView.placeHolder = @"";
     
     self.tableView.frame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height - self.messageInputView.frame.size.height);
     
@@ -140,13 +152,10 @@
     self.tableViewController.tableView = self.tableView;
     
     self.refresh = [[UIRefreshControl alloc] init];
-    [self.refresh addTarget:self
-                     action:@selector(getMessages)
-           forControlEvents:UIControlEventValueChanged];
+    [self.refresh addTarget:self action:@selector(getMessages) forControlEvents:UIControlEventValueChanged];
     self.refresh.tintColor = [UIColor grayColor];
     self.refresh.attributedTitle = [[NSAttributedString alloc] initWithString:@"Pull to Refresh"];
     self.tableViewController.refreshControl = self.refresh;
-
 }
 
 - (void)viewDidLoad
@@ -166,7 +175,7 @@
 
 - (void)loadInitialMessages
 {
-    //    
+    //
     [[FlatAPIClientManager sharedClient]turnOnLoadingView:self.view];
     [ProfileUserHelper getUsersFromGroupID:[[FlatAPIClientManager sharedClient]profileUser].groupID withCompletionBlock:^(NSError * error, NSMutableArray * users) {
         [[FlatAPIClientManager sharedClient] setUsers:users];
@@ -174,8 +183,7 @@
     }];
 }
 
-- (void)didSendText:(NSString *)text
-{
+-(void)didSendText:(NSString *)text fromSender:(NSString *)sender onDate:(NSDate *)date {
     if (text.length == 0)
         return;
     
@@ -193,16 +201,17 @@
                             [JSMessageSoundEffect playMessageSentSound];
                             DLog(@"About to reload data");
                             [self.tableView reloadData];
+                            [self scrollToBottomAnimated:YES];
                             DLog(@"Just reloaded data");
                         }
                         [self finishSend];
                     }];
 }
 
+
 - (JSBubbleMessageType)messageTypeForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    //    
-    JSMessage *currMessage = [self.messages objectAtIndex:indexPath.row];
+    Message *currMessage = [self.messages objectAtIndex:indexPath.row];
     ProfileUser *user = [FlatAPIClientManager sharedClient].profileUser;
     
     if ([currMessage.senderID isEqualToNumberWithNullCheck: user.userID]) {
@@ -211,14 +220,12 @@
     return JSBubbleMessageTypeIncoming;
 }
 
-
 - (UIImageView *)bubbleImageViewWithType:(JSBubbleMessageType)type
                        forRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    //    
-    JSMessage *currMessage = [self.messages objectAtIndex:indexPath.row];
+    Message *currMessage = [self.messages objectAtIndex:indexPath.row];
     ProfileUser *user = [FlatAPIClientManager sharedClient].profileUser;
-
+    
     if ([currMessage.senderID isEqualToNumberWithNullCheck:user.userID] ) {
         return [JSBubbleImageViewFactory bubbleImageViewForType:type
                                                           color:[UIColor js_bubbleBlueColor]];
@@ -231,56 +238,25 @@
 
 - (void)configureCell:(JSBubbleMessageCell *)cell atIndexPath:(NSIndexPath *)indexPath
 {
-    cell.bubbleView.textView.dataDetectorTypes = UIDataDetectorTypeNone;
+    if (cell.timestampLabel) {
+        cell.timestampLabel.textColor = [UIColor grayColor];
+        cell.timestampLabel.shadowOffset = CGSizeZero;
+    }
+    
+    //    cell.bubbleView.textView.dataDetectorTypes = UIDataDetectorTypeNone;
     if ([cell messageType] == JSBubbleMessageTypeOutgoing)
         cell.bubbleView.textView.textColor = [UIColor whiteColor];
 }
 
-- (JSMessagesViewTimestampPolicy)timestampPolicy
-{
-    return JSMessagesViewTimestampPolicyCustom;
-}
-
-- (JSMessagesViewAvatarPolicy)avatarPolicy
-{
-    return JSMessagesViewAvatarPolicyIncomingOnly;
-}
-
-- (JSMessagesViewSubtitlePolicy)subtitlePolicy
-{
-    return JSMessagesViewSubtitlePolicyIncomingOnly;
-}
 
 - (JSMessageInputViewStyle)inputViewStyle
 {
     return JSMessageInputViewStyleFlat;
 }
 
-- (NSString *)textForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    //    
-    return [[self.messages objectAtIndex:indexPath.row] text];
-}
-
-- (NSDate *)timestampForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    //    
-    return [[self.messages objectAtIndex:indexPath.row] date];
-}
-
-
--(NSString *)subtitleForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    //    
-    JSMessage *currMessage = [self.messages objectAtIndex:indexPath.row];
-    return currMessage.sender;
-}
-
 - (NSInteger)tableView:(UITableView *)tableView
  numberOfRowsInSection:(NSInteger)section
 {
-    
-    //    
     return [self.messages count];
 }
 
@@ -300,8 +276,8 @@
 }
 
 
--(UIImageView *)avatarImageViewForRowAtIndexPath:(NSIndexPath *)indexPath {
-    JSMessage *currMessage = [self.messages objectAtIndex:indexPath.row];
+-(UIImageView *)avatarImageViewForRowAtIndexPath:(NSIndexPath *)indexPath sender:(NSString *)sender {
+    Message *currMessage = [self.messages objectAtIndex:indexPath.row];
     UIImage * image;
     if ([currMessage.senderID isEqualToNumberWithNullCheck:[NSNumber numberWithInt:1]]) {
         //if it's the initial greeting message
@@ -309,6 +285,13 @@
     }
     else if (![currMessage.senderID isEqualToNumberWithNullCheck:[NSNumber numberWithInt:0]]) {
         static NSMutableDictionary * avatarDict = nil;
+        static NSNumber * oldGroupID = nil;
+        NSNumber * currGroupID = [FlatAPIClientManager sharedClient].profileUser.groupID;
+        if (![currGroupID isEqualToNumberWithNullCheck:oldGroupID]) {
+            avatarDict = nil;
+            oldGroupID = currGroupID;
+        }
+        
         if (!avatarDict) avatarDict = [[NSMutableDictionary alloc]init];
         UIView* ret = [avatarDict objectForKey:currMessage.senderID];
         if (ret)
@@ -329,24 +312,29 @@
         [backView addSubview:circleView];
         [backView addSubview:name];
         name.text = [ProfileUser getInitialsFromUserID:currMessage.senderID];
-        [avatarDict setObject:backView forKey:currMessage.senderID];
+        if (![name.text isEqualToString:@"--"])
+            [avatarDict setObject:backView forKey:currMessage.senderID];
         
         return [[UIImageView alloc]initWithImage: [HomeViewController imageWithView:backView]];
-        
     }
     else {
-        //if it's a calendar event message
+        //it's a calendar event message
         image = [JSAvatarImageFactory avatarImageNamed:@"calendar+icon" croppedToCircle:NO];
     }
     return [[UIImageView alloc] initWithImage:image];
 }
 
 
+-(BOOL)shouldPreventScrollToBottomWhileUserScrolling {
+    return YES;
+}
+
 #pragma mark - Messages view data source: REQUIRED
-- (JSMessage *)messageForRowAtIndexPath:(NSIndexPath *)indexPath
+- (Message *)messageForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    //    
     return [self.messages objectAtIndex:indexPath.row];
 }
+
+
 
 @end

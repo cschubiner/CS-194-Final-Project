@@ -69,6 +69,9 @@
 }
 
 + (UIColor *) getColorFromUserID:(NSNumber*)userID {
+    ProfileUser * currUser = [FlatAPIClientManager sharedClient].profileUser;
+    if ([userID isEqualToNumberWithNullCheck:currUser.userID])
+        return [self getColorFromUser:currUser];
     static NSMutableDictionary * colorDict = nil;
     if (!colorDict) colorDict = [[NSMutableDictionary alloc]init];
     UIColor * ret = [colorDict objectForKey:userID];
@@ -80,11 +83,8 @@
             [colorDict setObject:ret forKey:userID];
             return ret;
         }
-        
-
     }
     return [UIColor grayColor];
-    //    return nil;
 }
 
 + (UIColor *) getColorFromUser:(ProfileUser*)user

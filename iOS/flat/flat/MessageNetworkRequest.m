@@ -7,7 +7,7 @@
 //
 
 #import "MessageNetworkRequest.h"
-#import "JSMessage+Json.h"
+#import "Message+Json.h"
 
 @implementation MessageNetworkRequest
 
@@ -16,19 +16,16 @@
                     postURL: (NSString*)postURL
          andCompletionBlock:(MessageNetworkCompletionHandler)completionBlock
 {
-    NSDictionary *params = @{@"message":text,
-                             @"userID":userID};
-    NSLog(@"TEXT: %@ \n USERID %@", text, userID);
+    NSDictionary *params = @{@"message":text, @"userID":userID};
     [[FlatAPIClientManager sharedClient] POST:postURL
                                    parameters:params
                                       success:^(NSURLSessionDataTask *__unused task, id JSON) {
                                           NSError *error = [ErrorHelper apiErrorFromDictionary:JSON];
                                           if (!error) {
-//                                              NSLog(@"JSON: %@", JSON);
                                               NSMutableArray *messageArray = [JSON objectForKey:@"messages"];
                                               NSMutableArray *messageArrayReturn = [[NSMutableArray alloc] init];
                                               for (NSMutableDictionary* messageJSON in messageArray) {
-                                                  JSMessage *message = [JSMessage getMessageObjectFromDictionary:messageJSON];
+                                                  Message *message = [Message getMessageObjectFromDictionary:messageJSON];
                                                   [messageArrayReturn addObject:message];
                                               }
                                               completionBlock(error, messageArrayReturn);
@@ -52,26 +49,18 @@
 + (void)getMessagesForUserWithUserID:(NSNumber*)userID
                   andCompletionBlock:(MessageNetworkCompletionHandler)completionBlock
 {
-//    
-    NSDictionary *params = nil; //@{@"userID":[NSNumber numberWithInt:userID]};
-    
+    NSDictionary *params = nil; 
     NSString * url = [NSString stringWithFormat:@"/messages/all/%@", userID];
     [[FlatAPIClientManager sharedClient] GET:url
                                   parameters:params
                                      success:^(NSURLSessionDataTask *__unused task, id JSON) {
-//    
                                          NSError *error = [ErrorHelper apiErrorFromDictionary:JSON];
                                          if (!error) {
                                              NSMutableArray *messageArray = [JSON objectForKey:@"messages"];
                                              NSMutableArray *messageArrayReturn = [[NSMutableArray alloc] init];
                                              for (NSMutableDictionary* messageJSON in messageArray) {
-                                                 //if ([[messageJSON objectForKey:@"type"] isEqualToString:@"text"]) {
-                                                     JSMessage *message = [JSMessage getMessageObjectFromDictionary:messageJSON];
+                                                     Message *message = [Message getMessageObjectFromDictionary:messageJSON];
                                                      [messageArrayReturn addObject:message];
-                                                 /*} else if ([[messageJSON objectForKey:@"type"] isEqualToString:@"calendar"]) {
-                                                     CalendarMessage *message = [CalendarMessage getMessageObjectFromDictionary:messageJSON];
-                                                     [messageArrayReturn addObject:message];
-                                                 }*/
                                              }
                                              completionBlock(error, messageArrayReturn);
                                          } else {
@@ -79,10 +68,8 @@
                                          }
                                      }
                                      failure:^(NSURLSessionDataTask *task, NSError *error) {
-//    
                                          NSLog(@"Error in MessageNetworkRequest: %@", error);
                                          completionBlock(error, nil);
-//    
                                      }];
 }
 
