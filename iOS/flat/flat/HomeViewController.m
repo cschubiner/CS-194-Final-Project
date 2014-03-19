@@ -49,30 +49,6 @@
     int numUsersHome = [[FlatAPIClientManager sharedClient] getNumUsersHome];
     int numUsersBusy = [[[FlatAPIClientManager sharedClient] rootController].rightPanel numberOfEventsOccurringNow];
     
-//    UIImage* image = [UIImage imageNamed:@"circle-icon.png"];
-//    CGRect frame = CGRectMake(0, 0, image.size.width + 3 , image.size.height + 3);
-//    
-//    UIButton* someButton = [[UIButton alloc] initWithFrame:frame];
-//    NSString *numHomeText = [NSString stringWithFormat:@"%d", numUsersHome];
-//    CGRect labelFrame = CGRectMake(0, 0, image.size.width, image.size.height);
-//    
-//    UILabel *homeLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, image.size.width, image.size.height)];
-//    homeLabel.textColor = [UIColor whiteColor];
-//    homeLabel.font = [UIFont fontWithName:@"Courier" size:18.0f];
-//    homeLabel.text = numHomeText;
-//    
-//    [someButton.titleLabel setFont:[UIFont fontWithName:@"Courier" size:18.0f]];
-//    someButton.titleLabel.frame = labelFrame;
-//    [someButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-//    [someButton setBackgroundImage:image forState:UIControlStateNormal];
-//    [someButton setShowsTouchWhenHighlighted:YES];
-//    [someButton addTarget:self
-//                   action:@selector(toggleSidebarMenu:)
-//         forControlEvents:UIControlEventTouchUpInside];
-//    UIBarButtonItem* someBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:someButton];
-//    //[[someButton titleLabel] setFrame:CGRectMake(0, 0, image.size.width, image.size.height)];
-    
-    
     UIImage* image = [UIImage imageNamed:@"circle-icon.png"];
     CGRect frame = CGRectMake(0, 0, image.size.width, image.size.height);
     UIButton* someButton = [[UIButton alloc] initWithFrame:frame];
@@ -82,14 +58,13 @@
     [someButton setBackgroundImage:image forState:UIControlStateNormal];
     [someButton setShowsTouchWhenHighlighted:YES];
     [someButton addTarget:self
-                    action:@selector(rightButtonPressed:)
+                    action:@selector(toggleSidebarMenu:)
           forControlEvents:UIControlEventTouchUpInside];
     CGRect fr = [someButton.titleLabel frame];
 	fr.origin.x = 7;
 	fr.origin.y = 4;
 	[[someButton titleLabel] setFrame:fr];
     UIBarButtonItem* someBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:someButton];
-    
     
     UIImage* image2 = [UIImage imageNamed:@"calendar-icon.png"];
     CGRect frame2 = CGRectMake(0, 0, image2.size.width, image2.size.height);
