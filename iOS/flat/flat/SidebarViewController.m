@@ -215,7 +215,7 @@ clickedButtonAtIndex:(NSInteger)buttonIndex
         circleView.backgroundColor = [UIColor whiteColor];
         
         UIImageView *locationImage = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"settings.png"]];
-        locationImage.frame = CGRectMake(55,31,40,40);
+        locationImage.frame = CGRectMake(55,30,40,40);
         
         [cell.contentView addSubview:circleView];
         [cell.contentView addSubview:locationImage];
@@ -230,7 +230,7 @@ clickedButtonAtIndex:(NSInteger)buttonIndex
         circleView.backgroundColor = [UIColor blackColor];
         
         UIImageView *locationImage = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"checks-white.png"]];
-        locationImage.frame = CGRectMake(55,31,40,40);
+        locationImage.frame = CGRectMake(55,30,40,40);
         
         [cell.contentView addSubview:circleView];
         [cell.contentView addSubview:locationImage];
