@@ -25,6 +25,7 @@
 const static int AWAY_DORM_STATUS = 0;
 const static int IN_DORM_STATUS = 1;
 const static int NOT_BROADCASTING_DORM_STATUS = 2;
+static const int STATUS_BAR_HEIGHT = 20;
 
 // DLog will output like NSLog only when the DEBUG variable is set
 
@@ -45,3 +46,12 @@ const static int NOT_BROADCASTING_DORM_STATUS = 2;
 #else
 #   define ULog(...)
 #endif
+
+
+#ifdef DEBUG
+    #define PRINTCALLER() NSLog(@"Caller: [%@]", [[[[NSThread callStackSymbols] objectAtIndex:1] componentsSeparatedByCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@"[]"]] objectAtIndex:1])
+#else
+#   define PRINTCALLER(...)
+#endif
+
+

@@ -94,7 +94,7 @@
                 [[[FlatAPIClientManager sharedClient] group] setLatLocation:[NSNumber numberWithDouble:newLocation.coordinate.latitude]];
                 [[[FlatAPIClientManager sharedClient] group] setLongLocation:[NSNumber numberWithDouble:newLocation.coordinate.longitude]];
                 [self handleUserDormState:[NSNumber numberWithInt:IN_DORM_STATUS]];
-                [[NSManagedObjectContext MR_defaultContext] MR_saveToPersistentStoreAndWait];
+                [[NSManagedObjectContext MR_defaultContext] MR_saveToPersistentStoreWithCompletion:nil];
                 CLLocationManager * manager = [[LocationManager sharedClient] locationManager];
                 [manager stopMonitoringForRegion:manager.monitoredRegions.anyObject];
                 [manager startMonitoringForRegion:[[LocationManager sharedClient] getGroupLocationRegion]];

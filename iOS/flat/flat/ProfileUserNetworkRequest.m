@@ -27,7 +27,13 @@
                                                 ProfileUser *profileUser = [ProfileUser getProfileUserObjectFromDictionary:userJSON AndManagedObjectContext:[NSManagedObjectContext MR_defaultContext]];
                                                 [usersArrayReturn addObject:profileUser];
                                             }
-                                            completionBlock(error, usersArrayReturn);
+                                            NSArray *sortedArray;
+                                            sortedArray = [usersArrayReturn sortedArrayUsingComparator:^NSComparisonResult(id a, id b) {
+                                                NSNumber *first = [(ProfileUser*)a colorID];
+                                                NSNumber *second = [(ProfileUser*)b colorID];
+                                                return [first compare:second];
+                                            }];
+                                            completionBlock(error, [NSMutableArray arrayWithArray:sortedArray]);
                                         } else {
                                             completionBlock(error, nil);
                                         }
@@ -68,14 +74,14 @@
                                             DLog(@"successfully set user group id");
                                             [[[FlatAPIClientManager sharedClient]profileUser] setGroupID:groupID];
                                             
-                                            [[NSManagedObjectContext MR_defaultContext] MR_saveToPersistentStoreAndWait];
+                                            [[NSManagedObjectContext MR_defaultContext] MR_saveToPersistentStoreWithCompletion:nil];
                                             [GroupNetworkRequest getGroupFromGroupID:groupID withCompletionBlock:^(NSError * error, Group* group) {
                                                 [[FlatAPIClientManager sharedClient] setGroup:group];
                                                 CLLocationManager * manager = [[LocationManager sharedClient] locationManager];
                                                 [manager stopMonitoringForRegion:manager.monitoredRegions.anyObject];
                                                 [manager startMonitoringForRegion:[[LocationManager sharedClient] getGroupLocationRegion]];
                                                 [[LocationManager sharedClient] setShouldSetDormLocation:false];
-                                                [[NSManagedObjectContext MR_defaultContext] MR_saveToPersistentStoreAndWait];
+                                                [[NSManagedObjectContext MR_defaultContext] MR_saveToPersistentStoreWithCompletion:nil];
                                             }];
                                             
                                         } else {
@@ -108,7 +114,7 @@
                                                 for (NSMutableDictionary* userJSON in usersArray) {
                                                     ProfileUser *profileUser = [ProfileUser getProfileUserObjectFromDictionary:userJSON
                                                                                                        AndManagedObjectContext:[NSManagedObjectContext MR_defaultContext]];
-                                                    if ([profileUser.userID isEqualToNumber2:userID] && [profileUser.groupID isEqualToNumber2:[[FlatAPIClientManager sharedClient]profileUser].groupID])
+                                                    if ([profileUser.userID isEqualToNumberWithNullCheck:userID] && [profileUser.groupID isEqualToNumberWithNullCheck:[[FlatAPIClientManager sharedClient]profileUser].groupID])
                                                         shouldAddThisUsersGroup = false; //do not add the group that belongs to current user
                                                     [usersArrayReturn addObject:profileUser];
                                                 }

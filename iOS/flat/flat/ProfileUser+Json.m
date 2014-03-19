@@ -25,7 +25,7 @@
     profileUser.email = [dictionary objectForKey:@"email"];
     profileUser.isNearDorm = [dictionary objectForKey:@"is_near_dorm"];
     
-    [[NSManagedObjectContext MR_defaultContext] MR_saveToPersistentStoreAndWait];
+    [[NSManagedObjectContext MR_defaultContext] MR_saveToPersistentStoreWithCompletion:nil];
 
     return profileUser;
 }
@@ -39,7 +39,7 @@
     for (ProfileUser * user in [[FlatAPIClientManager sharedClient]users]){
         
 
-        if ([user.userID isEqualToNumber2:userID]) {
+        if ([user.userID isEqualToNumberWithNullCheck:userID]) {
  
             NSString *initials  = [NSString stringWithFormat:@"%@%@",
                                                                  [user.firstName substringWithRange:NSMakeRange(0, 1)],
@@ -59,7 +59,7 @@
     if (ret) return ret;
     
     for (ProfileUser * user in [[FlatAPIClientManager sharedClient]users]){
-        if ([user.userID isEqualToNumber2:userID]) {
+        if ([user.userID isEqualToNumberWithNullCheck:userID]) {
             NSString *initials  = user.firstName;
             [colorDict setObject:initials forKey:userID];
             return initials;
@@ -75,7 +75,7 @@
     if (ret) return ret;
     
     for (ProfileUser * user in [[FlatAPIClientManager sharedClient]users]){
-        if ([user.userID isEqualToNumber2:userID]) {
+        if ([user.userID isEqualToNumberWithNullCheck:userID]) {
             ret = [self getColorFromUser:user];
             [colorDict setObject:ret forKey:userID];
             return ret;
@@ -90,29 +90,29 @@
 + (UIColor *) getColorFromUser:(ProfileUser*)user
 {
     NSString * colorStr = @"FF2A68";
-    if ([user.colorID isEqualToNumber2:[NSNumber numberWithInt:0]])
-        colorStr = @"FF5E3A";
-    else if ([user.colorID isEqualToNumber2:[NSNumber numberWithInt:1]])
-        colorStr = @"FFCD02";
-    else if ([user.colorID isEqualToNumber2:[NSNumber numberWithInt:2]])
-        colorStr = @"0BD318";
-    else if ([user.colorID isEqualToNumber2:[NSNumber numberWithInt:3]])
-        colorStr = @"5AC8FB";
-    else if ([user.colorID isEqualToNumber2:[NSNumber numberWithInt:4]])
-        colorStr = @"007AFF";
-    else if ([user.colorID isEqualToNumber2:[NSNumber numberWithInt:5]])
-        colorStr = @"5856D6";
-    else if ([user.colorID isEqualToNumber2:[NSNumber numberWithInt:6]])
-        colorStr = @"C643FC";
-    else if ([user.colorID isEqualToNumber2:[NSNumber numberWithInt:7]])
-        colorStr = @"A4E786";
-    else if ([user.colorID isEqualToNumber2:[NSNumber numberWithInt:8]])
-        colorStr = @"E4B7F0";
-    else if ([user.colorID isEqualToNumber2:[NSNumber numberWithInt:9]])
+    if ([user.colorID isEqualToNumberWithNullCheck:[NSNumber numberWithInt:0]])
         colorStr = @"FF1300";
-    else if ([user.colorID isEqualToNumber2:[NSNumber numberWithInt:10]])
+    else if ([user.colorID isEqualToNumberWithNullCheck:[NSNumber numberWithInt:1]])
+        colorStr = @"FF5E3A";
+    else if ([user.colorID isEqualToNumberWithNullCheck:[NSNumber numberWithInt:2]])
+        colorStr = @"FFCD02";
+    else if ([user.colorID isEqualToNumberWithNullCheck:[NSNumber numberWithInt:3]])
+        colorStr = @"A4E786";
+    else if ([user.colorID isEqualToNumberWithNullCheck:[NSNumber numberWithInt:4]])
+        colorStr = @"0BD318";
+    else if ([user.colorID isEqualToNumberWithNullCheck:[NSNumber numberWithInt:5]])
+        colorStr = @"5AC8FB";
+    else if ([user.colorID isEqualToNumberWithNullCheck:[NSNumber numberWithInt:6]])
+        colorStr = @"007AFF";
+    else if ([user.colorID isEqualToNumberWithNullCheck:[NSNumber numberWithInt:7]])
+        colorStr = @"5856D6";
+    else if ([user.colorID isEqualToNumberWithNullCheck:[NSNumber numberWithInt:8]])
+        colorStr = @"E4B7F0";
+    else if ([user.colorID isEqualToNumberWithNullCheck:[NSNumber numberWithInt:9]])
         colorStr = @"FF2A68";
-    
+    else if ([user.colorID isEqualToNumberWithNullCheck:[NSNumber numberWithInt:10]])
+        colorStr = @"C643FC";
+  
     return [self colorWithHexString:colorStr];
 }
 

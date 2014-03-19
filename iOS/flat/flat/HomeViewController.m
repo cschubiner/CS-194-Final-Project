@@ -14,7 +14,6 @@
 
 
 @interface HomeViewController ()
-@property UIRefreshControl *refresh;
 @property BOOL justLoggedIn;
 @end
 
@@ -28,6 +27,80 @@
         // Custom initialization
     }
     return self;
+}
+
+
+- (void)toggleSidebarMenu:(id)sender
+{
+    DLog(@"left menu toggled");
+    [self.messageInputView resignFirstResponder];
+    [[FlatAPIClientManager sharedClient].rootController toggleLeftPanel:sender];
+}
+
+- (void)rightButtonPressed:(id)sender
+{
+    DLog(@"right menu toggled");
+    [self.messageInputView resignFirstResponder];
+    [[FlatAPIClientManager sharedClient].rootController toggleRightPanel:sender];
+}
+
+-(void)setNavBarButtons
+{
+    int numUsersHome = [[FlatAPIClientManager sharedClient] getNumUsersHome];
+    int numUsersBusy = [[[FlatAPIClientManager sharedClient] rootController].rightPanel numberOfEventsOccurringNow];
+    
+    UIImage* image = [UIImage imageNamed:@"circle-icon.png"];
+    CGRect frame = CGRectMake(0, 0, image.size.width, image.size.height);
+    UIButton* someButton = [[UIButton alloc] initWithFrame:frame];
+    NSString *numHomeText = [NSString stringWithFormat:@"%d", numUsersHome];
+    [someButton setTitle:numHomeText forState:UIControlStateNormal];
+    [someButton.titleLabel setFont:[UIFont fontWithName:@"Courier" size:18.0f]];
+    [someButton setBackgroundImage:image forState:UIControlStateNormal];
+    [someButton setShowsTouchWhenHighlighted:YES];
+    [someButton addTarget:self
+                    action:@selector(toggleSidebarMenu:)
+          forControlEvents:UIControlEventTouchUpInside];
+    CGRect fr = [someButton.titleLabel frame];
+	fr.origin.x = 7;
+	fr.origin.y = 4;
+	[[someButton titleLabel] setFrame:fr];
+    UIBarButtonItem* someBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:someButton];
+    
+    UIImage* image2 = [UIImage imageNamed:@"calendar-icon.png"];
+    CGRect frame2 = CGRectMake(0, 0, image2.size.width, image2.size.height);
+    NSString *numBusyText = [NSString stringWithFormat:@"%d", numUsersBusy];
+    UIButton* someButton2 = [[UIButton alloc] initWithFrame:frame2];
+    [someButton2 setTitle:numBusyText forState:UIControlStateNormal];
+    [someButton2.titleLabel setFont:[UIFont fontWithName:@"Courier" size:18.0f]];
+    [someButton2 setBackgroundImage:image2 forState:UIControlStateNormal];
+    [someButton2 setShowsTouchWhenHighlighted:YES];
+    [someButton2 addTarget:self
+                    action:@selector(rightButtonPressed:)
+          forControlEvents:UIControlEventTouchUpInside];
+    CGRect fr2 = [someButton2.titleLabel frame];
+	fr2.origin.x = 7;
+	fr2.origin.y = 7;
+	[[someButton2 titleLabel] setFrame:fr2];
+    UIBarButtonItem* someBarButtonItem2 = [[UIBarButtonItem alloc] initWithCustomView:someButton2];
+    
+    self.navigationItem.leftBarButtonItem = someBarButtonItem;
+    self.navigationItem.rightBarButtonItem = someBarButtonItem2;
+}
+
+-(void)setupNavBar {
+    
+    [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName : [UIColor whiteColor]}];
+    UIImage *myGradient = [UIImage imageNamed:@"grad-small.png"];
+    [[self navigationItem] setTitle:@"Flat"];
+    [self.navigationController.navigationBar setTitleTextAttributes:
+     @{ NSFontAttributeName: [UIFont fontWithName:@"HelveticaNeue-Light" size:22.0f], NSForegroundColorAttributeName: [UIColor colorWithPatternImage:myGradient]}];
+    
+    [self setNavBarButtons];
+    
+    self.navigationController.navigationBar.tintColor = [UIColor whiteColor]; //sets text color
+    self.navigationController.navigationBar.barTintColor = [UIColor blackColor];
+    self.navigationController.navigationBar.translucent = YES;
+    self.navigationController.navigationBar.alpha = .2;
 }
 
 
@@ -60,17 +133,20 @@
     
     self.messageInputView.textView.placeHolder = @"Message";
     
-    self.tableView.frame = CGRectMake(0, 64, self.view.frame.size.width, self.view.frame.size.height - self.messageInputView.frame.size.height - 64);
-    //    self.tableView.frame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height - self.messageInputView.frame.size.height);
+    self.tableView.frame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height - self.messageInputView.frame.size.height);
     
     //Pull to refresh
+    self.tableViewController = [[UITableViewController alloc] init];
+    self.tableViewController.tableView = self.tableView;
+    
     self.refresh = [[UIRefreshControl alloc] init];
-    self.refresh.tintColor = [UIColor grayColor]; //THIS THING
-    self.refresh.attributedTitle = [[NSAttributedString alloc] initWithString:@"Pull to Refresh"];
     [self.refresh addTarget:self
                      action:@selector(getMessages)
            forControlEvents:UIControlEventValueChanged];
-    [self.tableView addSubview:self.refresh];
+    self.refresh.tintColor = [UIColor grayColor];
+    self.refresh.attributedTitle = [[NSAttributedString alloc] initWithString:@"Pull to Refresh"];
+    self.tableViewController.refreshControl = self.refresh;
+
 }
 
 - (void)viewDidLoad
@@ -80,11 +156,10 @@
     self.dataSource = self;
     self.justLoggedIn = YES;
     [super viewDidLoad];
-    
     [[JSBubbleView appearance] setFont:[UIFont systemFontOfSize:16.0f]];
     
     [self resetTable];
-    
+    [self setupNavBar];
     
     [self loadInitialMessages];
 }
@@ -130,7 +205,7 @@
     JSMessage *currMessage = [self.messages objectAtIndex:indexPath.row];
     ProfileUser *user = [FlatAPIClientManager sharedClient].profileUser;
     
-    if ([currMessage.senderID isEqualToNumber2: user.userID]) {
+    if ([currMessage.senderID isEqualToNumberWithNullCheck: user.userID]) {
         return JSBubbleMessageTypeOutgoing;
     }
     return JSBubbleMessageTypeIncoming;
@@ -143,7 +218,8 @@
     //    
     JSMessage *currMessage = [self.messages objectAtIndex:indexPath.row];
     ProfileUser *user = [FlatAPIClientManager sharedClient].profileUser;
-    if ([currMessage.senderID isEqualToNumber2:user.userID] ) {
+
+    if ([currMessage.senderID isEqualToNumberWithNullCheck:user.userID] ) {
         return [JSBubbleImageViewFactory bubbleImageViewForType:type
                                                           color:[UIColor js_bubbleBlueColor]];
     }
@@ -155,17 +231,9 @@
 
 - (void)configureCell:(JSBubbleMessageCell *)cell atIndexPath:(NSIndexPath *)indexPath
 {
-    //    
-    //    if (cell.timestampLabel) {
-    //        cell.timestampLabel.textColor = [UIColor lightGrayColor];
-    //        cell.timestampLabel.shadowOffset = CGSizeZero;
-    //    }
-    
     cell.bubbleView.textView.dataDetectorTypes = UIDataDetectorTypeNone;
-    if ([cell messageType] == JSBubbleMessageTypeOutgoing) {
+    if ([cell messageType] == JSBubbleMessageTypeOutgoing)
         cell.bubbleView.textView.textColor = [UIColor whiteColor];
-    }
-    //    
 }
 
 - (JSMessagesViewTimestampPolicy)timestampPolicy
@@ -235,11 +303,11 @@
 -(UIImageView *)avatarImageViewForRowAtIndexPath:(NSIndexPath *)indexPath {
     JSMessage *currMessage = [self.messages objectAtIndex:indexPath.row];
     UIImage * image;
-    if ([currMessage.senderID isEqualToNumber2:[NSNumber numberWithInt:1]]) {
+    if ([currMessage.senderID isEqualToNumberWithNullCheck:[NSNumber numberWithInt:1]]) {
         //if it's the initial greeting message
         image = [JSAvatarImageFactory avatarImageNamed:@"infoicon3" croppedToCircle:YES];
     }
-    else if (![currMessage.senderID isEqualToNumber2:[NSNumber numberWithInt:0]]) {
+    else if (![currMessage.senderID isEqualToNumberWithNullCheck:[NSNumber numberWithInt:0]]) {
         static NSMutableDictionary * avatarDict = nil;
         if (!avatarDict) avatarDict = [[NSMutableDictionary alloc]init];
         UIView* ret = [avatarDict objectForKey:currMessage.senderID];

@@ -62,8 +62,8 @@ Reachability * internetReachable;
     [[UIApplication sharedApplication] registerForRemoteNotificationTypes:
      (UIRemoteNotificationTypeSound | UIRemoteNotificationTypeAlert)];
     
-//    [NSTimer scheduledTimerWithTimeInterval:280.0 target:self selector:@selector(checkForCalendarEvent) userInfo:nil repeats:YES];
-
+    //    [NSTimer scheduledTimerWithTimeInterval:280.0 target:self selector:@selector(checkForCalendarEvent) userInfo:nil repeats:YES];
+    
     [self testInternetConnection];
     
     return YES;
@@ -71,16 +71,16 @@ Reachability * internetReachable;
 
 - (void)testInternetConnection
 {
-     internetReachable = [Reachability reachabilityWithHostname:@"www.google.com"];
+    internetReachable = [Reachability reachabilityWithHostname:@"www.google.com"];
     // Internet is reachable
-     internetReachable.reachableBlock = ^(Reachability*reach)
+    internetReachable.reachableBlock = ^(Reachability*reach)
     {
         dispatch_async(dispatch_get_main_queue(), ^{
             DLog(@"We are connected to the internet.");
         });
     };
     // Internet is not reachable
-     internetReachable.unreachableBlock = ^(Reachability*reach)
+    internetReachable.unreachableBlock = ^(Reachability*reach)
     {
         dispatch_async(dispatch_get_main_queue(), ^{
             DLog(@"Uh oh, we are not connected to the internet.");
@@ -101,9 +101,8 @@ Reachability * internetReachable;
     self.mainViewController = [storyBoard instantiateViewControllerWithIdentifier:@"RootController"];
     [[FlatAPIClientManager sharedClient] setRootController:self.mainViewController];
     DLog(@"after instantiating root controller");
-    self.mainNavigationViewController = [[MainNavigationViewController alloc] initWithRootViewController:self.mainViewController];
     //    self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-    self.window.rootViewController = self.mainNavigationViewController;
+    self.window.rootViewController = self.mainViewController;
     [self.window makeKeyAndVisible];
 }
 
@@ -120,7 +119,7 @@ Reachability * internetReachable;
 
 - (void)refreshInitialView
 {
-    [self.mainViewController.centerPanel viewDidLoad];
+    [self.mainViewController.centerPanelHome viewDidLoad];
 }
 
 - (void)handleLogout
@@ -217,7 +216,7 @@ Reachability * internetReachable;
             // be looking at the root view.
             
             /*
-             [self.mainNavigationViewController popToRootViewControllerAnimated:NO];
+             ///////[self.mainNavigationViewController popToRootViewControllerAnimated:NO];
              
              [FBSession.activeSession closeAndClearTokenInformation];
              
@@ -245,7 +244,6 @@ Reachability * internetReachable;
 
 - (void)applicationDidEnterBackground:(UIApplication *)application
 {
-    [[FlatAPIClientManager sharedClient] getNumUsersHome];
     UIApplication *app = [UIApplication sharedApplication];
     
     //create new uiBackgroundTask
@@ -256,7 +254,6 @@ Reachability * internetReachable;
     
     //and create new timer with async call:
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        //run function methodRunAfterBackground
         int checkEvery = 290; //almost every 5 minutes
         NSTimer* t = [NSTimer scheduledTimerWithTimeInterval:checkEvery target:self selector:@selector(backgroundTask) userInfo:nil repeats:YES];
         [[NSRunLoop currentRunLoop] addTimer:t forMode:NSDefaultRunLoopMode];
@@ -267,7 +264,6 @@ Reachability * internetReachable;
 -(void)backgroundTask {
     [self checkForCalendarEvent];
     [self refreshGroupAndLocation];
-    [[FlatAPIClientManager sharedClient] getNumUsersHome];
 }
 
 -(void)checkForCalendarEvent {
@@ -341,7 +337,7 @@ Reachability * internetReachable;
 }
 
 -(void) refreshGroupAndLocation {
- [GroupNetworkRequest getGroupFromGroupID:[FlatAPIClientManager sharedClient].profileUser.groupID withCompletionBlock:^(NSError * error, Group * group1) {
+    [GroupNetworkRequest getGroupFromGroupID:[FlatAPIClientManager sharedClient].profileUser.groupID withCompletionBlock:^(NSError * error, Group * group1) {
         if (group1 == nil)
             group1 = [GroupLocalRequest getGroup];
         [FlatAPIClientManager sharedClient].group = group1;
@@ -357,8 +353,18 @@ Reachability * internetReachable;
 - (void)applicationDidBecomeActive:(UIApplication *)application
 {
     // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
-    [self.mainViewController refreshMessagesWithAnimation:NO scrollToBottom:YES];
-    [self refreshGroupAndLocation];
+    static bool firstTime = true;
+    [UIApplication sharedApplication].applicationIconBadgeNumber = 0;
+    if (firstTime) {
+        firstTime = false;
+        return;
+    }
+    if (self.mainViewController != nil && [[FlatAPIClientManager sharedClient]profileUser] != nil) {
+        [self refreshGroupAndLocation];
+        [self.mainViewController refreshMessagesWithAnimation:NO scrollToBottom:YES];
+        [self.mainViewController getPersonalCalendarEvents];
+        [[FlatAPIClientManager sharedClient]getEveryonesCalendarEvents];
+    }
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application
@@ -369,7 +375,7 @@ Reachability * internetReachable;
 - (void)application:(UIApplication*)application didReceiveRemoteNotification:(NSDictionary*)userInfo
 {
     [self.mainViewController refreshMessagesWithAnimation:NO scrollToBottom:NO];
-    [[FlatAPIClientManager sharedClient] getNumUsersHome];
+    [UIApplication sharedApplication].applicationIconBadgeNumber++;
 }
 
 

@@ -22,7 +22,6 @@
 {
 }
 
-static const int NAV_BAR_HEIGHT = 64;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -38,9 +37,12 @@ static const int NAV_BAR_HEIGHT = 64;
 {
     [super viewDidLoad];
     int startingWidth = 47;
-    self.sideBarMenuTable = [[UITableView alloc] initWithFrame:CGRectMake(startingWidth, NAV_BAR_HEIGHT, self.view.frame.size.width-startingWidth, self.view.frame.size.height - NAV_BAR_HEIGHT)];
+    self.sideBarMenuTable = [[UITableView alloc] initWithFrame:CGRectMake(startingWidth, STATUS_BAR_HEIGHT, self.view.frame.size.width-startingWidth, self.view.frame.size.height - STATUS_BAR_HEIGHT)];
     self.sideBarMenuTable.delegate = self;
     self.sideBarMenuTable.dataSource = self;
+    UIColor *backgroundColor = [ProfileUser colorWithHexString: @"394247"];
+    [self.view setBackgroundColor:backgroundColor];
+    self.sideBarMenuTable.backgroundColor = backgroundColor;
     [self.view addSubview:self.sideBarMenuTable];
 }
 
@@ -111,7 +113,27 @@ static const int NAV_BAR_HEIGHT = 64;
 {
     NSArray * events = [FlatAPIClientManager sharedClient].allEvents;
     if (events.count == 0) return 520;
-    return 70;
+    return 75;
+}
+
+
+
+-(bool)eventIsOccuringNow:(EventModel*)event {
+    if (event == nil || [[NSNull null]isEqual:event]) return false;
+    if ([event.isAllDay isEqualToNumberWithNullCheck:[NSNumber numberWithBool:true]]) return false;
+    return [event.startDate isInPast] && [event.endDate isInFuture];
+}
+
+-(int)numberOfEventsOccurringNow {
+    NSArray * events = [FlatAPIClientManager sharedClient].allEvents;
+    int count = 0;
+    for (EventModel * ev in events) {
+        if ([[NSNull null]isEqual:ev]) continue;
+        if ([self eventIsOccuringNow:ev])
+            count++;
+    }
+    NSLog(@"there are currently %d user(s) busy.", count);
+    return count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView
@@ -141,30 +163,71 @@ static const int NAV_BAR_HEIGHT = 64;
         allCount ++;
     }
     
+    NSString *lighterText = @"f2f2f2";
+    UIColor *lightTextColor = [ProfileUser colorWithHexString:lighterText];
+    NSString *darkerText = @"9a9fa1";
+    UIColor *darkTextColor = [ProfileUser colorWithHexString:darkerText];
+    
+    tableView.separatorColor = darkTextColor;
     
     if (events.count == 0) {
         [cell.textLabel setText:@"Loading..."];
         return cell;
     }
-     event = [events objectAtIndex:allCount];
+    event = [events objectAtIndex:allCount];
+    if ([[NSNull null]isEqual:event]) {
+        DLog(@"event is null :(");
+    }
+    BOOL eventIsOccurringNow = [self eventIsOccuringNow:event];
+    
+    NSString *hex = @"394247";
+    UIColor *backgroundColor = [ProfileUser colorWithHexString:hex];
+    NSString *otherHex = @"272e31";
+    UIColor *highlightColor = [ProfileUser colorWithHexString:otherHex];
+    
+    cell.textLabel.textColor = lightTextColor;
+    
+    [tableView setSeparatorStyle:UITableViewCellSeparatorStyleNone];
+    tableView.backgroundColor = backgroundColor;
+    cell.backgroundColor = backgroundColor;
     
     UIColor * color = [ProfileUser getColorFromUserID:event.userID];
-    cell.backgroundColor = color;
-    NSString * text;
-    if ([[NSNumber numberWithBool:true] isEqualToNumber2:event.isAllDay]) {
-        text = [NSString stringWithFormat:@"%@: %@\nAll day",
-                [ProfileUser getFirstNameFromUserID:event.userID],
-                event.title
-                ];
+    
+
+    
+    UILabel *titleText = [[UILabel alloc]initWithFrame:CGRectMake(20, -5, cell.frame.size.width, cell.frame.size.height)];
+    titleText.textColor = lightTextColor;
+    titleText.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:17];
+    titleText.text = event.title;
+    
+    UILabel *timeText = [[UILabel alloc]initWithFrame:CGRectMake(20, 15, cell.frame.size.width, cell.frame.size.height)];
+    timeText.textColor = darkTextColor;
+    timeText.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:14];
+    timeText.text = [NSString stringWithFormat:@"%@ - %@", [Utils formatDate:event.startDate], [Utils formatDate:event.endDate]];
+    
+    if ([[NSNumber numberWithBool:true] isEqualToNumberWithNullCheck:event.isAllDay]) {
+        timeText.text = @"All day";
     }
-    else {
-        text = [NSString stringWithFormat:@"%@: %@\n%@ to %@",
-                [ProfileUser getFirstNameFromUserID:event.userID],
-                event.title,
-                [Utils formatDate:event.startDate], [Utils formatDate:event.endDate]
-                ];
+    
+    UILabel *userText = [[UILabel alloc]initWithFrame:CGRectMake(20, 35, cell.frame.size.width, cell.frame.size.height)];
+    userText.textColor = color;
+    userText.alpha = .8;
+    userText.font = [UIFont fontWithName:@"HelveticaNeue" size:14];
+    userText.text = [ProfileUser getFirstNameFromUserID:event.userID];
+    
+    UIView *barView = [[UIView alloc] initWithFrame:CGRectMake(0, 10, 6, cell.frame.size.height + 15)];
+    barView.alpha = 1.0;
+    barView.backgroundColor = color;
+    
+    if (eventIsOccurringNow)
+    {
+        cell.backgroundColor = highlightColor;
     }
-    [cell.textLabel setText:text];
+    
+    [cell.contentView addSubview:titleText];
+    [cell.contentView addSubview:timeText];
+    [cell.contentView addSubview:userText];
+    [cell.contentView addSubview:barView];
     cell.textLabel.numberOfLines = 0;
     [cell sizeToFit];
     return cell;

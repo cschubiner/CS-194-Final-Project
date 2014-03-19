@@ -21,19 +21,6 @@
 
 @implementation RootController
 
-- (void)toggleSidebarMenu:(id)sender
-{
-    DLog(@"left menu toggled");
-    [self.centerPanel.messageInputView resignFirstResponder];
-    [self toggleLeftPanel:sender];
-}
-
-- (void)rightButtonPressed:(id)sender
-{
-    DLog(@"right menu toggled");
-    [self.centerPanel.messageInputView resignFirstResponder];
-    [self toggleRightPanel:sender];
-}
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -45,76 +32,35 @@
 }
 
 
--(void)setNavBarButtons {
-    int numUsersHome = [[FlatAPIClientManager sharedClient] getNumUsersHome];
-    UIImage* image = [UIImage imageNamed:@"circle-icon.png"];
-    CGRect frame = CGRectMake(0, -2, image.size.width + 3 , image.size.height + 3);
-    UIButton* someButton = [[UIButton alloc] initWithFrame:frame];
-    NSString *numHomeText = [NSString stringWithFormat:@"%d", numUsersHome];
-    CGRect labelFrame = CGRectMake(2, 3, image.size.width, image.size.height);
-    //UIImage *myGradient = [UIImage imageNamed:@"grad-small.png"];
-    [someButton setTitle:numHomeText forState:UIControlStateNormal];
-    [someButton.titleLabel setFont:[UIFont fontWithName:@"Courier" size:18.0f]];
-    someButton.titleLabel.frame = labelFrame;
-    [someButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    [someButton setBackgroundImage:image forState:UIControlStateNormal];
-    [someButton setShowsTouchWhenHighlighted:YES];
-    [someButton addTarget:self
-                   action:@selector(toggleSidebarMenu:)
-         forControlEvents:UIControlEventTouchUpInside];
-    UIBarButtonItem* someBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:someButton];
-    
-    
-    UIImage* image2 = [UIImage imageNamed:@"calendar-icon.png"];
-    CGRect frame2 = CGRectMake(0, 0, image2.size.width, image2.size.height);
-    UIButton* someButton2 = [[UIButton alloc] initWithFrame:frame2];
-    [someButton2 setBackgroundImage:image2 forState:UIControlStateNormal];
-    [someButton2 setShowsTouchWhenHighlighted:YES];
-    [someButton2 addTarget:self
-                    action:@selector(rightButtonPressed:)
-          forControlEvents:UIControlEventTouchUpInside];
-    UIBarButtonItem* someBarButtonItem2 = [[UIBarButtonItem alloc] initWithCustomView:someButton2];
-    
-    self.navigationItem.leftBarButtonItem = someBarButtonItem;
-    self.navigationItem.rightBarButtonItem = someBarButtonItem2;
+-(void)willSwipeToSidePanel {
+    [self.centerPanelHome.messageInputView resignFirstResponder];
 }
 
--(void)willSwipeToSidePanel {
-    [self.centerPanel.messageInputView resignFirstResponder];
-}
+
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     [self setNeedsStatusBarAppearanceUpdate];
     
-    //    [self.navigationController setNavigationBarHidden:YES animated:YES];
-    
     //edit for width of the sidebar
-    self.leftFixedWidth = self.view.frame.size.width * .5 * .9;
+    self.leftFixedWidth = self.view.frame.size.width * .43;
     self.rightGapPercentage = 0.0f;
     self.allowRightSwipe = YES;
-    self.rightFixedWidth = self.view.frame.size.width * .85;
+    self.rightFixedWidth = self.view.frame.size.width * .851;
     
-    self.navigationController.navigationBar.tintColor = [UIColor whiteColor]; //sets text color
-    self.navigationController.navigationBar.barTintColor = [UIColor blackColor];
-    self.navigationController.navigationBar.translucent = YES;
-    self.navigationController.navigationBar.alpha = .01;
- 
-    [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName : [UIColor whiteColor]}];
-    UIImage *myGradient = [UIImage imageNamed:@"grad-small.png"];
-    [[self navigationItem] setTitle:@"Flat"];
-    [self.navigationController.navigationBar setTitleTextAttributes:
-     @{ NSFontAttributeName: [UIFont fontWithName:@"HelveticaNeue-Light" size:22.0f], NSForegroundColorAttributeName: [UIColor colorWithPatternImage:myGradient]}];
-
-    [self setNavBarButtons];
+    [self getPersonalCalendarEvents];
+    [[FlatAPIClientManager sharedClient]getEveryonesCalendarEvents];
 }
 
+bool allowCalendarAccess = false;
 -(void)requestCalendarAccess {
     EKEventStore *store = [[EKEventStore alloc] init];
     [store requestAccessToEntityType:EKEntityTypeEvent completion:^(BOOL granted, NSError *error) {
-        if (granted)
+        if (granted) {
+            allowCalendarAccess = true;
             [self getCalendarEvents];
+        }
         else {
             UIAlertView *alertView = [[UIAlertView alloc]
                                       initWithTitle:@"Error accessing calendar"
@@ -127,30 +73,27 @@
     }];
 }
 
+-(void)getPersonalCalendarEvents {
+    if (allowCalendarAccess)
+        [self getCalendarEvents];
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        [self requestCalendarAccess];
+    });
+}
+
 -(void)refreshUsers {
     ProfileUser * currUser = [FlatAPIClientManager sharedClient].profileUser;
     [ProfileUserHelper getUsersFromGroupID:currUser.groupID withCompletionBlock:^(NSError * error, NSMutableArray * users) {
         [[FlatAPIClientManager sharedClient] setUsers:users];
+        [[FlatAPIClientManager sharedClient]getEveryonesCalendarEvents];
         [self.leftPanel.sideBarMenuTable reloadData];
-        
-        static dispatch_once_t onceToken;
-        dispatch_once(&onceToken, ^{
-            [self requestCalendarAccess];
-        });
-        
-    }];
-}
-
--(void)refreshEvents {
-    [[FlatAPIClientManager sharedClient]getAllCalendarEvents:^(){
-        [self.rightPanel.sideBarMenuTable reloadData];
+        [self.centerPanelHome setNavBarButtons];
     }];
 }
 
 -(void)refreshStuff {
     [self refreshUsers];
-    [self refreshEvents];
-    [self setNavBarButtons];
 }
 
 -(void)viewWillAppear:(BOOL)animated {
@@ -172,7 +115,7 @@
     
     // Create the start date components
     NSDateComponents *firstDateCom = [[NSDateComponents alloc] init];
-    firstDateCom.hour = -1;
+    firstDateCom.hour = -24;
     NSDate *firstDate = [calendar dateByAddingComponents:firstDateCom
                                                   toDate:[NSDate date]
                                                  options:0];
@@ -204,12 +147,9 @@
     
     Firebase* fCal = [[Firebase alloc] initWithUrl:@"https://flatapp.firebaseio.com/calendars"];
     
-    
     Firebase* fCalUser = [fCal childByAppendingPath:[NSString stringWithFormat:@"%@",userID]];
-    [fCalUser setValue:nil]; //delete all calendar events for this user
+    [fCalUser removeValue]; //delete all calendar events for this user
     
-    
-    NSMutableArray * allEventArray = [[NSMutableArray alloc]init];
     for (EKEvent* event in events) {
         EventModel* ev = [[EventModel alloc]init];
         [ev setStartDate:[event startDate]];
@@ -217,9 +157,8 @@
         [ev setTitle:[event title]];
         [ev setUserID:userID];
         [ev setIsAllDay:[NSNumber numberWithBool:event.isAllDay]];
-        [allEventArray addObject:ev];
         
-        Firebase* fEvent = [fCalUser childByAppendingPath:[NSString stringWithFormat:@"%@", event.startDate]];
+        Firebase* fEvent = [fCalUser childByAutoId];
         [[fEvent childByAppendingPath:@"startDate"] setValue:[NSString stringWithFormat:@"%@", event.startDate]];
         [[fEvent childByAppendingPath:@"endDate"] setValue:[NSString stringWithFormat:@"%@", event.endDate]];
         [[fEvent childByAppendingPath:@"userID"] setValue:[NSString stringWithFormat:@"%@", userID]];
@@ -234,24 +173,32 @@ static bool justRefreshed = false;
     justRefreshed = false;
 }
 
--(void) refreshMessagesWithAnimation:(BOOL)animated scrollToBottom:(BOOL)scrollToBottom{
-    if (justRefreshed) return;
-    
-    HomeViewController *homeViewController = self.centerPanel;
-    //    homeViewController.messages = nil;
-    //    [homeViewController.tableView reloadData];
-    [MessageHelper getMessagesWithCompletionBlock:^(NSError *error, NSMutableArray *messages) {
-        //        
-        homeViewController.messages = messages;
-//                [homeViewController viewDidLoad];
-        [homeViewController resetTable];
+-(void)resetRefreshController {
+    HomeViewController *homeViewController = self.centerPanelHome;
+    if ([homeViewController.tableViewController.refreshControl isRefreshing]) {
+        [homeViewController.tableViewController.refreshControl endRefreshing];
+        [homeViewController.tableView setContentInset:UIEdgeInsetsMake(0, 0, 0, 0)];
+    }
+}
 
+-(void) refreshMessagesWithAnimation:(BOOL)animated scrollToBottom:(BOOL)scrollToBottom{
+    if (justRefreshed) {
+        [self resetRefreshController];
+        return;
+    }
+    
+    HomeViewController *homeViewController = self.centerPanelHome;
+    [MessageHelper getMessagesWithCompletionBlock:^(NSError *error, NSMutableArray *messages) {
+        NSLog(@"Messages received");
+        homeViewController.messages = messages;
+        [homeViewController resetTable];
+        [self resetRefreshController];
         [homeViewController.tableView reloadData];
         [homeViewController reloadInputViews];
-        if (scrollToBottom)
+        if (scrollToBottom) {
             [homeViewController scrollToBottomAnimated:animated];
-        [[FlatAPIClientManager sharedClient]turnOffLoadingView];
-        //        
+        }
+        [[FlatAPIClientManager sharedClient] turnOffLoadingView];
     }];
     
     justRefreshed = true;
@@ -265,11 +212,6 @@ static bool justRefreshed = false;
 
 -(void)openSettings {
     [self performSegueWithIdentifier:@"RootToSettingsViewController" sender:self];
-}
-
-- (void)viewDidAppear:(BOOL)animated
-{
-    
 }
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
@@ -293,14 +235,12 @@ static bool justRefreshed = false;
 {
     self.leftPanel = [self.storyboard instantiateViewControllerWithIdentifier:@"SidebarViewController"];
     self.rightPanel = [self.storyboard instantiateViewControllerWithIdentifier:@"CalendarViewController"];
-    self.centerPanel = [self.storyboard instantiateViewControllerWithIdentifier:@"HomeViewController"];
+    self.centerPanelHome = [self.storyboard instantiateViewControllerWithIdentifier:@"HomeViewController"];
+	UINavigationController *nc = [[UINavigationController alloc] initWithRootViewController:self.centerPanelHome];
     self.leftPanel.delegate = self;
     self.rightPanel.delegate = self;
-    
-    [self setLeftPanel:self.leftPanel];
-    [self setRightPanel:self.rightPanel];
-    [self setCenterPanel:self.centerPanel];
-    
+    [self setCenterPanel:nc];
+    self.centerPanel.delegate = self;
 }
 
 @end

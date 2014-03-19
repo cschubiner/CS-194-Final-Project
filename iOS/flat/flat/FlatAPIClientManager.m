@@ -87,19 +87,22 @@ static NSString * const SIGNATURE = @"";
 
 -(BOOL)userIDIsInMyGroup:(NSNumber*)userID {
     for (ProfileUser* user in [[FlatAPIClientManager sharedClient]users]) {
-        if ([userID isEqualToNumber2:user.userID])
+        if ([userID isEqualToNumberWithNullCheck:user.userID])
             return true;
     }
     return false;
 }
 
--(void)getAllCalendarEvents:(void(^)())callback{
-    NSMutableArray*events = [[NSMutableArray alloc]init];
-    
+-(void)getEveryonesCalendarEvents{
     Firebase* fCal = [[Firebase alloc] initWithUrl:@"https://flatapp.firebaseio.com/calendars"];
-    [fCal observeEventType:FEventTypeValue withBlock:^(FDataSnapshot *snapshot) {
+    [fCal observeSingleEventOfType:FEventTypeValue withBlock:^(FDataSnapshot *snapshot) {
+        NSMutableArray*events = [[NSMutableArray alloc]init];
         for (FDataSnapshot * fCalUser in snapshot.children) {
+            if (fCalUser == nil || [[NSNull null]isEqual:fCalUser])
+                continue;
+            
             for (FDataSnapshot * fCalEvent in fCalUser.children) {
+                if (fCalEvent == nil || [[NSNull null]isEqual:fCalEvent]) continue;
                 EventModel * event = [[EventModel alloc]init];
                 [event setTitle:[fCalEvent childSnapshotForPath:@"title"].value];
                 [event setStartDate:[Utils dateFromString:[fCalEvent childSnapshotForPath:@"startDate"].value]];
@@ -108,7 +111,7 @@ static NSString * const SIGNATURE = @"";
                 NSNumber* userID = [Utils numberFromString:[fCalEvent childSnapshotForPath:@"userID"].value];
                 [event setUserID:userID];
                 
-                if ([self userIDIsInMyGroup:userID] && [event.startDate isInPast] == false)
+                if ([[NSNull null]isEqual:event] == false && [self userIDIsInMyGroup:userID] && [event.endDate isInFuture] )
                     [events addObject:event];
             }
         }
@@ -119,23 +122,19 @@ static NSString * const SIGNATURE = @"";
             NSDate *second = [(EventModel*)b startDate];
             return [first compare:second];
         }];
-        [[FlatAPIClientManager sharedClient]setAllEvents:sortedArray];
-        callback();
+        [[FlatAPIClientManager sharedClient]setAllEvents:[NSMutableArray arrayWithArray:sortedArray]];
+        [self.rootController.rightPanel.sideBarMenuTable reloadData];
     }];
 }
 
 -(int)getNumUsersHome {
-    [[[FlatAPIClientManager sharedClient]rootController]refreshUsers];
     int numUsersHome = 0;
     for (ProfileUser * user in [[FlatAPIClientManager sharedClient]users]) {
-        if ([user.isNearDorm isEqualToNumber2:[NSNumber numberWithInt:IN_DORM_STATUS]])
+                if ([user.isNearDorm isEqualToNumberWithNullCheck:[NSNumber numberWithInt:IN_DORM_STATUS]])
             numUsersHome++;
     }
-    [UIApplication sharedApplication].applicationIconBadgeNumber = numUsersHome;
-    NSLog(@"there are currently %d users home.", numUsersHome);
+    NSLog(@"there are currently %d user(s) home.", numUsersHome);
     return numUsersHome;
 }
-
-
 
 @end
