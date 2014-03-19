@@ -37,23 +37,49 @@
 - (void)locationManager:(CLLocationManager *)manager didEnterRegion:(CLRegion *)region
 {
     DLog(@"in region");
-    [self handleUserDormState:[NSNumber numberWithInt:IN_DORM_STATUS]];
+    int dormState = IN_DORM_STATUS;
+    if ([self regionIsEmpty:region])
+        dormState = NOT_BROADCASTING_DORM_STATUS;
+    [self handleUserDormState:[NSNumber numberWithInt:dormState]];
 }
 
 - (void)locationManager:(CLLocationManager *)manager didExitRegion:(CLRegion *)region
 {
     DLog(@"not in region");
-    [self handleUserDormState:[NSNumber numberWithInt:AWAY_DORM_STATUS]];
+    int dormState = AWAY_DORM_STATUS;
+    if ([self regionIsEmpty:region])
+        dormState = NOT_BROADCASTING_DORM_STATUS;
+    [self handleUserDormState:[NSNumber numberWithInt:dormState]];
 }
 - (void)locationManager:(CLLocationManager *)manager didStartMonitoringForRegion:(CLRegion *)region
 {
     DLog(@"monitoring region");
+    if ([self regionIsEmpty:region]) {
+        [manager stopMonitoringForRegion:region];
+        [self stopMonitoringAllRegions];
+        [manager stopUpdatingLocation];
+        [self handleUserDormState:[NSNumber numberWithInt:NOT_BROADCASTING_DORM_STATUS]];
+    }
+}
+
+
+-(bool)regionIsEmpty:(CLRegion*)region {
+    return region.center.latitude <= .001 && region.center.latitude >= -.001
+    && region.center.longitude <= .001 && region.center.longitude >= -.001;
 }
 
 - (void)handleUserDormState:(NSNumber*)isInDormStatus {
+    if (canUpdateDormState == false) return;
+    canUpdateDormState = false;
+    
     ProfileUser * currUser = [FlatAPIClientManager sharedClient].profileUser;
     currUser.isNearDorm = isInDormStatus;
     [ProfileUserNetworkRequest setUserLocationWithUserID:currUser.userID andIsInDorm:isInDormStatus];
+    [NSTimer scheduledTimerWithTimeInterval:5.0 target:self selector:@selector(allowDormStateUpdate) userInfo:nil repeats:NO];
+}
+bool canUpdateDormState = true;
+-(void)allowDormStateUpdate {
+    canUpdateDormState = true;
 }
 
 - (void)locationManager:(CLLocationManager *)manager
@@ -62,10 +88,12 @@
     static BOOL firstTime = true;
     if (firstTime) {
         firstTime = false;
-        NSLog(@"state: %ld", state);
+        NSLog(@"state: %d", state);
         DLog(@"determined initial state");
         int dormState = AWAY_DORM_STATUS;
-        if (state == CLRegionStateInside)
+        if ([self regionIsEmpty:region])
+            dormState = NOT_BROADCASTING_DORM_STATUS;
+        else if (state == CLRegionStateInside)
             dormState = IN_DORM_STATUS;
         else if (state == CLRegionStateUnknown)
             dormState = NOT_BROADCASTING_DORM_STATUS;
@@ -103,36 +131,27 @@
         
     }
     
-    if (canLocationRefresh)
+    NSSet * monitoredRegions = self.locationManager.monitoredRegions;
+    if(monitoredRegions)
     {
-        canLocationRefresh = false;
-        NSSet * monitoredRegions = self.locationManager.monitoredRegions;
-        if(monitoredRegions)
-        {
-            [monitoredRegions enumerateObjectsUsingBlock:^(CLRegion *region,BOOL *stop)
-             {
-                 NSString *identifer = region.identifier;
-                 CLLocationCoordinate2D centerCoords =region.center;
-                 CLLocationCoordinate2D currentCoords= CLLocationCoordinate2DMake(newLocation.coordinate.latitude,newLocation.coordinate.longitude);
-                 CLLocationDistance radius = region.radius;
-                 
-                 NSNumber * currentLocationDistance =[self calculateDistanceInMetersBetweenCoord:currentCoords coord:centerCoords];
-                 
-                 int dormState = AWAY_DORM_STATUS;
-                 if ([currentLocationDistance floatValue] < radius)
-                     dormState = IN_DORM_STATUS;
-                 [self handleUserDormState: [NSNumber numberWithInt: dormState]];
-             }];
-        }
-        //Stop Location Updation, we dont need it now.
+        [monitoredRegions enumerateObjectsUsingBlock:^(CLRegion *region,BOOL *stop)
+         {
+             CLLocationCoordinate2D centerCoords =region.center;
+             CLLocationCoordinate2D currentCoords= CLLocationCoordinate2DMake(newLocation.coordinate.latitude,newLocation.coordinate.longitude);
+             CLLocationDistance radius = region.radius;
+             
+             NSNumber * currentLocationDistance =[self calculateDistanceInMetersBetweenCoord:currentCoords coord:centerCoords];
+             
+             int dormState = AWAY_DORM_STATUS;
+             if ([self regionIsEmpty:region])
+                 dormState = NOT_BROADCASTING_DORM_STATUS;
+             else if ([currentLocationDistance floatValue] < radius)
+                 dormState = IN_DORM_STATUS;
+             [self handleUserDormState: [NSNumber numberWithInt: dormState]];
+         }];
     }
-    [NSTimer scheduledTimerWithTimeInterval:5.0 target:self selector:@selector(allowLocationRefresh) userInfo:nil repeats:NO];
+    //Stop Location Updation, we dont need it now.
     [self.locationManager stopUpdatingLocation];
-}
-
-bool canLocationRefresh = true;
--(void)allowLocationRefresh {
-    canLocationRefresh = true;
 }
 
 - (NSNumber*)calculateDistanceInMetersBetweenCoord:(CLLocationCoordinate2D)coord1 coord:(CLLocationCoordinate2D)coord2 {
@@ -161,21 +180,14 @@ bool canLocationRefresh = true;
         regionRadius = self.locationManager.maximumRegionMonitoringDistance;
     }
     
-    NSString *version = [[UIDevice currentDevice] systemVersion];
-    CLRegion * region =nil;
-    
-    if([version floatValue] >= 7.0f) //for iOS7
-    {
-        region =  [[CLCircularRegion alloc] initWithCenter:centerCoordinate
-                                                    radius:regionRadius
-                                                identifier:identifier];
+    return [[CLCircularRegion alloc] initWithCenter:centerCoordinate
+                                             radius:regionRadius
+                                         identifier:identifier];
+}
+
+- (void)stopMonitoringAllRegions {
+    for (CLRegion *region in [[[LocationManager sharedClient].locationManager monitoredRegions] allObjects]) {
+        [[LocationManager sharedClient].locationManager stopMonitoringForRegion:region];
     }
-    else // iOS 7 below
-    {
-        region = [[CLRegion alloc] initCircularRegionWithCenter:centerCoordinate
-                                                         radius:regionRadius
-                                                     identifier:identifier];
-    }
-    return  region;
 }
 @end

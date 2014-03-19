@@ -84,6 +84,12 @@
                                     }];
 }
 
++ (void)stopMonitoringAllRegions {
+    for (CLRegion *region in [[[LocationManager sharedClient].locationManager monitoredRegions] allObjects]) {
+        [[LocationManager sharedClient].locationManager stopMonitoringForRegion:region];
+    }
+}
+
 +(void)handleGroupSwitch:(NSNumber*)groupID {
     [[FlatAPIClientManager sharedClient]setUsers:[NSMutableArray arrayWithObject:[[FlatAPIClientManager sharedClient]profileUser]]];
     [[[FlatAPIClientManager sharedClient]rootController].leftPanel reloadTable];
@@ -93,6 +99,7 @@
         [[FlatAPIClientManager sharedClient] setGroup:group];
         CLLocationManager * manager = [[LocationManager sharedClient] locationManager];
         [manager stopMonitoringForRegion:manager.monitoredRegions.anyObject];
+        [self stopMonitoringAllRegions];
         [manager startMonitoringForRegion:[[LocationManager sharedClient] getGroupLocationRegion]];
         [[LocationManager sharedClient] setShouldSetDormLocation:false];
         [[NSManagedObjectContext MR_defaultContext] MR_saveToPersistentStoreWithCompletion:nil];

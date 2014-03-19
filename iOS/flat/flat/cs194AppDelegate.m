@@ -50,6 +50,7 @@ Reachability * internetReachable;
             }
             
             // Set Profile User
+            [self refreshGroupAndLocation];
             [self showInitialView];
         } else {
             // Not Logged In, show Login
@@ -351,6 +352,7 @@ Reachability * internetReachable;
 - (void)applicationDidBecomeActive:(UIApplication *)application
 {
     // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
+    
     static bool firstTime = true;
     [UIApplication sharedApplication].applicationIconBadgeNumber = 0;
     if (firstTime) {
