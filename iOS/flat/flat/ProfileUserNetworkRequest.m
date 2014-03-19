@@ -12,6 +12,27 @@
 
 @implementation ProfileUserNetworkRequest
 
++(void)getUserForUserID:(NSNumber*)userID withCompletionBlock:(RequestProfileUserCompletionHandler)completionBlock{
+    [[FlatAPIClientManager sharedClient] GET:[NSString stringWithFormat:@"/user/%@", userID]
+                                  parameters:nil
+                                     success:^(NSURLSessionDataTask *__unused task, id JSON)
+     {
+         NSError *error = [ErrorHelper apiErrorFromDictionary:JSON];
+         if (!error) {
+             NSMutableDictionary *userJSON = [JSON objectForKey:@"user"];
+             ProfileUser *profileUser;
+             profileUser = [ProfileUser getProfileUserObjectFromDictionary:userJSON
+                                                   AndManagedObjectContext:[NSManagedObjectContext MR_defaultContext]];
+             completionBlock(error, profileUser);
+         } else {
+             completionBlock(error, nil);
+         }
+     } failure:^(NSURLSessionDataTask *__unused task, NSError *error) {
+         completionBlock(error,nil);
+     }];
+}
+
+
 + (void) getUsersFromGroupID:(NSNumber*)groupID
          withCompletionBlock:(RequestProfileUsersCompletionHandler)completionBlock
 {
@@ -129,7 +150,7 @@
                                     failure: ^(NSURLSessionDataTask *__unused task, NSError *error) {
                                         NSLog(@"error in getting friend groups: %@", error);
                                         completionBlock(error, nil);
-                                    }]; 
+                                    }];
 }
 
 @end

@@ -11,6 +11,7 @@
 @interface ProfileUserNetworkRequest : NSObject
 
 typedef void (^RequestProfileUsersCompletionHandler)(NSError *, NSMutableArray *);
+typedef void (^RequestProfileUserCompletionHandler)(NSError *, ProfileUser *);
 typedef void (^ErrorCompletionHandler)(NSError *);
 
 + (void) getUsersFromGroupID:(NSNumber*)groupID
@@ -23,5 +24,7 @@ typedef void (^ErrorCompletionHandler)(NSError *);
 
 + (void) getFriendsGroupsFromUserID:(NSNumber*)userID
                 withCompletionBlock:(RequestProfileUsersCompletionHandler)completionBlock;
+
++(void)getUserForUserID:(NSNumber*)userID withCompletionBlock:(RequestProfileUserCompletionHandler)completionBlock;
 
 @end

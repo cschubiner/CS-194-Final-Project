@@ -12,7 +12,6 @@
 #import "ProfileUserHelper.h"
 #import "AuthenticationHelper.h"
 #import "GroupNetworkRequest.h"
-#import "GroupLocalRequest.h"
 #import "HomeViewController.h"
 #import <EventKit/EventKit.h>
 #import "MessageHelper.h"
@@ -36,28 +35,30 @@ Reachability * internetReachable;
     
     // Check if user is logged in
     ProfileUser *profileUser = [ProfileUserHelper getProfileUser];
-    
-    [[NSManagedObjectContext MR_defaultContext] MR_saveToPersistentStoreAndWait];
-    
-    if (profileUser != nil) {
-        self.loggedIn = YES;
+    [FlatAPIClientManager sharedClient].profileUser = profileUser;
+    [ProfileUserNetworkRequest getUserForUserID:profileUser.userID withCompletionBlock:^(NSError* error, ProfileUser * user) {
+        [[FlatAPIClientManager sharedClient]setProfileUser:user];
+        [[NSManagedObjectContext MR_defaultContext] MR_saveToPersistentStoreAndWait];
         
-        //User is logged in
-        if (FBSession.activeSession.state == FBSessionStateCreatedTokenLoaded) {
-            // Open Facebook Session
-            [self openFacebookSession];
+        if (profileUser != nil) {
+            self.loggedIn = YES;
+            
+            //User is logged in
+            if (FBSession.activeSession.state == FBSessionStateCreatedTokenLoaded) {
+                // Open Facebook Session
+                [self openFacebookSession];
+            }
+            
+            // Set Profile User
+            [self showInitialView];
+        } else {
+            // Not Logged In, show Login
+            DLog(@"Not Logged in, show Login screen");
+            [self showInitialView];
+            DLog(@"Show initial view already called");
+            [self showLoginView];
         }
-        
-        // Set Profile User
-        [FlatAPIClientManager sharedClient].profileUser = profileUser;
-        [self showInitialView];
-    } else {
-        // Not Logged In, show Login
-        DLog(@"Not Logged in, show Login screen");
-        [self showInitialView];
-        DLog(@"Show initial view already called");
-        [self showLoginView];
-    }
+    }];
     
     [[UIApplication sharedApplication] registerForRemoteNotificationTypes:
      (UIRemoteNotificationTypeSound | UIRemoteNotificationTypeAlert)];
@@ -68,6 +69,7 @@ Reachability * internetReachable;
     
     return YES;
 }
+
 
 - (void)testInternetConnection
 {
@@ -129,8 +131,6 @@ Reachability * internetReachable;
     [ProfileUser MR_truncateAll];
     [[FlatAPIClientManager sharedClient] setProfileUser:nil];
     
-    [Group deleteCurrentGroupFromStore];
-    [Group MR_truncateAll];
     [[FlatAPIClientManager sharedClient] setGroup:nil];
     
     // Clear Facebook Tokens
@@ -338,8 +338,6 @@ Reachability * internetReachable;
 
 -(void) refreshGroupAndLocation {
     [GroupNetworkRequest getGroupFromGroupID:[FlatAPIClientManager sharedClient].profileUser.groupID withCompletionBlock:^(NSError * error, Group * group1) {
-        if (group1 == nil)
-            group1 = [GroupLocalRequest getGroup];
         [FlatAPIClientManager sharedClient].group = group1;
         [[NSManagedObjectContext MR_defaultContext] MR_saveToPersistentStoreAndWait];
         //kickstart location

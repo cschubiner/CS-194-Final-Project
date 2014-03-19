@@ -12,7 +12,6 @@
 		0C1F934E18C417AD00949F10 /* Utils.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C1F934D18C417AD00949F10 /* Utils.m */; };
 		0C2E87D918B1B35700ADF8D2 /* EventModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C2E87D818B1B35700ADF8D2 /* EventModel.m */; };
 		0C46A9BA18C2A8CC000E30E2 /* CalendarViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C46A9B918C2A8CC000E30E2 /* CalendarViewController.m */; };
-		0C498F32189F153C003B87F6 /* GroupModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 0C498F30189F153C003B87F6 /* GroupModel.xcdatamodeld */; };
 		0C498F3E189F17FF003B87F6 /* Group.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C498F3D189F17FF003B87F6 /* Group.m */; };
 		0C498F41189F1825003B87F6 /* ProfileUser.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C498F40189F1825003B87F6 /* ProfileUser.m */; };
 		0C498F43189F1AFF003B87F6 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0C498F42189F1AFF003B87F6 /* CoreLocation.framework */; };
@@ -21,7 +20,6 @@
 		0C498F4F189F2EC9003B87F6 /* Group+Json.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C498F4E189F2EC9003B87F6 /* Group+Json.m */; };
 		0C5014F918BB059F009E0677 /* calendar+icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 0C5014F718BB059F009E0677 /* calendar+icon.png */; };
 		0C5014FA18BB059F009E0677 /* calendar+icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0C5014F818BB059F009E0677 /* calendar+icon@2x.png */; };
-		0C52C5BE18A9BAF40094D428 /* GroupLocalRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C52C5BD18A9BAF40094D428 /* GroupLocalRequest.m */; };
 		0C5D5F7C18D518D30019C43F /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C5D5F7B18D518D30019C43F /* Reachability.m */; };
 		0C5D5F7E18D518EB0019C43F /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0C5D5F7D18D518EB0019C43F /* SystemConfiguration.framework */; };
 		0C8CA09E18A84C47001A9DD6 /* GroupTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C8CA09D18A84C47001A9DD6 /* GroupTableViewController.m */; };
@@ -121,7 +119,6 @@
 		0C2E87D818B1B35700ADF8D2 /* EventModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EventModel.m; sourceTree = "<group>"; };
 		0C46A9B818C2A8CC000E30E2 /* CalendarViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CalendarViewController.h; sourceTree = "<group>"; };
 		0C46A9B918C2A8CC000E30E2 /* CalendarViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CalendarViewController.m; sourceTree = "<group>"; };
-		0C498F31189F153C003B87F6 /* GroupModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = GroupModel.xcdatamodel; sourceTree = "<group>"; };
 		0C498F3C189F17FE003B87F6 /* Group.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Group.h; sourceTree = "<group>"; };
 		0C498F3D189F17FF003B87F6 /* Group.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Group.m; sourceTree = "<group>"; };
 		0C498F3F189F1825003B87F6 /* ProfileUser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProfileUser.h; sourceTree = "<group>"; };
@@ -136,8 +133,6 @@
 		0C5014F118BACC29009E0677 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
 		0C5014F718BB059F009E0677 /* calendar+icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "calendar+icon.png"; sourceTree = "<group>"; };
 		0C5014F818BB059F009E0677 /* calendar+icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "calendar+icon@2x.png"; sourceTree = "<group>"; };
-		0C52C5BC18A9BAF40094D428 /* GroupLocalRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GroupLocalRequest.h; sourceTree = "<group>"; };
-		0C52C5BD18A9BAF40094D428 /* GroupLocalRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GroupLocalRequest.m; sourceTree = "<group>"; };
 		0C5D5F7A18D518D30019C43F /* Reachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Reachability.h; sourceTree = "<group>"; };
 		0C5D5F7B18D518D30019C43F /* Reachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Reachability.m; sourceTree = "<group>"; };
 		0C5D5F7D18D518EB0019C43F /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
@@ -414,8 +409,6 @@
 		F2C51DCC188C91CF00489989 /* Store */ = {
 			isa = PBXGroup;
 			children = (
-				0C52C5BC18A9BAF40094D428 /* GroupLocalRequest.h */,
-				0C52C5BD18A9BAF40094D428 /* GroupLocalRequest.m */,
 				F2C51E02188C9C9A00489989 /* ProfileUserLocalRequest.h */,
 				F2C51E03188C9C9A00489989 /* ProfileUserLocalRequest.m */,
 			);
@@ -468,7 +461,6 @@
 				0C498F3D189F17FF003B87F6 /* Group.m */,
 				0C498F4D189F2EC9003B87F6 /* Group+Json.h */,
 				0C498F4E189F2EC9003B87F6 /* Group+Json.m */,
-				0C498F30189F153C003B87F6 /* GroupModel.xcdatamodeld */,
 				F2C51DF3188C9A9200489989 /* ProfileUser+Json.h */,
 				F2C51DF4188C9A9200489989 /* ProfileUser+Json.m */,
 				0C2E87D718B1B35700ADF8D2 /* EventModel.h */,
@@ -749,7 +741,6 @@
 				F2C51DFE188C9BAB00489989 /* AuthenticationHelper.m in Sources */,
 				F2C51DA4188C887400489989 /* cs194AppDelegate.m in Sources */,
 				0C46A9BA18C2A8CC000E30E2 /* CalendarViewController.m in Sources */,
-				0C498F32189F153C003B87F6 /* GroupModel.xcdatamodeld in Sources */,
 				F270B6E718CBFAB100FA90E5 /* TasksNetworkRequest.m in Sources */,
 				F2C51DE2188C96C500489989 /* SidebarViewController.m in Sources */,
 				F2C51DEC188C992E00489989 /* OpeningButton.m in Sources */,
@@ -762,7 +753,6 @@
 				0CB9D1BB18D14095005A1284 /* NSDate-Utilities.m in Sources */,
 				35EAB5C918BADC2A00C82117 /* PageContentViewController.m in Sources */,
 				F2C51DD9188C94CC00489989 /* RootController.m in Sources */,
-				0C52C5BE18A9BAF40094D428 /* GroupLocalRequest.m in Sources */,
 				0CDA0F011895E89500F5A1F8 /* ProfileUserNetworkRequest.m in Sources */,
 				F270B6E418CBFA5600FA90E5 /* TasksHelper.m in Sources */,
 				F2C51DF8188C9B6E00489989 /* AuthenticationNetworkRequest.m in Sources */,
@@ -1027,16 +1017,6 @@
 /* End XCConfigurationList section */
 
 /* Begin XCVersionGroup section */
-		0C498F30189F153C003B87F6 /* GroupModel.xcdatamodeld */ = {
-			isa = XCVersionGroup;
-			children = (
-				0C498F31189F153C003B87F6 /* GroupModel.xcdatamodel */,
-			);
-			currentVersion = 0C498F31189F153C003B87F6 /* GroupModel.xcdatamodel */;
-			path = GroupModel.xcdatamodeld;
-			sourceTree = "<group>";
-			versionGroupType = wrapper.xcdatamodel;
-		};
 		F2C51DED188C9A1600489989 /* Model.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
