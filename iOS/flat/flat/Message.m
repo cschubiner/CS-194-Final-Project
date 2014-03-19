@@ -22,7 +22,8 @@
         _text = text ? text : @" ";
         _sender = sender;
         _senderID = [Utils numberFromString:senderID]; //ignoring this warning. Xcode is broken
-        _date = date;
+        ISO8601DateFormatter *formatter = [[ISO8601DateFormatter alloc] init];
+        _date = [formatter dateFromString:[NSString stringWithFormat:@"%@",date]];
     }
     return self;
 }

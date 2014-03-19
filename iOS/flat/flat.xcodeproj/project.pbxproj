@@ -25,6 +25,7 @@
 		0C8CA09E18A84C47001A9DD6 /* GroupTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C8CA09D18A84C47001A9DD6 /* GroupTableViewController.m */; };
 		0C8CA0A118A87889001A9DD6 /* SettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C8CA0A018A87889001A9DD6 /* SettingsViewController.m */; };
 		0CB9D1BB18D14095005A1284 /* NSDate-Utilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CB9D1BA18D14095005A1284 /* NSDate-Utilities.m */; };
+		0CC2733F18D9A8FF00B72AFD /* ISO8601DateFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CC2733E18D9A8FF00B72AFD /* ISO8601DateFormatter.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		0CD4DD1B18B1AD01003F3B75 /* EventKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0CD4DD1A18B1AD01003F3B75 /* EventKit.framework */; };
 		0CDA0F011895E89500F5A1F8 /* ProfileUserNetworkRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 0CDA0F001895E89500F5A1F8 /* ProfileUserNetworkRequest.m */; };
 		351A96D018D6F1A200BD3351 /* new-arrow-hollow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 351A96CC18D6F1A200BD3351 /* new-arrow-hollow@2x.png */; };
@@ -142,6 +143,8 @@
 		0C8CA0A018A87889001A9DD6 /* SettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingsViewController.m; sourceTree = "<group>"; };
 		0CB9D1B918D14095005A1284 /* NSDate-Utilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDate-Utilities.h"; sourceTree = "<group>"; };
 		0CB9D1BA18D14095005A1284 /* NSDate-Utilities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDate-Utilities.m"; sourceTree = "<group>"; };
+		0CC2733D18D9A8FF00B72AFD /* ISO8601DateFormatter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ISO8601DateFormatter.h; sourceTree = "<group>"; };
+		0CC2733E18D9A8FF00B72AFD /* ISO8601DateFormatter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ISO8601DateFormatter.m; sourceTree = "<group>"; };
 		0CD4DD1A18B1AD01003F3B75 /* EventKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = EventKit.framework; path = System/Library/Frameworks/EventKit.framework; sourceTree = SDKROOT; };
 		0CDA0EFF1895E89500F5A1F8 /* ProfileUserNetworkRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProfileUserNetworkRequest.h; sourceTree = "<group>"; };
 		0CDA0F001895E89500F5A1F8 /* ProfileUserNetworkRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProfileUserNetworkRequest.m; sourceTree = "<group>"; };
@@ -353,6 +356,8 @@
 				0C1F934A18C40F0000949F10 /* NSValue+NSValueEqualTo.m */,
 				0CB9D1B918D14095005A1284 /* NSDate-Utilities.h */,
 				0CB9D1BA18D14095005A1284 /* NSDate-Utilities.m */,
+				0CC2733D18D9A8FF00B72AFD /* ISO8601DateFormatter.h */,
+				0CC2733E18D9A8FF00B72AFD /* ISO8601DateFormatter.m */,
 				F2C51D9A188C887400489989 /* Supporting Files */,
 			);
 			path = flat;
@@ -769,6 +774,7 @@
 				F2C51DEF188C9A1600489989 /* Model.xcdatamodeld in Sources */,
 				F2C51E661895E38100489989 /* Message.m in Sources */,
 				F2C51DFB188C9B9200489989 /* ProfileUserHelper.m in Sources */,
+				0CC2733F18D9A8FF00B72AFD /* ISO8601DateFormatter.m in Sources */,
 				F25DCF1C18A84E9600710B03 /* MessageHelper.m in Sources */,
 				F2C51DE6188C974E00489989 /* HomeViewController.m in Sources */,
 				0C5D5F7C18D518D30019C43F /* Reachability.m in Sources */,

@@ -11,6 +11,7 @@
 #import "MessageHelper.h"
 #import <QuartzCore/QuartzCore.h>
 #import "SAMLoadingView.h"
+#import "ISO8601DateFormatter.h"
 
 
 @interface HomeViewController ()
@@ -35,6 +36,7 @@
     DLog(@"left menu toggled");
     [self.messageInputView resignFirstResponder];
     [[FlatAPIClientManager sharedClient].rootController toggleLeftPanel:sender];
+    [self setNavBarButtons];
 }
 
 - (void)rightButtonPressed:(id)sender
@@ -42,6 +44,15 @@
     DLog(@"right menu toggled");
     [self.messageInputView resignFirstResponder];
     [[FlatAPIClientManager sharedClient].rootController toggleRightPanel:sender];
+    [self setNavBarButtons];
+}
+
+- (BOOL)shouldDisplayTimestampForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if (indexPath.row % 3 == 0) {
+        return YES;
+    }
+    return NO;
 }
 
 -(void)setNavBarButtons
@@ -196,9 +207,9 @@
                     }];
 }
 
+
 - (JSBubbleMessageType)messageTypeForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    //
     Message *currMessage = [self.messages objectAtIndex:indexPath.row];
     ProfileUser *user = [FlatAPIClientManager sharedClient].profileUser;
     
@@ -208,12 +219,9 @@
     return JSBubbleMessageTypeIncoming;
 }
 
-
-
 - (UIImageView *)bubbleImageViewWithType:(JSBubbleMessageType)type
                        forRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    //
     Message *currMessage = [self.messages objectAtIndex:indexPath.row];
     ProfileUser *user = [FlatAPIClientManager sharedClient].profileUser;
     
@@ -230,12 +238,11 @@
 - (void)configureCell:(JSBubbleMessageCell *)cell atIndexPath:(NSIndexPath *)indexPath
 {
     if (cell.timestampLabel) {
-        cell.timestampLabel.textColor = [UIColor blackColor];
-//        cell.timestampLabel.shadowOffset = CGSizeZero;
+        cell.timestampLabel.textColor = [UIColor grayColor];
+        cell.timestampLabel.shadowOffset = CGSizeZero;
     }
     
-    
-    cell.bubbleView.textView.dataDetectorTypes = UIDataDetectorTypeNone;
+//    cell.bubbleView.textView.dataDetectorTypes = UIDataDetectorTypeNone;
     if ([cell messageType] == JSBubbleMessageTypeOutgoing)
         cell.bubbleView.textView.textColor = [UIColor whiteColor];
 }
@@ -244,32 +251,6 @@
 - (JSMessageInputViewStyle)inputViewStyle
 {
     return JSMessageInputViewStyleFlat;
-}
-
-- (NSString *)textForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    //
-    return [[self.messages objectAtIndex:indexPath.row] text];
-}
-
--(BOOL)hasTimestampForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return YES;
-}
-
-- (NSDate *)timestampForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    //
-//    DLog(@"indexpath row %ld", (long)indexPath.row);
-//    DLog(@"date: %@", [[self.messages objectAtIndex:indexPath.row] date]);
-    return [[self.messages objectAtIndex:indexPath.row] date];
-}
-
-
--(NSString *)subtitleForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    //
-    Message *currMessage = [self.messages objectAtIndex:indexPath.row];
-    return currMessage.sender;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView
@@ -326,7 +307,6 @@
         [avatarDict setObject:backView forKey:currMessage.senderID];
         
         return [[UIImageView alloc]initWithImage: [HomeViewController imageWithView:backView]];
-        
     }
     else {
         //if it's a calendar event message
@@ -343,10 +323,8 @@
 #pragma mark - Messages view data source: REQUIRED
 - (Message *)messageForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    //
     return [self.messages objectAtIndex:indexPath.row];
 }
-
 
 
 
