@@ -214,4 +214,3 @@ def get_name_from_fbid(fb_id):
 '''
 def db_get_group(group_id):
     return db_session.query(models.Group).filter(models.Group.id == int(group_id)).first()
-

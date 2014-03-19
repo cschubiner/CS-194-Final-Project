@@ -15,7 +15,6 @@ app = Flask(__name__.split('.')[0])
 
 db_init()
 
-
 '''
     Function: facebook_login()
     --------------------------
@@ -166,7 +165,10 @@ def task_send_message_notification():
             return push_notification.send_push_notification(request.form['group_id'], request.form['fb_id'], request.form['name'], request.form['msg'])
 
 '''
-    params: group_id, body
+    This function is a callback used by the Google Task Queue. 
+    Sends a push notification to given group with given body
+    PARAMS: group_id, the group associated with the task
+            body, the body of the push push_notification
 '''
 @app.route('/tasks/group/push', methods=['GET', 'POST'])
 def task_notify_group():
@@ -181,10 +183,11 @@ def task_notify_group():
             return push_notification.task_send_to_group(request.form['group_id'], request.form['body'])
     # TODO: handle get request
 
-@app.route("/test/push/clay")
-def test_push_clay():
-    return db.test_push_clay()
-
+'''
+    Inserts a new calendar event into the DB
+    PARAMS: message, the content of the event
+            userID, the userID åssociated with the event
+'''
 @app.route("/calendar/message/new", methods=['GET', 'POST'])
 def test_push_to_group():
     if request.method == 'POST':
@@ -198,6 +201,12 @@ def test_push_to_group():
             fb_id = request.form['userID']
             return flat_calendar.handle_event(body, fb_id)
 
+'''
+    Inserts a task into the db
+    PARAMS: body, the body of the task
+            group_id, the group associated with the task
+            due_date, the due date of the task
+'''
 @app.route('/tasks/add', methods=['GET', 'POST'])
 def add_task():
     if request.method == 'POST':
@@ -213,11 +222,19 @@ def add_task():
             return tasks.add_task(group_id, body, due_date)
     return utils.json_message("not supposed to happen")
 
+'''
+    Fetches the tasks for a given group_id
+'''
 @app.route('/tasks/<group_id>')
 def get_tasks(group_id):
     return tasks.get_tasks(group_id)
 
-@app.route('/tasks/delete', methods=['GET', 'POST'])
+'''
+    Deletes a task from the db
+    params: task_id, id of the task to be deleted
+            group_id, the group that task deleted from
+'''
+@app.route('/tasks/delete', methods=['POST'])
 def delete_task():
     if request.method == 'POST':
         print request.data
@@ -227,6 +244,13 @@ def delete_task():
         else:
             return tasks.delete_task(request.form['task_id'], request.form['group_id'])
 
+'''
+    Endpoint hit when user wants to edit a task
+    PARAMS: task_id, the id of the task to be edited
+            group_id, the group the task pertains to
+            body, updated body
+            due_date, updated due_date
+'''
 @app.route('/tasks/edit', methods=['GET', 'POST'])
 def edit_task():
     if request.method == 'POST':
@@ -244,6 +268,9 @@ def edit_task():
 @app.route('/cron/check_broadcast')
 def check_broadcast():
     return location_timer.check_broadcast()
+
+'''
+    Gets a groupID 
 
 
 

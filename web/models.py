@@ -89,7 +89,7 @@ class Message(Base):
             "user_id": self.user_id,
             "name": db.get_name_from_fbid(self.user_id),
             "group_id": self.group_id,
-            "time_stamp": str(self.time_stamp),
+            "time_stamp": self.time_stamp.isoformat(),
             "color_id": self.color_id
         }
 
