@@ -1,14 +1,14 @@
 //
-//  JSMessage.m
+//  Message.m
 //  Pods
 //
 //  Created by Zachary Palacios on 1/26/14.
 //
 //
 
-#import "JSMessage.h"
+#import "Message.h"
 
-@implementation JSMessage
+@implementation Message
 
 #pragma mark - Initialization
 

@@ -61,7 +61,7 @@
 		3C82EF45418E4184B3617F06 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 68FF891EE5B44890A888CE02 /* libPods.a */; };
 		F25DCF1C18A84E9600710B03 /* MessageHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = F25DCF1B18A84E9600710B03 /* MessageHelper.m */; };
 		F25DCF1F18A84EAD00710B03 /* MessageNetworkRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = F25DCF1E18A84EAD00710B03 /* MessageNetworkRequest.m */; };
-		F25DCF2218A8564700710B03 /* JSMessage+Json.m in Sources */ = {isa = PBXBuildFile; fileRef = F25DCF2118A8564700710B03 /* JSMessage+Json.m */; };
+		F25DCF2218A8564700710B03 /* Message+Json.m in Sources */ = {isa = PBXBuildFile; fileRef = F25DCF2118A8564700710B03 /* Message+Json.m */; };
 		F270B6D218CBF47100FA90E5 /* CreateTasksViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F270B6D118CBF47100FA90E5 /* CreateTasksViewController.m */; };
 		F270B6D818CBF8F900FA90E5 /* EditTaskViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F270B6D718CBF8F900FA90E5 /* EditTaskViewController.m */; };
 		F270B6DB18CBF99F00FA90E5 /* Task.m in Sources */ = {isa = PBXBuildFile; fileRef = F270B6DA18CBF99F00FA90E5 /* Task.m */; };
@@ -98,7 +98,7 @@
 		F2C51E01188C9C1100489989 /* ErrorHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = F2C51E00188C9C1100489989 /* ErrorHelper.m */; };
 		F2C51E04188C9C9A00489989 /* ProfileUserLocalRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = F2C51E03188C9C9A00489989 /* ProfileUserLocalRequest.m */; };
 		F2C51E5A1895D17C00489989 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F2C51E591895D17C00489989 /* QuartzCore.framework */; };
-		F2C51E661895E38100489989 /* JSMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = F2C51E641895E38100489989 /* JSMessage.m */; };
+		F2C51E661895E38100489989 /* Message.m in Sources */ = {isa = PBXBuildFile; fileRef = F2C51E641895E38100489989 /* Message.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -180,14 +180,14 @@
 		35FC367E18A9E166000E4286 /* arrow-black.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "arrow-black.png"; sourceTree = "<group>"; };
 		35FC367F18A9E166000E4286 /* arrow-hollow-black.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "arrow-hollow-black.png"; sourceTree = "<group>"; };
 		35FCF0B518B43788009DF57F /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
-		4B202A37D1D24AD08C25AF5B /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = "<group>"; };
+		4B202A37D1D24AD08C25AF5B /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; lineEnding = 0; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.xcconfig; };
 		68FF891EE5B44890A888CE02 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		F25DCF1A18A84E9600710B03 /* MessageHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MessageHelper.h; sourceTree = "<group>"; };
 		F25DCF1B18A84E9600710B03 /* MessageHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MessageHelper.m; sourceTree = "<group>"; };
 		F25DCF1D18A84EAD00710B03 /* MessageNetworkRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MessageNetworkRequest.h; sourceTree = "<group>"; };
 		F25DCF1E18A84EAD00710B03 /* MessageNetworkRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MessageNetworkRequest.m; sourceTree = "<group>"; };
-		F25DCF2018A8564700710B03 /* JSMessage+Json.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "JSMessage+Json.h"; sourceTree = "<group>"; };
-		F25DCF2118A8564700710B03 /* JSMessage+Json.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "JSMessage+Json.m"; sourceTree = "<group>"; };
+		F25DCF2018A8564700710B03 /* Message+Json.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = "Message+Json.h"; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
+		F25DCF2118A8564700710B03 /* Message+Json.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = "Message+Json.m"; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		F270B6D018CBF47100FA90E5 /* CreateTasksViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CreateTasksViewController.h; sourceTree = "<group>"; };
 		F270B6D118CBF47100FA90E5 /* CreateTasksViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = CreateTasksViewController.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		F270B6D618CBF8F900FA90E5 /* EditTaskViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EditTaskViewController.h; sourceTree = "<group>"; };
@@ -229,7 +229,7 @@
 		F2C51DDE188C963D00489989 /* OpeningNavigationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OpeningNavigationController.m; sourceTree = "<group>"; };
 		F2C51DE0188C96C500489989 /* SidebarViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SidebarViewController.h; sourceTree = "<group>"; };
 		F2C51DE1188C96C500489989 /* SidebarViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = SidebarViewController.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
-		F2C51DE4188C974E00489989 /* HomeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HomeViewController.h; sourceTree = "<group>"; };
+		F2C51DE4188C974E00489989 /* HomeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = HomeViewController.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		F2C51DE5188C974E00489989 /* HomeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = HomeViewController.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		F2C51DE7188C97E300489989 /* FlatAPIClientManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FlatAPIClientManager.h; sourceTree = "<group>"; };
 		F2C51DE8188C97E300489989 /* FlatAPIClientManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = FlatAPIClientManager.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
@@ -249,9 +249,9 @@
 		F2C51E02188C9C9A00489989 /* ProfileUserLocalRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProfileUserLocalRequest.h; sourceTree = "<group>"; };
 		F2C51E03188C9C9A00489989 /* ProfileUserLocalRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProfileUserLocalRequest.m; sourceTree = "<group>"; };
 		F2C51E591895D17C00489989 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
-		F2C51E631895E38100489989 /* JSMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSMessage.h; sourceTree = "<group>"; };
-		F2C51E641895E38100489989 /* JSMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JSMessage.m; sourceTree = "<group>"; };
-		F2C51E651895E38100489989 /* JSMessageData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSMessageData.h; sourceTree = "<group>"; };
+		F2C51E631895E38100489989 /* Message.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = Message.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
+		F2C51E641895E38100489989 /* Message.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = Message.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
+		F2C51E651895E38100489989 /* MessageData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = MessageData.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -564,11 +564,11 @@
 		F2C51E671895E3AB00489989 /* Messages */ = {
 			isa = PBXGroup;
 			children = (
-				F2C51E631895E38100489989 /* JSMessage.h */,
-				F2C51E641895E38100489989 /* JSMessage.m */,
-				F2C51E651895E38100489989 /* JSMessageData.h */,
-				F25DCF2018A8564700710B03 /* JSMessage+Json.h */,
-				F25DCF2118A8564700710B03 /* JSMessage+Json.m */,
+				F2C51E631895E38100489989 /* Message.h */,
+				F2C51E641895E38100489989 /* Message.m */,
+				F2C51E651895E38100489989 /* MessageData.h */,
+				F25DCF2018A8564700710B03 /* Message+Json.h */,
+				F25DCF2118A8564700710B03 /* Message+Json.m */,
 			);
 			name = Messages;
 			sourceTree = "<group>";
@@ -772,12 +772,12 @@
 				F270B6DE18CBF9C800FA90E5 /* Task+Json.m in Sources */,
 				F270B6DB18CBF99F00FA90E5 /* Task.m in Sources */,
 				F2C51E01188C9C1100489989 /* ErrorHelper.m in Sources */,
-				F25DCF2218A8564700710B03 /* JSMessage+Json.m in Sources */,
+				F25DCF2218A8564700710B03 /* Message+Json.m in Sources */,
 				F270B6EA18CBFB2300FA90E5 /* TasksViewController.m in Sources */,
 				F2C51DE9188C97E300489989 /* FlatAPIClientManager.m in Sources */,
 				0C1F934B18C40F0000949F10 /* NSValue+NSValueEqualTo.m in Sources */,
 				F2C51DEF188C9A1600489989 /* Model.xcdatamodeld in Sources */,
-				F2C51E661895E38100489989 /* JSMessage.m in Sources */,
+				F2C51E661895E38100489989 /* Message.m in Sources */,
 				F2C51DFB188C9B9200489989 /* ProfileUserHelper.m in Sources */,
 				F25DCF1C18A84E9600710B03 /* MessageHelper.m in Sources */,
 				F2C51DE6188C974E00489989 /* HomeViewController.m in Sources */,

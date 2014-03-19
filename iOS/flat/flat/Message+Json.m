@@ -1,18 +1,18 @@
 //
-//  JSMessage+Json.m
+//  Message+Json.m
 //  flat
 //
 //  Created by Zachary Palacios on 2/9/14.
 //  Copyright (c) 2014 cs194. All rights reserved.
 //
 
-#import "JSMessage+Json.h"
+#import "Message+Json.h"
 
-@implementation JSMessage (Json)
+@implementation Message (Json)
 
-+ (JSMessage *)getMessageObjectFromDictionary:(NSDictionary *)dictionary
++ (Message *)getMessageObjectFromDictionary:(NSDictionary *)dictionary
 {
-    JSMessage *message = [[JSMessage alloc] initWithText:[dictionary objectForKey:@"body"]
+    Message *message = [[Message alloc] initWithText:[dictionary objectForKey:@"body"]
                                                   sender:[dictionary objectForKey:@"name"]
                                             senderUserId:[dictionary objectForKey:@"user_id"]
                                                     date:[dictionary objectForKey:@"time_stamp"]];

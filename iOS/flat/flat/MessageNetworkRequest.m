@@ -7,7 +7,7 @@
 //
 
 #import "MessageNetworkRequest.h"
-#import "JSMessage+Json.h"
+#import "Message+Json.h"
 
 @implementation MessageNetworkRequest
 
@@ -28,7 +28,7 @@
                                               NSMutableArray *messageArray = [JSON objectForKey:@"messages"];
                                               NSMutableArray *messageArrayReturn = [[NSMutableArray alloc] init];
                                               for (NSMutableDictionary* messageJSON in messageArray) {
-                                                  JSMessage *message = [JSMessage getMessageObjectFromDictionary:messageJSON];
+                                                  Message *message = [Message getMessageObjectFromDictionary:messageJSON];
                                                   [messageArrayReturn addObject:message];
                                               }
                                               completionBlock(error, messageArrayReturn);
@@ -66,7 +66,7 @@
                                              NSMutableArray *messageArrayReturn = [[NSMutableArray alloc] init];
                                              for (NSMutableDictionary* messageJSON in messageArray) {
                                                  //if ([[messageJSON objectForKey:@"type"] isEqualToString:@"text"]) {
-                                                     JSMessage *message = [JSMessage getMessageObjectFromDictionary:messageJSON];
+                                                     Message *message = [Message getMessageObjectFromDictionary:messageJSON];
                                                      [messageArrayReturn addObject:message];
                                                  /*} else if ([[messageJSON objectForKey:@"type"] isEqualToString:@"calendar"]) {
                                                      CalendarMessage *message = [CalendarMessage getMessageObjectFromDictionary:messageJSON];
