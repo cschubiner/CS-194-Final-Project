@@ -30,7 +30,7 @@ MESSAGE_LIMIT = 500
 # "Welcome to your flat!" + "Access code = xxxxxx"
 NUM_GREETING_MESSAGES = 2
 
-engine = create_engine('mysql+gaerdbms:///add20?instance=flatappapi:db0')
+engine = create_engine('mysql+gaerdbms:///add21?instance=flatappapi:db0')
 db_session = scoped_session(sessionmaker(autocommit=False,
                                          autoflush=False,
                                          bind=engine))
@@ -62,7 +62,7 @@ def add_user(access_token, device_id):
     request_picture_url = "http://graph.facebook.com/" + profile['id'] + "/picture"
     picture_url = urllib2.urlopen(request_picture_url).geturl()
 
-    new_group = models.Group(passcode=0, latitude=0.0, longitude=0.0)
+    new_group = models.Group(offset = 0, passcode=0, latitude=0.0, longitude=0.0)
 
     new_user = models.User(
             fb_id = profile["id"],

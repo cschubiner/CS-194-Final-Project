@@ -14,6 +14,7 @@ import random
 import datetime
 import groups
 from flask import Response
+import messages
 
 NUM_COLORS = 10
 NOT_BROADCASTING = 2
@@ -105,7 +106,7 @@ def change_group_id(fb_id, new_group, passcode):
     elif result and passcode == "newgroup":
         print "entered correct code"
         # create new group
-        new_g = models.Group(passcode=0, latitude=0.0, longitude=0.0)
+        new_g = models.Group(offset = 0, passcode=0, latitude=0.0, longitude=0.0)
 
         # reflect that in the user info
         result.group_id = new_g.id
@@ -152,6 +153,7 @@ def get_group_by_id(group_id):
 
 
 def update_location(group, lat, lon):
+    print group
     result = db_session.query(models.Group).filter(models.Group.id == int(group)).first()
 
     print "PARAMS"
@@ -187,6 +189,13 @@ def update_location(group, lat, lon):
             print "updating none"
             # Update none of them
             # Updating each user to not broadcasting
+
+        # Updating the time zone
+        previous_offset = result.offset
+        new_offset = messages.get_offset(lat, lon) 
+        if previous_offset != new_offset:
+            result.offset = new_offset
+
         update_broadcasting_status(group)
         temp = result
         db_session.commit()
@@ -231,6 +240,7 @@ def assign_passcode(fb_id):
         greeting = models.Message(
             body = message_body,
             time_stamp = datetime.datetime.utcnow(),
+            offset = 0,
             user_id = 1,
             group_id = group_id,
             color_id = 9
@@ -241,6 +251,7 @@ def assign_passcode(fb_id):
         passcode_message = models.Message(
             body = message_body1,
             time_stamp = datetime.datetime.utcnow(),
+            offset = 0,
             user_id = 1,
             group_id = group_id,
             color_id = 9
@@ -251,6 +262,18 @@ def assign_passcode(fb_id):
         return
     return
 
+'''
+    Returns latitude and longitude given the group_id
+'''
+def get_location(group_id):
+    group = db_session.query(models.Group).filter(models.Group.id == group_id).first()
+    if group:
+        return (group.latitude, group.longitude)
+    return "Eroor"
+
+'''
+    Returns the offset associated with the group
+'''
 
 
 

@@ -10,6 +10,7 @@ from flask import Flask, Response, request, render_template
 from db import db_init, db_session
 import db, groups, models, flat_calendar, utils, tasks, push_notification
 import location_timer, messages
+import datetime
 
 app = Flask(__name__.split('.')[0])
 
@@ -133,8 +134,6 @@ def add_new_message():
 
         body = request.form['message']
         fb_id = request.form['userID']
-        print body
-        print fb_id
         return messages.add_new_message(body, fb_id)
     return "Hello"
 
@@ -269,9 +268,9 @@ def edit_task():
 def check_broadcast():
     return location_timer.check_broadcast()
 
-'''
-    Gets a groupID 
-
+@app.route('/test/get_time/<group_id>')
+def test_time(group_id):
+    return messages.adjusted_time(group_id, datetime.datetime.utcnow())
 
 
 

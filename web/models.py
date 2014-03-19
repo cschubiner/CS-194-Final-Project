@@ -3,8 +3,10 @@ from sqlalchemy import DateTime, ForeignKey, Boolean
 from sqlalchemy.orm import relationship, backref
 from sqlalchemy.types import Float
 from db import Base
-import db
+import db, messages
 import datetime
+
+
 
 MAX_LENGTH = 50
 
@@ -57,6 +59,8 @@ class Group(Base):
     passcode = Column(Integer)
     latitude = Column(Float(precision=53))
     longitude = Column(Float(precision=53))
+    # NUmber of seconds of timezone offset
+    offset = Column(Integer)
 
     users = relationship("User")
 
@@ -78,6 +82,8 @@ class Message(Base):
     id = Column(Integer, primary_key=True)
     body = Column(String(260))
     time_stamp = Column(DateTime, default=datetime.datetime.utcnow)
+    # time zone
+    offset = Column(Integer)
     user_id = Column(String(MAX_LENGTH))
     group_id = Column(Integer)
     color_id = Column(Integer)
@@ -89,7 +95,8 @@ class Message(Base):
             "user_id": self.user_id,
             "name": db.get_name_from_fbid(self.user_id),
             "group_id": self.group_id,
-            "time_stamp": self.time_stamp.isoformat(),
+            # "time_stamp": self.time_stamp.isoformat(),
+            "time_stamp": messages.fast_adjusted_time(self.time_stamp, self.offset),
             "color_id": self.color_id
         }
 

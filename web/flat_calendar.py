@@ -1,7 +1,5 @@
 
-# import json
-# import models
-# # import dateutil.parser
+
 import push_notification
 from db import db_session
 import models
@@ -13,9 +11,12 @@ def handle_event(body, fb_id):
 
 	if user is not None:
 		group_id = user.group_id
+        group = db_session.query(models.Group).filter(models.Group.id == group_id).first()
+
         new_msg = models.Message(
             body = body,
             time_stamp = datetime.datetime.utcnow(),
+            offset = group.offset,
             user_id = '0',
             group_id = user.group_id,
             color_id = user.color_id
