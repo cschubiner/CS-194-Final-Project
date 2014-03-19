@@ -160,13 +160,13 @@ clickedButtonAtIndex:(NSInteger)buttonIndex
         self.emailClicked = user.email;
         NSString * dormStatus = @"'s location has not been broadcasted recently";
         if ([user.isNearDorm isEqualToNumberWithNullCheck:[NSNumber numberWithInt:IN_DORM_STATUS]]) {
-            dormStatus = @"is currently in the dorm";
+            dormStatus = @" is currently in the dorm";
         }
        else if ([user.isNearDorm isEqualToNumberWithNullCheck:[NSNumber numberWithInt:AWAY_DORM_STATUS]]) {
-            dormStatus = @"is away from the dorm right now";
+            dormStatus = @" is away from the dorm right now";
         }
         NSString * text = [NSString stringWithFormat:@"%@ %@.\nEmail: %@", user.firstName, dormStatus, user.email];
-        NSString * title = [NSString stringWithFormat:@"%@ %@", user.firstName, user.lastName];
+        NSString * title = [NSString stringWithFormat:@"%@%@", user.firstName, user.lastName];
         UIAlertView *alertView = [[UIAlertView alloc]
                                   initWithTitle:title
                                   message:text

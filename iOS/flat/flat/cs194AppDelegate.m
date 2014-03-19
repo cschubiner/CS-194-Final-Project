@@ -359,7 +359,7 @@ Reachability * internetReachable;
     }
     if (self.mainViewController != nil && [[FlatAPIClientManager sharedClient]profileUser] != nil) {
         [self refreshGroupAndLocation];
-        [self.mainViewController refreshMessagesWithAnimation:NO scrollToBottom:YES];
+        [self.mainViewController refreshMessagesWithAnimation:NO scrollToBottom:NO];
         [self.mainViewController getPersonalCalendarEvents];
         [[FlatAPIClientManager sharedClient]getEveryonesCalendarEvents];
     }

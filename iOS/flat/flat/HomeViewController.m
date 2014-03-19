@@ -201,6 +201,7 @@
                             [JSMessageSoundEffect playMessageSentSound];
                             DLog(@"About to reload data");
                             [self.tableView reloadData];
+                            [self scrollToBottomAnimated:YES];
                             DLog(@"Just reloaded data");
                         }
                         [self finishSend];
