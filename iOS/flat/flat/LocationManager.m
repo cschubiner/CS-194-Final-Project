@@ -103,10 +103,9 @@
         
     }
     
-    static BOOL firstTime=TRUE;
-    if(firstTime)
+    if (canLocationRefresh)
     {
-        firstTime = FALSE;
+        canLocationRefresh = false;
         NSSet * monitoredRegions = self.locationManager.monitoredRegions;
         if(monitoredRegions)
         {
@@ -127,7 +126,13 @@
         }
         //Stop Location Updation, we dont need it now.
     }
+    [NSTimer scheduledTimerWithTimeInterval:5.0 target:self selector:@selector(allowLocationRefresh) userInfo:nil repeats:NO];
     [self.locationManager stopUpdatingLocation];
+}
+
+bool canLocationRefresh = true;
+-(void)allowLocationRefresh {
+    canLocationRefresh = true;
 }
 
 - (NSNumber*)calculateDistanceInMetersBetweenCoord:(CLLocationCoordinate2D)coord1 coord:(CLLocationCoordinate2D)coord2 {

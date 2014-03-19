@@ -96,9 +96,8 @@
         [manager startMonitoringForRegion:[[LocationManager sharedClient] getGroupLocationRegion]];
         [[LocationManager sharedClient] setShouldSetDormLocation:false];
         [[NSManagedObjectContext MR_defaultContext] MR_saveToPersistentStoreWithCompletion:nil];
-        
         [[[FlatAPIClientManager sharedClient]rootController]refreshUsers];
-        
+        [[[LocationManager sharedClient] locationManager]startUpdatingLocation];
     }];
 }
 
