@@ -36,12 +36,12 @@
     [super viewDidLoad];
     int startingWidth = 47;
     self.sideBarMenuTable = [[UITableView alloc] initWithFrame:CGRectMake(startingWidth, STATUS_BAR_HEIGHT, self.view.frame.size.width-startingWidth, self.view.frame.size.height - STATUS_BAR_HEIGHT)];
-    self.sideBarMenuTable.delegate = self;
-    self.sideBarMenuTable.dataSource = self;
     UIColor *backgroundColor = [ProfileUser colorWithHexString: @"394247"];
     [self.view setBackgroundColor:backgroundColor];
     self.sideBarMenuTable.backgroundColor = backgroundColor;
     [self.view addSubview:self.sideBarMenuTable];
+    self.sideBarMenuTable.delegate = self;
+    self.sideBarMenuTable.dataSource = self;
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
@@ -114,10 +114,8 @@
 }
 
 
-
 -(bool)eventIsOccuringNow:(EventModel*)event {
     if (event == nil || [[NSNull null]isEqual:event]) return false;
-    if ([event.isAllDay isEqualToNumberWithNullCheck:[NSNumber numberWithBool:true]]) return false;
     return [event.startDate isInPast] && [event.endDate isInFuture];
 }
 
@@ -126,7 +124,7 @@
     int count = 0;
     for (EventModel * ev in events) {
         if ([[NSNull null]isEqual:ev]) continue;
-        if ([self eventIsOccuringNow:ev])
+        if ([self eventIsOccuringNow:ev] && [ev.isAllDay isEqualToNumberWithNullCheck:[NSNumber numberWithBool:false]])
             count++;
     }
     NSLog(@"there are currently %d user(s) busy.", count);
