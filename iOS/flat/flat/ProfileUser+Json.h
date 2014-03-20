@@ -17,5 +17,6 @@
 + (UIColor *) getColorFromUserID:(NSNumber*)userID;
 + (NSString *) getInitialsFromUserID:(NSNumber*)userID;
 + (NSString *) getFirstNameFromUserID:(NSNumber*)userID;
++ (NSString *) getLastNameFromUserID:(NSNumber*)userID;
 +(UIColor*)colorWithHexString:(NSString*)hex;
 @end

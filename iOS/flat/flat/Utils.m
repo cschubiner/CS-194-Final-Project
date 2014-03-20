@@ -32,8 +32,8 @@
     return ret;
 }
 
-+(CGRect)getSizeOfFont:(UIFont*)font withText:(NSString*)text {
-        return [text boundingRectWithSize:CGSizeMake(200, 0)
++(CGRect)getSizeOfFont:(UIFont*)font withText:(NSString*)text withLabel:(UILabel*)label{
+        return [text boundingRectWithSize:label.frame.size
                                       options:NSStringDrawingUsesLineFragmentOrigin
                                    attributes:@{NSFontAttributeName:font}
                                       context:nil];

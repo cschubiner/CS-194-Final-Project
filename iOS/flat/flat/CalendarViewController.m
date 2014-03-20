@@ -45,7 +45,6 @@
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    //    [tableView setSeparatorStyle:UITableViewCellSeparatorStyleNone];
     tableView.backgroundColor = [UIColor whiteColor];
     NSArray * events = [FlatAPIClientManager sharedClient].allEvents;
     int days = 0;
@@ -134,6 +133,28 @@
     return count;
 }
 
+-(UILabel*)getTitleTextLabel:(UITableViewCell*)cell color:(UIColor*)color titleText:(NSString*)titleString {
+    UILabel *titleText = [[UILabel alloc]initWithFrame:CGRectMake(20, -5, cell.frame.size.width, cell.frame.size.height)];
+    titleText.textColor = color;
+    NSString * fontName = @"HelveticaNeue-Light";
+    CGFloat fontSize = 17;
+    titleText.font = [UIFont fontWithName:fontName size:fontSize];
+    titleText.text = titleString;
+    CGFloat width = [Utils getSizeOfFont:titleText.font withText:titleString withLabel:titleText].size.width;
+    
+    if (width > 249) fontSize = 15;
+    if (width > 286) fontSize = 13.0f;
+    titleText.font = [UIFont fontWithName:fontName size:fontSize];
+    width = [Utils getSizeOfFont:titleText.font withText:titleString withLabel:titleText].size.width;
+    while (width > 249) {
+        titleText.text = [titleText.text substringToIndex:titleText.text.length-2];
+        titleString = [NSString stringWithFormat:@"%@...", titleText.text];
+        width = [Utils getSizeOfFont:titleText.font withText:titleString withLabel:titleText].size.width;
+    }
+    titleText.text = titleString;
+    return titleText;
+}
+
 - (UITableViewCell *)tableView:(UITableView *)tableView
          cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -191,10 +212,7 @@
     
     UIColor * color = [ProfileUser getColorFromUserID:event.userID];
     
-    UILabel *titleText = [[UILabel alloc]initWithFrame:CGRectMake(20, -5, cell.frame.size.width, cell.frame.size.height)];
-    titleText.textColor = lightTextColor;
-    titleText.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:17];
-    titleText.text = event.title;
+    UILabel * titleText = [self getTitleTextLabel:cell color:lightTextColor titleText:event.title];
     
     UILabel *timeText = [[UILabel alloc]initWithFrame:CGRectMake(20, 15, cell.frame.size.width, cell.frame.size.height)];
     timeText.textColor = darkTextColor;
@@ -209,8 +227,8 @@
     userText.textColor = color;
     userText.alpha = .8;
     userText.font = [UIFont fontWithName:@"HelveticaNeue" size:14];
-    userText.text = [ProfileUser getFirstNameFromUserID:event.userID];
-//    userText.wid
+    userText.text = [NSString stringWithFormat:@"%@ %@", [ProfileUser getFirstNameFromUserID:event.userID], [ProfileUser getLastNameFromUserID:event.userID]];
+    
     
     UIView *barView = [[UIView alloc] initWithFrame:CGRectMake(0, 10, 6, cell.frame.size.height + 15)];
     barView.alpha = 1.0;

@@ -16,5 +16,5 @@
 +(NSString*)formatDateDayOfWeek:(NSDate*) date ;
 //+(NSDate*)correctTimeZone:(NSDate*) date ;
 +(NSString*)formatDate:(NSDate*) date withFormat:(NSString*) formatStr ;
-+(CGRect)getSizeOfFont:(UIFont*)font withText:(NSString*)text;
++(CGRect)getSizeOfFont:(UIFont*)font withText:(NSString*)text withLabel:(UILabel*)label;
 @end
