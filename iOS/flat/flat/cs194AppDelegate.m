@@ -31,6 +31,7 @@ Reachability * internetReachable;
     pageControl.currentPageIndicatorTintColor = [UIColor blackColor];
     pageControl.backgroundColor = [UIColor whiteColor];
     
+    [self setBackgroundCallback:nil];
     
     
     // Check if user is logged in
@@ -40,7 +41,7 @@ Reachability * internetReachable;
         [[FlatAPIClientManager sharedClient]setProfileUser:user];
         [[NSManagedObjectContext MR_defaultContext] MR_saveToPersistentStoreAndWait];
         [self refreshGroupAndLocation];
- 
+        
     }];
     
     if (profileUser != nil) {
@@ -171,7 +172,6 @@ Reachability * internetReachable;
                               ^(FBRequestConnection *connection,
                                 NSDictionary<FBGraphUser> *user,
                                 NSError *error) {
-                                  
                                   if (!error) {
                                       if (self.fbToken)
                                       {
@@ -181,8 +181,7 @@ Reachability * internetReachable;
                                           // Facebook Sign Up
                                           [self.loginViewController handleFacebookSignupWithToken:self.fbToken
                                                                                          andEmail:emailAddress
-                                                                                        firstName:firstName
-                                                                                      andLastName:lastName];
+                                                                                        firstName:firstName andLastName:lastName];
                                       }
                                   }
                               }];
@@ -254,16 +253,19 @@ Reachability * internetReachable;
     
     //and create new timer with async call:
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        int checkEvery = 290; //almost every 5 minutes
-        NSTimer* t = [NSTimer scheduledTimerWithTimeInterval:checkEvery target:self selector:@selector(backgroundTask) userInfo:nil repeats:YES];
-        [[NSRunLoop currentRunLoop] addTimer:t forMode:NSDefaultRunLoopMode];
+        NSTimer* cal = [NSTimer scheduledTimerWithTimeInterval:130 target:self selector:@selector(checkForCalendarEvent) userInfo:nil repeats:YES];
+        [[NSRunLoop currentRunLoop] addTimer:cal forMode:NSDefaultRunLoopMode];
+        NSTimer* group = [NSTimer scheduledTimerWithTimeInterval:1800 target:self selector:@selector(refreshGroupAndLocation) userInfo:nil repeats:YES];
+        [[NSRunLoop currentRunLoop] addTimer:group forMode:NSDefaultRunLoopMode];
         [[NSRunLoop currentRunLoop] run];
     });
 }
 
--(void)backgroundTask {
+-(void)application:(UIApplication *)application performFetchWithCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler {
+    [self setBackgroundCallback:completionHandler];
     [self checkForCalendarEvent];
-    [self refreshGroupAndLocation];
+    [self setBackgroundCallback:nil];
+    completionHandler(UIBackgroundFetchResultNoData);
 }
 
 -(void)checkForCalendarEvent {

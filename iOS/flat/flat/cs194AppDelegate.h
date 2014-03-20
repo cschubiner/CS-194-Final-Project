@@ -17,6 +17,8 @@
 @property (strong, nonatomic) RootController *mainViewController;
 @property (strong, nonatomic) OpeningNavigationController *loginViewController;
 @property (nonatomic, assign) BOOL loggedIn;
+typedef void (^BackgroundBlock)(UIBackgroundFetchResult);
+@property (copy) BackgroundBlock backgroundCallback;
 
 @property (strong, nonatomic) NSString *fbToken;
 

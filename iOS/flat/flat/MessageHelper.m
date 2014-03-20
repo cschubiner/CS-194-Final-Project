@@ -52,7 +52,7 @@ NSString* lastMessage;
                               event.title,
                               [Utils formatDate:event.startDate]
                               ];
-    if (lastMessage == nil || [messageText isEqualToString:lastMessage]) return;
+    if (lastMessage != nil && [messageText isEqualToString:lastMessage]) return;
     lastMessage = messageText;
     
     NSNumber * userID = [FlatAPIClientManager sharedClient].profileUser.userID;
@@ -60,6 +60,10 @@ NSString* lastMessage;
                             fromUserWithUserID:userID
                                        postURL:@"calendar/message/new"
                             andCompletionBlock:^(NSError *error, NSMutableArray *messages) {
+                                if (((cs194AppDelegate*)[UIApplication sharedApplication].delegate).backgroundCallback != nil) {
+                                    ((cs194AppDelegate*)[UIApplication sharedApplication].delegate).backgroundCallback(UIBackgroundFetchResultNewData);
+                                    [((cs194AppDelegate*)[UIApplication sharedApplication].delegate) setBackgroundCallback:nil];
+                                }
                                 if (error) {
                                     NSLog(@"Error in sending calendar message %@", error);
                                 } else {
