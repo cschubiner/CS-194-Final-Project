@@ -10,10 +10,8 @@
 
 @implementation Group (Json)
 
-+ (Group *)getGroupObjectFromDictionary:(NSDictionary *)dictionary
-                            AndManagedObjectContext:(NSManagedObjectContext *)context
-{
-    Group *group = [Group MR_createInContext:context];
++ (Group *)getGroupObjectFromDictionary:(NSDictionary *)dictionary {
+    Group *group = [[Group alloc]init];
     group.groupID = [dictionary objectForKey:@"groupID"];
     group.latLocation = [dictionary objectForKey:@"latLocation"];
     group.longLocation = [dictionary objectForKey:@"longLocation"];

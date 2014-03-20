@@ -7,10 +7,8 @@
 //
 
 #import <Foundation/Foundation.h>
-#import <CoreData/CoreData.h>
 
-
-@interface Group : NSManagedObject
+@interface Group : NSObject
 
 @property (nonatomic, retain) NSNumber * latLocation;
 @property (nonatomic, retain) NSNumber * groupID;

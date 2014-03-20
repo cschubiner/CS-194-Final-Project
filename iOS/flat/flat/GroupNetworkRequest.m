@@ -14,6 +14,7 @@
 + (void) getGroupFromGroupID:(NSNumber*)groupID
          withCompletionBlock:(RequestGroupCompletionHandler)completionBlock;
 {
+    if (groupID == nil) return;
     NSString * url = [NSString stringWithFormat:@"group/%@", groupID];
     [[FlatAPIClientManager sharedClient]GET: url
                                  parameters:Nil
@@ -21,7 +22,7 @@
                                         NSError *error = [ErrorHelper apiErrorFromDictionary:JSON];
                                         if (!error) {
                                             NSMutableDictionary *groupJSON = [JSON objectForKey:@"group"];
-                                                Group *group = [Group getGroupObjectFromDictionary:groupJSON AndManagedObjectContext:[NSManagedObjectContext MR_defaultContext]];
+                                                Group *group = [Group getGroupObjectFromDictionary:groupJSON];
                                             completionBlock(error, group);
                                         } else {
                                             completionBlock(error, nil);
@@ -49,8 +50,7 @@
                                         NSError *error = [ErrorHelper apiErrorFromDictionary:JSON];
                                         if (!error) {
                                             NSMutableDictionary *groupJSON = [JSON objectForKey:@"group"];
-                                            Group *group = [Group getGroupObjectFromDictionary:groupJSON
-                                                                       AndManagedObjectContext:[NSManagedObjectContext MR_defaultContext]];
+                                            Group *group = [Group getGroupObjectFromDictionary:groupJSON];
                                             completionBlock(error, group);
                                         } else {
                                             completionBlock(error, nil);

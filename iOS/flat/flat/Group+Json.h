@@ -10,7 +10,5 @@
 
 @interface Group (Json)
 
-+ (Group *)getGroupObjectFromDictionary:(NSDictionary *)dictionary
-                            AndManagedObjectContext:(NSManagedObjectContext *)context;
-
++ (Group *)getGroupObjectFromDictionary:(NSDictionary *)dictionary;
 @end

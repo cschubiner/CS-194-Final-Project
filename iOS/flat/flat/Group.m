@@ -11,8 +11,4 @@
 
 @implementation Group
 
-@dynamic latLocation;
-@dynamic groupID;
-@dynamic longLocation;
-
 @end

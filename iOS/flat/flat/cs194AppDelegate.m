@@ -354,7 +354,6 @@ Reachability * internetReachable;
 -(void) refreshGroupAndLocation {
     [GroupNetworkRequest getGroupFromGroupID:[FlatAPIClientManager sharedClient].profileUser.groupID withCompletionBlock:^(NSError * error, Group * group1) {
         [FlatAPIClientManager sharedClient].group = group1;
-        [[NSManagedObjectContext MR_defaultContext] MR_saveToPersistentStoreAndWait];
         //kickstart location
         if ([self askUserSetDormLocation]) {
             CLLocationManager * manager = [[LocationManager sharedClient] locationManager];
