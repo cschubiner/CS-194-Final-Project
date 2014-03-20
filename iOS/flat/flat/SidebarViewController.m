@@ -9,6 +9,7 @@
 #import "SidebarViewController.h"
 #import "cs194AppDelegate.h"
 #import "GroupTableViewController.h"
+#import "Utils.h"
 
 @interface SidebarViewController ()
 @property NSString *emailClicked;
@@ -257,19 +258,23 @@ clickedButtonAtIndex:(NSInteger)buttonIndex
                                                                          geoImages[user.isNearDorm.intValue]]];
         locationImage.frame = CGRectMake(4,40,20,20);
         
-        UILabel *name = [[UILabel alloc]initWithFrame:CGRectMake(60, 16, 70, 70)];
+        NSString *initials  = [NSString stringWithFormat:@"%@%@",
+                               [user.firstName substringWithRange:NSMakeRange(0, 1)],
+                               [user.lastName substringWithRange:NSMakeRange(0, 1)]];
+        
+        CGRect params = [Utils getSizeOfFont:[UIFont fontWithName:@"helveticaNeue" size:25] withText:initials];
+        
+        float displacement = 40 + 35 - (params.size.width/2);
+        
+        UILabel *name = [[UILabel alloc]initWithFrame:CGRectMake(displacement, 16, 70, 70)];
         name.textColor = [UIColor whiteColor];
-        name.font = [UIFont fontWithName:@"courier" size:25];
+        name.font = [UIFont fontWithName:@"helveticaNeue" size:25];
         
         [cell.contentView addSubview:circleView];
         [cell.contentView addSubview:name];
         [cell.contentView addSubview:locationImage];
         
-        NSString *initials  = [NSString stringWithFormat:@"%@%@",
-                               [user.firstName substringWithRange:NSMakeRange(0, 1)],
-                               [user.lastName substringWithRange:NSMakeRange(0, 1)]];
         name.text = initials;
-        
     }
     return cell;
 }

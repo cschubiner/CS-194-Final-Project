@@ -60,7 +60,15 @@
     int numUsersHome = [[FlatAPIClientManager sharedClient] getNumUsersHome];
     int numUsersBusy = [[[FlatAPIClientManager sharedClient] rootController].rightPanel numberOfEventsOccurringNow];
     
+    CGRect paramsHome = [Utils getSizeOfFont:[UIFont fontWithName:@"helveticaNeue" size:18] withText:[NSString stringWithFormat:@"%d", numUsersHome]];
+    CGRect paramsBusy = [Utils getSizeOfFont:[UIFont fontWithName:@"helveticaNeue" size:18] withText:[NSString stringWithFormat:@"%d", numUsersBusy]];
+    
     UIImage* image = [UIImage imageNamed:@"persons.png"];
+    UIImage* image2 = [UIImage imageNamed:@"the-cal.png"];
+    
+    float homeWidth = ((image.size.width - 13)/2) - (paramsHome.size.width/2);
+    float busyWidth = ((image2.size.width - 16)/2) - (paramsBusy.size.width/2);
+    
     CGRect frame = CGRectMake(0, 0, image.size.width - 13, image.size.height - 13);
     UIButton* someButton = [[UIButton alloc] initWithFrame:frame];
     NSString *numHomeText = [NSString stringWithFormat:@"%d", numUsersHome];
@@ -70,14 +78,14 @@
     [someButton setShowsTouchWhenHighlighted:YES];
     [someButton addTarget:self
                    action:@selector(toggleSidebarMenu:)
-         forControlEvents:UIControlEventTouchUpInside];
+         forControlEvents:UIControlEventTouchUpInside];\
+    
     CGRect fr = [someButton.titleLabel frame];
-	fr.origin.x = 12;
+	fr.origin.x = homeWidth;
 	fr.origin.y = 6;
 	[[someButton titleLabel] setFrame:fr];
     UIBarButtonItem* someBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:someButton];
     
-    UIImage* image2 = [UIImage imageNamed:@"the-cal.png"];
     CGRect frame2 = CGRectMake(0, 0, image2.size.width - 16, image2.size.height - 16);
     NSString *numBusyText = [NSString stringWithFormat:@"%d", numUsersBusy];
     UIButton* someButton2 = [[UIButton alloc] initWithFrame:frame2];
@@ -89,7 +97,7 @@
                     action:@selector(rightButtonPressed:)
           forControlEvents:UIControlEventTouchUpInside];
     CGRect fr2 = [someButton2.titleLabel frame];
-	fr2.origin.x = 10.5;
+	fr2.origin.x =  busyWidth;
 	fr2.origin.y = 9;
 	[[someButton2 titleLabel] setFrame:fr2];
     UIBarButtonItem* someBarButtonItem2 = [[UIBarButtonItem alloc] initWithCustomView:someButton2];
