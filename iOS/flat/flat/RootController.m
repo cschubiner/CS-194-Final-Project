@@ -174,7 +174,7 @@ static bool justRefreshed = false;
     HomeViewController *homeViewController = self.centerPanelHome;
     if ([homeViewController.tableViewController.refreshControl isRefreshing]) {
         [homeViewController.tableViewController.refreshControl endRefreshing];
-        [homeViewController.tableView setContentInset:UIEdgeInsetsMake(0, 0, 0, 0)];
+        [homeViewController.tableView setContentInset:UIEdgeInsetsMake(70, 0, 0, 0)];
     }
 }
 

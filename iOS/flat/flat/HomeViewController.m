@@ -49,7 +49,7 @@
 
 - (BOOL)shouldDisplayTimestampForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (indexPath.row % 3 == 0) {
+    if (indexPath.row % 3 == 1) {
         return YES;
     }
     return NO;
@@ -107,7 +107,6 @@
 }
 
 -(void)setupNavBar {
-    
     [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName : [UIColor whiteColor]}];
     [[self navigationItem] setTitle:@"Flat"];
     [self.navigationController.navigationBar setTitleTextAttributes:
@@ -116,12 +115,8 @@
     [self setNavBarButtons];
     
     self.navigationController.navigationBar.tintColor = [UIColor whiteColor]; //sets text color
-    //UIColor *tempColor = [ProfileUser colorWithHexString: @"FF2A68"];
-    //self.navigationController.navigationBar.barTintColor = tempColor;
-    self.navigationController.navigationBar.barTintColor =  [ProfileUser getColorFromUser:[[FlatAPIClientManager sharedClient]profileUser]];
-    
-    self.navigationController.navigationBar.translucent = YES;
-    self.navigationController.navigationBar.alpha = .1;
+    UIImage* image = [Utils imageWithColor:[Utils makeColorTransparent:[ProfileUser getColorFromUser:[[FlatAPIClientManager sharedClient]profileUser]] transparencyVal:.7]];
+    [self.navigationController.navigationBar setBackgroundImage:image forBarMetrics:UIBarMetricsDefault];
 }
 
 
@@ -165,6 +160,7 @@
     self.refresh.tintColor = [UIColor grayColor];
     self.refresh.attributedTitle = [[NSAttributedString alloc] initWithString:@"Pull to Refresh"];
     self.tableViewController.refreshControl = self.refresh;
+    [self.tableView setContentInset:UIEdgeInsetsMake(70, 0, 0, 0)];
 }
 
 - (void)viewDidLoad
@@ -244,7 +240,6 @@
     
 }
 
-
 - (void)configureCell:(JSBubbleMessageCell *)cell atIndexPath:(NSIndexPath *)indexPath
 {
     if (cell.timestampLabel) {
@@ -252,9 +247,10 @@
         cell.timestampLabel.shadowOffset = CGSizeZero;
     }
     
-    //    cell.bubbleView.textView.dataDetectorTypes = UIDataDetectorTypeNone;
-    if ([cell messageType] == JSBubbleMessageTypeOutgoing)
+    if ([cell messageType] == JSBubbleMessageTypeOutgoing) {
         cell.bubbleView.textView.textColor = [UIColor whiteColor];
+        [cell.bubbleView.textView setTextContainerInset:UIEdgeInsetsMake(8, 8, 2, 4)];
+    }
 }
 
 
@@ -347,7 +343,5 @@
 {
     return [self.messages objectAtIndex:indexPath.row];
 }
-
-
 
 @end

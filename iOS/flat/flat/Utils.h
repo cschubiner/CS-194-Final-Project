@@ -18,4 +18,6 @@
 +(NSString*)formatDate:(NSDate*) date withFormat:(NSString*) formatStr ;
 +(CGRect)getSizeOfFont:(UIFont*)font withText:(NSString*)text withLabel:(UILabel*)label;
 +(CGRect)getSizeOfFont:(UIFont*)font withText:(NSString*)text;
++ (UIImage *)imageWithColor:(UIColor *)color;
++(UIColor*)makeColorTransparent:(UIColor*)color transparencyVal:(CGFloat)transparencyVal;
 @end

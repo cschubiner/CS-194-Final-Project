@@ -40,6 +40,11 @@
     return [text boundingRectWithSize:CGSizeMake(200, 0) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName:font} context:nil];
 }
 
++(UIColor*)makeColorTransparent:(UIColor*)color transparencyVal:(CGFloat)transparencyVal {
+    typedef enum { R, G, B, A } UIColorComponentIndices;
+    return [UIColor colorWithRed:CGColorGetComponents(color.CGColor)[R] green:CGColorGetComponents(color.CGColor)[G] blue:CGColorGetComponents(color.CGColor)[B] alpha:transparencyVal];
+}
+
 +(NSString*)formatDate:(NSDate*) date {
     return [Utils formatDate:date withFormat:@"h:mm a"];
 }
@@ -79,5 +84,14 @@
     return [Utils formatDate:date withFormat:@"EEEE"];
 }
 
++ (UIImage *)imageWithColor:(UIColor *)color {
+    CGRect rect = CGRectMake(0, 0, 1, 1);
+    UIGraphicsBeginImageContextWithOptions(rect.size, NO, 0);
+    [color setFill];
+    UIRectFill(rect);
+    UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext(); 
+    return image;
+}
 
 @end
