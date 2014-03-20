@@ -336,7 +336,10 @@ Reachability * internetReachable;
     // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
 }
 
+// return true if the user has a legit dorm location
 -(bool)askUserSetDormLocation {
+    if ([((cs194AppDelegate*)UIApplication.sharedApplication.delegate) loggedIn] == false)
+        return false;
     Group * group = [[FlatAPIClientManager sharedClient]group];
     if (group.latLocation.floatValue <= .001 && group.longLocation.floatValue <= .001 && group.longLocation.floatValue >= -.001 && group.latLocation.floatValue >= -.001) {
         UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Enter Your Flat's Location" message:@"You should set your dorm's location to see whether your flatmates are at the Flat or not! Move to the center of your flat, then press \"Set Dorm Location\"" delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"Set Dorm Location", nil];
