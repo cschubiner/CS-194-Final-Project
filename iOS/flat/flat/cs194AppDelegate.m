@@ -257,8 +257,6 @@ Reachability * internetReachable;
 -(void)application:(UIApplication *)application performFetchWithCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler {
     [self setBackgroundCallback:completionHandler];
     [self checkForCalendarEvent];
-    [self setBackgroundCallback:nil];
-    completionHandler(UIBackgroundFetchResultNoData);
 }
 
 -(void)checkForCalendarEvent {

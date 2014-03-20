@@ -60,10 +60,16 @@ NSString* lastMessage;
                                        postURL:@"calendar/message/new"
                             andCompletionBlock:^(NSError *error, NSMutableArray *messages) {
                                 if (((cs194AppDelegate*)[UIApplication sharedApplication].delegate).backgroundCallback != nil) {
-                                    ((cs194AppDelegate*)[UIApplication sharedApplication].delegate).backgroundCallback(UIBackgroundFetchResultNewData);
+                                    BackgroundBlock backgroundCallback = ((cs194AppDelegate*)[UIApplication sharedApplication].delegate).backgroundCallback;
                                     [((cs194AppDelegate*)[UIApplication sharedApplication].delegate) setBackgroundCallback:nil];
+                                    backgroundCallback(UIBackgroundFetchResultNewData);
                                 }
                                 if (error) {
+                                    if (((cs194AppDelegate*)[UIApplication sharedApplication].delegate).backgroundCallback != nil) {
+                                        BackgroundBlock backgroundCallback = ((cs194AppDelegate*)[UIApplication sharedApplication].delegate).backgroundCallback;
+                                        [((cs194AppDelegate*)[UIApplication sharedApplication].delegate) setBackgroundCallback:nil];
+                                        backgroundCallback(UIBackgroundFetchResultNewData);
+                                    }
                                     NSLog(@"Error in sending calendar message %@", error);
                                 } else {
                                     DLog(@"calendar message sent successfully");
