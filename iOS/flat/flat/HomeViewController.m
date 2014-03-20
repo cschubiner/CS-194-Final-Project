@@ -115,7 +115,7 @@
     [self setNavBarButtons];
     
     self.navigationController.navigationBar.tintColor = [UIColor whiteColor]; //sets text color
-    UIImage* image = [Utils imageWithColor:[Utils makeColorTransparent:[ProfileUser getColorFromUser:[[FlatAPIClientManager sharedClient]profileUser]] transparencyVal:.7]];
+    UIImage* image = [Utils imageWithColor:[Utils makeColorTransparent:[ProfileUser getColorFromUser:[[FlatAPIClientManager sharedClient]profileUser]] transparencyVal:.95]];
     [self.navigationController.navigationBar setBackgroundImage:image forBarMetrics:UIBarMetricsDefault];
 }
 
@@ -201,7 +201,6 @@
                             //Diplay message did not send error
                             self.messageInputView.textView.text = text;
                         } else {
-                            //    NSLog(@"MESSAGES: %@", messages);
                             self.messages = messages;
                             [JSMessageSoundEffect playMessageSentSound];
                             DLog(@"About to reload data");
@@ -249,7 +248,7 @@
     
     if ([cell messageType] == JSBubbleMessageTypeOutgoing) {
         cell.bubbleView.textView.textColor = [UIColor whiteColor];
-        [cell.bubbleView.textView setTextContainerInset:UIEdgeInsetsMake(8, 8, 2, 4)];
+        [cell.bubbleView.textView setTextContainerInset:UIEdgeInsetsMake(9, 10, 2, 4)];
     }
 }
 
