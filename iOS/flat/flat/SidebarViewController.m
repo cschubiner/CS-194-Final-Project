@@ -165,8 +165,8 @@ clickedButtonAtIndex:(NSInteger)buttonIndex
        else if ([user.isNearDorm isEqualToNumberWithNullCheck:[NSNumber numberWithInt:AWAY_DORM_STATUS]]) {
             dormStatus = @" is away from the dorm right now";
         }
-        NSString * text = [NSString stringWithFormat:@"%@ %@.\nEmail: %@", user.firstName, dormStatus, user.email];
-        NSString * title = [NSString stringWithFormat:@"%@%@", user.firstName, user.lastName];
+        NSString * text = [NSString stringWithFormat:@"%@%@.\nEmail: %@", user.firstName, dormStatus, user.email];
+        NSString * title = [NSString stringWithFormat:@"%@ %@", user.firstName, user.lastName];
         UIAlertView *alertView = [[UIAlertView alloc]
                                   initWithTitle:title
                                   message:text

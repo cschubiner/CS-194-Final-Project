@@ -10,7 +10,7 @@
 #import "RootController.h"
 #import "OpeningNavigationController.h"
 
-@interface cs194AppDelegate : UIResponder <UIApplicationDelegate>
+@interface cs194AppDelegate : UIResponder <UIApplicationDelegate, UIAlertViewDelegate>
 
 @property (strong, nonatomic) UIWindow *window;
 

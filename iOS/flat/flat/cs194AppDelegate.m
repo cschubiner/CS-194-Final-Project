@@ -39,32 +39,31 @@ Reachability * internetReachable;
     [ProfileUserNetworkRequest getUserForUserID:profileUser.userID withCompletionBlock:^(NSError* error, ProfileUser * user) {
         [[FlatAPIClientManager sharedClient]setProfileUser:user];
         [[NSManagedObjectContext MR_defaultContext] MR_saveToPersistentStoreAndWait];
-        
-        if (profileUser != nil) {
-            self.loggedIn = YES;
-            
-            //User is logged in
-            if (FBSession.activeSession.state == FBSessionStateCreatedTokenLoaded) {
-                // Open Facebook Session
-                [self openFacebookSession];
-            }
-            
-            // Set Profile User
-            [self refreshGroupAndLocation];
-            [self showInitialView];
-        } else {
-            // Not Logged In, show Login
-            DLog(@"Not Logged in, show Login screen");
-            [self showInitialView];
-            DLog(@"Show initial view already called");
-            [self showLoginView];
-        }
+        [self refreshGroupAndLocation];
+ 
     }];
+    
+    if (profileUser != nil) {
+        self.loggedIn = YES;
+        
+        //User is logged in
+        if (FBSession.activeSession.state == FBSessionStateCreatedTokenLoaded) {
+            // Open Facebook Session
+            [self openFacebookSession];
+        }
+        
+        // Set Profile User
+        [self showInitialView];
+    } else {
+        // Not Logged In, show Login
+        DLog(@"Not Logged in, show Login screen");
+        [self showInitialView];
+        DLog(@"Show initial view already called");
+        [self showLoginView];
+    }
     
     [[UIApplication sharedApplication] registerForRemoteNotificationTypes:
      (UIRemoteNotificationTypeSound | UIRemoteNotificationTypeAlert)];
-    
-    //    [NSTimer scheduledTimerWithTimeInterval:280.0 target:self selector:@selector(checkForCalendarEvent) userInfo:nil repeats:YES];
     
     [self testInternetConnection];
     
@@ -337,15 +336,36 @@ Reachability * internetReachable;
     // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
 }
 
+-(bool)askUserSetDormLocation {
+    Group * group = [[FlatAPIClientManager sharedClient]group];
+    if (group.latLocation.floatValue <= .001 && group.longLocation.floatValue <= .001 && group.longLocation.floatValue >= -.001 && group.latLocation.floatValue >= -.001) {
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Enter Your Flat's Location" message:@"You should set your dorm's location to see whether your flatmates are at the Flat or not! Move to the center of your flat, then press \"Set Dorm Location\"" delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"Set Dorm Location", nil];
+        [alertView show];
+        return false;
+    }
+    // return true if the user's dorm has a non-nil location
+    return true;
+}
+
+
+-(void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex {
+    if (buttonIndex == 1) {
+        [[LocationManager sharedClient] setShouldSetDormLocation:true];
+        [[[LocationManager sharedClient] locationManager] startUpdatingLocation];
+    }
+}
+
 -(void) refreshGroupAndLocation {
     [GroupNetworkRequest getGroupFromGroupID:[FlatAPIClientManager sharedClient].profileUser.groupID withCompletionBlock:^(NSError * error, Group * group1) {
         [FlatAPIClientManager sharedClient].group = group1;
         [[NSManagedObjectContext MR_defaultContext] MR_saveToPersistentStoreAndWait];
         //kickstart location
-        CLLocationManager * manager = [[LocationManager sharedClient] locationManager];
-        [manager stopMonitoringForRegion:manager.monitoredRegions.anyObject];
-        [manager startMonitoringForRegion:[[LocationManager sharedClient] getGroupLocationRegion]];
-        [[LocationManager sharedClient] setShouldSetDormLocation:false];
+        if ([self askUserSetDormLocation]) {
+            CLLocationManager * manager = [[LocationManager sharedClient] locationManager];
+            [manager stopMonitoringForRegion:manager.monitoredRegions.anyObject];
+            [manager startMonitoringForRegion:[[LocationManager sharedClient] getGroupLocationRegion]];
+            [[LocationManager sharedClient] setShouldSetDormLocation:false];
+        }
     }];
 }
 

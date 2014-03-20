@@ -36,8 +36,6 @@
     [self.centerPanelHome.messageInputView resignFirstResponder];
 }
 
-
-
 - (void)viewDidLoad
 {
     [super viewDidLoad];

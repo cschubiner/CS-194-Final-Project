@@ -134,9 +134,6 @@
     else if (indexPath.row == 1) {
         [self performSegueWithIdentifier:@"SidebarToGroupTableView"
                                   sender:self];
-        //        GroupTableViewController * groupTableVC = [[GroupTableViewController alloc] init];
-        //        [self presentViewController:groupTableVC animated:YES completion:nil];
-        
     }
 }
 
@@ -144,11 +141,8 @@
     if (alertView.tag == 0) { //set dorm location as current location
         if (buttonIndex == 1) {
             DLog(@"user pressed OK");
-//            CLLocation * location =
-            
             [[LocationManager sharedClient] setShouldSetDormLocation:true];
             [[[LocationManager sharedClient] locationManager] startUpdatingLocation];
-//            NSLog(@"curr lat: %f", [[LocationManager sharedClient] currentLatitude]); //doesn't work. good.
         }
         else {
             DLog(@"user pressed Cancel");

@@ -110,9 +110,10 @@
     
     self.navigationController.navigationBar.tintColor = [UIColor whiteColor]; //sets text color
     self.navigationController.navigationBar.barTintColor =  [ProfileUser getColorFromUser:[[FlatAPIClientManager sharedClient]profileUser]];
+//    self.navigationController.navigationBar.barTintColor =  [UIColor blackColor];
     
     self.navigationController.navigationBar.translucent = YES;
-    self.navigationController.navigationBar.alpha = .2;
+    self.navigationController.navigationBar.alpha = .1;
 }
 
 

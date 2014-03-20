@@ -15,7 +15,6 @@
 @implementation LocationManager
 
 
-
 + (instancetype)sharedClient {
     static LocationManager *_sharedClient = nil;
     static dispatch_once_t onceToken;
@@ -68,14 +67,17 @@
     && region.center.longitude <= .001 && region.center.longitude >= -.001;
 }
 
-- (void)handleUserDormState:(NSNumber*)isInDormStatus {
-    if (canUpdateDormState == false) return;
+- (void)handleUserDormState:(NSNumber*)isInDormStatus withForce:(bool)force{
+    if (canUpdateDormState == false || force) return;
     canUpdateDormState = false;
     
     ProfileUser * currUser = [FlatAPIClientManager sharedClient].profileUser;
     currUser.isNearDorm = isInDormStatus;
     [ProfileUserNetworkRequest setUserLocationWithUserID:currUser.userID andIsInDorm:isInDormStatus];
     [NSTimer scheduledTimerWithTimeInterval:5.0 target:self selector:@selector(allowDormStateUpdate) userInfo:nil repeats:NO];
+}
+- (void)handleUserDormState:(NSNumber*)isInDormStatus {
+    [self handleUserDormState:isInDormStatus withForce:NO];
 }
 bool canUpdateDormState = true;
 -(void)allowDormStateUpdate {
@@ -115,13 +117,12 @@ bool canUpdateDormState = true;
         NSLog(@"latitude %+.6f, longitude %+.6f\n",
               newLocation.coordinate.latitude,
               newLocation.coordinate.longitude);
-        //        Group * group = [[FlatAPIClientManager sharedClient] group];
         
         [GroupNetworkRequest setGroupLocation:[[FlatAPIClientManager sharedClient]profileUser].groupID withLocation:newLocation withCompletionBlock:^(NSError * error, Group * group) {
             if (error == nil) {
                 [[[FlatAPIClientManager sharedClient] group] setLatLocation:[NSNumber numberWithDouble:newLocation.coordinate.latitude]];
                 [[[FlatAPIClientManager sharedClient] group] setLongLocation:[NSNumber numberWithDouble:newLocation.coordinate.longitude]];
-                [self handleUserDormState:[NSNumber numberWithInt:IN_DORM_STATUS]];
+                [self handleUserDormState:[NSNumber numberWithInt:IN_DORM_STATUS] withForce:true];
                 [[NSManagedObjectContext MR_defaultContext] MR_saveToPersistentStoreWithCompletion:nil];
                 CLLocationManager * manager = [[LocationManager sharedClient] locationManager];
                 [manager stopMonitoringForRegion:manager.monitoredRegions.anyObject];
