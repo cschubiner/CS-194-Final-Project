@@ -214,13 +214,6 @@ Reachability * internetReachable;
             // Once the user has logged in, we want them to
             // be looking at the root view.
             
-            /*
-             ///////[self.mainNavigationViewController popToRootViewControllerAnimated:NO];
-             
-             [FBSession.activeSession closeAndClearTokenInformation];
-             
-             [self showLoginView];*/
-            
             [self showInitialView];
             
             // delete the above section at some point --------------------------------

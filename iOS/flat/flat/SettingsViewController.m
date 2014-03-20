@@ -30,12 +30,6 @@
     [super viewDidLoad];
     
     [[self navigationItem] setTitle:@"Settings"];
-
-    // Uncomment the following line to preserve selection between presentations.
-    // self.clearsSelectionOnViewWillAppear = NO;
- 
-    // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-    // self.navigationItem.rightBarButtonItem = self.editButtonItem;
 }
 
 - (void)didReceiveMemoryWarning
@@ -90,13 +84,14 @@
     }
 }
 
+
 - (void)handleLogout
 {
     DLog(@"handleLogout");
     
     [self.delegate toggleSidebarMenu:nil];
     
-    cs194AppDelegate *delegate = [UIApplication sharedApplication].delegate;
+    cs194AppDelegate *delegate = (cs194AppDelegate *)[UIApplication sharedApplication].delegate;
     [delegate handleLogout];
 }
 
@@ -123,6 +118,7 @@
         [tableView deselectRowAtIndexPath:indexPath
                                  animated:YES];
     } else if (indexPath.row == 0) {
+        [tableView deselectRowAtIndexPath:indexPath animated:YES];
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle: @"Set dorm location"
                                                         message: @"Do you want to set your current location as your group's dorm location?"
                                                        delegate: self
