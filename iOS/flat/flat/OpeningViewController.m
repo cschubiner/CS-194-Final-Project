@@ -63,13 +63,9 @@
     [self addChildViewController:_pageViewController];
     [self.view addSubview:_pageViewController.view];
     [self.pageViewController didMoveToParentViewController:self];
-    //end
     
-    
-    
-    [self.view addSubview:[[OpeningButton alloc] initWithType:@"facebookSignIn"
-                                                       parent:self
-                                                       action:@selector(openFacebookSession)]];
+    OpeningButton* ob = [[OpeningButton alloc] initWithType:@"facebookSignIn" parent:self action:@selector(openFacebookSession)];
+    [self.view addSubview:ob];
     [self setBackground];
 }
 
@@ -173,7 +169,6 @@
              [FlatAPIClientManager sharedClient].profileUser = profileUser;
              [self performSegueWithIdentifier:@"OpeningToGroup"
                                        sender:self];
-             //[self dismissViewControllerAnimated:YES completion:nil];
          }
      }];
 }

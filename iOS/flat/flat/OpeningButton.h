@@ -14,4 +14,9 @@
             parent:(UIViewController *)parent
             action:(SEL)action;
 
+
+
+-(void)setEnabledColor;
+-(void)setDisabledColor;
+    
 @end

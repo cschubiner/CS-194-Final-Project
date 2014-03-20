@@ -17,10 +17,7 @@
     self = [super init];
     if (self) {
         self = [UIButton buttonWithType:UIButtonTypeSystem];
-        [self setTitleColor: [UIColor colorWithRed:57.0/255.0
-                                             green:90.0/255.0
-                                              blue:161.0/255.0
-                                             alpha:1.0] forState:UIControlStateNormal];
+        [self setTitleColor: [UIColor colorWithRed:57.0/255.0 green:90.0/255.0 blue:161.0/255.0 alpha:1.0] forState:UIControlStateNormal];
         self.contentHorizontalAlignment = UIControlContentHorizontalAlignmentCenter;
         self.titleLabel.font = [UIFont fontWithName:@"ProximaNova-Bold" size:18.0f];
         [self addTarget:parent action:action forControlEvents:UIControlEventTouchUpInside];
@@ -45,6 +42,13 @@
         }
     }
     return self;
+}
+
+-(void)setEnabledColor {
+        [self setTitleColor: [UIColor colorWithRed:57.0/255.0 green:90.0/255.0 blue:161.0/255.0 alpha:1.0] forState:UIControlStateNormal];
+}
+-(void)setDisabledColor {
+        [self setTitleColor: [UIColor grayColor] forState:UIControlStateDisabled];
 }
 
 @end
