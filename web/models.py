@@ -95,8 +95,8 @@ class Message(Base):
             "user_id": self.user_id,
             "name": db.get_name_from_fbid(self.user_id),
             "group_id": self.group_id,
-            # "time_stamp": self.time_stamp.isoformat(),
-            "time_stamp": messages.fast_adjusted_time(self.time_stamp, self.offset),
+            "time_stamp": self.time_stamp.isoformat(),
+            # "time_stamp": messages.fast_adjusted_time(self.time_stamp, self.offset),
             "color_id": self.color_id
         }
 

@@ -10,6 +10,7 @@ import models, utils, datetime
 from google.appengine.api import taskqueue
 import urllib2
 import json, groups
+# For google apis
 AUTHORIZED_IP="128.12.253.15"
 API_KEY = 'AIzaSyB1jxr6zInsnwvK9KeJV59r-5kM08tRr4M'
 
@@ -94,35 +95,32 @@ def adjusted_time(group_id, ucttime):
         lon = str(location[1])
         cur = str(datetime.datetime.utcnow().strftime('%s'))
         part1 = lat+","+lon+"+&timestamp=" + cur + "&key=" + API_KEY
-        print part1
         url += part1
         part2 = "&userIp=" + AUTHORIZED_IP
         url += part2
-        print url
         result = json.loads(urllib2.urlopen(url).read())
-        print result
-        print type(result)
         offset = result["rawOffset"]
-        print offset
         delta = datetime.timedelta(seconds=int(offset))
         dst = datetime.timedelta(seconds=int(result['dstOffset']))
-        print delta
         adjusted = ucttime + delta + dst
         return adjusted.isoformat()
-        return ucttime + delta
 
+'''
+    Given a latitude and longitude, returns the offset from UTC in seconds
+'''
 def get_offset(lat, lon):
     url = "https://maps.googleapis.com/maps/api/timezone/json?sensor=false&location="
     cur = str(datetime.datetime.utcnow().strftime('%s'))
     part1 = lat+","+lon+"+&timestamp=" + cur + "&key=" + API_KEY
-    print part1
     url += part1
     part2 = "&userIp=" + AUTHORIZED_IP
-    url += part2
-    print url
     result = json.loads(urllib2.urlopen(url).read())
     return int(result['dstOffset']) + int(result['rawOffset'])
 
+'''
+    Helper method for serialization
+    See Models.py
+'''
 def fast_adjusted_time(ucttime, offset):
     if offset is None:
         return None

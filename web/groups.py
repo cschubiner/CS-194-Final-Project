@@ -153,40 +153,23 @@ def get_group_by_id(group_id):
 
 
 def update_location(group, lat, lon):
-    print group
     result = db_session.query(models.Group).filter(models.Group.id == int(group)).first()
 
-    print "PARAMS"
-    print lat
-    print lon
-    print "PARAMS AS FLOATS"
-    print float(lat)
-    print float(lon)
-    print "STORED IN DB"
-    print float(result.latitude)
-    print float(result.longitude)
-    print "NEW NUMBERS"
     latitude = float(lat)
     longitude = float(lon)
-    print latitude
-    print longitude
 
     if result:
         if latitude != result.latitude and longitude != result.longitude:
             # Updating both
-            print "updating both"
             result.latitude = latitude
             result.longitude = longitude
         elif latitude == result.latitude and longitude != result.longitude:
-            print "updating longitude only"
             # Updating longitude only
             result.longitude = longitude
         elif latitude != result.latitude and longitude == result.longitude:
             #updating latitude only
-            print "updating latitude only"
             result.latitude = latitude
         else:
-            print "updating none"
             # Update none of them
             # Updating each user to not broadcasting
 
@@ -224,7 +207,6 @@ def update_broadcasting_status(group_id):
     Also posts messages to that group
 '''
 def assign_passcode(fb_id):
-    "CALLED FUNCTION"
     user = db_session.query(models.User).filter(models.User.fb_id==fb_id).first()
     group_id = user.group_id
     group = db_session.query(models.Group).filter(models.Group.id == group_id).first()

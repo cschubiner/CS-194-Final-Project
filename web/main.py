@@ -46,45 +46,24 @@ def facebook_login(signup):
     else:
         return utils.to_app_json({"Error lol"})
 
+''' 
+    Fetches all members of a group
+'''
 @app.route('/group/<group_id>/users')
 def get_group_members(group_id):
     return db.get_all_users(group_id)
 
-@app.route('/group/<group_id>', methods=['GET','POST'])
-def get_location_by_group(group_id):
-    return groups.get_group_by_id(group_id)
-    data = {
-        "group":
-        {
-            "groupID": 0,
-            "latLocation": 37.419984,
-            "longLocation": -122.167301
-        }
-    }
-    resp = Response(response=json.dumps(data), status=200,mimetype="application/json")
-    return resp
-
-# Given a user id and a boolean
-# records status of the user id the DB
-@app.route('/user/<fbid>/indorm/', methods=['GET','POST'])
-def is_in_dorm(fbid):
-    # return whether or not is_in_dorm = true
-    data = {
-        "data":
-        {
-            "value": True,
-        }
-    }
-    resp = Response(response=json.dumps(data), status=200,mimetype="application/json")
-    return resp
-
-# used to change the status of the dorm
-# TODO: reset status to not broadcasting after 4 hours
+'''
+    used to change the status of the dorm
+'''
 @app.route('/user/<fb_id>/indorm/<new_status>', methods=['GET','POST'])
 def update_dorm_status(fb_id, new_status):
     if request.method == 'GET':
         return db.update_dorm_status(fb_id, new_status)
 
+'''
+    Updates location of specified group
+'''
 @app.route('/group/update_location/', methods=['GET', 'POST'])
 def update_location():
     if request.method == 'POST' and request.form:
@@ -122,11 +101,13 @@ def add_user_by_fbid():
         return "Success!"
 
 # Get request to change user's group
-# Get instead of post because lazy
 @app.route('/user/<fb_id>/changegroupid/<new_group_id>/token/<passcode>')
 def change_group_id(fb_id, new_group_id, passcode):
     return groups.change_group_id(fb_id, new_group_id, passcode)
 
+'''
+    Inserts a new message into the DB
+'''
 @app.route('/message/new', methods=['GET', 'POST'])
 def add_new_message():
     print request
@@ -137,16 +118,21 @@ def add_new_message():
         return messages.add_new_message(body, fb_id)
     return "Hello"
 
+'''
+    Fetch all messages given a userID
+'''
 @app.route('/messages/all/<userID>')
 def get_messages(userID):
     return messages.get_messages(userID)
 
+'''
+    Google Task Queue endpoint,
+    Adds all users friends from Facebook, and 
+    inserts it into the database
+'''
 @app.route('/tasks/add_friends', methods=['GET', 'POST'])
 def task_add_friends():
     if request.method == 'POST':
-        print request.form
-        print "hello"
-        # return "fuck you"
         return db.task_add_friends(request.form['access_token'],request.form['id'])
     return "{}"
 
@@ -155,8 +141,7 @@ def task_add_friends():
 def task_send_message_notification():
     if request.method == 'POST':
 
-        # for debugging purposes
-        print request.data
+        # For debugging
         if request.data:
             data = request.data.split()
             return push_notification.send_push_notification(data[0], data[1], data[2], data[3])
@@ -180,7 +165,6 @@ def task_notify_group():
         else:
             # It's a post request with parameters
             return push_notification.task_send_to_group(request.form['group_id'], request.form['body'])
-    # TODO: handle get request
 
 '''
     Inserts a new calendar event into the DB
@@ -263,15 +247,13 @@ def edit_task():
             new_body = request.form['body']
             new_time = request.form['due_date']
             return tasks.edit_task(task_id, group_id, new_body, new_time)
-
+'''
+    Cronjob endpoint that checks if users have broadcasted their location
+    in the last 4 hours
+'''
 @app.route('/cron/check_broadcast')
 def check_broadcast():
     return location_timer.check_broadcast()
-
-@app.route('/test/get_time/<group_id>')
-def test_time(group_id):
-    return messages.adjusted_time(group_id, datetime.datetime.utcnow())
-
 
 
 
