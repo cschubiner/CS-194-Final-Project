@@ -49,7 +49,7 @@
 
 - (BOOL)shouldDisplayTimestampForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (indexPath.row % 3 == 1) {
+    if (indexPath.row % 3 == 2) {
         return YES;
     }
     return NO;
@@ -115,7 +115,11 @@
     [self setNavBarButtons];
     
     self.navigationController.navigationBar.tintColor = [UIColor whiteColor]; //sets text color
-    UIImage* image = [Utils imageWithColor:[Utils makeColorTransparent:[ProfileUser getColorFromUser:[[FlatAPIClientManager sharedClient]profileUser]] transparencyVal:.95]];
+    
+    UIColor * navBarColor = [ProfileUser getColorFromUser:[[FlatAPIClientManager sharedClient]profileUser]];
+//    navBarColor = [ProfileUser colorWithHexString:@"BA1CB0"];
+    
+    UIImage* image = [Utils imageWithColor:[Utils makeColorTransparent:navBarColor transparencyVal:.958]];
     [self.navigationController.navigationBar setBackgroundImage:image forBarMetrics:UIBarMetricsDefault];
 }
 
@@ -180,7 +184,6 @@
 
 - (void)loadInitialMessages
 {
-    //
     [[FlatAPIClientManager sharedClient]turnOnLoadingView:self.view];
     [ProfileUserHelper getUsersFromGroupID:[[FlatAPIClientManager sharedClient]profileUser].groupID withCompletionBlock:^(NSError * error, NSMutableArray * users) {
         [[FlatAPIClientManager sharedClient] setUsers:users];
@@ -283,9 +286,9 @@
 -(UIImageView *)avatarImageViewForRowAtIndexPath:(NSIndexPath *)indexPath sender:(NSString *)sender {
     Message *currMessage = [self.messages objectAtIndex:indexPath.row];
     UIImage * image;
-    if ([currMessage.senderID isEqualToNumberWithNullCheck:[NSNumber numberWithInt:1]]) {
+    if (true && [currMessage.senderID isEqualToNumberWithNullCheck:[NSNumber numberWithInt:1]]) {
         //if it's the initial greeting message
-        image = [JSAvatarImageFactory avatarImageNamed:@"infoicon3" croppedToCircle:YES];
+        image = [JSAvatarImageFactory avatarImageNamed:@"flaticon" croppedToCircle:YES];
     }
     else if (![currMessage.senderID isEqualToNumberWithNullCheck:[NSNumber numberWithInt:0]]) {
         static NSMutableDictionary * avatarDict = nil;
