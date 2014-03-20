@@ -32,6 +32,12 @@
     return ret;
 }
 
++(CGRect)getSizeOfFont:(UIFont*)font withText:(NSString*)text {
+        return [text boundingRectWithSize:CGSizeMake(200, 0)
+                                      options:NSStringDrawingUsesLineFragmentOrigin
+                                   attributes:@{NSFontAttributeName:font}
+                                      context:nil];
+}
 
 +(NSString*)formatDate:(NSDate*) date {
     return [Utils formatDate:date withFormat:@"h:mm a"];

@@ -18,9 +18,7 @@
 @end
 
 
-@implementation CalendarViewController
-{
-}
+@implementation CalendarViewController {}
 
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -193,8 +191,6 @@
     
     UIColor * color = [ProfileUser getColorFromUserID:event.userID];
     
-
-    
     UILabel *titleText = [[UILabel alloc]initWithFrame:CGRectMake(20, -5, cell.frame.size.width, cell.frame.size.height)];
     titleText.textColor = lightTextColor;
     titleText.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:17];
@@ -214,6 +210,7 @@
     userText.alpha = .8;
     userText.font = [UIFont fontWithName:@"HelveticaNeue" size:14];
     userText.text = [ProfileUser getFirstNameFromUserID:event.userID];
+//    userText.wid
     
     UIView *barView = [[UIView alloc] initWithFrame:CGRectMake(0, 10, 6, cell.frame.size.height + 15)];
     barView.alpha = 1.0;
