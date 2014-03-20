@@ -116,8 +116,9 @@
     [self setNavBarButtons];
     
     self.navigationController.navigationBar.tintColor = [UIColor whiteColor]; //sets text color
+    //UIColor *tempColor = [ProfileUser colorWithHexString: @"FF2A68"];
+    //self.navigationController.navigationBar.barTintColor = tempColor;
     self.navigationController.navigationBar.barTintColor =  [ProfileUser getColorFromUser:[[FlatAPIClientManager sharedClient]profileUser]];
-//    self.navigationController.navigationBar.barTintColor =  [UIColor blackColor];
     
     self.navigationController.navigationBar.translucent = YES;
     self.navigationController.navigationBar.alpha = .1;
@@ -312,10 +313,14 @@
         circleView.alpha = 1.0;
         circleView.layer.cornerRadius = 30;
         circleView.backgroundColor = bubbleColor;
+    
+        NSString* title = [ProfileUser getInitialsFromUserID:currMessage.senderID];
+        CGRect params = [Utils getSizeOfFont:[UIFont fontWithName:@"helveticaNeue" size:25] withText:title];
+        float displacement = 30 + 5 - (params.size.width/2);
         
-        UILabel *name = [[UILabel alloc]initWithFrame:CGRectMake(20, 1, 70, 70)];
+        UILabel *name = [[UILabel alloc]initWithFrame:CGRectMake(displacement, 1, 70, 70)];
         name.textColor = [UIColor whiteColor];
-        name.font = [UIFont fontWithName:@"courier" size:25];
+        name.font = [UIFont fontWithName:@"helveticaNeue" size:25];
         
         [backView addSubview:circleView];
         [backView addSubview:name];

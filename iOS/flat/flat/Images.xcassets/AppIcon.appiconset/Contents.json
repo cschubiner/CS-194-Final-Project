@@ -3,7 +3,7 @@
     {
       "size" : "29x29",
       "idiom" : "iphone",
-      "filename" : "AppIcon29x29.png",
+      "filename" : "AppIcon29x29-1.png",
       "scale" : "1x"
     },
     {
@@ -39,7 +39,7 @@
     {
       "size" : "29x29",
       "idiom" : "ipad",
-      "filename" : "AppIcon29x29-1.png",
+      "filename" : "AppIcon29x29.png",
       "scale" : "1x"
     },
     {
@@ -97,10 +97,10 @@
       "scale" : "2x"
     },
     {
-      "size" : "512x512",
+      "size" : "256x256",
       "idiom" : "mac",
       "filename" : "iTunesArtwork.png",
-      "scale" : "1x"
+      "scale" : "2x"
     },
     {
       "size" : "512x512",
