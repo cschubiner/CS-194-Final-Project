@@ -5,14 +5,14 @@
       "idiom" : "iphone",
       "extent" : "full-screen",
       "minimum-system-version" : "7.0",
-      "filename" : "LauchImage-1.png",
+      "filename" : "diag-launch-old.png",
       "scale" : "2x"
     },
     {
       "extent" : "full-screen",
       "idiom" : "iphone",
       "subtype" : "retina4",
-      "filename" : "launchy@2x-3.png",
+      "filename" : "diag-launch.png",
       "minimum-system-version" : "7.0",
       "orientation" : "portrait",
       "scale" : "2x"
@@ -49,21 +49,21 @@
       "orientation" : "portrait",
       "idiom" : "iphone",
       "extent" : "full-screen",
-      "filename" : "LauchImage-2.png",
+      "filename" : "diag-launch-old-1.png",
       "scale" : "1x"
     },
     {
       "orientation" : "portrait",
       "idiom" : "iphone",
       "extent" : "full-screen",
-      "filename" : "LauchImage.png",
+      "filename" : "diag-launch-old-2.png",
       "scale" : "2x"
     },
     {
       "orientation" : "portrait",
       "idiom" : "iphone",
       "extent" : "full-screen",
-      "filename" : "launchy.png",
+      "filename" : "diag-launch-1.png",
       "subtype" : "retina4",
       "scale" : "2x"
     },

@@ -60,37 +60,37 @@
     int numUsersHome = [[FlatAPIClientManager sharedClient] getNumUsersHome];
     int numUsersBusy = [[[FlatAPIClientManager sharedClient] rootController].rightPanel numberOfEventsOccurringNow];
     
-    UIImage* image = [UIImage imageNamed:@"circle-icon.png"];
-    CGRect frame = CGRectMake(0, 0, image.size.width, image.size.height);
+    UIImage* image = [UIImage imageNamed:@"persons.png"];
+    CGRect frame = CGRectMake(0, 0, image.size.width - 13, image.size.height - 13);
     UIButton* someButton = [[UIButton alloc] initWithFrame:frame];
     NSString *numHomeText = [NSString stringWithFormat:@"%d", numUsersHome];
     [someButton setTitle:numHomeText forState:UIControlStateNormal];
-    [someButton.titleLabel setFont:[UIFont fontWithName:@"Courier" size:18.0f]];
+    [someButton.titleLabel setFont:[UIFont fontWithName:@"HelveticaNeue" size:18.0f]];
     [someButton setBackgroundImage:image forState:UIControlStateNormal];
     [someButton setShowsTouchWhenHighlighted:YES];
     [someButton addTarget:self
                    action:@selector(toggleSidebarMenu:)
          forControlEvents:UIControlEventTouchUpInside];
     CGRect fr = [someButton.titleLabel frame];
-	fr.origin.x = 7;
-	fr.origin.y = 4;
+	fr.origin.x = 12;
+	fr.origin.y = 6;
 	[[someButton titleLabel] setFrame:fr];
     UIBarButtonItem* someBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:someButton];
     
-    UIImage* image2 = [UIImage imageNamed:@"calendar-icon.png"];
-    CGRect frame2 = CGRectMake(0, 0, image2.size.width, image2.size.height);
+    UIImage* image2 = [UIImage imageNamed:@"the-cal.png"];
+    CGRect frame2 = CGRectMake(0, 0, image2.size.width - 16, image2.size.height - 16);
     NSString *numBusyText = [NSString stringWithFormat:@"%d", numUsersBusy];
     UIButton* someButton2 = [[UIButton alloc] initWithFrame:frame2];
     [someButton2 setTitle:numBusyText forState:UIControlStateNormal];
-    [someButton2.titleLabel setFont:[UIFont fontWithName:@"Courier" size:18.0f]];
+    [someButton2.titleLabel setFont:[UIFont fontWithName:@"HelveticaNeue" size:18.0f]];
     [someButton2 setBackgroundImage:image2 forState:UIControlStateNormal];
     [someButton2 setShowsTouchWhenHighlighted:YES];
     [someButton2 addTarget:self
                     action:@selector(rightButtonPressed:)
           forControlEvents:UIControlEventTouchUpInside];
     CGRect fr2 = [someButton2.titleLabel frame];
-	fr2.origin.x = 7;
-	fr2.origin.y = 7;
+	fr2.origin.x = 10.5;
+	fr2.origin.y = 9;
 	[[someButton2 titleLabel] setFrame:fr2];
     UIBarButtonItem* someBarButtonItem2 = [[UIBarButtonItem alloc] initWithCustomView:someButton2];
     
@@ -101,10 +101,9 @@
 -(void)setupNavBar {
     
     [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName : [UIColor whiteColor]}];
-    UIImage *myGradient = [UIImage imageNamed:@"grad-small.png"];
     [[self navigationItem] setTitle:@"Flat"];
     [self.navigationController.navigationBar setTitleTextAttributes:
-     @{ NSFontAttributeName: [UIFont fontWithName:@"HelveticaNeue-Light" size:22.0f], NSForegroundColorAttributeName: [UIColor colorWithPatternImage:myGradient]}];
+     @{ NSFontAttributeName: [UIFont fontWithName:@"HelveticaNeue" size:22.0f], NSForegroundColorAttributeName: [UIColor whiteColor]}];
     
     [self setNavBarButtons];
     

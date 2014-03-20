@@ -44,6 +44,9 @@
 		35B9DC4C18A881C300AA65DC /* arrow-small.png in Resources */ = {isa = PBXBuildFile; fileRef = 35B9DC4A18A881C300AA65DC /* arrow-small.png */; };
 		35C8DD9218CD468500A90111 /* grad-small.png in Resources */ = {isa = PBXBuildFile; fileRef = 35C8DD9118CD468500A90111 /* grad-small.png */; };
 		35C8DD9A18CD7C9B00A90111 /* circle-button.png in Resources */ = {isa = PBXBuildFile; fileRef = 35C8DD9918CD7C9B00A90111 /* circle-button.png */; };
+		35D112F418DA9B9A00F91B57 /* the-cal.png in Resources */ = {isa = PBXBuildFile; fileRef = 35D112F218DA9B9A00F91B57 /* the-cal.png */; };
+		35D112F518DA9B9A00F91B57 /* people.png in Resources */ = {isa = PBXBuildFile; fileRef = 35D112F318DA9B9A00F91B57 /* people.png */; };
+		35D112F718DAA0DF00F91B57 /* persons.png in Resources */ = {isa = PBXBuildFile; fileRef = 35D112F618DAA0DF00F91B57 /* persons.png */; };
 		35D8FDD518D7A805006A7E6E /* settings.png in Resources */ = {isa = PBXBuildFile; fileRef = 35D8FDD418D7A805006A7E6E /* settings.png */; };
 		35D8FDD718D7A837006A7E6E /* tasks.png in Resources */ = {isa = PBXBuildFile; fileRef = 35D8FDD618D7A837006A7E6E /* tasks.png */; };
 		35D8FDD918D7A97D006A7E6E /* tasks-black.png in Resources */ = {isa = PBXBuildFile; fileRef = 35D8FDD818D7A97D006A7E6E /* tasks-black.png */; };
@@ -164,6 +167,9 @@
 		35B9DC4A18A881C300AA65DC /* arrow-small.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "arrow-small.png"; sourceTree = "<group>"; };
 		35C8DD9118CD468500A90111 /* grad-small.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "grad-small.png"; sourceTree = "<group>"; };
 		35C8DD9918CD7C9B00A90111 /* circle-button.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "circle-button.png"; sourceTree = "<group>"; };
+		35D112F218DA9B9A00F91B57 /* the-cal.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "the-cal.png"; sourceTree = "<group>"; };
+		35D112F318DA9B9A00F91B57 /* people.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = people.png; sourceTree = "<group>"; };
+		35D112F618DAA0DF00F91B57 /* persons.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = persons.png; sourceTree = "<group>"; };
 		35D8FDD418D7A805006A7E6E /* settings.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = settings.png; sourceTree = "<group>"; };
 		35D8FDD618D7A837006A7E6E /* tasks.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tasks.png; sourceTree = "<group>"; };
 		35D8FDD818D7A97D006A7E6E /* tasks-black.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "tasks-black.png"; sourceTree = "<group>"; };
@@ -532,6 +538,9 @@
 		F2C51DE3188C96EC00489989 /* SideBar Assets */ = {
 			isa = PBXGroup;
 			children = (
+				35D112F218DA9B9A00F91B57 /* the-cal.png */,
+				35D112F318DA9B9A00F91B57 /* people.png */,
+				35D112F618DAA0DF00F91B57 /* persons.png */,
 				35D8FDDC18D7AA72006A7E6E /* checks-white.png */,
 				35D8FDD618D7A837006A7E6E /* tasks.png */,
 				35D8FDD818D7A97D006A7E6E /* tasks-black.png */,
@@ -668,6 +677,7 @@
 				35D8FDD718D7A837006A7E6E /* tasks.png in Resources */,
 				35B9DC4B18A881C300AA65DC /* arrow-hollow-small.png in Resources */,
 				35C8DD9218CD468500A90111 /* grad-small.png in Resources */,
+				35D112F718DAA0DF00F91B57 /* persons.png in Resources */,
 				35381FA218BD5D9A00250B97 /* page2.png in Resources */,
 				0C5014F918BB059F009E0677 /* calendar+icon.png in Resources */,
 				35C8DD9A18CD7C9B00A90111 /* circle-button.png in Resources */,
@@ -678,9 +688,11 @@
 				351A96D018D6F1A200BD3351 /* new-arrow-hollow@2x.png in Resources */,
 				351A96D118D6F1A200BD3351 /* new-arrow-hollow.png in Resources */,
 				F2C51D9E188C887400489989 /* InfoPlist.strings in Resources */,
+				35D112F418DA9B9A00F91B57 /* the-cal.png in Resources */,
 				35381FA018BD5D9A00250B97 /* page4.png in Resources */,
 				35381FA318BD5D9A00250B97 /* page1.png in Resources */,
 				35DD7C7B18D5659600AF1843 /* calendar-icon@2x.png in Resources */,
+				35D112F518DA9B9A00F91B57 /* people.png in Resources */,
 				3552BCA718CD2BC2008D4ED5 /* listicon@2x.png in Resources */,
 				35B9DC4C18A881C300AA65DC /* arrow-small.png in Resources */,
 				0C1A05A318D57E4A00B04157 /* infoicon3.png in Resources */,
