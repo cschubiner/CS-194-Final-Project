@@ -251,7 +251,7 @@
     
     if ([cell messageType] == JSBubbleMessageTypeOutgoing) {
         cell.bubbleView.textView.textColor = [UIColor whiteColor];
-        [cell.bubbleView.textView setTextContainerInset:UIEdgeInsetsMake(9, 10, 2, 4)];
+        [cell.bubbleView.textView setTextContainerInset:UIEdgeInsetsMake(9, 8, 2, 4)];
     }
 }
 
