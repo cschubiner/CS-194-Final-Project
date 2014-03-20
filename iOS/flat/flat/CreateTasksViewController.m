@@ -43,6 +43,12 @@ static const int SIDE_SPACING = 5;
     int height = self.view.frame.size.height - NAV_BAR_HEIGHT;
     self.navigationItem.title = @"Create Task";
     
+    UIBarButtonItem *barButton = [[UIBarButtonItem alloc] initWithTitle:@"Done"
+                                                                  style:UIBarButtonItemStyleBordered
+                                                                 target:self
+                                                                 action:@selector(submitButtonPressed)];
+    self.navigationItem.rightBarButtonItem = barButton;
+    
     UILabel *descriptionLabel = [[UILabel alloc] initWithFrame:CGRectMake(SIDE_SPACING, NAV_BAR_HEIGHT, width - (2 * SIDE_SPACING), DESCRIPTION_LABEL_HEIGHT)];
     descriptionLabel.text = @"Description:";
     [self.view addSubview:descriptionLabel];
@@ -66,23 +72,9 @@ static const int SIDE_SPACING = 5;
     [myPicker addTarget:self
                  action:@selector(pickerChanged:)
        forControlEvents:UIControlEventValueChanged];
-    [myPicker setCenter:CGPointMake(width / 2, NAV_BAR_HEIGHT + height - (height / 4) - 130)];
+    [myPicker setCenter:CGPointMake(width / 2, NAV_BAR_HEIGHT + height - (height / 4) - 200)];
     [myPicker setDate:[NSDate date]];
     [self.view addSubview:myPicker];
-    
-    
-    //submit button
-    self.submitButton = [[UIButton alloc] initWithFrame:CGRectMake(width / 2 - SUBMIT_BUTTON_WIDTH / 2, height - SUBMIT_BUTTON_HEIGHT, SUBMIT_BUTTON_WIDTH, SUBMIT_BUTTON_HEIGHT)];
-    [self.submitButton setTitle:@"Submit"
-                  forState:UIControlStateNormal];
-    [self.submitButton setTitleColor:[UIColor whiteColor]
-                       forState:UIControlStateNormal];
-    [self.submitButton.titleLabel setFont:[UIFont systemFontOfSize:16]];
-    [self.submitButton addTarget:self
-                     action:@selector(submitButtonPressed)
-           forControlEvents:UIControlEventTouchUpInside];
-    [self.submitButton setBackgroundColor:[UIColor greenColor]];
-    [self.view addSubview:self.submitButton];
 }
 
 - (void) touchesBegan:(NSSet *)touches
