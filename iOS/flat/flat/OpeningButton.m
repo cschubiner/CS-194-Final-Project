@@ -28,7 +28,7 @@
         int height = [[UIScreen mainScreen] bounds].size.height;
         int width = [[UIScreen mainScreen] bounds].size.width;
         if ([type isEqualToString:@"facebookSignIn"]) {
-            self.frame = CGRectMake(0, height-110, width, 50);
+            self.frame = CGRectMake(0, height-75, width, 50);
             self.backgroundColor = [UIColor whiteColor];
             [self setTitle:@"Sign up with Facebook" forState:UIControlStateNormal];
             

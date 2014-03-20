@@ -47,7 +47,7 @@
     [super viewDidLoad];
     // Create the data model
     _pageTitles = @[@"Welcome to your Flat", @"A place to interact with your Flatmates", @"You can see if they are home...", @"and always knows who is busy."];
-    _pageImages = @[@"page1.png", @"page2.png", @"page3.png", @"page4.png"];
+    _pageImages = @[@"1-final.png", @"1-final.png", @"2-final.png", @"3-final.png"];
     
     // Create page view controller
     self.pageViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"PageViewController"];
@@ -58,12 +58,13 @@
     [self.pageViewController setViewControllers:viewControllers direction:UIPageViewControllerNavigationDirectionForward animated:NO completion:nil];
     
     // Change the size of page view controller
-    self.pageViewController.view.frame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height - 30);
+    self.pageViewController.view.frame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height);
     
     [self addChildViewController:_pageViewController];
     [self.view addSubview:_pageViewController.view];
     [self.pageViewController didMoveToParentViewController:self];
     //end
+    
     
     
     [self.view addSubview:[[OpeningButton alloc] initWithType:@"facebookSignIn"

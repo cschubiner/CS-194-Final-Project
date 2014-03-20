@@ -78,7 +78,7 @@
     [someButton setShowsTouchWhenHighlighted:YES];
     [someButton addTarget:self
                    action:@selector(toggleSidebarMenu:)
-         forControlEvents:UIControlEventTouchUpInside];\
+         forControlEvents:UIControlEventTouchUpInside];
     
     CGRect fr = [someButton.titleLabel frame];
 	fr.origin.x = homeWidth;
