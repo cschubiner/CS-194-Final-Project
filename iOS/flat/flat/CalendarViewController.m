@@ -142,8 +142,8 @@
     titleText.text = titleString;
     CGFloat width = [Utils getSizeOfFont:titleText.font withText:titleString withLabel:titleText].size.width;
     
-    if (width > 249) fontSize = 15;
-    if (width > 286) fontSize = 13.0f;
+    if (width > 249) fontSize = 15.0f;
+    if (width > 286) fontSize = 14.0f;
     titleText.font = [UIFont fontWithName:fontName size:fontSize];
     width = [Utils getSizeOfFont:titleText.font withText:titleString withLabel:titleText].size.width;
     while (width > 249) {
