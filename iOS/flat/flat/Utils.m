@@ -21,13 +21,10 @@
     
     if ((NSNull*)str == nil || [[NSNull null] isEqual:str]) return nil;
     if (!(str.length > 0)) return nil;
-    //    [NSDateFormatter setDefaultFormatterBehavior:NSDateFormatterBehavior10_4];
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
     [dateFormatter setTimeZone:[NSTimeZone systemTimeZone]];
-    //[NSDateFormatter setDefaultFormatterBehavior:NSDateFormatterBehaviorDefault];
     [dateFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ssZZZZZZ"];
     NSDate* ret= [dateFormatter dateFromString:str];
-    //    NSLog(@"ret: %@", ret);
     
     return ret;
 }
@@ -48,15 +45,6 @@
 +(NSString*)formatDate:(NSDate*) date {
     return [Utils formatDate:date withFormat:@"h:mm a"];
 }
-
-//+(NSDate*)correctTimeZone:(NSDate*) date {
-//    NSCalendar *gregorian=[[NSCalendar alloc] initWithCalendarIdentifier: NSGregorianCalendar];
-//    [gregorian setTimeZone:[NSTimeZone timeZoneWithName:@"GMT"]];
-//    NSDateComponents* components = [gregorian components:NSYearCalendarUnit|NSMonthCalendarUnit|NSDayCalendarUnit|NSHourCalendarUnit|NSMinuteCalendarUnit
-//                                                 fromDate:date];
-//    return [gregorian dateFromComponents:components];
-//}
-
 
 +(NSString *)formatDate:(NSDate *)date withFormat:(NSString *)formatStr {
     if (date == nil) return nil;

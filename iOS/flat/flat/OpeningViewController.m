@@ -46,7 +46,7 @@
     //start
     [super viewDidLoad];
     // Create the data model
-    _pageTitles = @[@"Welcome to your Flat", @"A place to interact with your Flatmates", @"You can see if they are home...", @"and always knows who is busy."];
+    _pageTitles = @[@"Welcome to your Flat", @"A place to interact with your Flatmates", @"You can see if they are home...", @"and always know who is busy."];
     _pageImages = @[@"1-final.png", @"1-final.png", @"2-final.png", @"3-final.png"];
     
     // Create page view controller

@@ -41,7 +41,6 @@ NSString* lastMessage;
                                          } else {
                                              completionBlock(nil, messages);
                                          }
-                                         //
                                      }];
 }
 
