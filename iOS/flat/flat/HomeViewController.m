@@ -195,6 +195,8 @@
     if (text.length == 0)
         return;
     
+    [self.messageInputView resignFirstResponder];
+    
     self.messageInputView.textView.dataDetectorTypes = UIDataDetectorTypeNone;
     [self.messageInputView.textView setText:nil];
     [self textViewDidChange:self.messageInputView.textView];
