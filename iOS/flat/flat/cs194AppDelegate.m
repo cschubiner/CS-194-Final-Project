@@ -39,7 +39,7 @@ Reachability * internetReachable;
     [FlatAPIClientManager sharedClient].profileUser = profileUser;
     [ProfileUserNetworkRequest getUserForUserID:profileUser.userID withCompletionBlock:^(NSError* error, ProfileUser * user) {
         [[FlatAPIClientManager sharedClient]setProfileUser:user];
-        [[NSManagedObjectContext MR_defaultContext] MR_saveToPersistentStoreAndWait];
+        [[NSManagedObjectContext MR_defaultContext] MR_saveToPersistentStoreWithCompletion:nil];
         [self refreshGroupAndLocation];
         
     }];
@@ -96,8 +96,7 @@ Reachability * internetReachable;
 
 
 
-- (void)showInitialView
-{
+- (void)showInitialView {
     UIStoryboard *storyBoard = [UIStoryboard storyboardWithName:@"Main_iPhone"
                                                          bundle:nil];
     DLog(@"before instantiating root controller");

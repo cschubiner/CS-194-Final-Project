@@ -94,7 +94,6 @@
     [[FlatAPIClientManager sharedClient]setUsers:[NSMutableArray arrayWithObject:[[FlatAPIClientManager sharedClient]profileUser]]];
     [[[FlatAPIClientManager sharedClient]rootController].leftPanel reloadTable];
     
-    [[NSManagedObjectContext MR_defaultContext] MR_saveToPersistentStoreWithCompletion:nil];
     [GroupNetworkRequest getGroupFromGroupID:groupID withCompletionBlock:^(NSError * error, Group* group) {
         [[FlatAPIClientManager sharedClient] setGroup:group];
         CLLocationManager * manager = [[LocationManager sharedClient] locationManager];
@@ -102,7 +101,6 @@
         [self stopMonitoringAllRegions];
         [manager startMonitoringForRegion:[[LocationManager sharedClient] getGroupLocationRegion]];
         [[LocationManager sharedClient] setShouldSetDormLocation:false];
-        [[NSManagedObjectContext MR_defaultContext] MR_saveToPersistentStoreWithCompletion:nil];
         [[[FlatAPIClientManager sharedClient]rootController]refreshUsers];
         [[[LocationManager sharedClient] locationManager]startUpdatingLocation];
     }];
