@@ -35,6 +35,10 @@
 {
     [super viewDidLoad];
     int startingWidth = 47;
+    if ( UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad )
+    {
+        startingWidth = 114;
+    }
     self.sideBarMenuTable = [[UITableView alloc] initWithFrame:CGRectMake(startingWidth, STATUS_BAR_HEIGHT, self.view.frame.size.width-startingWidth, self.view.frame.size.height - STATUS_BAR_HEIGHT)];
     UIColor *backgroundColor = [ProfileUser colorWithHexString: @"394247"];
     [self.view setBackgroundColor:backgroundColor];
@@ -140,16 +144,19 @@
     titleText.text = titleString;
     CGFloat width = [Utils getSizeOfFont:titleText.font withText:titleString withLabel:titleText].size.width;
     
-    if (width > 249) fontSize = 15.0f;
-    if (width > 286) fontSize = 14.0f;
-    titleText.font = [UIFont fontWithName:fontName size:fontSize];
-    width = [Utils getSizeOfFont:titleText.font withText:titleString withLabel:titleText].size.width;
-    while (width > 249) {
-        titleText.text = [titleText.text substringToIndex:titleText.text.length-2];
-        titleString = [NSString stringWithFormat:@"%@...", titleText.text];
+    
+    if ( UI_USER_INTERFACE_IDIOM() != UIUserInterfaceIdiomPad ) {
+        if (width > 249) fontSize = 15.0f;
+        if (width > 286) fontSize = 14.0f;
+        titleText.font = [UIFont fontWithName:fontName size:fontSize];
         width = [Utils getSizeOfFont:titleText.font withText:titleString withLabel:titleText].size.width;
+        while (width > 249) {
+            titleText.text = [titleText.text substringToIndex:titleText.text.length-2];
+            titleString = [NSString stringWithFormat:@"%@...", titleText.text];
+            width = [Utils getSizeOfFont:titleText.font withText:titleString withLabel:titleText].size.width;
+        }
+        titleText.text = titleString;
     }
-    titleText.text = titleString;
     return titleText;
 }
 
